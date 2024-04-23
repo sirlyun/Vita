@@ -1,7 +1,46 @@
 .main {
-  background-image: url("/images/city_background_1.png");
+  background-image: url("/images/login_bg.gif");
   background-size: cover;
   background-repeat: no-repeat;
   min-height: 100vh;
   color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginBox {
+  background-image: url("/images/login-box.png");
+  background-size: 100% 100%;
+  width: 90%;
+  height: 15rem;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginTitle {
+  font-size: 2.5rem;
+  margin-top: 2rem;
+  font-family: "Dos";
+}
+
+.googleLoginLink {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.googleLogin {
+  width: 90%;
+  height: 90%;
+}
+
+@font-face {
+  font-family: "Dos";
+  src: url("/fonts/DOSIyagiBoldface.ttf") format("truetype");
 }

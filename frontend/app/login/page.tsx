@@ -12,6 +12,17 @@ export default function Home() {
       <button>
         <Link href="/">go to main</Link>
       </button>
+
+      <div className={styles.loginBox}>
+        <div className={styles.loginTitle}>Login</div>
+        <Link className={styles.googleLoginLink} href="/">
+          <img
+            className={styles.googleLogin}
+            src="/images/google-login.png"
+            alt=""
+          />
+        </Link>
+      </div>
     </main>
   );
 }
