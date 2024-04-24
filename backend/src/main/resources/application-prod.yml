@@ -4,7 +4,8 @@ spring:
       host: k10a103.p.ssafy.io
       port: 6378
     mongodb:
-      url: ${SPRING_DATA_MONGODB_URL}
+      uri: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@k10a103.p.ssafy.io:${MONGODB_BINDING_PORT}/?authSource=admin
+      database: ${MONGODB_DATABASE}
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: ${SPRING_DATASOURCE_URL}
