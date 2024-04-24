@@ -1,0 +1,11 @@
+.main {
+  background-image: url("/images/gym_bg.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+.homeIcon {
+  position: absolute;
+  bottom: 0;
+}
