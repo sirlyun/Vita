@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 export default function Login() {
   const path = usePathname();
   return (
-    <main className={styles.main}>
+    <main className={`${styles.main} background`}>
       <div>I'm now here in login</div>
       <button>
         <Link href="/">go to main</Link>
