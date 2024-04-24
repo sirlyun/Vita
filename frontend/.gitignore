@@ -38,3 +38,7 @@ next-env.d.ts
 # Service Worker 파일
 sw.js
 sw.js.map
+
+# Workbox 빌드 파일
+workbox-*.js
+workbox-*.js.map

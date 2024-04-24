@@ -1,11 +1,41 @@
 .main {
-  background-image: url("/images/gym_bg.png");
-  background-size: contain;
-  background-repeat: no-repeat;
+  background-image: url("/images/gym-bg.png");
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.homeIcon {
-  position: absolute;
-  bottom: 0;
+.welcome {
+  font-size: 4rem;
+  color: white;
+  font-family: "Dos";
+}
+
+.attendanceDiv {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.healthTrainer {
+  width: 50%;
+  height: 50%;
+  padding-right: 30%;
+}
+
+.homeIconDiv {
+}
+
+.loginBox {
+  background-image: url("/images/login-box.png");
+  width: 80%;
+}
+
+@font-face {
+  font-family: "Dos";
+  src: url("/fonts/DOSIyagiBoldface.ttf") format(truetype);
 }
