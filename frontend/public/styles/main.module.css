@@ -7,6 +7,37 @@
 
 .header {
   height: 20vh;
+  padding: 5%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 75%;
+  height: 100%;
+  background-image: url("../images/button-gray.png");
+  background-size: 100% 100%;
+}
+
+.item p {
+  font-size: 2.5vh;
+}
+.item h2 {
+  color: #39da00;
+  font-size: 6vh;
+  margin: 1vh 0 3vh 0;
+}
+
+.top-menu {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .content {
