@@ -1,0 +1,22 @@
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6378
+    mongodb:
+      host: localhost
+      port: ${MONGODB_BINDING_PORT}
+      database: ${MONGODB_DATABASE}
+      username: ${MONGODB_ROOT_USERNAME}
+      password: ${MONGODB_ROOT_PASSWORD}
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+jwt:
+  secret: ${JWT_SECRET_KEY}
