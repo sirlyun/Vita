@@ -3,11 +3,14 @@ import styles from "../public/styles/main.module.css";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
+    <div className={styles.main}>
       <div>I'm now here in main</div>
       <button>
         <Link href="/login">go to login</Link>
       </button>
-    </main>
+      <button>
+        <Link href="/attendance">go to attendance</Link>
+      </button>
+    </div>
   );
 }
