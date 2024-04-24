@@ -2,9 +2,10 @@
   background-image: url("/images/main-bg.png");
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
 }
 
+/*************************************/
 .header {
   height: 20vh;
   padding: 5%;
@@ -33,17 +34,113 @@
   margin: 1vh 0 3vh 0;
 }
 
-.top-menu {
+.side-menu {
   width: 20%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
 
-.content {
-  height: 60vh;
+.side-menu img {
+  min-width: 50px;
+  min-height: 50px;
+  width: 8vh;
+  height: 8vh;
 }
 
+/*************************************/
+.content {
+  height: 55vh;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5%;
+}
+
+.content .damagochi {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 15%;
+}
+
+.content .damagochi img {
+  width: 20vh;
+  height: 40vh;
+}
+
+.debuff-menu {
+  width: 20%;
+  text-align: center;
+}
+
+.debuff-menu img {
+  margin: 1vh 0;
+  min-width: 50px;
+  min-height: 50px;
+  width: 8vh;
+  height: 8vh;
+}
+
+/*************************************/
 .menu {
-  height: 20vh;
+  width: 100%;
+  height: 23vh;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.menu .left {
+  min-width: 32%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.menu .left .shop {
+  height: 30%;
+}
+
+.menu .left .report {
+  height: 60%;
+}
+
+.menu .center {
+  min-width: 30%;
+  display: flex;
+  align-items: center;
+}
+
+.menu .center button {
+  height: 95%;
+}
+
+.menu .center button img {
+  width: 15vh;
+  height: 15vh;
+  padding-bottom: 3vh;
+}
+
+.menu .right {
+  min-width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.menu .right a {
+  height: 45%;
+}
+
+.menu .right a button img {
+  width: 6vh;
+  height: 6vh;
+  padding-bottom: 1vh;
+}
+
+.menu button {
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/button.png");
+  background-size: 100% 100%;
 }
