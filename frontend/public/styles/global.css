@@ -137,3 +137,9 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.background {
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
