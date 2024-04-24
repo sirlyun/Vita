@@ -6,6 +6,7 @@ spring:
     mongodb:
       host: localhost
       port: ${MONGODB_BINDING_PORT}
+      authentication-database: admin
       database: ${MONGODB_DATABASE}
       username: ${MONGODB_ROOT_USERNAME}
       password: ${MONGODB_ROOT_PASSWORD}
