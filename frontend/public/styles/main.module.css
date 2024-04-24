@@ -1,0 +1,18 @@
+.main {
+  background-image: url("/images/main-bg.png");
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  height: 20vh;
+}
+
+.content {
+  height: 60vh;
+}
+
+.menu {
+  height: 20vh;
+}
