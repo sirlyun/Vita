@@ -1,15 +1,10 @@
 spring:
   data:
     redis:
-      host: localhost
+      host: k10a103.p.ssafy.io
       port: 6378
     mongodb:
-      host: localhost
-      port: ${MONGODB_BINDING_PORT}
-      authentication-database: admin
-      database: ${MONGODB_DATABASE}
-      username: ${MONGODB_ROOT_USERNAME}
-      password: ${MONGODB_ROOT_PASSWORD}
+      url: ${SPRING_DATA_MONGODB_URL}
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: ${SPRING_DATASOURCE_URL}
