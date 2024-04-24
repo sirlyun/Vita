@@ -46,7 +46,7 @@ services:
       - prod_redis_container
       - prod_mongodb_container
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://k10a103.p.ssafy.io:${PROD_MYSQL_BINDING_PORT}/${MYSQL_DATABASE}
+      SPRING_DATASOURCE_URL: jdbc:mariadb://k10a103.p.ssafy.io:${PROD_MARIADB_BINDING_PORT}/${MARIADB_DATABASE}
       SPRING_DATASOURCE_USERNAME: ${MARIADB_ROOT_HOST}
       SPRING_DATASOURCE_PASSWORD: ${MARIADB_ROOT_PASSWORD}
       SPRING_PROFILES_ACTIVE: prod
