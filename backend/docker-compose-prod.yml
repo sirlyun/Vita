@@ -1,6 +1,4 @@
-version: "3"
 services:
-
   prod_mariadb_container:
     container_name: prod_mariadb_container
     image: mariadb
