@@ -1,4 +1,6 @@
+docker-compose -f ./docker-compose-prod.yml up -d
 # 1
+echo "$(docker ps -a)"
 EXIST_BLUE=$(docker ps -f "name=prod_spring_container_blue" -q)
 echo "블루 상태: ${EXIST_BLUE}"
 if [ -n "$EXIST_BLUE" ]; then
@@ -44,8 +46,7 @@ fi
 
 # 3
 echo "Nginx Setting..."
-ls ../../../../../../etc
-sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' /backend-port.inc
+sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' /etc/nginx/conf.d/backend-port.inc
 systemctl reload nginx
 echo "Deploy Completed!!"
 
