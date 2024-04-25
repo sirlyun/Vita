@@ -72,14 +72,17 @@
 .debuff-menu {
   width: 20%;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .debuff-menu img {
-  margin: 1vh 0;
   min-width: 50px;
   min-height: 50px;
   width: 8vh;
   height: 8vh;
+  margin: 1vh 0;
 }
 
 /*************************************/
@@ -99,10 +102,25 @@
 
 .menu .left .shop {
   height: 30%;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu .left .shop img {
+  width: 5vh;
+  height: 5vh;
 }
 
 .menu .left .report {
   height: 60%;
+}
+
+.menu .left .report img {
+  width: 8vh;
+  height: 8vh;
+  padding-bottom: 1vh;
 }
 
 .menu .center {
