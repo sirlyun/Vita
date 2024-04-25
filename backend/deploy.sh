@@ -24,7 +24,7 @@ for cnt in {1..10}
 do
     echo "서버 응답 확인중(${cnt}/10)";
     UP=$(curl -s http://k10a103.p.ssafy.io:${AFTER_PORT}/actuator/health | grep 'UP')
-    if [ -z "${UP}" ]
+    if [ -n "${UP}" ]
         then
             sleep 10
             continue
@@ -43,8 +43,8 @@ fi
 
 # 3
 echo "Nginx Setting..."
-cd ../../../../../../etc/nginx/conf.d/
 echo "현재 위치 $(pwd)"
+echo "파일 위치 $(find / -name backend-port.inc 2>/dev/null)"
 ls -a
 sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' /backend-port.inc
 systemctl reload nginx
