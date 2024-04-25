@@ -1,2 +1,4 @@
-package com.vita.backend.member.controller;public class MemberController {
+package com.vita.backend.member.controller;
+
+public class MemberController {
 }

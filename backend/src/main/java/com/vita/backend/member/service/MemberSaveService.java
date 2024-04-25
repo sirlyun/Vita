@@ -1,2 +1,4 @@
-package com.vita.backend.member.service;public interface MemberSaveService {
+package com.vita.backend.member.service;
+
+public interface MemberSaveService {
 }

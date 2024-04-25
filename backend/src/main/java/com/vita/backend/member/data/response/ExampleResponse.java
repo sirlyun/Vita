@@ -1,2 +1,4 @@
-package com.vita.backend.member.data.response;public record ExampleResponse() {
+package com.vita.backend.member.data.response;
+
+public record ExampleResponse() {
 }
