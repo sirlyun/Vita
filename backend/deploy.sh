@@ -2,12 +2,14 @@
 EXIST_BLUE=$(docker ps --filter "name=prod_spring_container_blue" -q)
 echo "블루 상태: ${EXIST_BLUE}"
 if [ -z "$EXIST_BLUE" ]; then
+    echo "no blue"
     docker-compose -f ./docker-compose-prod-blue.yml up -d
     BEFORE_COLOR="green"
     AFTER_COLOR="blue"
     BEFORE_PORT=8082
     AFTER_PORT=8081
 else
+    echo "yes blue"
     docker-compose -f ./docker-compose-prod-green.yml up -d
     BEFORE_COLOR="blue"
     AFTER_COLOR="green"
@@ -44,7 +46,7 @@ echo "Nginx Setting..."
 cd ../../../../../../
 echo "현재 위치 $(pwd)"
 ls -a
-sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' /etc/nginx/conf.d/include/backend-port.inc
+sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' /etc/nginx/conf.d/backend-port.inc
 systemctl reload nginx
 echo "Deploy Completed!!"
 
