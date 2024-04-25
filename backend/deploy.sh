@@ -42,7 +42,7 @@ fi
 # 3
 echo "Nginx Setting..."
 echo "현재 디렉토리는: $(pwd)"
-sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' ../../../../etc/nginx/conf.d/include/backend-port.inc
+sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' ../../../../../../etc/nginx/conf.d/include/backend-port.inc
 systemctl reload nginx
 echo "Deploy Completed!!"
 
