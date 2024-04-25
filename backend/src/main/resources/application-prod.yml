@@ -1,0 +1,19 @@
+spring:
+  data:
+    redis:
+      host: k10a103.p.ssafy.io
+      port: 6378
+    mongodb:
+      uri: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@k10a103.p.ssafy.io:${MONGODB_BINDING_PORT}/?authSource=admin
+      database: ${MONGODB_DATABASE}
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+jwt:
+  secret: ${JWT_SECRET_KEY}

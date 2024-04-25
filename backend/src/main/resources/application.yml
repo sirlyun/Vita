@@ -1,0 +1,9 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE}
+logging:
+  level:
+    org.hibernate.SQL: debug
