@@ -7,6 +7,9 @@ export const viewport = {
 
 export const metadata: Metadata = {
   title: "Vita",
+  icons: {
+    icon: "/pwa/icon-192x192.png",
+  },
   description: "The health damagochi",
   manifest: "/pwa/manifest.json",
 };
