@@ -1,4 +1,3 @@
-docker-compose -f ./docker-compose-prod.yml up -d
 # 1
 EXIST_BLUE=$(docker-compose -f docker-compose-prod-blue.yml ps | grep Up)
 
