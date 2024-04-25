@@ -1,6 +1,6 @@
 # 1
 EXIST_BLUE=$(docker-compose -f docker-compose-prod-blue.yml ps | grep Up)
-
+echo "블루 상태: ${EXIST_BLUE}"
 if [ -z "$EXIST_BLUE" ]; then
     docker-compose -f ./docker-compose-prod-blue.yml up -d
     BEFORE_COLOR="green"
