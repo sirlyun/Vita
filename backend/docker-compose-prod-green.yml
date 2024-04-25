@@ -8,10 +8,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    depends_on:
-      - prod_mariadb_container
-      - prod_redis_container
-      - prod_mongodb_container
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://k10a103.p.ssafy.io:${PROD_MARIADB_BINDING_PORT}/${MARIADB_DATABASE}
       SPRING_DATASOURCE_USERNAME: ${MARIADB_ROOT_HOST}
