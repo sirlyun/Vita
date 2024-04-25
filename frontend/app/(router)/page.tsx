@@ -1,12 +1,22 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import styles from "@/public/styles/main.module.css";
 import icons from "@/util/icons.js";
 import images from "@/util/images.js";
+import ChallengeFrame from "@/components/challenge-frame";
+import { useState } from "react";
 
 export default function Home() {
+  const [darkBackground, setDarkBackGround] = useState(false);
+
+  const toggleDarkBackground = () => setDarkBackGround(!darkBackground);
+  console.log(darkBackground);
+
   return (
     <div className={`${styles.main} background`}>
+      {darkBackground && <ChallengeFrame />}
       <div className={styles.header}>
         <div className={styles.item}>
           <p>남은수명</p>
@@ -21,7 +31,7 @@ export default function Home() {
               alt="option"
             ></Image>
           </button>
-          <button>
+          <button onClick={toggleDarkBackground}>
             <Image
               src={icons.daily}
               width={60}

@@ -1,15 +1,28 @@
 .main {
   background-image: url("/images/gym-bg.png");
-
   display: flex;
   flex-direction: column;
-  justify-content: center;
+
   align-items: center;
 }
 
+.header {
+  padding-top: 5px;
+  height: 20vh;
+}
+
+.content {
+  height: 67vh;
+}
+
+.menu {
+  height: 11vh;
+  display: flex;
+  align-items: center;
+  padding-top: ;
+}
+
 .welcome {
-  position: absolute;
-  top: 2%;
   font-size: 4rem;
   color: white;
   font-family: "Dos";
@@ -29,9 +42,9 @@
   padding-right: 36%;
 }
 
-.home-icon-div {
-  position: absolute;
-  bottom: 2%;
+.home-icon-div img {
+  width: 8vh;
+  height: 8vh;
 }
 
 .login-box {
