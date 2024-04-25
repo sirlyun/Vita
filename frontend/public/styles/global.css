@@ -145,15 +145,17 @@ a:hover {
   min-height: 100vh;
 }
 
+button {
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  font-family: "neodgm";
+  font-size: 3.5vh;
+}
+
 @font-face {
   font-family: "neodgm";
   src: url("~/public/fonts/neodgm.ttf") format(truetype);
   font-weight: normal;
   font-style: normal;
-}
-
-button {
-  border: 0;
-  padding: 0;
-  background-color: transparent;
 }
