@@ -1,5 +1,5 @@
 # 1
-EXIST_BLUE=$(docker ps --filter "publish=81" -q)
+EXIST_BLUE=$(docker ps --filter "publish=80" -q)
 echo "블루 상태: ${EXIST_BLUE}"
 if [ -z "$EXIST_BLUE" ]; then
     docker-compose -f ./docker-compose-prod-blue.yml up -d
@@ -41,8 +41,9 @@ fi
 
 # 3
 echo "Nginx Setting..."
-echo "현재 디렉토리는: $(pwd)"
-sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' ../../../../../../etc/nginx/conf.d/include/backend-port.inc
+cd ../../../../../../
+echo "현재 위치 $(pwd)"
+sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' /etc/nginx/conf.d/include/backend-port.inc
 systemctl reload nginx
 echo "Deploy Completed!!"
 
