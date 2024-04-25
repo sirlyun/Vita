@@ -1,5 +1,5 @@
 # 1
-EXIST_BLUE=$(docker ps --filter "name=prod_spring_container_blue" -q)
+EXIST_BLUE=$(docker ps -f "name=prod_spring_container_blue" -q)
 echo "블루 상태: ${EXIST_BLUE}"
 if [ -n "$EXIST_BLUE" ]; then
     echo "yes blue"
@@ -24,6 +24,7 @@ for cnt in {1..10}
 do
     echo "서버 응답 확인중(${cnt}/10)";
     UP=$(curl -s http://k10a103.p.ssafy.io:${AFTER_PORT}/actuator/health | grep 'UP')
+    echo "서버 상태: ${UP}"
     if [ -n "${UP}" ]
         then
             sleep 10
@@ -43,11 +44,7 @@ fi
 
 # 3
 echo "Nginx Setting..."
-echo "현재 위치 $(pwd)"
-echo "파일 위치 $(find / -name backend-port.inc 2>/dev/null)"
-ls ../../../../../
-echo "--------"
-ls ../../../../../../
+ls ../../../../../../etc
 sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' /backend-port.inc
 systemctl reload nginx
 echo "Deploy Completed!!"
