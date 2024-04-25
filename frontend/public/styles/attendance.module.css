@@ -1,38 +1,67 @@
 .main {
   background-image: url("/images/gym-bg.png");
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-}
 
-.welcome {
-  font-size: 4rem;
-  color: white;
-  font-family: "Dos";
-}
-
-.attendanceDiv {
-  width: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.healthTrainer {
-  width: 50%;
-  height: 50%;
-  padding-right: 30%;
+.welcome {
+  position: absolute;
+  top: 2%;
+  font-size: 4rem;
+  color: white;
+  font-family: "Dos";
 }
 
-.homeIconDiv {
+.attendance-div {
+  width: 38vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.loginBox {
+.health-trainer {
+  width: 25vh;
+  height: 20vh;
+  padding-right: 36%;
+}
+
+.home-icon-div {
+  position: absolute;
+  bottom: 2%;
+}
+
+.login-box {
   background-image: url("/images/login-box.png");
-  width: 80%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-box img {
+  width: 38vh;
+}
+
+.tip-title {
+  position: absolute;
+  top: 20%;
+  text-align: center;
+  color: white;
+  font-family: "Dos";
+  font-size: 2rem;
+}
+
+.tip-content {
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  color: #ffb800;
+  font-family: "Dos";
+  font-size: 1.5rem;
 }
 
 @font-face {

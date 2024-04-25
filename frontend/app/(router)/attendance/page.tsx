@@ -7,23 +7,20 @@ export default function attendance() {
   return (
     <div className={`${styles.main} background`}>
       <p className={styles.welcome}>Welcome!</p>
-      <div className={styles.attendanceDiv}>
+      <div className={styles["attendance-div"]}>
         <img
           src="/images/gym-trainer.png"
           alt="gym-trainer"
-          className={styles.healthTrainer}
+          className={styles["health-trainer"]}
         />
-        <img
-          src="/images/login-box.png"
-          alt="login-box"
-          className={styles.loginBox}
-        ></img>
+        <div className={styles["login-box"]}>
+          <img src="/images/login-box.png" alt="login-box"></img>
+          <p className={styles["tip-title"]}>일일 건강 Tip</p>
+          <p className={styles["tip-content"]}>10분~20분 걷는 시간 확보!</p>
+        </div>
       </div>
 
-      <button>
-        <Link href="/">go to main</Link>
-      </button>
-      <Link className={styles.homeIconDiv} href="/">
+      <Link className={styles["home-icon-div"]} href="/">
         <Image src={homeIcon} width={79} height={80} alt="home icon"></Image>
       </Link>
     </div>
