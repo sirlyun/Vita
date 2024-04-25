@@ -46,7 +46,7 @@ fi
 
 # 3
 echo "Nginx Setting..."
-sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' /etc/nginx/conf.d/backend-port.inc
+sed -i 's/${backend_port}/${AFTER_PORT}/' /etc/nginx/conf.d/backend-port.inc
 echo "Deploy Completed!!"
 
 
