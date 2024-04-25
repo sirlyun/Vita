@@ -1,4 +1,3 @@
-version: "3"
 services:
   prod_spring_container_green:
     container_name: prod_spring_container_green
