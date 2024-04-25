@@ -41,11 +41,11 @@ fi
 
 # 3
 echo "Nginx Setting..."
-sudo sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' /etc/nginx/conf.d/include/backend-port.inc
-sudo nginx -s reload
+sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' /etc/nginx/conf.d/include/backend-port.inc
+nginx -s reload
 echo "Deploy Completed!!"
 
 
 # 4
 echo "$BEFORE_COLOR server down(port:${BEFORE_PORT})"
-docker-compose -f docker-compose-prod-${BEFORE_COLOR}.yml stop
+docker stop docker-compose-prod-${BEFORE_COLOR}
