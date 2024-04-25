@@ -22,7 +22,7 @@ fi
 echo "${AFTER_COLOR} server up(port:${AFTER_PORT})"
 
 # 2
-for cnt in {1..10}
+for cnt in $(seq 1 10)
 do
     echo "서버 응답 확인중(${cnt}/10)";
     UP=$(curl -s http://k10a103.p.ssafy.io:${AFTER_PORT}/actuator/health | grep 'UP')
@@ -45,9 +45,9 @@ fi
 
 
 # 3
-echo "Nginx Setting..."
-sed -i 's/${backend_port}/${AFTER_PORT}/' /etc/nginx/conf.d/backend-port.inc
-echo "Deploy Completed!!"
+#echo "Nginx Setting..."
+#sed -i 's/${backend_port}/${AFTER_PORT}/' /etc/nginx/conf.d/backend-port.inc
+#echo "Deploy Completed!!"
 
 
 # 4
