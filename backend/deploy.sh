@@ -45,8 +45,9 @@ fi
 echo "Nginx Setting..."
 echo "현재 위치 $(pwd)"
 echo "파일 위치 $(find / -name backend-port.inc 2>/dev/null)"
-ls ../../../../
 ls ../../../../../
+echo "--------"
+ls ../../../../../../
 sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' /backend-port.inc
 systemctl reload nginx
 echo "Deploy Completed!!"
