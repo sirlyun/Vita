@@ -41,11 +41,12 @@ fi
 
 # 3
 echo "Nginx Setting..."
+echo "현재 디렉토리는: $(pwd)"
 sed -i 's/${BACKEND_PORT}/${AFTER_PORT}/' /etc/nginx/conf.d/include/backend-port.inc
-nginx -s reload
+systemctl reload nginx
 echo "Deploy Completed!!"
 
 
 # 4
 echo "$BEFORE_COLOR server down(port:${BEFORE_PORT})"
-docker stop docker-compose-prod-${BEFORE_COLOR}
+docker-compose -f docker-compose-prod-${BEFORE_COLOR}.yml stop
