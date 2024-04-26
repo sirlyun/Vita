@@ -101,14 +101,17 @@ export default function Home() {
             </Link>
           </button>
         </div>
+
         <div className={styles.center}>
           <button>
-            <Image
-              src={icons.hospital}
-              width={60}
-              height={60}
-              alt="option"
-            ></Image>
+            <Link href="/health">
+              <Image
+                src={icons.hospital}
+                width={60}
+                height={60}
+                alt="option"
+              ></Image>
+            </Link>
           </button>
         </div>
         <div className={styles.right}>
