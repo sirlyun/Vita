@@ -1,7 +1,7 @@
 package com.vita.backend.character.service;
 
-import com.vita.backend.character.data.response.CharacterGameSingleRanking;
+import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 
 public interface CharacterLoadService {
-	CharacterGameSingleRanking characterGameSingleRankingLoad(long characterId);
+	CharacterGameSingleRankingResponse characterGameSingleRankingLoad(long characterId, String type);
 }

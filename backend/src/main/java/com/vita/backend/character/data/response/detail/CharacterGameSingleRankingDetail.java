@@ -1,4 +1,4 @@
-package com.vita.backend.character.data.response;
+package com.vita.backend.character.data.response.detail;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
