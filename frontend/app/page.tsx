@@ -1,10 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import styles from "@/public/styles/main.module.css";
+import styles from "@/public/styles/main.module.scss";
 import icons from "@/util/icons.js";
 import images from "@/util/images.js";
 
 export default function Home() {
+  const id = "0";
   return (
     <div className={`${styles.main} background`}>
       <div className={styles.header}>
@@ -13,21 +14,16 @@ export default function Home() {
           <h2>100년</h2>
         </div>
         <div className={styles["side-menu"]}>
-          <button>
+          <Link key={id} href={`/option/${id}`}>
             <Image
               src={icons.option}
               width={60}
               height={60}
               alt="option"
             ></Image>
-          </button>
+          </Link>
           <button>
-            <Image
-              src={icons.daily}
-              width={60}
-              height={60}
-              alt="option"
-            ></Image>
+            <Image src={icons.daily} width={60} height={60} alt="daily"></Image>
           </button>
         </div>
       </div>
@@ -36,8 +32,8 @@ export default function Home() {
         <div className={styles.damagochi}>
           <Image
             src={images.damagochi}
-            width={60}
-            height={60}
+            width={300}
+            height={300}
             alt="option"
           ></Image>
         </div>
@@ -46,23 +42,23 @@ export default function Home() {
             src={icons.alcohol}
             width={60}
             height={60}
-            alt="option"
+            alt="alcohol"
           ></Image>
 
           <Image
             src={icons.cigarette}
             width={60}
             height={60}
-            alt="option"
+            alt="cigarette"
           ></Image>
 
-          <Image src={icons.food} width={60} height={60} alt="option"></Image>
+          <Image src={icons.food} width={60} height={60} alt="food"></Image>
 
           <Image
             src={icons.chronic}
             width={60}
             height={60}
-            alt="option"
+            alt="chronic"
           ></Image>
         </div>
       </div>
