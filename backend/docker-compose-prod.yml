@@ -7,8 +7,8 @@ services:
     volumes:
       - ${PROD_MARIADB_DATA_PATH}:/var/lib/mysql
     environment:
-      MARIADB_DATABASE: ${MARIADB_DATABASE}
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${PROD_MARIADB_DATABASE}
+      MARIADB_ROOT_PASSWORD: ${PROD_MARIADB_ROOT_PASSWORD}
     restart: unless-stopped
 
   prod_redis_container:
