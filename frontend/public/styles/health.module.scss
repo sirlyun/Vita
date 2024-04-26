@@ -1,0 +1,69 @@
+.main {
+  background-image: url("/images/health-bg.png");
+}
+
+.header {
+  display: flex;
+  justify-content: right;
+}
+
+.speech-bubble {
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 77vw;
+  height: 25vh;
+  background-image: url("/images/speech-bubble.png");
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.speech-bubble-text {
+  padding-left: 6vh;
+  padding-bottom: 6vh;
+  font-size: 2vh;
+  line-height: 3vh;
+}
+
+.content {
+  height: 57.5vh;
+}
+.menu {
+  height: 16.5vh;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.menu-left {
+  background-image: url("/images/button.png");
+  width: 45vw;
+  height: 16vh;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 20vw;
+    height: 11vh;
+    padding-bottom: 2.3vh;
+  }
+}
+
+.menu-right {
+  background-image: url("/images/button.png");
+  width: 45vw;
+  height: 16vh;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 25vw;
+    height: 12vh;
+    padding-bottom: 2.2vh;
+  }
+}

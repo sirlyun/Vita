@@ -4,7 +4,7 @@ import styles from "@/public/styles/challenge.module.css";
 import Image from "next/image";
 
 interface ChallengeFrameProps {
-  onClose: () => void; // 이게 뭘까
+  onClose: () => void;
 }
 
 export default function ChallengeFrame({ onClose }: ChallengeFrameProps) {
