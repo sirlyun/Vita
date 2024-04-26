@@ -1,6 +1,4 @@
-version: "3"
 services:
-
   prod_mariadb_container:
     container_name: prod_mariadb_container
     image: mariadb
@@ -9,8 +7,8 @@ services:
     volumes:
       - ${PROD_MARIADB_DATA_PATH}:/var/lib/mysql
     environment:
-      MARIADB_DATABASE: ${MARIADB_DATABASE}
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${PROD_MARIADB_DATABASE}
+      MARIADB_ROOT_PASSWORD: ${PROD_MARIADB_ROOT_PASSWORD}
     restart: unless-stopped
 
   prod_redis_container:
@@ -32,27 +30,3 @@ services:
       MONGODB_ROOT_USERNAME: ${PROD_MONGODB_USERNAME}
       MONGODB_ROOT_PASSWORD: ${PROD_MONGODB_PASSWORD}
     restart: unless-stopped
-
-  prod_spring_container:
-    container_name: prod_spring_container
-    image: docker-prod
-    ports:
-      - ${PROD_SPRING_BINDING_PORT}:8080
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - prod_mariadb_container
-      - prod_redis_container
-      - prod_mongodb_container
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://k10a103.p.ssafy.io:${PROD_MARIADB_BINDING_PORT}/${MARIADB_DATABASE}
-      SPRING_DATASOURCE_USERNAME: ${MARIADB_ROOT_HOST}
-      SPRING_DATASOURCE_PASSWORD: ${MARIADB_ROOT_PASSWORD}
-      SPRING_PROFILES_ACTIVE: prod
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
-      MONGODB_USERNAME: ${PROD_MONGODB_USERNAME}
-      MONGODB_PASSWORD: ${PROD_MONGODB_PASSWORD}
-      MONGODB_BINDING_PORT: ${PROD_MONGODB_BINDING_PORT}
-      MONGODB_DATABASE: ${PROD_MONGODB_DATABASE}
-    restart: always

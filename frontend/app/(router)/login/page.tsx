@@ -13,8 +13,15 @@ export default function Login() {
         <Link href="/">go to main</Link>
       </button>
 
-      <div className={styles.loginBox}>
-        <div className={styles.loginTitle}>Login</div>
+      <div className={styles["login-box"]}>
+        <div className={styles["login-title"]}>Login</div>
+        <Link className={styles["google-login-link"]} href="/">
+          <img
+            className={styles["google-login"]}
+            src="/images/google-login.png"
+            alt=""
+          />
+        </Link>
       </div>
     </main>
   );

@@ -1,15 +1,22 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import styles from "@/public/styles/main.module.css";
-import OPTION_ICON from "@/public/icons/option-button.png";
-import DAILY_ICON from "@/public/icons/daily-icon.png";
-import DAMAGOCHI from "@/public/images/characters/woman/avg/woman_avg_idle.png";
-import HOSPITAL_ICON from "@/public/icons/hospital-icon.png";
-import PVP_ICON from "@/public/icons/pvp-icon.png";
+import icons from "@/util/icons.js";
+import images from "@/util/images.js";
+import ChallengeFrame from "@/components/challenge-frame";
+import { useState } from "react";
 
 export default function Home() {
+  const [darkBackground, setDarkBackGround] = useState(false);
+
+  const toggleDarkBackground = () => setDarkBackGround(!darkBackground);
+  console.log(darkBackground);
+
   return (
     <div className={`${styles.main} background`}>
+      {darkBackground && <ChallengeFrame />}
       <div className={styles.header}>
         <div className={styles.item}>
           <p>남은수명</p>
@@ -17,48 +24,112 @@ export default function Home() {
         </div>
         <div className={styles["side-menu"]}>
           <button>
-            <Image src={OPTION_ICON} alt="option"></Image>
+            <Image
+              src={icons.option}
+              width={60}
+              height={60}
+              alt="option"
+            ></Image>
           </button>
-          <button>
-            <Image src={DAILY_ICON} alt="option"></Image>
+          <button onClick={toggleDarkBackground}>
+            <Image
+              src={icons.daily}
+              width={60}
+              height={60}
+              alt="option"
+            ></Image>
           </button>
         </div>
       </div>
       <div className={styles.content}>
         <div className={styles["debuff-menu"]}></div>
         <div className={styles.damagochi}>
-          <Image src={DAMAGOCHI} alt="option"></Image>
+          <Image
+            src={images.damagochi}
+            width={60}
+            height={60}
+            alt="option"
+          ></Image>
         </div>
         <div className={styles["debuff-menu"]}>
-          <Image src={DAILY_ICON} alt="option"></Image>
-          <Image src={DAILY_ICON} alt="option"></Image>
-          <Image src={DAILY_ICON} alt="option"></Image>
-          <Image src={DAILY_ICON} alt="option"></Image>
+          <Image
+            src={icons.alcohol}
+            width={60}
+            height={60}
+            alt="option"
+          ></Image>
+
+          <Image
+            src={icons.cigarette}
+            width={60}
+            height={60}
+            alt="option"
+          ></Image>
+
+          <Image src={icons.food} width={60} height={60} alt="option"></Image>
+
+          <Image
+            src={icons.chronic}
+            width={60}
+            height={60}
+            alt="option"
+          ></Image>
         </div>
       </div>
       <div className={styles.menu}>
         <div className={styles.left}>
           <button className={styles.shop}>
-            <Link href="/login">go to login</Link>
+            <Link href="/login">
+              <Image
+                src={icons.shop}
+                width={60}
+                height={60}
+                alt="option"
+              ></Image>
+            </Link>
+            <p>SHOP</p>
           </button>
           <button className={styles.report}>
-            <Link href="/attendance">go to attendance</Link>
+            <Link href="/attendance">
+              {" "}
+              <Image
+                src={icons.report}
+                width={60}
+                height={60}
+                alt="option"
+              ></Image>
+            </Link>
           </button>
         </div>
         <div className={styles.center}>
           <button>
-            <Image src={HOSPITAL_ICON} alt="option"></Image>
+            <Image
+              src={icons.hospital}
+              width={60}
+              height={60}
+              alt="option"
+            ></Image>
           </button>
         </div>
         <div className={styles.right}>
           <Link href="/single">
             <button className={styles.single}>
-              <Image src={PVP_ICON} alt="option"></Image>
+              <Image
+                src={icons.pvp}
+                width={60}
+                height={60}
+                alt="option"
+              ></Image>
             </button>
           </Link>
           <Link href="/multi">
             <button className={styles.multi}>
-              <Image src={PVP_ICON} alt="option"></Image>
+              <Image
+                src={icons.pvp}
+                width={60}
+                height={60}
+                alt="option"
+              ></Image>
             </button>
           </Link>
         </div>

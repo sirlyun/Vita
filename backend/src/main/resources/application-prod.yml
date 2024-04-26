@@ -2,7 +2,7 @@ spring:
   data:
     redis:
       host: k10a103.p.ssafy.io
-      port: 6378
+      port: 6379
     mongodb:
       uri: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@k10a103.p.ssafy.io:${MONGODB_BINDING_PORT}/?authSource=admin
       database: ${MONGODB_DATABASE}

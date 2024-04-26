@@ -6,26 +6,28 @@ import homeIcon from "@/public/images/home-icon.png";
 export default function attendance() {
   return (
     <div className={`${styles.main} background`}>
-      <p className={styles.welcome}>Welcome!</p>
-      <div className={styles.attendanceDiv}>
-        <img
-          src="/images/gym-trainer.png"
-          alt="gym-trainer"
-          className={styles.healthTrainer}
-        />
-        <img
-          src="/images/login-box.png"
-          alt="login-box"
-          className={styles.loginBox}
-        ></img>
+      <div className={styles.header}>
+        <p className={styles.welcome}>Welcome!</p>
       </div>
-
-      <button>
-        <Link href="/">go to main</Link>
-      </button>
-      <Link className={styles.homeIconDiv} href="/">
-        <Image src={homeIcon} width={79} height={80} alt="home icon"></Image>
-      </Link>
+      <div className={styles.content}>
+        <div className={styles["attendance-div"]}>
+          <img
+            src="/images/gym-trainer.png"
+            alt="gym-trainer"
+            className={styles["health-trainer"]}
+          />
+          <div className={styles["login-box"]}>
+            <img src="/images/login-box.png" alt="login-box"></img>
+            <p className={styles["tip-title"]}>일일 건강 Tip</p>
+            <p className={styles["tip-content"]}>10분~20분 걷는 시간 확보!</p>
+          </div>
+        </div>
+      </div>
+      <div className={styles.menu}>
+        <Link className={styles["home-icon-div"]} href="/">
+          <Image src={homeIcon} width={60} height={60} alt="home icon"></Image>
+        </Link>
+      </div>
     </div>
   );
 }
