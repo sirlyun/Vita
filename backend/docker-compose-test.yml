@@ -1,0 +1,32 @@
+services:
+  test_mariadb_container:
+    container_name: test_mariadb_container
+    image: mariadb
+    ports:
+      - ${TEST_MARIADB_BINDING_PORT}:3306
+    volumes:
+      - ${TEST_MARIADB_DATA_PATH}:/var/lib/mysql
+    environment:
+      MARIADB_DATABASE: ${TEST_MARIADB_DATABASE}
+      MARIADB_ROOT_PASSWORD: ${TEST_MARIADB_ROOT_PASSWORD}
+    restart: unless-stopped
+
+  test_redis_container:
+    container_name: test_redis_container
+    image: redis:6.2.6-alpine
+    ports:
+      - ${TEST_REDIS_BINDING_PORT}:6379
+    restart: unless-stopped
+
+  test_mongodb_container:
+    container_name: test_mongodb_container
+    image: mongo
+    ports:
+      - ${TEST_MONGODB_BINDING_PORT}:27017
+    volumes:
+      - ${TEST_MONGODB_DATA_PATH}:/data/db
+    environment:
+      MONGODB_DATABASE: ${TEST_MONGODB_DATABASE}
+      MONGODB_ROOT_USERNAME: ${TEST_MONGODB_USERNAME}
+      MONGODB_ROOT_PASSWORD: ${TEST_MONGODB_PASSWORD}
+    restart: unless-stopped
