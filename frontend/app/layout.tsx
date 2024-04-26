@@ -7,18 +7,26 @@ export const viewport = {
 
 export const metadata: Metadata = {
   title: "Vita",
+  icons: {
+    icon: "/pwa/icon-192x192.png",
+  },
   description: "The health damagochi",
   manifest: "/pwa/manifest.json",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+  modal,
+}: {
   children: React.ReactNode;
-}>) {
+  modal: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        {modal}
+      </body>
     </html>
   );
 }

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import styles from "@/public/styles/main.module.css";
+import styles from "@/public/styles/main.module.scss";
 import icons from "@/util/icons.js";
 import images from "@/util/images.js";
 import ChallengeFrame from "@/components/challenge-frame";
@@ -13,6 +13,7 @@ export default function Home() {
 
   const toggleChallengeModal = () => setChallengeModal(!challengeModal);
 
+  const id = "0";
   return (
     <div className={`${styles.main} background`}>
       {challengeModal && <ChallengeFrame onClose={toggleChallengeModal} />}
@@ -22,14 +23,14 @@ export default function Home() {
           <h2>100년</h2>
         </div>
         <div className={styles["side-menu"]}>
-          <button>
+          <Link key={id} href={`/option/${id}`}>
             <Image
               src={icons.option}
               width={60}
               height={60}
               alt="option"
             ></Image>
-          </button>
+          </Link>
           <button onClick={toggleChallengeModal}>
             <Image
               src={icons.daily}
@@ -45,8 +46,8 @@ export default function Home() {
         <div className={styles.damagochi}>
           <Image
             src={images.damagochi}
-            width={60}
-            height={60}
+            width={300}
+            height={300}
             alt="option"
           ></Image>
         </div>
@@ -55,23 +56,23 @@ export default function Home() {
             src={icons.alcohol}
             width={60}
             height={60}
-            alt="option"
+            alt="alcohol"
           ></Image>
 
           <Image
             src={icons.cigarette}
             width={60}
             height={60}
-            alt="option"
+            alt="cigarette"
           ></Image>
 
-          <Image src={icons.food} width={60} height={60} alt="option"></Image>
+          <Image src={icons.food} width={60} height={60} alt="food"></Image>
 
           <Image
             src={icons.chronic}
             width={60}
             height={60}
-            alt="option"
+            alt="chronic"
           ></Image>
         </div>
       </div>
