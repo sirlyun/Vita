@@ -35,21 +35,20 @@ public class CharacterServiceImpl implements CharacterLoadService {
 	@Override
 	public CharacterGameSingleRankingResponse characterGameSingleRankingLoad(long characterId, String type) {
 		Character character = CharacterUtils.findByCharacterId(characterRepository, characterId);
-		RequesterGameSingleRankingDetail requesterRanking = getRequesterRanking(
-			characterId, character, type);
 
-		Set<ZSetOperations.TypedTuple<String>> singleRanking = redisTemplate.opsForZSet()
-			.reverseRangeWithScores(type + "_single_ranking", 0, 9);
-
-		if (singleRanking == null) {
+		Boolean singleRankingExist = redisTemplate.hasKey(type + "_single_ranking");
+		if (Boolean.FALSE.equals(singleRankingExist)) {
 			return CharacterGameSingleRankingResponse.builder()
-				.requesterRanking(requesterRanking)
+				.requesterRanking(null)
 				.totalRanking(null)
 				.build();
 		}
 
-		List<CharacterGameSingleRankingDetail> totalRanking = getTotalRanking(
-			singleRanking);
+		RequesterGameSingleRankingDetail requesterRanking = getRequesterRanking(
+			characterId, character, type);
+		Set<ZSetOperations.TypedTuple<String>> singleRanking = redisTemplate.opsForZSet()
+			.reverseRangeWithScores(type + "_single_ranking", 0, 9);
+		List<CharacterGameSingleRankingDetail> totalRanking = getTotalRanking(singleRanking);
 
 		return CharacterGameSingleRankingResponse.builder()
 			.requesterRanking(requesterRanking)
