@@ -9,14 +9,13 @@ import ChallengeFrame from "@/components/challenge-frame";
 import { useState } from "react";
 
 export default function Home() {
-  const [darkBackground, setDarkBackGround] = useState(false);
+  const [challengeModal, setChallengeModal] = useState(false);
 
-  const toggleDarkBackground = () => setDarkBackGround(!darkBackground);
-  console.log(darkBackground);
+  const toggleChallengeModal = () => setChallengeModal(!challengeModal);
 
   return (
     <div className={`${styles.main} background`}>
-      {darkBackground && <ChallengeFrame />}
+      {challengeModal && <ChallengeFrame onClose={toggleChallengeModal} />}
       <div className={styles.header}>
         <div className={styles.item}>
           <p>남은수명</p>
@@ -31,7 +30,7 @@ export default function Home() {
               alt="option"
             ></Image>
           </button>
-          <button onClick={toggleDarkBackground}>
+          <button onClick={toggleChallengeModal}>
             <Image
               src={icons.daily}
               width={60}

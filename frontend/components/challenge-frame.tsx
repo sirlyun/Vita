@@ -3,18 +3,44 @@ import cancelIcon from "@/public/images/cancel.png";
 import styles from "@/public/styles/challenge.module.css";
 import Image from "next/image";
 
-export default function ChallengeFrame() {
+interface ChallengeFrameProps {
+  onClose: () => void; // 이게 뭘까
+}
+
+export default function ChallengeFrame({ onClose }: ChallengeFrameProps) {
+  const handleModalContentClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
   return (
-    <div className={styles["dark-overlay"]}>
+    <div className={styles["dark-overlay"]} onClick={onClose}>
       <div className={styles["cancel-div"]}>
-        <Image src={cancelIcon} width={60} height={60} alt="cancelIcon"></Image>
+        <Image
+          onClick={onClose}
+          src={cancelIcon}
+          width={60}
+          height={60}
+          alt="cancelIcon"
+        ></Image>
       </div>
 
-      <div className={styles["modal-layout"]}>
+      <div className={styles["modal-layout"]} onClick={handleModalContentClick}>
         <div className={styles["challenge-title-frame"]}>
           <p className={styles["challenge-title-text"]}>일일 챌린지</p>
         </div>
-        <div className={styles["challenge-content"]}></div>
+        <div className={styles["challenge-content"]}>
+          <div className={styles["challenge-info-frame"]}>
+            <div>5000 걸음 걷기</div>
+            <div className={styles["challenge-score"]}>
+              <div>2500/5000걸음</div>
+            </div>
+          </div>
+          <div className={styles["challenge-info-frame"]}>
+            <div>7시간 수면</div>
+            <div className={styles["challenge-score"]}>
+              <div>6/7시간</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
