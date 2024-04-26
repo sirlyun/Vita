@@ -73,20 +73,16 @@ class CharacterServiceImplTest {
 		}
 
 		@Test
-		@DisplayName("싱글 플레이 랭킹이 없어 총 랭킹 정보가 없는 경우")
+		@DisplayName("싱글 플레이를 한 사람이 한 명도 없는 경우")
 		void whenSingleRankingIsNull() {
 			// given
 			given(characterRepository.findById(anyLong())).willReturn(Optional.of(testCharacter));
-			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
-			given(zSetOperations.reverseRank(type + "_single_ranking", String.valueOf(characterId))).willReturn(2L);
-			given(zSetOperations.score(type + "_single_ranking", String.valueOf(characterId))).willReturn(1.43);
-			given(redisTemplate.opsForZSet().reverseRangeWithScores(type + "_single_ranking", 0, 9))
-				.willReturn(null);
+			given(redisTemplate.hasKey(type + "_single_ranking")).willReturn(Boolean.FALSE);
 			// when
 			CharacterGameSingleRankingResponse characterGameSingleRankingResponse = characterService.characterGameSingleRankingLoad(characterId, type);
 			// then
-			assertNotNull(characterGameSingleRankingResponse.requesterRanking());
-			assertNull(characterGameSingleRankingResponse.totalRanking(), "총 랭킹 정보가 없어야 합니다.");
+			assertNull(characterGameSingleRankingResponse.requesterRanking());
+			assertNull(characterGameSingleRankingResponse.totalRanking());
 		}
 
 
