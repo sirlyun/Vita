@@ -1,13 +1,9 @@
-import { Modal } from "./modal";
+import { Modal } from "../modal";
 
 import Link from "next/link";
 import styles from "@/public/styles/modal.module.scss";
 
-export default function OptionModal({
-  params: { id: optionId },
-}: {
-  params: { id: string };
-}) {
+export default function OptionModal() {
   return (
     <div>
       <Modal>

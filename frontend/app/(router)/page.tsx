@@ -6,14 +6,17 @@ import styles from "@/public/styles/main.module.scss";
 import icons from "@/util/icons.js";
 import images from "@/util/images.js";
 import ChallengeFrame from "@/components/challenge-frame";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Home() {
   const [challengeModal, setChallengeModal] = useState(false);
-
   const toggleChallengeModal = () => setChallengeModal(!challengeModal);
 
-  const id = "0";
+  const router = useRouter();
+  const debuffRouter = (id: string) => {
+    router.push(`/debuff/${id}`);
+  };
   return (
     <div className={`${styles.main} background`}>
       {challengeModal && <ChallengeFrame onClose={toggleChallengeModal} />}
@@ -23,7 +26,7 @@ export default function Home() {
           <h2>100년</h2>
         </div>
         <div className={styles["side-menu"]}>
-          <Link key={id} href={`/option/${id}`}>
+          <Link href={`/option`}>
             <Image
               src={icons.option}
               width={60}
@@ -57,6 +60,7 @@ export default function Home() {
             width={60}
             height={60}
             alt="alcohol"
+            onClick={() => debuffRouter("0")}
           ></Image>
 
           <Image
@@ -64,15 +68,23 @@ export default function Home() {
             width={60}
             height={60}
             alt="cigarette"
+            onClick={() => debuffRouter("1")}
           ></Image>
 
-          <Image src={icons.food} width={60} height={60} alt="food"></Image>
+          <Image
+            src={icons.food}
+            width={60}
+            height={60}
+            alt="food"
+            onClick={() => debuffRouter("2")}
+          ></Image>
 
           <Image
             src={icons.chronic}
             width={60}
             height={60}
             alt="chronic"
+            onClick={() => debuffRouter("3")}
           ></Image>
         </div>
       </div>
