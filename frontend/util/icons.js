@@ -12,6 +12,8 @@ const icons = {
   cigarette: "/icons/debuff-cigarette-icon.png",
   food: "/icons/debuff-food-icon.png",
   chronic: "/icons/debuff-chronic-icon.png",
+  running: "/icons/running-icon.png",
+  gym: "/icons/gym-icon.png",
 };
 
 export default icons;

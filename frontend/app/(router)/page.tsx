@@ -103,7 +103,6 @@ export default function Home() {
           </button>
           <button className={styles.report}>
             <Link href="/attendance">
-              {" "}
               <Image
                 src={icons.report}
                 width={60}
