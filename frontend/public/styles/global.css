@@ -153,6 +153,21 @@ button {
   font-size: 3.5vh;
 }
 
+.dark-overlay-recycle {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+}
+
+.modal-layout-recycle {
+  background-color: rgba(83, 133, 157, 0.8);
+}
+
+.modal-content-recycle {
+  background-color: rgba(46, 71, 91, 0.9);
+}
+
 @font-face {
   font-family: "neodgm";
   src: url("~/public/fonts/neodgm.ttf") format(truetype);
