@@ -14,6 +14,10 @@
   justify-content: space-between;
 }
 
+.unselected {
+  filter: brightness(60%); /* 어둡게 표시 */
+}
+
 .modal-layout {
   width: 90vw;
   height: 45vh;
@@ -45,6 +49,31 @@
   width: 85vw;
   height: 30vh;
   border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 60vw;
+    height: 27vh;
+    object-fit: contain;
+  }
+}
+
+.next-level {
+  background-image: url("/images/button.png");
+  width: 20vw;
+  height: 7vh;
+  background-size: 100% 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.9vh;
+
+  p {
+    padding-bottom: 0.5vh;
+    font-size: 3.3vh;
+  }
 }
 
 .header {
