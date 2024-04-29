@@ -16,7 +16,7 @@ export default function HealthHome() {
   };
   return (
     <div className={`${styles.main} background`}>
-      {foodModal && <HealthFood />}
+      {foodModal && <HealthFood onClose={toggleFoodModal} />}
       <div className={styles.header}>
         <div className={styles["speech-bubble"]}>
           <p className={styles["speech-bubble-text"]}>

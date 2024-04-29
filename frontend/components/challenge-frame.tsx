@@ -26,11 +26,14 @@ export default function ChallengeFrame({ onClose }: ChallengeFrameProps) {
         ></Image>
       </div>
 
-      <div className={styles["modal-layout"]} onClick={handleModalContentClick}>
+      <div
+        className={`${styles["modal-layout"]} modal-layout-recycle`}
+        onClick={handleModalContentClick}
+      >
         <div className={styles["challenge-title-frame"]}>
           <p className={styles["challenge-title-text"]}>일일 챌린지</p>
         </div>
-        <div className={styles["modal-content"]}>
+        <div className={`${styles["modal-content"]} modal-content-recycle`}>
           <div className={styles["challenge-info-frame"]}>
             <div>5000 걸음 걷기</div>
             <div className={styles["challenge-score"]}>
