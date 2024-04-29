@@ -21,6 +21,32 @@
     background-image: url("~/public/images/backgrounds/board-bg.png");
     height: 70%;
     width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 6vh;
+  }
+
+  .menu {
+    width: 80%;
+    display: flex;
+    justify-content: space-evenly;
+
+    h1 {
+      width: 30vw;
+      text-align: center;
+      font-size: 4vh;
+      background-image: url("~/public/images/backgrounds/ranker-bg.png");
+      padding: 1.2vh;
+      filter: brightness(50%);
+      color: white;
+    }
+
+    .active {
+      filter: brightness(100%);
+      color: #a60000;
+    }
   }
 
   .btn-container {
@@ -32,10 +58,10 @@
 
     button {
       background-image: url("~/public/images/button.png");
-      padding: 3vh 3vh 5vh 3vh;
+      padding: 2vh 2vh 4vh 2vh;
       img {
-        width: 12vh;
-        height: 12vh;
+        width: 10vh;
+        height: 10vh;
       }
     }
   }
