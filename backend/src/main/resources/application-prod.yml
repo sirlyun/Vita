@@ -17,3 +17,8 @@ spring:
 
 jwt:
   secret: ${JWT_SECRET_KEY}
+
+openai:
+  vision:
+    api: ${OPEN_AI_VISION_API}
+    token: ${OPEN_AI_VISION_TOKEN}
