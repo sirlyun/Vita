@@ -9,6 +9,6 @@ public record CharacterGameSingleRankingDetail(
 	@JsonProperty("nickname")
 	String nickname,
 	@JsonProperty("score")
-	Double score
+	Long score
 ) {
 }
