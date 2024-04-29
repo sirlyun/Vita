@@ -118,21 +118,16 @@ export default function Home() {
           <Link href="/single">
             <button className={styles.single}>
               <Image
-                src={icons.pvp}
+                src={icons.single}
                 width={60}
                 height={60}
-                alt="option"
+                alt="single"
               ></Image>
             </button>
           </Link>
           <Link href="/multi">
             <button className={styles.multi}>
-              <Image
-                src={icons.pvp}
-                width={60}
-                height={60}
-                alt="option"
-              ></Image>
+              <Image src={icons.pvp} width={60} height={60} alt="multi"></Image>
             </button>
           </Link>
         </div>

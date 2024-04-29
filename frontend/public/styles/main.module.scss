@@ -153,7 +153,13 @@
       height: 45%;
     }
 
-    img {
+    .single img {
+      width: 8vh;
+      height: 8vh;
+      padding-bottom: 1vh;
+    }
+
+    .multi img {
       width: 6vh;
       height: 6vh;
       padding-bottom: 1vh;
