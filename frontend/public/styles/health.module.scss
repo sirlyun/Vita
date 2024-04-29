@@ -1,0 +1,131 @@
+.main {
+  background-image: url("/images/health-bg.png");
+}
+
+.dark-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.clock-and-cancel-frame {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-layout {
+  width: 90vw;
+  height: 45vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-title {
+  background-image: url("/images/eat-title.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 110vw;
+  height: 9vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 4.5vh;
+}
+
+.food-choice-text {
+  color: white;
+  font-size: 2.2vh;
+  padding-top: 1.5vh;
+}
+
+.modal-content {
+  width: 85vw;
+  height: 30vh;
+  border-radius: 12px;
+}
+
+.header {
+  display: flex;
+  justify-content: right;
+}
+
+.speech-bubble {
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 77vw;
+  height: 25vh;
+  background-image: url("/images/speech-bubble.png");
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.speech-bubble-text {
+  padding-left: 6vh;
+  padding-bottom: 6vh;
+  font-size: 2vh;
+  line-height: 3vh;
+}
+
+.content {
+  height: 58vh;
+}
+.menu {
+  height: 16.5vh;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.menu-left {
+  background-image: url("/images/button.png");
+  width: 30vw;
+  height: 13vh;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 15vw;
+    height: 8vh;
+    padding-bottom: 1.8vh;
+  }
+}
+
+.menu-center {
+  background-image: url("/images/button.png");
+  width: 30vw;
+  height: 13vh;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 19vw;
+    height: 9vh;
+    padding-bottom: 1.4vh;
+    padding-left: 0.2vh;
+  }
+}
+.menu-right {
+  background-image: url("/images/button.png");
+  width: 30vw;
+  height: 13vh;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-size: 4.5vh;
+    padding-bottom: 1vh;
+    padding-left: 0.5vh;
+  }
+}
