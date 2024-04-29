@@ -53,8 +53,8 @@ class CharacterServiceImplTest {
 		@BeforeEach
 		void setup() {
 			characterId = 1L;
-			type1 = GameType.RUNNING;
-			type2 = GameType.TRAINING;
+			type1 = GameType.running;
+			type2 = GameType.training;
 			testCharacter = Character.builder()
 				.nickname("test")
 				.bodyShape(BodyShape.NORMAL)
@@ -165,7 +165,7 @@ class CharacterServiceImplTest {
 		void characterNotFoundFail() {
 			// given
 			long characterId = 1L;
-			GameType type = GameType.RUNNING;
+			GameType type = GameType.running;
 			CharacterGameSingleSaveRequest request = CharacterGameSingleSaveRequest.builder()
 				.score(10L)
 				.build();
@@ -177,11 +177,11 @@ class CharacterServiceImplTest {
 		}
 
 		@Test
-		@DisplayName("싱글 플레이 결과가 최고 기록인 경우 성공")
-		void HighScoreSuccess() {
+		@DisplayName("싱글 플레이 결과가 첫 기록인 경우 성공")
+		void newScoreSuccess() {
 			// given
 			long characterId = 1L;
-			GameType type = GameType.RUNNING;
+			GameType type = GameType.running;
 			CharacterGameSingleSaveRequest request = CharacterGameSingleSaveRequest.builder()
 				.score(10L)
 				.build();
@@ -193,10 +193,36 @@ class CharacterServiceImplTest {
 				.build();
 			given(characterRepository.findById(characterId)).willReturn(Optional.of(testCharacter));
 			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
+			given(zSetOperations.score(type + "_single_ranking", String.valueOf(characterId))).willReturn(null);
 			// when
 			characterService.characterGameSingleRunningSave(characterId, type, request);
 			// then
-			verify(zSetOperations, times(1)).add("running_single_ranking", String.valueOf(characterId),
+			verify(zSetOperations, times(1)).add(type + "_single_ranking", String.valueOf(characterId),
+				request.score());
+		}
+
+		@Test
+		@DisplayName("싱글 플레이 결과가 최고 기록인 경우 성공")
+		void HighScoreSuccess() {
+			// given
+			long characterId = 1L;
+			GameType type = GameType.running;
+			CharacterGameSingleSaveRequest request = CharacterGameSingleSaveRequest.builder()
+				.score(10L)
+				.build();
+			Character testCharacter = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.is_dead(false)
+				.build();
+			given(characterRepository.findById(characterId)).willReturn(Optional.of(testCharacter));
+			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
+			given(zSetOperations.score(type + "_single_ranking", String.valueOf(characterId))).willReturn(9.0);
+			// when
+			characterService.characterGameSingleRunningSave(characterId, type, request);
+			// then
+			verify(zSetOperations, times(1)).add(type + "_single_ranking", String.valueOf(characterId),
 				request.score());
 		}
 
@@ -205,7 +231,7 @@ class CharacterServiceImplTest {
 		void NotHighScoreSuccess() {
 			// given
 			long characterId = 1L;
-			GameType type = GameType.RUNNING;
+			GameType type = GameType.running;
 			CharacterGameSingleSaveRequest request = CharacterGameSingleSaveRequest.builder()
 				.score(10L)
 				.build();
@@ -217,10 +243,11 @@ class CharacterServiceImplTest {
 				.build();
 			given(characterRepository.findById(characterId)).willReturn(Optional.of(testCharacter));
 			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
+			given(zSetOperations.score(type + "_single_ranking", String.valueOf(characterId))).willReturn(11.0);
 			// when
 			characterService.characterGameSingleRunningSave(characterId, type, request);
 			// then
-			verify(zSetOperations, times(0)).add("running_single_ranking", String.valueOf(characterId),
+			verify(zSetOperations, times(0)).add(type + "_single_ranking", String.valueOf(characterId),
 				request.score());
 		}
 	}

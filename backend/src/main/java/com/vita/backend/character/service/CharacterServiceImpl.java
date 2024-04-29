@@ -48,7 +48,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 
 		RequesterGameSingleRankingDetail requesterRanking = getRequesterRanking(
 			characterId, character, type);
-		if (type.equals(GameType.RUNNING)) {
+		if (type.equals(GameType.running)) {
 			Set<ZSetOperations.TypedTuple<String>> singleRanking = redisTemplate.opsForZSet()
 				.rangeWithScores(type + "_single_ranking", 0, 9);
 			List<CharacterGameSingleRankingDetail> totalRanking = getTotalRanking(singleRanking);
@@ -59,7 +59,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 				.build();
 		}
 
-		if (type.equals(GameType.TRAINING)) {
+		if (type.equals(GameType.training)) {
 			Set<ZSetOperations.TypedTuple<String>> singleRanking = redisTemplate.opsForZSet()
 				.reverseRangeWithScores(type + "_single_ranking", 0, 9);
 			List<CharacterGameSingleRankingDetail> totalRanking = getTotalRanking(singleRanking);
@@ -93,20 +93,22 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 
 	private RequesterGameSingleRankingDetail getRequesterRanking(long characterId,
 		Character character, GameType type) {
-		if (type.equals(GameType.RUNNING)) {
+		if (type.equals(GameType.running)) {
 			Long requesterSingleRanking = redisTemplate.opsForZSet()
 				.rank(type + "_single_ranking", String.valueOf(characterId));
-			Double requesterScore = redisTemplate.opsForZSet().score(type + "_single_ranking", String.valueOf(characterId));
+			Double requesterScore = redisTemplate.opsForZSet()
+				.score(type + "_single_ranking", String.valueOf(characterId));
 			return RequesterGameSingleRankingDetail.builder()
 				.nickname(character.getNickname())
 				.ranking(requesterSingleRanking != null ? requesterSingleRanking + 1 : null)
 				.score(requesterScore.longValue())
 				.build();
 		}
-		if (type.equals(GameType.TRAINING)) {
+		if (type.equals(GameType.training)) {
 			Long requesterSingleRanking = redisTemplate.opsForZSet()
 				.reverseRank(type + "_single_ranking", String.valueOf(characterId));
-			Double requesterScore = redisTemplate.opsForZSet().score(type + "_single_ranking", String.valueOf(characterId));
+			Double requesterScore = redisTemplate.opsForZSet()
+				.score(type + "_single_ranking", String.valueOf(characterId));
 
 			return RequesterGameSingleRankingDetail.builder()
 				.nickname(character.getNickname())
@@ -133,7 +135,18 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	 */
 	@Transactional
 	@Override
-	public void characterGameSingleRunningSave(long characterId, GameType type, CharacterGameSingleSaveRequest request) {
+	public void characterGameSingleRunningSave(long characterId, GameType type,
+		CharacterGameSingleSaveRequest request) {
+		CharacterUtils.findByCharacterId(characterRepository, characterId);
 
+		Double score = redisTemplate.opsForZSet().score(type + "_single_ranking", String.valueOf(characterId));
+		if (score == null) {
+			redisTemplate.opsForZSet().add(type + "_single_ranking", String.valueOf(characterId), request.score());
+			return;
+		}
+
+		if (request.score() > score) {
+			redisTemplate.opsForZSet().add(type + "_single_ranking", String.valueOf(characterId), request.score());
+		}
 	}
 }

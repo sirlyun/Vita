@@ -37,7 +37,7 @@ public class CharacterController {
 		return ResponseEntity.ok(characterGameSingleRankingResponse);
 	}
 
-	@PostMapping("/character/{character_id}/game/single/{type}")
+	@PostMapping("/{character_id}/game/single/{type}")
 	public ResponseEntity<Void> characterGameSingleRunningSave(
 		@PathVariable("character_id") long characterId,
 		@PathVariable("type") GameType type,
