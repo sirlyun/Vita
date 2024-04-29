@@ -37,12 +37,13 @@ public class CharacterController {
 		return ResponseEntity.ok(characterGameSingleRankingResponse);
 	}
 
-	@PostMapping("/character/{character_id}/game/single/running")
+	@PostMapping("/character/{character_id}/game/single/{type}")
 	public ResponseEntity<Void> characterGameSingleRunningSave(
 		@PathVariable("character_id") long characterId,
+		@PathVariable("type") GameType type,
 		@RequestBody @Valid CharacterGameSingleSaveRequest request
 	) {
-		characterSaveService.characterGameSingleRunningSave(characterId, request);
+		characterSaveService.characterGameSingleRunningSave(characterId, type, request);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(null);
 	}

@@ -128,11 +128,12 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	/**
 	 * 싱글 플레이 결과 등록
 	 * @param characterId 요청자 character_id
+	 * @param type 게임 종류
 	 * @param request 요청자 점수
 	 */
 	@Transactional
 	@Override
-	public void characterGameSingleRunningSave(long characterId, CharacterGameSingleSaveRequest request) {
+	public void characterGameSingleRunningSave(long characterId, GameType type, CharacterGameSingleSaveRequest request) {
 
 	}
 }
