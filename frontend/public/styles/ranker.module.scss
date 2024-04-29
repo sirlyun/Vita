@@ -1,0 +1,27 @@
+.main {
+  width: 60vw;
+  display: flex;
+  justify-content: space-between;
+  background-image: url("~/public/images/backgrounds/ranker-bg.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  padding: 1.5vh 1vh 1.2vh 1vh;
+
+  .rank {
+    width: 20%;
+  }
+  .name {
+    width: 45%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .record {
+    width: 30%;
+    color: #a60000;
+  }
+
+  p {
+    text-align: center;
+  }
+}
