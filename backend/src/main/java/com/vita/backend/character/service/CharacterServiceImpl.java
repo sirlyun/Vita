@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.detail.CharacterGameSingleRankingDetail;
 import com.vita.backend.character.data.response.detail.RequesterGameSingleRankingDetail;
@@ -20,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class CharacterServiceImpl implements CharacterLoadService {
+public class CharacterServiceImpl implements CharacterLoadService, CharacterSaveService {
 	/* Repository */
 	private final CharacterRepository characterRepository;
 	/* Template */
@@ -81,5 +82,16 @@ public class CharacterServiceImpl implements CharacterLoadService {
 			.ranking(requesterSingleRanking != null ? requesterSingleRanking + 1 : null)
 			.score(requesterScore)
 			.build();
+	}
+
+	/**
+	 * 싱글 플레이 결과 등록
+	 * @param characterId 요청자 character_id
+	 * @param request 요청자 점수
+	 */
+	@Transactional
+	@Override
+	public void characterGameSingleRunningSave(long characterId, CharacterGameSingleSaveRequest request) {
+
 	}
 }

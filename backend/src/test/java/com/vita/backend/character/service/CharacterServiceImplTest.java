@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 
+import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.enumeration.BodyShape;
@@ -64,7 +65,6 @@ class CharacterServiceImplTest {
 		@DisplayName("캐릭터가 존재하지 않아 실패")
 		void characterNotFoundFail() {
 			// given
-			long characterId = 1L;
 			given(characterRepository.findById(characterId)).willReturn(Optional.empty());
 			// when & then
 			assertThrows(NotFoundException.class, () -> {
@@ -79,12 +79,12 @@ class CharacterServiceImplTest {
 			given(characterRepository.findById(anyLong())).willReturn(Optional.of(testCharacter));
 			given(redisTemplate.hasKey(type + "_single_ranking")).willReturn(Boolean.FALSE);
 			// when
-			CharacterGameSingleRankingResponse characterGameSingleRankingResponse = characterService.characterGameSingleRankingLoad(characterId, type);
+			CharacterGameSingleRankingResponse characterGameSingleRankingResponse = characterService.characterGameSingleRankingLoad(
+				characterId, type);
 			// then
 			assertNull(characterGameSingleRankingResponse.requesterRanking());
 			assertNull(characterGameSingleRankingResponse.totalRanking());
 		}
-
 
 		@Test
 		@DisplayName("싱글 플레이 랭킹 조회 성공")
@@ -116,6 +116,71 @@ class CharacterServiceImplTest {
 			// then
 			assertNotNull(characterGameSingleRankingResponse.requesterRanking());
 			assertEquals(3, characterGameSingleRankingResponse.totalRanking().size());
+		}
+	}
+
+	@Nested
+	@DisplayName("달리기 싱글 플레이 결과 등록")
+	class CharacterGameSingleRunningSave {
+		@Test
+		@DisplayName("캐릭터가 존재하지 않아 실패")
+		void characterNotFoundFail() {
+			// given
+			long characterId = 1L;
+			CharacterGameSingleSaveRequest request = CharacterGameSingleSaveRequest.builder()
+				.score(1.03)
+				.build();
+			given(characterRepository.findById(characterId)).willReturn(Optional.empty());
+			// when & then
+			assertThrows(NotFoundException.class, () -> {
+				characterService.characterGameSingleRunningSave(characterId, request);
+			});
+		}
+
+		@Test
+		@DisplayName("싱글 플레이 결과가 최고 기록인 경우 성공")
+		void HighScoreSuccess() {
+			// given
+			long characterId = 1L;
+			CharacterGameSingleSaveRequest request = CharacterGameSingleSaveRequest.builder()
+				.score(1.03)
+				.build();
+			Character testCharacter = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.is_dead(false)
+				.build();
+			given(characterRepository.findById(characterId)).willReturn(Optional.of(testCharacter));
+			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
+			// when
+			characterService.characterGameSingleRunningSave(characterId, request);
+			// then
+			verify(zSetOperations, times(1)).add("running_single_ranking", String.valueOf(characterId),
+				request.score());
+		}
+
+		@Test
+		@DisplayName("싱글 플레이 결과가 최고 기록이 아닌 경우 성공")
+		void NotHighScoreSuccess() {
+			// given
+			long characterId = 1L;
+			CharacterGameSingleSaveRequest request = CharacterGameSingleSaveRequest.builder()
+				.score(1.03)
+				.build();
+			Character testCharacter = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.is_dead(false)
+				.build();
+			given(characterRepository.findById(characterId)).willReturn(Optional.of(testCharacter));
+			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
+			// when
+			characterService.characterGameSingleRunningSave(characterId, request);
+			// then
+			verify(zSetOperations, times(0)).add("running_single_ranking", String.valueOf(characterId),
+				request.score());
 		}
 	}
 }
