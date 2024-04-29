@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import styles from "@/public/styles/login.module.css";
+import styles from "@/public/styles/login.module.scss";
 import { usePathname } from "next/navigation";
 
 export default function Login() {

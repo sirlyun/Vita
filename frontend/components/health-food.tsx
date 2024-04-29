@@ -1,15 +1,12 @@
 import { MouseEvent, useCallback, useState, ChangeEvent } from "react";
 
 import styles from "@/public/styles/health.module.scss";
-import Image, { StaticImageData } from "next/image";
-import clockBreakfast from "@/public/images/clock-breakfast.png";
-import clockLunch from "@/public/images/clock-lunch.png";
-import clockDinner from "@/public/images/clock-dinner.png";
-import cancelIcon from "@/public/images/cancel.png";
-import camera from "@/public/images/camera.png";
+import Image from "next/image";
+import images from "@/util/images";
+import icons from "@/util/icons";
 
 interface MealImageProps {
-  src: StaticImageData;
+  src: string;
   mealType: string;
   onClick: (mealType: string) => void;
   selected: boolean;
@@ -43,10 +40,62 @@ interface FoodImageFrameProps {
   onClose: () => void;
 }
 
+// Props 타입 정의
+interface UploadImageProps {
+  selectFile: () => void;
+  handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const UploadImage = ({ selectFile, handleImageChange }: UploadImageProps) => (
+  <div>
+    <input
+      type="file"
+      hidden
+      id="fileInput"
+      onChange={handleImageChange}
+      accept="image/png, image/jpeg"
+    />
+    <Image
+      onClick={selectFile}
+      src={images.camera} // 예제 이미지 경로
+      width={100}
+      height={100}
+      alt="camera"
+    />
+  </div>
+);
+
+// Props 타입 정의
+interface ShowImageProps {
+  foodImage: string;
+  selectFile: () => void;
+}
+
+const ShowImage = ({ foodImage, selectFile }: ShowImageProps) => (
+  <div>
+    <Image
+      onClick={selectFile}
+      src={foodImage}
+      alt="foodImage"
+      width={100}
+      height={100}
+      quality={100}
+    />
+  </div>
+);
+
+const NextStepContent = () => <div>zxcv</div>;
+
 export default function HealthFood({ onClose }: FoodImageFrameProps) {
   type ImageUrl = string | null;
 
   const [foodImage, setFoodImage] = useState<ImageUrl>(null);
+
+  const [nextStep, setNextStep] = useState(false);
+
+  const toggleNextStep = () => {
+    setNextStep(!nextStep);
+  };
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -79,19 +128,19 @@ export default function HealthFood({ onClose }: FoodImageFrameProps) {
         <div className={styles["clock-and-cancel-frame"]}>
           <div className={styles["clock-frame"]}>
             <MealImage
-              src={clockBreakfast}
+              src={images.breakfast}
               mealType="breakfast"
               onClick={handleMealClick}
               selected={selectedMeal === "breakfast"}
             />
             <MealImage
-              src={clockLunch}
+              src={images.lunch}
               mealType="lunch"
               onClick={handleMealClick}
               selected={selectedMeal === "lunch"}
             />
             <MealImage
-              src={clockDinner}
+              src={images.dinner}
               mealType="dinner"
               onClick={handleMealClick}
               selected={selectedMeal === "dinner"}
@@ -99,7 +148,7 @@ export default function HealthFood({ onClose }: FoodImageFrameProps) {
           </div>
           <Image
             onClick={onClose}
-            src={cancelIcon}
+            src={icons.cancel}
             width={60}
             height={60}
             alt="cancelIcon"
@@ -113,50 +162,24 @@ export default function HealthFood({ onClose }: FoodImageFrameProps) {
             <p>{selectedMeal}</p>
           </div>
           <div className={`${styles["modal-content"]} modal-content-recycle`}>
-            {foodImage ? (
-              <div>
-                <input
-                  type="file"
-                  hidden
-                  id="fileInput"
-                  onChange={handleImageChange}
-                  accept="image/png, image/jpeg"
-                />
-                <Image
-                  onClick={selectFile}
-                  src={foodImage}
-                  alt="foodImage"
-                  width={100}
-                  height={100}
-                  quality={100}
-                ></Image>
-              </div>
+            {nextStep ? (
+              <NextStepContent />
+            ) : foodImage ? (
+              <ShowImage foodImage={foodImage} selectFile={selectFile} />
             ) : (
-              <div>
-                <input
-                  type="file"
-                  hidden
-                  id="fileInput"
-                  onChange={handleImageChange}
-                  accept="image/png, image/jpeg"
-                />
-                <Image
-                  onClick={selectFile}
-                  src={camera}
-                  width={100}
-                  height={100}
-                  alt="camera"
-                ></Image>
-              </div>
+              <UploadImage
+                selectFile={selectFile}
+                handleImageChange={handleImageChange}
+              />
             )}
           </div>
           {foodImage ? (
-            <div className={styles["next-level"]}>
+            <div onClick={toggleNextStep} className={styles["next-step"]}>
               <p>다음</p>
             </div>
           ) : (
             <p className={styles["food-choice-text"]}>
-              오늘 먹은 음식 이미지를 선택해주세요!
+              오늘 드신 음식 이미지를 선택해주세요!
             </p>
           )}
         </div>

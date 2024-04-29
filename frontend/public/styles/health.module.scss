@@ -1,5 +1,5 @@
 .main {
-  background-image: url("/images/health-bg.png");
+  background-image: url("/images/backgrounds/health-bg.png");
 }
 
 .dark-overlay {
@@ -41,7 +41,7 @@
 
 .food-choice-text {
   color: white;
-  font-size: 2.2vh;
+  font-size: 4.2vw;
   padding-top: 1.5vh;
 }
 
@@ -60,7 +60,7 @@
   }
 }
 
-.next-level {
+.next-step {
   background-image: url("/images/button.png");
   width: 20vw;
   height: 7vh;

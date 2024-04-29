@@ -2,6 +2,7 @@
 
 import styles from "@/public/styles/health.module.scss";
 import Image from "next/image";
+
 import spoonFork from "@/public/images/spoon-fork.png";
 import checkup from "@/public/images/checkup.png";
 import Link from "next/link";

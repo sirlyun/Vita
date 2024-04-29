@@ -14,6 +14,7 @@ const icons = {
   chronic: "/icons/debuff-chronic-icon.png",
   running: "/icons/running-icon.png",
   gym: "/icons/gym-icon.png",
+  cancel: "/icons/cancel.png",
 };
 
 export default icons;
