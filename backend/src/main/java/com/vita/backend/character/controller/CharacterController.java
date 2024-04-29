@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
+import com.vita.backend.character.domain.enumeration.GameType;
 import com.vita.backend.character.service.CharacterLoadService;
 import com.vita.backend.character.service.CharacterSaveService;
 
@@ -28,7 +29,7 @@ public class CharacterController {
 	@GetMapping("/{character_id}/game/single/{type}/ranking")
 	public ResponseEntity<CharacterGameSingleRankingResponse> characterGameSingleRankingLoad(
 		@PathVariable("character_id") long characterId,
-		@PathVariable("type") String type
+		@PathVariable("type") GameType type
 	) {
 		CharacterGameSingleRankingResponse characterGameSingleRankingResponse = characterLoadService.characterGameSingleRankingLoad(
 			characterId, type);

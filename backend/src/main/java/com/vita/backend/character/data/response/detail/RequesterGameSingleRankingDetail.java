@@ -11,6 +11,6 @@ public record RequesterGameSingleRankingDetail(
 	@JsonProperty("ranking")
 	Long ranking,
 	@JsonProperty("score")
-	Double score
+	Long score
 ) {
 }
