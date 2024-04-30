@@ -26,7 +26,7 @@ export function Modal({ children }: { children: React.ReactNode }) {
       onClose={router.back}
       className={style["modal-outer"]}
     >
-      <div className={style["modal-inner"]}>
+      <div className={`${style["modal-inner"]} bg`}>
         {children}
         <button
           className={style["close-btn"]}

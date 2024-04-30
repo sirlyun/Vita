@@ -4,15 +4,17 @@
   justify-content: space-between;
   align-items: center;
   height: 100vh;
-  background-image: url("~/public/images/backgrounds/running-bg.png");
+  background-image: url("~/public/images/backgrounds/single-running-bg.png");
 
   .title {
     height: 10%;
     display: flex;
     align-items: center;
+
     h1 {
+      padding-top: 2vh;
       color: red;
-      font-size: 8vh;
+      font-size: 7vh;
       text-shadow: -2px 0px black, 0px 2px black, 2px 0px black, 0px -2px black;
     }
   }
@@ -40,7 +42,7 @@
       background-image: url("~/public/images/backgrounds/ranker-bg.png");
       padding: 1.2vh;
       filter: brightness(50%);
-      color: white;
+      color: #a60000;
     }
 
     .active {
@@ -58,7 +60,7 @@
 
     button {
       background-image: url("~/public/images/button.png");
-      padding: 2vh 2vh 4vh 2vh;
+      padding: 2vh 3vh 4vh 3vh;
       img {
         width: 10vh;
         height: 10vh;
@@ -67,7 +69,10 @@
   }
 }
 
-.bg {
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+.prev {
+  position: absolute;
+  top: 2vh;
+  left: 5vw;
+  width: 6vh;
+  height: 6vh;
 }

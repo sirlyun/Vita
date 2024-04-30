@@ -21,7 +21,7 @@ export default function Home() {
     <div className={`${styles.main} background`}>
       {challengeModal && <ChallengeFrame onClose={toggleChallengeModal} />}
       <div className={styles.header}>
-        <div className={styles.item}>
+        <div className={`${styles.item} bg`}>
           <p>남은수명</p>
           <h2>100년</h2>
         </div>

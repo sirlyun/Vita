@@ -1,0 +1,15 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+}
+
+.bg-idle {
+  background-image: url("~/public/images/backgrounds/single-running-bg.png");
+}
+
+.bg-move {
+  background-image: url("~/public/images/backgrounds/running-bg-1000ms.gif");
+}

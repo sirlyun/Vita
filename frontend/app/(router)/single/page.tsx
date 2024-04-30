@@ -8,7 +8,7 @@ import RunningRanker from "@/components/running-ranker";
 import FitnessRanker from "@/components/fitness-ranker";
 import { useState } from "react";
 
-export default function OptionModal() {
+export default function SinglePlayPage() {
   const [activeMenu, setActiveMenu] = useState("running");
 
   const handleClick = (menuName: string) => {
@@ -16,7 +16,7 @@ export default function OptionModal() {
   };
 
   const runningRankingList = [
-    { rank: 1, name: "GAY성수", record: 4.03 },
+    { rank: 1, name: "밤가이성수", record: 4.03 },
     { rank: 2, name: "심성수", record: 4.03 },
     { rank: 3, name: "킹갓제너럴성수", record: 4.03 },
     { rank: 4, name: "청성수", record: 4.03 },
@@ -40,25 +40,21 @@ export default function OptionModal() {
     { rank: 10, name: "GAY성수", record: 13 },
   ];
   return (
-    <div className={`${styles.main} ${styles.bg}`}>
+    <div className={`${styles.main} bg`}>
       <div className={styles.title}>
         <h1>RANKING</h1>
       </div>
 
-      <div className={`${styles.board} ${styles.bg}`}>
+      <div className={`${styles.board} bg`}>
         <div className={styles.menu}>
           <h1
-            className={`${styles.bg} ${
-              activeMenu === "running" ? styles.active : ""
-            }`}
+            className={`bg ${activeMenu === "running" ? styles.active : ""}`}
             onClick={() => handleClick("running")}
           >
             달리기
           </h1>
           <h1
-            className={`${styles.bg} ${
-              activeMenu === "fitness" ? styles.active : ""
-            }`}
+            className={`bg ${activeMenu === "fitness" ? styles.active : ""}`}
             onClick={() => handleClick("fitness")}
           >
             헬스
@@ -83,8 +79,8 @@ export default function OptionModal() {
             ))}
       </div>
       <div className={styles["btn-container"]}>
-        <Link href="/running">
-          <button className={styles.bg}>
+        <Link href="/single/running">
+          <button className={"bg"}>
             <Image
               src={icons.running}
               width={60}
@@ -93,8 +89,8 @@ export default function OptionModal() {
             ></Image>
           </button>
         </Link>
-        <Link href="/running">
-          <button className={styles.bg}>
+        <Link href="/single/dumbelling">
+          <button className={"bg"}>
             <Image
               src={icons.gym}
               width={60}
