@@ -75,8 +75,8 @@ class CharacterServiceImplTest {
 		}
 
 		@Test
-		@DisplayName("싱글 플레이를 한 사람이 한 명도 없는 경우")
-		void whenSingleRankingIsNull() {
+		@DisplayName("싱글 플레이를 한 사람이 한 명도 없는 경우 성공")
+		void singleRankingNullSuccess() {
 			// given
 			given(characterRepository.findById(anyLong())).willReturn(Optional.of(testCharacter));
 			given(redisTemplate.hasKey(type1 + "_single_ranking")).willReturn(Boolean.FALSE);
@@ -206,7 +206,7 @@ class CharacterServiceImplTest {
 
 		@Test
 		@DisplayName("싱글 플레이 결과가 최고 기록인 경우 성공")
-		void HighScoreSuccess() {
+		void highScoreSuccess() {
 			// given
 			given(characterRepository.findById(characterId)).willReturn(Optional.of(testCharacter));
 			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
@@ -219,7 +219,7 @@ class CharacterServiceImplTest {
 
 		@Test
 		@DisplayName("싱글 플레이 결과가 최고 기록이 아닌 경우 성공")
-		void NotHighScoreSuccess() {
+		void notHighScoreSuccess() {
 			// given
 			given(characterRepository.findById(characterId)).willReturn(Optional.of(testCharacter));
 			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);

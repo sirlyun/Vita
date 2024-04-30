@@ -5,7 +5,8 @@ import java.io.IOException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.vita.backend.health.data.request.FoodSaveRequest;
+import com.vita.backend.health.data.response.FoodResponse;
 
 public interface HealthSaveService {
-	String foodSave(long memberId, MultipartFile image, FoodSaveRequest request) throws IOException;
+	FoodResponse foodSave(long memberId, MultipartFile image, FoodSaveRequest request) throws IOException;
 }

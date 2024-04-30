@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.vita.backend.health.data.request.FoodSaveRequest;
+import com.vita.backend.health.data.response.FoodResponse;
 import com.vita.backend.health.service.HealthSaveService;
 
 import jakarta.validation.Valid;
@@ -24,12 +25,12 @@ public class HealthController {
 	private final HealthSaveService healthSaveService;
 
 	@PostMapping("/food")
-	public ResponseEntity<String> foodSave(
+	public ResponseEntity<FoodResponse> foodSave(
 		@RequestPart(value = "image") MultipartFile image,
 		@RequestPart(value = "json") @Valid FoodSaveRequest request
 	) throws IOException {
-		String s = healthSaveService.foodSave(1L, image, request);
+		FoodResponse foodResponse = healthSaveService.foodSave(1L, image, request);
 
-		return ResponseEntity.ok().body(s);
+		return ResponseEntity.ok().body(foodResponse);
 	}
 }

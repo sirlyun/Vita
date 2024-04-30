@@ -58,4 +58,12 @@ public class Food extends BaseEntity {
 		this.fat = fat;
 		this.protein = protein;
 	}
+
+	public void updateFood(Long newCalorie, Long newSalt, Long newSugar, Long newFat, Long newProtein) {
+		this.calorie += newCalorie;
+		this.salt += newSalt;
+		this.sugar += newSugar;
+		this.fat += newFat;
+		this.protein += newProtein;
+	}
 }
