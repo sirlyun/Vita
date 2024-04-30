@@ -20,7 +20,11 @@ export default function RunningPage() {
     >
       <div className={styles.top}>asdf</div>
       <div className={styles.mid}>asdf</div>
-      <div className={styles.bottom}>asdf</div>
+      <div className={styles.bottom}>
+        <button>
+          <p>Click!</p>
+        </button>
+      </div>
     </div>
   );
 }

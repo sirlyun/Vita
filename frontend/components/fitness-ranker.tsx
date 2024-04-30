@@ -10,7 +10,7 @@ export default function FitnessRanker({
   record: number;
 }) {
   return (
-    <div className={style.main}>
+    <div className={`${style.main} bg`}>
       <div className={style.rank}>
         <p>{rank}등</p>
       </div>
