@@ -11,13 +11,21 @@ import { useState } from "react";
 
 export default function HealthHome() {
   const [foodModal, setFoodModal] = useState(false);
+  const [foodComplete, setFoodComplete] = useState(false);
+
+  const handleComplete = (status: boolean) => {
+    setFoodComplete(status);
+  };
 
   const toggleFoodModal = () => {
     setFoodModal(!foodModal);
+    setFoodComplete(false);
   };
   return (
     <div className={`${styles.main} background`}>
-      {foodModal && <HealthFood onClose={toggleFoodModal} />}
+      {foodModal && (
+        <HealthFood onClose={toggleFoodModal} complete={handleComplete} />
+      )}
       <div className={styles.header}>
         <div className={styles["speech-bubble"]}>
           <p className={styles["speech-bubble-text"]}>

@@ -14,8 +14,72 @@
   justify-content: space-between;
 }
 
-.unselected {
+.food-analyze {
+  text-align: center;
+  color: white;
+}
+
+.selected-meal {
+  width: 15vw;
+  height: 7.2vh;
+}
+
+.unselected-meal {
   filter: brightness(60%); /* 어둡게 표시 */
+  width: 14vw;
+  height: 6.5vh;
+}
+
+.intake-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 30vh;
+  padding-bottom: 6vh;
+}
+
+.intake-title {
+  color: white;
+  font-size: 7vw;
+}
+
+.intake-content-layout {
+  display: flex;
+  width: 90vw;
+  justify-content: space-evenly;
+}
+
+.selected-intake {
+  background-image: url("/images/button.png");
+  background-size: 100% 100%;
+  width: 20vw;
+  height: 10vh;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-size: 7vw;
+    padding-bottom: 1vh;
+  }
+}
+.unselected-intake {
+  background-image: url("/images/button.png");
+  background-size: 100% 100%;
+  width: 20vw;
+  height: 10vh;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: brightness(60%); /* 어둡게 표시 */
+
+  p {
+    font-size: 6vw;
+    padding-bottom: 1vh;
+  }
 }
 
 .modal-layout {
