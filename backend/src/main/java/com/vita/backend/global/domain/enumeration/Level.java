@@ -4,7 +4,13 @@ import lombok.Getter;
 
 @Getter
 public enum Level {
-	low,
-	mid,
-	high
+	LOW(1),
+	MID(2),
+	HIGH(3);
+
+	private final Integer value;
+
+	Level(Integer value) {
+		this.value = value;
+	}
 }

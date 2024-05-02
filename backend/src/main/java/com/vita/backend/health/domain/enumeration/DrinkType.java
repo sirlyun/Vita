@@ -4,7 +4,13 @@ import lombok.Getter;
 
 @Getter
 public enum DrinkType {
-	soju,
-	beer,
-	liquor
+	SOJU(2),
+	BEER(1),
+	LIQUOR(3);
+
+	private final Integer value;
+
+	DrinkType(Integer value) {
+		this.value = value;
+	}
 }
