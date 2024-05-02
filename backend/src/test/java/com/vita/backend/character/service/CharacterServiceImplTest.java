@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
@@ -24,12 +25,18 @@ import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.character.domain.enumeration.GameType;
 import com.vita.backend.character.repository.CharacterRepository;
+import com.vita.backend.global.exception.category.ForbiddenException;
 import com.vita.backend.global.exception.category.NotFoundException;
+import com.vita.backend.member.domain.Member;
+import com.vita.backend.member.domain.enumeration.Gender;
+import com.vita.backend.member.repository.MemberRepository;
 
 @ExtendWith(MockitoExtension.class)
 class CharacterServiceImplTest {
 	@InjectMocks
 	CharacterServiceImpl characterService;
+	@Mock
+	MemberRepository memberRepository;
 	@Mock
 	CharacterRepository characterRepository;
 	@Mock
@@ -160,34 +167,76 @@ class CharacterServiceImplTest {
 	@Nested
 	@DisplayName("싱글 플레이 결과 등록")
 	class CharacterGameSingleRunningSave {
-		private long characterId;
-		private GameType type;
-		private CharacterGameSingleSaveRequest request;
-		private Character testCharacter;
+		long memberId;
+		long characterId;
+		GameType type;
+		CharacterGameSingleSaveRequest request;
 
 		@BeforeEach
 		void setUp() {
+			memberId = 1L;
 			characterId = 1L;
 			type = GameType.running;
 			request = CharacterGameSingleSaveRequest.builder()
 				.score(10L)
 				.build();
-			testCharacter = Character.builder()
-				.nickname("test")
-				.bodyShape(BodyShape.NORMAL)
-				.vitaPoint(10L)
-				.is_dead(false)
-				.build();
+		}
+
+		@Test
+		@DisplayName("요청자가 존재하지 않아 실패")
+		void memberNotFoundFail() {
+			// given
+			given(memberRepository.findById(memberId)).willReturn(Optional.empty());
+			// when & then
+			assertThrows(NotFoundException.class, () -> {
+				characterService.characterGameSingleSave(memberId, characterId, type, request);
+			});
 		}
 
 		@Test
 		@DisplayName("캐릭터가 존재하지 않아 실패")
 		void characterNotFoundFail() {
 			// given
+			Member member = Member.builder()
+				.name("test")
+				.gender(Gender.MALE)
+				.birthYear(1999)
+				.build();
+			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
 			given(characterRepository.findById(characterId)).willReturn(Optional.empty());
 			// when & then
 			assertThrows(NotFoundException.class, () -> {
-				characterService.characterGameSingleRunningSave(characterId, type, request);
+				characterService.characterGameSingleSave(memberId, characterId, type, request);
+			});
+		}
+
+		@Test
+		@DisplayName("요청자가 캐릭터 접근 권한이 없어 실패")
+		void memberCharacterForbidden() {
+			// given
+			Member member = Member.builder()
+				.name("test")
+				.gender(Gender.MALE)
+				.birthYear(1999)
+				.build();
+			Member fakeMember = Member.builder()
+				.name("fake")
+				.gender(Gender.FEMALE)
+				.birthYear(1998)
+				.build();
+			ReflectionTestUtils.setField(fakeMember, "id", 2L);
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.is_dead(false)
+				.member(fakeMember)
+				.build();
+			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
+			given(characterRepository.findById(characterId)).willReturn(Optional.of(character));
+			// when & then
+			assertThrows(ForbiddenException.class, () -> {
+				characterService.characterGameSingleSave(memberId, characterId, type, request);
 			});
 		}
 
@@ -195,11 +244,25 @@ class CharacterServiceImplTest {
 		@DisplayName("싱글 플레이 결과가 첫 기록인 경우 성공")
 		void newScoreSuccess() {
 			// given
-			given(characterRepository.findById(characterId)).willReturn(Optional.of(testCharacter));
+			Member member = Member.builder()
+				.name("test")
+				.gender(Gender.MALE)
+				.birthYear(1999)
+				.build();
+			ReflectionTestUtils.setField(member, "id", memberId);
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.is_dead(false)
+				.member(member)
+				.build();
+			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
+			given(characterRepository.findById(characterId)).willReturn(Optional.of(character));
 			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
 			given(zSetOperations.score(type + "_single_ranking", String.valueOf(characterId))).willReturn(null);
 			// when
-			characterService.characterGameSingleRunningSave(characterId, type, request);
+			characterService.characterGameSingleSave(memberId, characterId, type, request);
 			// then
 			verify(zSetOperations, times(1)).add(type + "_single_ranking", String.valueOf(characterId), request.score());
 		}
@@ -208,11 +271,25 @@ class CharacterServiceImplTest {
 		@DisplayName("싱글 플레이 결과가 최고 기록인 경우 성공")
 		void highScoreSuccess() {
 			// given
-			given(characterRepository.findById(characterId)).willReturn(Optional.of(testCharacter));
+			Member member = Member.builder()
+				.name("test")
+				.gender(Gender.MALE)
+				.birthYear(1999)
+				.build();
+			ReflectionTestUtils.setField(member, "id", memberId);
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.is_dead(false)
+				.member(member)
+				.build();
+			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
+			given(characterRepository.findById(characterId)).willReturn(Optional.of(character));
 			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
 			given(zSetOperations.score(type + "_single_ranking", String.valueOf(characterId))).willReturn(9.0);
 			// when
-			characterService.characterGameSingleRunningSave(characterId, type, request);
+			characterService.characterGameSingleSave(memberId, characterId, type, request);
 			// then
 			verify(zSetOperations, times(1)).add(type + "_single_ranking", String.valueOf(characterId), request.score());
 		}
@@ -221,11 +298,25 @@ class CharacterServiceImplTest {
 		@DisplayName("싱글 플레이 결과가 최고 기록이 아닌 경우 성공")
 		void notHighScoreSuccess() {
 			// given
-			given(characterRepository.findById(characterId)).willReturn(Optional.of(testCharacter));
+			Member member = Member.builder()
+				.name("test")
+				.gender(Gender.MALE)
+				.birthYear(1999)
+				.build();
+			ReflectionTestUtils.setField(member, "id", memberId);
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.is_dead(false)
+				.member(member)
+				.build();
+			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
+			given(characterRepository.findById(characterId)).willReturn(Optional.of(character));
 			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
 			given(zSetOperations.score(type + "_single_ranking", String.valueOf(characterId))).willReturn(11.0);
 			// when
-			characterService.characterGameSingleRunningSave(characterId, type, request);
+			characterService.characterGameSingleSave(memberId, characterId, type, request);
 			// then
 			verify(zSetOperations, times(0)).add(type + "_single_ranking", String.valueOf(characterId), request.score());
 		}

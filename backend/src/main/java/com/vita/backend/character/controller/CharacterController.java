@@ -43,7 +43,7 @@ public class CharacterController {
 		@PathVariable("type") GameType type,
 		@RequestBody @Valid CharacterGameSingleSaveRequest request
 	) {
-		characterSaveService.characterGameSingleRunningSave(characterId, type, request);
+		characterSaveService.characterGameSingleSave(1L, characterId, type, request);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(null);
 	}
