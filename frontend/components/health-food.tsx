@@ -4,6 +4,23 @@ import styles from "@/public/styles/health.module.scss";
 import Image from "next/image";
 import images from "@/util/images";
 import icons from "@/util/icons";
+import useStopPropagation from "@/components/UseStopPropagation";
+
+interface NutritionalInfo {
+  name: string;
+  image: string;
+  unit: string;
+  consumedAmount: number;
+  recommendedAmount: number;
+}
+
+interface FoodNutritionalDetails {
+  calories: NutritionalInfo;
+  salts: NutritionalInfo;
+  sugars: NutritionalInfo;
+  fats: NutritionalInfo;
+  proteins: NutritionalInfo;
+}
 
 const Loading = () => (
   <div>
@@ -106,8 +123,8 @@ const ShowImage = ({ foodImage, selectFile }: ShowImageProps) => (
 );
 
 const IntakeContent = () => {
-  const intakeOptions: string[] = ["조금", "중간", "많이"];
-  const [selectedIntake, setSelectedIntake] = useState("중간");
+  const intakeOptions: string[] = ["0.5인분", "1인분", "n인분"];
+  const [selectedIntake, setSelectedIntake] = useState("1인분");
 
   const handleOptionClick = (option: string) => {
     setSelectedIntake(option);
@@ -134,20 +151,81 @@ const IntakeContent = () => {
   );
 };
 
+const FoodNutrition = () => {
+  const handleModalContentClick = useStopPropagation();
+
+  const foodNutrition: FoodNutritionalDetails = {
+    calories: {
+      name: "calrorie",
+      image: "url/to/apple/image",
+      unit: "kcal",
+      consumedAmount: 95,
+      recommendedAmount: 2000,
+    },
+    salts: {
+      name: "salt",
+      image: "url/to/apple/image",
+      unit: "mg",
+      consumedAmount: 1,
+      recommendedAmount: 2300,
+    },
+    sugars: {
+      name: "sugar",
+      image: "url/to/apple/image",
+      unit: "g",
+      consumedAmount: 19,
+      recommendedAmount: 37.5,
+    },
+    fats: {
+      name: "fat",
+      image: "url/to/apple/image",
+      unit: "g",
+      consumedAmount: 0.3,
+      recommendedAmount: 70,
+    },
+    proteins: {
+      name: "protein",
+      image: "url/to/apple/image",
+      unit: "g",
+      consumedAmount: 0.5,
+      recommendedAmount: 56,
+    },
+  };
+
+  return (
+    <div
+      onClick={handleModalContentClick}
+      className={`${styles["board-frame"]}`}
+    >
+      <div className={styles.nickname}>눈물의 여왕</div>
+      <div className={styles.character}></div>
+      <div className={`${styles["nutrition-frame"]}`}>
+        <div className={`${styles["nutrition-div"]}`}>
+          <div className={`${styles["nutrition-left"]}`}>
+            <div></div>
+            <div></div>
+          </div>
+          <div className={`${styles["nutrition-bar"]}`}></div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function HealthFood({ onClose, complete }: FoodImageFrameProps) {
   type ImageUrl = string | null;
 
   const [foodImage, setFoodImage] = useState<ImageUrl>(null);
-
   const [nextStep, setNextStep] = useState(false);
-
   const [selectedMeal, setSelectedMeal] = useState("breakfast");
   const [isLoading, setIsLoading] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
 
   const handleCompleteClick = async () => {
     setIsLoading(true);
     try {
       const movies = await getMovies();
+      setIsComplete(true);
       console.log(movies);
     } catch (error) {
       console.error("failed to fetch movies");
@@ -171,10 +249,8 @@ function HealthFood({ onClose, complete }: FoodImageFrameProps) {
   const selectFile = () => {
     document.getElementById("fileInput")?.click();
   };
-  const handleModalContentClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
 
+  const handleModalContentClick = useStopPropagation();
   const handleMealClick = useCallback((mealType: string) => {
     setSelectedMeal(mealType);
 
@@ -186,72 +262,79 @@ function HealthFood({ onClose, complete }: FoodImageFrameProps) {
       onClick={onClose}
       className={`${styles["dark-overlay"]} dark-overlay-recycle`}
     >
-      <div className={styles.frame}>
-        <div className={styles["clock-and-cancel-frame"]}>
-          <div className={styles["clock-frame"]}>
-            <MealImage
-              src={images.breakfast}
-              mealType="breakfast"
-              onClick={handleMealClick}
-              selected={selectedMeal === "breakfast"}
-            />
-            <MealImage
-              src={images.lunch}
-              mealType="lunch"
-              onClick={handleMealClick}
-              selected={selectedMeal === "lunch"}
-            />
-            <MealImage
-              src={images.dinner}
-              mealType="dinner"
-              onClick={handleMealClick}
-              selected={selectedMeal === "dinner"}
-            />
-          </div>
-          <Image
-            onClick={onClose}
-            src={icons.cancel}
-            width={60}
-            height={60}
-            alt="cancelIcon"
-          ></Image>
-        </div>
-        <div
-          onClick={handleModalContentClick}
-          className={`${styles["modal-layout"]} modal-layout-recycle`}
-        >
-          <div className={styles["modal-title"]}>
-            <p>{selectedMeal}</p>
-          </div>
-          <div className={`${styles["modal-content"]} modal-content-recycle`}>
-            {isLoading ? (
-              <Loading />
-            ) : nextStep ? (
-              <IntakeContent />
-            ) : foodImage ? (
-              <ShowImage foodImage={foodImage} selectFile={selectFile} />
-            ) : (
-              <UploadImage
-                selectFile={selectFile}
-                handleImageChange={handleImageChange}
+      {isComplete ? (
+        <FoodNutrition />
+      ) : (
+        <div className={styles.frame}>
+          <div className={styles["clock-and-cancel-frame"]}>
+            <div className={styles["clock-frame"]}>
+              <MealImage
+                src={images.breakfast}
+                mealType="breakfast"
+                onClick={handleMealClick}
+                selected={selectedMeal === "breakfast"}
               />
+              <MealImage
+                src={images.lunch}
+                mealType="lunch"
+                onClick={handleMealClick}
+                selected={selectedMeal === "lunch"}
+              />
+              <MealImage
+                src={images.dinner}
+                mealType="dinner"
+                onClick={handleMealClick}
+                selected={selectedMeal === "dinner"}
+              />
+            </div>
+            <Image
+              onClick={onClose}
+              src={icons.cancel}
+              width={60}
+              height={60}
+              alt="cancelIcon"
+            ></Image>
+          </div>
+          <div
+            onClick={handleModalContentClick}
+            className={`${styles["modal-layout"]} modal-layout-recycle`}
+          >
+            <div className={styles["modal-title"]}>
+              <p>{selectedMeal}</p>
+            </div>
+            <div className={`${styles["modal-content"]} modal-content-recycle`}>
+              {isLoading ? (
+                <Loading />
+              ) : nextStep ? (
+                <IntakeContent />
+              ) : foodImage ? (
+                <ShowImage foodImage={foodImage} selectFile={selectFile} />
+              ) : (
+                <UploadImage
+                  selectFile={selectFile}
+                  handleImageChange={handleImageChange}
+                />
+              )}
+            </div>
+            {nextStep ? (
+              <div
+                onClick={handleCompleteClick}
+                className={styles["next-step"]}
+              >
+                <p>확인</p>
+              </div>
+            ) : foodImage ? (
+              <div onClick={toggleNextStep} className={styles["next-step"]}>
+                <p>다음</p>
+              </div>
+            ) : (
+              <p className={styles["food-choice-text"]}>
+                오늘 드신 음식 이미지를 선택해주세요!
+              </p>
             )}
           </div>
-          {nextStep ? (
-            <div onClick={handleCompleteClick} className={styles["next-step"]}>
-              <p>확인</p>
-            </div>
-          ) : foodImage ? (
-            <div onClick={toggleNextStep} className={styles["next-step"]}>
-              <p>다음</p>
-            </div>
-          ) : (
-            <p className={styles["food-choice-text"]}>
-              오늘 드신 음식 이미지를 선택해주세요!
-            </p>
-          )}
         </div>
-      </div>
+      )}
     </div>
   );
 }
