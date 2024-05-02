@@ -68,7 +68,7 @@ public class Food extends BaseEntity {
 		setMember(member);
 	}
 
-	public void setMember(Member member) {
+	private void setMember(Member member) {
 		this.member = member;
 		member.getFoods().add(this);
 	}

@@ -45,12 +45,6 @@ public class Member extends BaseEntity{
     @Column(name = "chronic")
     private Chronic chronic;
 
-    @Column(name = "height")
-    private Double height;
-
-    @Column(name = "weight")
-    private Double weight;
-
     @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Character> characters = new ArrayList<>();
@@ -65,5 +59,9 @@ public class Member extends BaseEntity{
         this.name = name;
         this.gender = gender;
         this.birthYear = birthYear;
+    }
+
+    public void updateChronic(Chronic newChronic) {
+        this.chronic = newChronic;
     }
 }

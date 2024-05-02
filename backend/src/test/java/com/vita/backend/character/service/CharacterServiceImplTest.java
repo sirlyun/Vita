@@ -20,14 +20,27 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
+import com.vita.backend.character.data.request.CharacterSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.domain.Character;
+import com.vita.backend.character.domain.CharacterDeBuff;
+import com.vita.backend.character.domain.DeBuff;
 import com.vita.backend.character.domain.enumeration.BodyShape;
+import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.domain.enumeration.GameType;
+import com.vita.backend.character.repository.CharacterDeBuffRepository;
 import com.vita.backend.character.repository.CharacterRepository;
+import com.vita.backend.character.repository.DeBuffRepository;
+import com.vita.backend.global.domain.enumeration.Level;
+import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.ForbiddenException;
 import com.vita.backend.global.exception.category.NotFoundException;
+import com.vita.backend.health.data.request.detail.DrinkSaveDetail;
+import com.vita.backend.health.data.request.detail.SmokeSaveDetail;
+import com.vita.backend.health.domain.enumeration.DrinkType;
+import com.vita.backend.health.domain.enumeration.SmokeType;
 import com.vita.backend.member.domain.Member;
+import com.vita.backend.member.domain.enumeration.Chronic;
 import com.vita.backend.member.domain.enumeration.Gender;
 import com.vita.backend.member.repository.MemberRepository;
 
@@ -39,6 +52,10 @@ class CharacterServiceImplTest {
 	MemberRepository memberRepository;
 	@Mock
 	CharacterRepository characterRepository;
+	@Mock
+	DeBuffRepository deBuffRepository;
+	@Mock
+	CharacterDeBuffRepository characterDeBuffRepository;
 	@Mock
 	RedisTemplate<String, String> redisTemplate;
 	@Mock
@@ -66,7 +83,6 @@ class CharacterServiceImplTest {
 				.nickname("test")
 				.bodyShape(BodyShape.NORMAL)
 				.vitaPoint(10L)
-				.is_dead(false)
 				.build();
 		}
 
@@ -173,7 +189,7 @@ class CharacterServiceImplTest {
 		CharacterGameSingleSaveRequest request;
 
 		@BeforeEach
-		void setUp() {
+		void setup() {
 			memberId = 1L;
 			characterId = 1L;
 			type = GameType.running;
@@ -229,7 +245,6 @@ class CharacterServiceImplTest {
 				.nickname("test")
 				.bodyShape(BodyShape.NORMAL)
 				.vitaPoint(10L)
-				.is_dead(false)
 				.member(fakeMember)
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
@@ -254,7 +269,6 @@ class CharacterServiceImplTest {
 				.nickname("test")
 				.bodyShape(BodyShape.NORMAL)
 				.vitaPoint(10L)
-				.is_dead(false)
 				.member(member)
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
@@ -281,7 +295,6 @@ class CharacterServiceImplTest {
 				.nickname("test")
 				.bodyShape(BodyShape.NORMAL)
 				.vitaPoint(10L)
-				.is_dead(false)
 				.member(member)
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
@@ -308,7 +321,6 @@ class CharacterServiceImplTest {
 				.nickname("test")
 				.bodyShape(BodyShape.NORMAL)
 				.vitaPoint(10L)
-				.is_dead(false)
 				.member(member)
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
@@ -322,4 +334,89 @@ class CharacterServiceImplTest {
 		}
 	}
 
+	@Nested
+	@DisplayName("캐릭터 생성")
+	class CharacterSave {
+		long memberId;
+		CharacterSaveRequest request;
+		@BeforeEach
+		void setup() {
+			memberId = 1L;
+			SmokeSaveDetail smokeSaveDetail = SmokeSaveDetail.builder()
+				.smokeType(SmokeType.LIQUID)
+				.level(Level.MID)
+				.build();
+			DrinkSaveDetail drinkSaveDetail = DrinkSaveDetail.builder()
+				.drinkType(DrinkType.LIQUOR)
+				.level(Level.MID)
+				.build();
+			request = CharacterSaveRequest.builder()
+				.nickname("test")
+				.height(180)
+				.weight(70)
+				.smoke(smokeSaveDetail)
+				.drink(drinkSaveDetail)
+				.chronic(Chronic.DIABETES)
+				.build();
+		}
+		@Test
+		@DisplayName("요청자가 존재하지 않아 실패")
+		void memberNotFoundFail() {
+			// given
+			given(memberRepository.findById(memberId)).willReturn(Optional.empty());
+			// when & then
+			assertThrows(NotFoundException.class, () -> {
+				characterService.characterSave(memberId, request);
+			});
+		}
+
+		@Test
+		@DisplayName("생존 중인 캐릭터가 존재해 실패")
+		void aliveCharacterExistFail() {
+			// given
+			Member member = Member.builder()
+				.name("test")
+				.gender(Gender.MALE)
+				.birthYear(1999)
+				.build();
+			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
+			given(characterRepository.existsByMemberIdAndIsDeadFalse(memberId)).willReturn(true);
+			// when & then
+			assertThrows(BadRequestException.class, () -> {
+				characterService.characterSave(memberId, request);
+			});
+		}
+
+		@Test
+		@DisplayName("캐릭터 생성 성공")
+		void characterSaveSuccess() {
+			// given
+			Member member = Member.builder()
+				.name("test")
+				.gender(Gender.MALE)
+				.birthYear(1999)
+				.build();
+			ReflectionTestUtils.setField(member, "chronic", Chronic.DIABETES);
+			DeBuff chronicDeBuff = DeBuff.builder()
+				.deBuffType(DeBuffType.CHRONIC)
+				.build();
+			DeBuff smokeDeBuff = DeBuff.builder()
+				.deBuffType(DeBuffType.SMOKE)
+				.build();
+			DeBuff drinkDeBuff = DeBuff.builder()
+				.deBuffType(DeBuffType.DRINK)
+				.build();
+			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
+			given(characterRepository.existsByMemberIdAndIsDeadFalse(memberId)).willReturn(false);
+			given(characterRepository.existsByMemberId(memberId)).willReturn(true);
+			given(deBuffRepository.findByDeBuffType(DeBuffType.CHRONIC)).willReturn(Optional.ofNullable(chronicDeBuff));
+			given(deBuffRepository.findByDeBuffType(DeBuffType.SMOKE)).willReturn(Optional.ofNullable(smokeDeBuff));
+			given(deBuffRepository.findByDeBuffType(DeBuffType.DRINK)).willReturn(Optional.ofNullable(drinkDeBuff));
+			// when
+			characterService.characterSave(memberId, request);
+			// then
+			verify(characterRepository, times(1)).save(any(Character.class));
+			verify(characterDeBuffRepository, times(3)).save(any(CharacterDeBuff.class));
+		}
+	}
 }

@@ -64,7 +64,7 @@ class HealthServiceImplTest {
 			long memberId = 1L;
 			MultipartFile image = null;
 			FoodSaveRequest foodSaveRequest = FoodSaveRequest.builder()
-				.quantity(Level.mid)
+				.quantity(Level.MID)
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.empty());
 			// when & then
@@ -79,7 +79,7 @@ class HealthServiceImplTest {
 			long memberId = 1L;
 			MultipartFile image = null;
 			FoodSaveRequest foodSaveRequest = FoodSaveRequest.builder()
-				.quantity(Level.mid)
+				.quantity(Level.MID)
 				.build();
 			Member member = Member.builder()
 				.name("test")
@@ -105,7 +105,7 @@ class HealthServiceImplTest {
 				"image/png",
 				imageData);
 			FoodSaveRequest foodSaveRequest = FoodSaveRequest.builder()
-				.quantity(Level.mid)
+				.quantity(Level.MID)
 				.build();
 			Member member = Member.builder()
 				.name("test")
@@ -155,7 +155,7 @@ class HealthServiceImplTest {
 				"image/png",
 				imageData);
 			FoodSaveRequest foodSaveRequest = FoodSaveRequest.builder()
-				.quantity(Level.mid)
+				.quantity(Level.MID)
 				.build();
 			Member member = Member.builder()
 				.name("test")
@@ -203,7 +203,7 @@ class HealthServiceImplTest {
 				"image/png",
 				imageData);
 			FoodSaveRequest foodSaveRequest = FoodSaveRequest.builder()
-				.quantity(Level.mid)
+				.quantity(Level.MID)
 				.build();
 			Member member = Member.builder()
 				.name("test")
@@ -251,12 +251,12 @@ class HealthServiceImplTest {
 		void setup() {
 			memberId = 1L;
 			SmokeSaveDetail smokeSaveDetail = SmokeSaveDetail.builder()
-				.smokeType(SmokeType.liquid)
-				.level(Level.mid)
+				.smokeType(SmokeType.LIQUID)
+				.level(Level.MID)
 				.build();
 			DrinkSaveDetail drinkSaveDetail = DrinkSaveDetail.builder()
-				.drinkType(DrinkType.liquor)
-				.level(Level.mid)
+				.drinkType(DrinkType.LIQUOR)
+				.level(Level.MID)
 				.build();
 			request = DailySaveRequest
 				.builder()

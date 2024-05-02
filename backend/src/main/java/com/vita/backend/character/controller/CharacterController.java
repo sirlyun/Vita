@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
+import com.vita.backend.character.data.request.CharacterSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.domain.enumeration.GameType;
 import com.vita.backend.character.service.CharacterLoadService;
@@ -25,6 +26,15 @@ public class CharacterController {
 	/* Service */
 	private final CharacterLoadService characterLoadService;
 	private final CharacterSaveService characterSaveService;
+
+	@PostMapping
+	public ResponseEntity<Void> characterSave(
+		@RequestBody @Valid CharacterSaveRequest request
+	) {
+		characterSaveService.characterSave(1L, request);
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(null);
+	}
 
 	@GetMapping("/{character_id}/game/single/{type}/ranking")
 	public ResponseEntity<CharacterGameSingleRankingResponse> characterGameSingleRankingLoad(

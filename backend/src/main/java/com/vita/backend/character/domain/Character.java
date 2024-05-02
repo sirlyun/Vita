@@ -1,9 +1,14 @@
 package com.vita.backend.character.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.global.domain.BaseEntity;
 import com.vita.backend.member.domain.Member;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,11 +19,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.DecimalMin;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
@@ -37,8 +42,8 @@ public class Character extends BaseEntity {
 	private Long id;
 
 	@NotBlank
-	@Pattern(regexp = "^[A-Za-z0-9]{1,12}$")
-	@Column(name = "nickname")
+	@Pattern(regexp = "^[A-Za-z0-9가-힣]{1,12}$")
+	@Column(name = "nickname", unique = true)
 	private String nickname;
 
 	@NotNull
@@ -53,22 +58,26 @@ public class Character extends BaseEntity {
 
 	@NotNull
 	@Column(name = "is_dead")
-	private Boolean is_dead;
+	private Boolean isDead;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 
+	@JsonIgnore
+	@OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
+	private List<CharacterDeBuff> characterDeBuffs = new ArrayList<>();
+
 	@Builder
-	public Character(String nickname, BodyShape bodyShape, Long vitaPoint, Boolean is_dead, Member member) {
+	public Character(String nickname, BodyShape bodyShape, Long vitaPoint, Member member) {
 		this.nickname = nickname;
 		this.bodyShape = bodyShape;
 		this.vitaPoint = vitaPoint;
-		this.is_dead = is_dead;
+		this.isDead = false;
 		setMember(member);
 	}
 
-	public void setMember(Member member) {
+	private void setMember(Member member) {
 		this.member = member;
 		member.getCharacters().add(this);
 	}

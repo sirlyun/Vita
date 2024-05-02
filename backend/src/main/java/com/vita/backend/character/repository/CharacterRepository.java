@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.vita.backend.character.domain.Character;
 
 public interface CharacterRepository extends JpaRepository<Character, Long> {
+	boolean existsByMemberId(Long memberId);
+	boolean existsByMemberIdAndIsDeadFalse(Long memberId);
 }
