@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "@/public/styles/main.module.scss";
 import icons from "@/util/icons.js";
-import images from "@/util/images.js";
 import ChallengeFrame from "@/components/challenge-frame";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

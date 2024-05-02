@@ -3,9 +3,13 @@ import { devtools } from "zustand/middleware";
 import { StoreApi } from "zustand";
 
 interface UserState {
+  // 사용자 정보
   name: string;
   gender: string;
   bodyShape: string;
+
+  // 게임 정보
+  gameType: number;
   record: number;
   bestRecord: number;
 }
@@ -14,6 +18,7 @@ interface UserActions {
   setName: (name: string) => void;
   setGender: (gender: string) => void;
   setBodyShape: (bodyShape: string) => void;
+  setGameType: (gameType: number) => void;
   setRecord: (record: number) => void;
   setBestRecord: (bestRecord: number) => void;
   updateBestRecord: () => void;
@@ -27,12 +32,14 @@ const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
 ) => ({
   name: "TESTDAMAGOCHI",
   gender: "woman",
-  bodyShape: "avg",
+  bodyShape: "fat",
+  gameType: 0,
   record: 0,
   bestRecord: 0,
   setName: (name) => set({ name }),
   setGender: (gender) => set({ gender }),
   setBodyShape: (bodyShape) => set({ bodyShape }),
+  setGameType: (gameType) => set({ gameType }),
   setRecord: (record) => set({ record }),
   setBestRecord: (bestRecord) => set({ bestRecord }),
   updateBestRecord: () =>

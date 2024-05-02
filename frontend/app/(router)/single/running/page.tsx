@@ -9,6 +9,8 @@ import useUserStore from "@/store/user-store";
 
 export default function RunningPage() {
   const userStore = useUserStore();
+  userStore.gameType = 0;
+
   // clickCount 상태를 초기화하고, 이를 업데이트하는 함수를 선언합니다.
   const [clickCount, setClickCount] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -49,11 +51,6 @@ export default function RunningPage() {
     };
   }, [clickCount, startTime]);
 
-  // 조건에 따라 이미지 URL 선택
-  // const imageUrl =
-  //   clickCount % 2 == 0
-  //     ? character["damagochi-move1"]
-  //     : character["damagochi-move2"];
   const imageUrl = getImagePath(
     "characters",
     userStore.gender,
