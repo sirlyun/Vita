@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.request.CharacterSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
+import com.vita.backend.character.data.response.CharacterLoadResponse;
 import com.vita.backend.character.data.response.detail.CharacterGameSingleRankingDetail;
+import com.vita.backend.character.data.response.detail.DeBuffLoadDetail;
 import com.vita.backend.character.data.response.detail.RequesterGameSingleRankingDetail;
 import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.CharacterDeBuff;
@@ -94,6 +96,34 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 		return CharacterGameSingleRankingResponse.builder()
 			.requesterRanking(null)
 			.totalRanking(null)
+			.build();
+	}
+
+	/**
+	 * 캐릭터 조회
+	 * @param memberId 요청자 member_id
+	 * @return 캐릭터 관련 정보
+	 */
+	@Override
+	public CharacterLoadResponse characterLoad(long memberId) {
+		Member member = MemberUtils.findByMemberId(memberRepository, memberId);
+		Character character = CharacterUtils.findLastCreatedCharacterByMemberId(characterRepository, memberId);
+
+		List<DeBuffLoadDetail> deBuffLoadDetails = character.getCharacterDeBuffs().stream()
+			.map(deBuff -> DeBuffLoadDetail.builder()
+				.deBuffType(deBuff.getDeBuff().getDeBuffType())
+				.vitaPoint(deBuff.getVitaPoint())
+				.build())
+			.toList();
+
+		return CharacterLoadResponse.builder()
+			.characterId(character.getId())
+			.nickname(character.getNickname())
+			.vitaPoint(character.getVitaPoint())
+			.isDead(character.getIsDead())
+			.gender(member.getGender())
+			.bodyShape(character.getBodyShape())
+			.deBuffs(deBuffLoadDetails)
 			.build();
 	}
 

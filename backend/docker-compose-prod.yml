@@ -27,6 +27,4 @@ services:
       - ${PROD_MONGODB_DATA_PATH}:/data/db
     environment:
       MONGODB_DATABASE: ${PROD_MONGODB_DATABASE}
-      MONGODB_ROOT_USERNAME: ${PROD_MONGODB_USERNAME}
-      MONGODB_ROOT_PASSWORD: ${PROD_MONGODB_PASSWORD}
     restart: unless-stopped

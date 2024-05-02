@@ -22,6 +22,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.request.CharacterSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
+import com.vita.backend.character.data.response.CharacterLoadResponse;
 import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.CharacterDeBuff;
 import com.vita.backend.character.domain.DeBuff;
@@ -72,6 +73,7 @@ class CharacterServiceImplTest {
 	class CharacterGameSingleRankingResponseLoadTest {
 		long characterId;
 		GameType type1, type2;
+		Member member;
 		Character testCharacter;
 
 		@BeforeEach
@@ -79,10 +81,16 @@ class CharacterServiceImplTest {
 			characterId = 1L;
 			type1 = GameType.running;
 			type2 = GameType.training;
+			Member member = Member.builder()
+				.name("test")
+				.gender(Gender.MALE)
+				.birthYear(1999)
+				.build();
 			testCharacter = Character.builder()
 				.nickname("test")
 				.bodyShape(BodyShape.NORMAL)
 				.vitaPoint(10L)
+				.member(member)
 				.build();
 		}
 
@@ -278,7 +286,8 @@ class CharacterServiceImplTest {
 			// when
 			characterService.characterGameSingleSave(memberId, characterId, type, request);
 			// then
-			verify(zSetOperations, times(1)).add(type + "_single_ranking", String.valueOf(characterId), request.score());
+			verify(zSetOperations, times(1)).add(type + "_single_ranking", String.valueOf(characterId),
+				request.score());
 		}
 
 		@Test
@@ -304,7 +313,8 @@ class CharacterServiceImplTest {
 			// when
 			characterService.characterGameSingleSave(memberId, characterId, type, request);
 			// then
-			verify(zSetOperations, times(1)).add(type + "_single_ranking", String.valueOf(characterId), request.score());
+			verify(zSetOperations, times(1)).add(type + "_single_ranking", String.valueOf(characterId),
+				request.score());
 		}
 
 		@Test
@@ -330,7 +340,8 @@ class CharacterServiceImplTest {
 			// when
 			characterService.characterGameSingleSave(memberId, characterId, type, request);
 			// then
-			verify(zSetOperations, times(0)).add(type + "_single_ranking", String.valueOf(characterId), request.score());
+			verify(zSetOperations, times(0)).add(type + "_single_ranking", String.valueOf(characterId),
+				request.score());
 		}
 	}
 
@@ -339,6 +350,7 @@ class CharacterServiceImplTest {
 	class CharacterSave {
 		long memberId;
 		CharacterSaveRequest request;
+
 		@BeforeEach
 		void setup() {
 			memberId = 1L;
@@ -359,6 +371,7 @@ class CharacterServiceImplTest {
 				.chronic(Chronic.DIABETES)
 				.build();
 		}
+
 		@Test
 		@DisplayName("요청자가 존재하지 않아 실패")
 		void memberNotFoundFail() {
@@ -417,6 +430,64 @@ class CharacterServiceImplTest {
 			// then
 			verify(characterRepository, times(1)).save(any(Character.class));
 			verify(characterDeBuffRepository, times(3)).save(any(CharacterDeBuff.class));
+		}
+	}
+
+	@Nested
+	@DisplayName("캐릭터 조회")
+	class CharacterLoad {
+		long memberId;
+		Member member;
+		@BeforeEach
+		void setup() {
+			memberId = 1L;
+			member = Member.builder()
+				.name("test")
+				.gender(Gender.MALE)
+				.birthYear(1999)
+				.build();
+		}
+		@Test
+		@DisplayName("요청자가 존재하지 않아 실패")
+		void memberNotFoundFail() {
+			// given
+			given(memberRepository.findById(memberId)).willReturn(Optional.empty());
+			// when & then
+			assertThrows(NotFoundException.class, () -> {
+				characterService.characterLoad(memberId);
+			});
+		}
+
+		@Test
+		@DisplayName("보유한 캐릭터가 없어 실패")
+		void characterNotFoundFail() {
+			// given
+			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
+			given(characterRepository.findLastCreatedCharacterByMemberId(memberId)).willReturn(Optional.empty());
+			// when & then
+			assertThrows(NotFoundException.class, () -> {
+				characterService.characterLoad(memberId);
+			});
+		}
+
+		@Test
+		@DisplayName("캐릭터 조회 성공")
+		void characterLoadSuccess() {
+			// given
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.member(member)
+				.build();
+			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
+			given(characterRepository.findLastCreatedCharacterByMemberId(memberId)).willReturn(
+				Optional.ofNullable(character));
+			// when
+			CharacterLoadResponse characterLoadResponse = characterService.characterLoad(memberId);
+			// then
+			assertEquals(characterLoadResponse.nickname(), "test");
+			assertEquals(characterLoadResponse.vitaPoint(), 10L);
 		}
 	}
 }

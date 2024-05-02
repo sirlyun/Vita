@@ -26,6 +26,13 @@ public class CharacterUtils {
 			);
 	}
 
+	public static Character findLastCreatedCharacterByMemberId(CharacterRepository repository, Long memberId) {
+		return repository.findLastCreatedCharacterByMemberId(memberId)
+			.orElseThrow(
+				() -> new NotFoundException("FindLastCreatedCharacterByMemberId", CHARACTER_NOT_FOUND)
+			);
+	}
+
 	public static DeBuff findByDeBuffType(DeBuffRepository repository, DeBuffType deBuffType) {
 		return repository.findByDeBuffType(deBuffType)
 			.orElseThrow(
