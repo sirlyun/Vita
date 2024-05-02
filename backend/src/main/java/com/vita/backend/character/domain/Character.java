@@ -15,6 +15,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -31,22 +32,22 @@ public class Character extends BaseEntity {
 	@Column(name = "id")
 	private Long id;
 
-	@NotEmpty
+	@NotBlank
 	@Pattern(regexp = "^[A-Za-z0-9]{1,12}$")
 	@Column(name = "nickname")
 	private String nickname;
 
-	@NotBlank
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "body_shape")
 	private BodyShape bodyShape;
 
-	@NotBlank
+	@NotNull
 	@Min(0)
 	@Column(name = "vita_point")
 	private Long vitaPoint;
 
-	@NotBlank
+	@NotNull
 	@Column(name = "is_dead")
 	private Boolean is_dead;
 
