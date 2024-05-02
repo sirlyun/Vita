@@ -8,8 +8,13 @@ import images from "@/util/images.js";
 import ChallengeFrame from "@/components/challenge-frame";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { getImagePath } from "@/util/images";
+import useUserStore from "@/store/user-store";
 
 export default function Home() {
+  const userStore = useUserStore.getState();
+  console.log(userStore); // 현재 bears의 수를 콘솔에 출력
+
   const [challengeModal, setChallengeModal] = useState(false);
   const toggleChallengeModal = () => setChallengeModal(!challengeModal);
 
@@ -48,7 +53,13 @@ export default function Home() {
         <div className={styles["debuff-menu"]}></div>
         <div className={styles.damagochi}>
           <Image
-            src={images.damagochi}
+            src={getImagePath(
+              "characters",
+              userStore.gender,
+              userStore.bodyShape,
+              "idle",
+              0
+            )}
             width={300}
             height={300}
             alt="option"

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "@/public/styles/attendance.module.scss";
 import Image from "next/image";
-import homeIcon from "@/public/images/home-icon.png";
+import homeIcon from "@/public/icons/home-icon.png";
 
 export default function attendance() {
   return (

@@ -1,0 +1,54 @@
+import { create, StateCreator } from "zustand";
+import { devtools } from "zustand/middleware";
+import { StoreApi } from "zustand";
+
+interface UserState {
+  name: string;
+  gender: string;
+  bodyShape: string;
+  record: number;
+  bestRecord: number;
+}
+
+interface UserActions {
+  setName: (name: string) => void;
+  setGender: (gender: string) => void;
+  setBodyShape: (bodyShape: string) => void;
+  setRecord: (record: number) => void;
+  setBestRecord: (bestRecord: number) => void;
+  updateBestRecord: () => void;
+}
+
+type UserStore = UserState & UserActions;
+
+// 스토어 설정을 위한 함수
+const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
+  set: StoreApi<UserStore>["setState"]
+) => ({
+  name: "TESTDAMAGOCHI",
+  gender: "woman",
+  bodyShape: "avg",
+  record: 0,
+  bestRecord: 0,
+  setName: (name) => set({ name }),
+  setGender: (gender) => set({ gender }),
+  setBodyShape: (bodyShape) => set({ bodyShape }),
+  setRecord: (record) => set({ record }),
+  setBestRecord: (bestRecord) => set({ bestRecord }),
+  updateBestRecord: () =>
+    set((state) => {
+      if (state.record > state.bestRecord) {
+        return { bestRecord: state.record };
+      }
+      return {}; // 기존의 bestRecord가 더 크거나 같으면 변경 없음
+    }),
+});
+
+// 스토어 생성 및 devtools 미들웨어 적용
+const useUserStore = create(
+  devtools(storeConfig, {
+    name: "UserStore", // 올바른 방식으로 devtools에 이름을 설정
+  })
+);
+
+export default useUserStore;
