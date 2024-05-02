@@ -2,15 +2,14 @@
 import styles from "@/public/styles/challenge.module.scss";
 import Image from "next/image";
 import icons from "@/util/icons";
+import useStopPropagation from "@/components/UseStopPropagation";
 
 interface ChallengeFrameProps {
   onClose: () => void;
 }
 
 export default function ChallengeFrame({ onClose }: ChallengeFrameProps) {
-  const handleModalContentClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
+  const handleModalContentClick = useStopPropagation();
   return (
     <div
       className={`${styles["dark-overlay"]} dark-overlay-recycle`}

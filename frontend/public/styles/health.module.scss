@@ -9,6 +9,14 @@
   align-items: center;
 }
 
+.board-frame {
+  background-image: url("/images/backgrounds/board-bg.png");
+  background-size: 100% 100%;
+  width: 90vw;
+  height: 60vh;
+  background-repeat: no-repeat;
+}
+
 .clock-and-cancel-frame {
   display: flex;
   justify-content: space-between;
@@ -53,23 +61,23 @@
 .selected-intake {
   background-image: url("/images/button.png");
   background-size: 100% 100%;
-  width: 20vw;
-  height: 10vh;
+  width: 24vw;
+  height: 12vh;
   background-repeat: no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
 
   p {
-    font-size: 7vw;
+    font-size: 5.5vw;
     padding-bottom: 1vh;
   }
 }
 .unselected-intake {
   background-image: url("/images/button.png");
   background-size: 100% 100%;
-  width: 20vw;
-  height: 10vh;
+  width: 23vw;
+  height: 11vh;
   background-repeat: no-repeat;
   display: flex;
   justify-content: center;
@@ -77,7 +85,7 @@
   filter: brightness(60%); /* 어둡게 표시 */
 
   p {
-    font-size: 6vw;
+    font-size: 5vw;
     padding-bottom: 1vh;
   }
 }
