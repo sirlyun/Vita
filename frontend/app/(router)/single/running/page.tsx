@@ -8,48 +8,49 @@ import { getImagePath } from "@/util/images";
 import useUserStore from "@/store/user-store";
 
 export default function RunningPage() {
-  const userStore = useUserStore();
-  userStore.gameType = 0;
-
   // clickCount 상태를 초기화하고, 이를 업데이트하는 함수를 선언합니다.
+  const router = useRouter();
+  const userStore = useUserStore();
   const [clickCount, setClickCount] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState<number>(0);
   const maxClicks: number = 20;
-  const router = useRouter();
 
-  // 클릭 카운트를 1 증가시키는 함수입니다.
+  useEffect(() => {
+    if (clickCount > 0 && startTime) {
+      const interval = setInterval(() => {
+        const now = Date.now();
+        const newElapsedTime = now - startTime;
+        setElapsedTime(newElapsedTime);
+        if (clickCount >= maxClicks) {
+          clearInterval(interval);
+          finalizeTime(newElapsedTime);
+        }
+      }, 10);
+      return () => clearInterval(interval);
+    }
+  }, [clickCount, startTime]);
+
   const handleClick = (): void => {
     if (clickCount === 0) {
-      setStartTime(Date.now()); // 첫 클릭시 시간 시작
+      setStartTime(Date.now());
     }
-    const newClickCount = Math.min(clickCount + 1, maxClicks);
+    const newClickCount = clickCount + 1;
     setClickCount(newClickCount);
-    if (newClickCount === maxClicks) {
-      const now = Date.now();
-      setElapsedTime(now - startTime!); // 클릭이 끝났을 때 시간 기록
-      console.log(elapsedTime);
-      router.push("/single/result"); // newClickCount가 maxClicks에 도달하면 페이지 이동
+    if (newClickCount >= maxClicks) {
+      // 이 조건은 필요 없어질 수 있으며, useEffect에 의해 처리됩니다.
     }
+  };
+
+  const finalizeTime = (finalTime: number) => {
+    setElapsedTime(finalTime); // 클릭이 끝났을 때의 시간을 설정
+    userStore.setGameType(0);
+    userStore.setRecord(finalTime);
+    router.push("/single/result");
   };
 
   // 게이지 비율 계산
   const gaugeWidth = (clickCount / maxClicks) * 100;
-
-  // 화면에 표시될 타이머 업데이트
-  useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
-    if (clickCount > 0 && clickCount < maxClicks && startTime) {
-      interval = setInterval(() => {
-        setElapsedTime(Date.now() - startTime);
-      }, 10); // 밀리초 단위로 업데이트
-    } else if (clickCount === maxClicks && interval) {
-      clearInterval(interval);
-    }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [clickCount, startTime]);
 
   const imageUrl = getImagePath(
     "characters",
@@ -81,7 +82,7 @@ export default function RunningPage() {
         <Image src={imageUrl} width={200} height={200} alt="damagochi"></Image>
       </div>
       <div className={styles.bottom}>
-        <button onClick={handleClick}>
+        <button onClick={handleClick} disabled={clickCount >= maxClicks}>
           <p>Click!</p>
         </button>
       </div>

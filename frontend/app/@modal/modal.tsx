@@ -12,8 +12,9 @@ export function Modal({ children }: { children: React.ReactNode }) {
     dialogRef.current?.showModal();
   }, []);
 
-  const closeModal = (e: React.MouseEvent<HTMLDialogElement, MouseEvent>) =>
-    e.target === dialogRef.current && router.back();
+  // 모달 외부 클릭 시 종료
+  // const closeModal = (e: React.MouseEvent<HTMLDialogElement, MouseEvent>) =>
+  //   e.target === dialogRef.current && router.back();
 
   const closeModalOnButtonClick = () => {
     router.back();
@@ -22,7 +23,7 @@ export function Modal({ children }: { children: React.ReactNode }) {
   return (
     <dialog
       ref={dialogRef}
-      onClick={closeModal}
+      // onClick={closeModal}
       onClose={router.back}
       className={style["modal-outer"]}
     >
