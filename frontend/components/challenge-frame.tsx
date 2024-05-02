@@ -1,7 +1,7 @@
 "use client";
-import cancelIcon from "@/public/images/cancel.png";
-import styles from "@/public/styles/challenge.module.css";
+import styles from "@/public/styles/challenge.module.scss";
 import Image from "next/image";
+import icons from "@/util/icons";
 
 interface ChallengeFrameProps {
   onClose: () => void;
@@ -12,22 +12,28 @@ export default function ChallengeFrame({ onClose }: ChallengeFrameProps) {
     e.stopPropagation();
   };
   return (
-    <div className={styles["dark-overlay"]} onClick={onClose}>
+    <div
+      className={`${styles["dark-overlay"]} dark-overlay-recycle`}
+      onClick={onClose}
+    >
       <div className={styles["cancel-div"]}>
         <Image
           onClick={onClose}
-          src={cancelIcon}
+          src={icons.cancel}
           width={60}
           height={60}
           alt="cancelIcon"
         ></Image>
       </div>
 
-      <div className={styles["modal-layout"]} onClick={handleModalContentClick}>
+      <div
+        className={`${styles["modal-layout"]} modal-layout-recycle`}
+        onClick={handleModalContentClick}
+      >
         <div className={styles["challenge-title-frame"]}>
           <p className={styles["challenge-title-text"]}>일일 챌린지</p>
         </div>
-        <div className={styles["challenge-content"]}>
+        <div className={`${styles["modal-content"]} modal-content-recycle`}>
           <div className={styles["challenge-info-frame"]}>
             <div>5000 걸음 걷기</div>
             <div className={styles["challenge-score"]}>

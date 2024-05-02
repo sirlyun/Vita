@@ -1,5 +1,5 @@
 .main {
-  background-image: url("/images/main-bg.png");
+  background-image: url("/images/backgrounds/main-bg.png");
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -22,7 +22,6 @@
   width: 75%;
   height: 100%;
   background-image: url("../images/button-gray.png");
-  background-size: 100% 100%;
 
   p {
     font-size: 2.5vh;
@@ -153,7 +152,13 @@
       height: 45%;
     }
 
-    img {
+    .single img {
+      width: 8vh;
+      height: 8vh;
+      padding-bottom: 1vh;
+    }
+
+    .multi img {
       width: 6vh;
       height: 6vh;
       padding-bottom: 1vh;

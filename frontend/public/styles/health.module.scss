@@ -1,5 +1,143 @@
 .main {
-  background-image: url("/images/health-bg.png");
+  background-image: url("/images/backgrounds/health-bg.png");
+}
+
+.dark-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.clock-and-cancel-frame {
+  display: flex;
+  justify-content: space-between;
+}
+
+.food-analyze {
+  text-align: center;
+  color: white;
+}
+
+.selected-meal {
+  width: 15vw;
+  height: 7.2vh;
+}
+
+.unselected-meal {
+  filter: brightness(60%); /* 어둡게 표시 */
+  width: 14vw;
+  height: 6.5vh;
+}
+
+.intake-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 30vh;
+  padding-bottom: 6vh;
+}
+
+.intake-title {
+  color: white;
+  font-size: 7vw;
+}
+
+.intake-content-layout {
+  display: flex;
+  width: 90vw;
+  justify-content: space-evenly;
+}
+
+.selected-intake {
+  background-image: url("/images/button.png");
+  background-size: 100% 100%;
+  width: 20vw;
+  height: 10vh;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-size: 7vw;
+    padding-bottom: 1vh;
+  }
+}
+.unselected-intake {
+  background-image: url("/images/button.png");
+  background-size: 100% 100%;
+  width: 20vw;
+  height: 10vh;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: brightness(60%); /* 어둡게 표시 */
+
+  p {
+    font-size: 6vw;
+    padding-bottom: 1vh;
+  }
+}
+
+.modal-layout {
+  width: 90vw;
+  height: 45vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-title {
+  background-image: url("/images/eat-title.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 110vw;
+  height: 9vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 4.5vh;
+}
+
+.food-choice-text {
+  color: white;
+  font-size: 4.2vw;
+  padding-top: 1.5vh;
+}
+
+.modal-content {
+  width: 85vw;
+  height: 30vh;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 60vw;
+    height: 27vh;
+    object-fit: contain;
+  }
+}
+
+.next-step {
+  background-image: url("/images/button.png");
+  width: 20vw;
+  height: 7vh;
+  background-size: 100% 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.9vh;
+
+  p {
+    padding-bottom: 0.5vh;
+    font-size: 3.3vh;
+  }
 }
 
 .header {
@@ -26,7 +164,7 @@
 }
 
 .content {
-  height: 57.5vh;
+  height: 58vh;
 }
 .menu {
   height: 16.5vh;
@@ -36,8 +174,8 @@
 
 .menu-left {
   background-image: url("/images/button.png");
-  width: 45vw;
-  height: 16vh;
+  width: 30vw;
+  height: 13vh;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   display: flex;
@@ -45,16 +183,16 @@
   align-items: center;
 
   img {
-    width: 20vw;
-    height: 11vh;
-    padding-bottom: 2.3vh;
+    width: 15vw;
+    height: 8vh;
+    padding-bottom: 1.8vh;
   }
 }
 
-.menu-right {
+.menu-center {
   background-image: url("/images/button.png");
-  width: 45vw;
-  height: 16vh;
+  width: 30vw;
+  height: 13vh;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   display: flex;
@@ -62,8 +200,25 @@
   align-items: center;
 
   img {
-    width: 25vw;
-    height: 12vh;
-    padding-bottom: 2.2vh;
+    width: 19vw;
+    height: 9vh;
+    padding-bottom: 1.4vh;
+    padding-left: 0.2vh;
+  }
+}
+.menu-right {
+  background-image: url("/images/button.png");
+  width: 30vw;
+  height: 13vh;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-size: 4.5vh;
+    padding-bottom: 1vh;
+    padding-left: 0.5vh;
   }
 }

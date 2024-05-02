@@ -1,11 +1,4 @@
 .dark-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +8,6 @@
 .modal-layout {
   width: 90vw;
   height: 65vh;
-  background-color: rgba(83, 133, 157, 0.8);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,10 +30,9 @@
   font-size: 4vh;
 }
 
-.challenge-content {
+.modal-content {
   width: 80vw;
   height: 50vh;
-  background-color: rgba(46, 71, 91, 0.9);
   display: flex;
   flex-direction: column;
   align-items: center;

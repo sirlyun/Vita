@@ -1,11 +1,31 @@
+"use client";
+
 import styles from "@/public/styles/health.module.scss";
 import Image from "next/image";
+
 import spoonFork from "@/public/images/spoon-fork.png";
 import checkup from "@/public/images/checkup.png";
+import Link from "next/link";
+import HealthFood from "@/components/health-food";
+import { useState } from "react";
 
 export default function HealthHome() {
+  const [foodModal, setFoodModal] = useState(false);
+  const [foodComplete, setFoodComplete] = useState(false);
+
+  const handleComplete = (status: boolean) => {
+    setFoodComplete(status);
+  };
+
+  const toggleFoodModal = () => {
+    setFoodModal(!foodModal);
+    setFoodComplete(false);
+  };
   return (
     <div className={`${styles.main} background`}>
+      {foodModal && (
+        <HealthFood onClose={toggleFoodModal} complete={handleComplete} />
+      )}
       <div className={styles.header}>
         <div className={styles["speech-bubble"]}>
           <p className={styles["speech-bubble-text"]}>
@@ -14,11 +34,9 @@ export default function HealthHome() {
           </p>
         </div>
       </div>
-      <div className={styles.content}>
-        <p>asde</p>
-      </div>
+      <div className={styles.content}></div>
       <div className={styles.menu}>
-        <div className={styles["menu-left"]}>
+        <div onClick={toggleFoodModal} className={styles["menu-left"]}>
           <Image
             src={spoonFork}
             width={200}
@@ -26,9 +44,14 @@ export default function HealthHome() {
             alt="spoon-fork"
           ></Image>
         </div>
-        <div className={styles["menu-right"]}>
+        <div className={styles["menu-center"]}>
           <Image src={checkup} width={200} height={100} alt="checkup"></Image>
         </div>
+        <Link href="/">
+          <div className={styles["menu-right"]}>
+            <p>HOME</p>
+          </div>
+        </Link>
       </div>
     </div>
   );

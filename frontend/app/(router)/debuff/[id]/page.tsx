@@ -1,4 +1,4 @@
-export default function OptionModal({
+export default function debuffModal({
   params: { id: optionId },
 }: {
   params: { id: string };

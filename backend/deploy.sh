@@ -25,30 +25,21 @@ echo "${AFTER_COLOR} server up(port:${AFTER_PORT})"
 for cnt in $(seq 1 10)
 do
     echo "서버 응답 확인중(${cnt}/10)";
-    UP=$(curl -s http://k10a103.p.ssafy.io:${AFTER_PORT}/actuator/health | grep 'UP')
+    UP=$(curl -s https://k10a103.p.ssafy.io/api/v1/test/health | grep 'Healthy')
     echo "서버 상태: ${UP}"
-    if [ -n "${UP}" ]
-        then
-            sleep 10
-            continue
-        else
-            echo "서버가 정상적으로 구동되었습니다."
-            break
+    if [ -n "${UP}" ]; then
+      echo "서버가 정상적으로 구동되었습니다."
+      break
+    else
+      sleep 10
+      continue
     fi
 done
 
-if [ $cnt -eq 10 ]
-then
-    echo "서버가 정상적으로 구동되지 않았습니다."
-    exit 1
+if [ $cnt -eq 10 ]; then
+  echo "서버가 정상적으로 구동되지 않았습니다."
+  exit 1
 fi
-
-
-# 3
-#echo "Nginx Setting..."
-#sed -i 's/${backend_port}/${AFTER_PORT}/' /etc/nginx/conf.d/backend-port.inc
-#echo "Deploy Completed!!"
-
 
 # 4
 echo "$BEFORE_COLOR server down(port:${BEFORE_PORT})"
