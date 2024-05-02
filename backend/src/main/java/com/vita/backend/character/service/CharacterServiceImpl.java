@@ -16,6 +16,11 @@ import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.enumeration.GameType;
 import com.vita.backend.character.repository.CharacterRepository;
 import com.vita.backend.character.utils.CharacterUtils;
+import com.vita.backend.global.exception.category.ForbiddenException;
+import com.vita.backend.global.exception.response.Errorcode;
+import com.vita.backend.member.domain.Member;
+import com.vita.backend.member.repository.MemberRepository;
+import com.vita.backend.member.utils.MemberUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CharacterServiceImpl implements CharacterLoadService, CharacterSaveService {
 	/* Repository */
+	private final MemberRepository memberRepository;
 	private final CharacterRepository characterRepository;
 	/* Template */
 	private final RedisTemplate<String, String> redisTemplate;
@@ -129,15 +135,20 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 
 	/**
 	 * 싱글 플레이 결과 등록
+	 * @param memberId 요청자 member_id
 	 * @param characterId 요청자 character_id
 	 * @param type 게임 종류
 	 * @param request 요청자 점수
 	 */
 	@Transactional
 	@Override
-	public void characterGameSingleRunningSave(long characterId, GameType type,
+	public void characterGameSingleSave(long memberId, long characterId, GameType type,
 		CharacterGameSingleSaveRequest request) {
-		CharacterUtils.findByCharacterId(characterRepository, characterId);
+		MemberUtils.findByMemberId(memberRepository, memberId);
+		Character character = CharacterUtils.findByCharacterId(characterRepository, characterId);
+		if (memberId != character.getMember().getId()) {
+			throw new ForbiddenException("CharacterGameSingleSave", Errorcode.CHARACTER_FORBIDDEN);
+		}
 
 		Double score = redisTemplate.opsForZSet().score(type + "_single_ranking", String.valueOf(characterId));
 		if (score == null) {

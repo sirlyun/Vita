@@ -4,5 +4,6 @@ import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.domain.enumeration.GameType;
 
 public interface CharacterSaveService {
-	void characterGameSingleRunningSave(long characterId, GameType type, CharacterGameSingleSaveRequest request);
+	void characterGameSingleSave(long memberId, long characterId, GameType type,
+		CharacterGameSingleSaveRequest request);
 }

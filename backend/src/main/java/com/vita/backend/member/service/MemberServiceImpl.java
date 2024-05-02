@@ -37,25 +37,24 @@ public class MemberServiceImpl extends DefaultOAuth2UserService {
         Member existData = memberRepository.findByName(oAuth2Response.getName());
 
         if (existData == null) {  // 사용자가 없다면
-            Member member = new Member();
-            return getOauth2User(oAuth2Response, member);
+            Member member = Member.builder()
+                .name(oAuth2Response.getName())
+                .gender(oAuth2Response.getGender())
+                .birthYear(oAuth2Response.getBirthYear())
+                .build();
+            memberRepository.save(member);
+            return getOauth2User(member);
         } else {
-            return getOauth2User(oAuth2Response, existData);
+            return getOauth2User(existData);
         }
 
     }
 
-    private OAuth2User getOauth2User(GoogleResponse oAuth2Response, Member member) {
-        member.setName(oAuth2Response.getName());
-        member.setGender(oAuth2Response.getGender());
-        member.setBirthYear(oAuth2Response.getBirthYear());
-
-        memberRepository.save(member);
-
+    private OAuth2User getOauth2User(Member member) {
         MemberDto memberDto = new MemberDto();
-        memberDto.setName(oAuth2Response.getName());
-        memberDto.setGender(oAuth2Response.getGender());
-        memberDto.setBirthYear(oAuth2Response.getBirthYear());
+        memberDto.setName(member.getName());
+        memberDto.setGender(member.getGender());
+        memberDto.setBirthYear(member.getBirthYear());
 
         return new CustomOAuth2User(memberDto);
     }
