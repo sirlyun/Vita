@@ -15,7 +15,7 @@ public class CharacterUtils {
 	public static Character findByCharacterId(CharacterRepository repository, Long characterId) {
 		return repository.findById(characterId)
 			.orElseThrow(
-				() -> new NotFoundException("FindByCharacterId", UNDEFINED_CHARACTER)
+				() -> new NotFoundException("FindByCharacterId", CHARACTER_NOT_FOUND)
 			);
 	}
 }

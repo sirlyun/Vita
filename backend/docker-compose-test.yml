@@ -27,6 +27,4 @@ services:
       - ${TEST_MONGODB_DATA_PATH}:/data/db
     environment:
       MONGODB_DATABASE: ${TEST_MONGODB_DATABASE}
-      MONGODB_ROOT_USERNAME: ${TEST_MONGODB_USERNAME}
-      MONGODB_ROOT_PASSWORD: ${TEST_MONGODB_PASSWORD}
     restart: unless-stopped

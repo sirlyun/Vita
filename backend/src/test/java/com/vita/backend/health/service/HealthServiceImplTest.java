@@ -5,8 +5,10 @@ import static org.mockito.BDDMockito.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,12 +21,23 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.vita.backend.global.domain.enumeration.Level;
 import com.vita.backend.global.exception.category.BadRequestException;
+import com.vita.backend.global.exception.category.NotFoundException;
+import com.vita.backend.health.data.request.DailySaveRequest;
 import com.vita.backend.health.data.request.FoodSaveRequest;
+import com.vita.backend.health.data.request.detail.DrinkSaveDetail;
+import com.vita.backend.health.data.request.detail.SmokeSaveDetail;
 import com.vita.backend.health.data.response.FoodResponse;
 import com.vita.backend.health.domain.Food;
+import com.vita.backend.health.domain.document.DailyHealth;
+import com.vita.backend.health.domain.enumeration.DrinkType;
+import com.vita.backend.health.domain.enumeration.SmokeType;
+import com.vita.backend.health.repository.DailyHealthRepository;
 import com.vita.backend.health.repository.FoodRepository;
 import com.vita.backend.infra.OpenAIVisionClient;
 import com.vita.backend.infra.data.response.OpenAIApiFoodResponse;
+import com.vita.backend.member.domain.Member;
+import com.vita.backend.member.domain.enumeration.Gender;
+import com.vita.backend.member.repository.MemberRepository;
 
 @ExtendWith(MockitoExtension.class)
 class HealthServiceImplTest {
@@ -33,11 +46,15 @@ class HealthServiceImplTest {
 	@Mock
 	FoodRepository foodRepository;
 	@Mock
+	MemberRepository memberRepository;
+	@Mock
+	DailyHealthRepository dailyHealthRepository;
+	@Mock
 	OpenAIVisionClient openAIVisionClient;
 
 	@Nested
 	@DisplayName("식단 정보 저장")
-	class foodSave {
+	class FoodSave {
 		@Test
 		@DisplayName("이미지를 입력하지 않아 실패")
 		void imageNullFail() {
@@ -134,6 +151,78 @@ class HealthServiceImplTest {
 			assertEquals(20L, foodResponse.sugar());
 			assertEquals(20L, foodResponse.fat());
 			assertEquals(20L, foodResponse.protein());
+		}
+	}
+
+	@Nested
+	@DisplayName("일일 건강 문진 등록")
+	class DailySave {
+		long memberId;
+		DailySaveRequest request;
+
+		@BeforeEach
+		void setup() {
+			memberId = 1L;
+			SmokeSaveDetail smokeSaveDetail = SmokeSaveDetail.builder()
+				.smokeType(SmokeType.liquid)
+				.level(Level.mid)
+				.build();
+			DrinkSaveDetail drinkSaveDetail = DrinkSaveDetail.builder()
+				.drinkType(DrinkType.liquor)
+				.level(Level.mid)
+				.build();
+			request = DailySaveRequest
+				.builder()
+				.smoke(smokeSaveDetail)
+				.drink(drinkSaveDetail)
+				.build();
+		}
+
+		@Test
+		@DisplayName("요청자가 존재하지 않아 실패")
+		void memberNotFoundFail() {
+			// given
+			given(memberRepository.findById(memberId)).willReturn(Optional.empty());
+			// when & then
+			assertThrows(NotFoundException.class, () -> {
+				healthService.dailySave(memberId, request);
+			});
+		}
+
+		@Test
+		@DisplayName("당일 건강 문진이 이미 존재해 실패")
+		void dailyHealthExist() {
+			// given
+			Member member = Member.builder()
+				.name("test")
+				.gender(Gender.MALE)
+				.birthYear(1999)
+				.build();
+			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
+			given(dailyHealthRepository.existsByCreatedAtBetween(any(LocalDateTime.class),
+				any(LocalDateTime.class))).willReturn(true);
+			// when & then
+			assertThrows(BadRequestException.class, () -> {
+				healthService.dailySave(memberId, request);
+			});
+		}
+
+		@Test
+		@DisplayName("일일 건강 문진 등록 성공")
+		void success() {
+			// given
+			Member member = Member.builder()
+				.name("test")
+				.gender(Gender.MALE)
+				.birthYear(1999)
+				.build();
+			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
+			given(dailyHealthRepository.existsByCreatedAtBetween(any(LocalDateTime.class),
+				any(LocalDateTime.class))).willReturn(false);
+			// when
+			healthService.dailySave(memberId, request);
+			// then
+			verify(dailyHealthRepository, times(1)).save(any(DailyHealth.class));
 		}
 	}
 }

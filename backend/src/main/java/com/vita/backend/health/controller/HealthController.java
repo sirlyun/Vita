@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.vita.backend.health.data.request.DailySaveRequest;
 import com.vita.backend.health.data.request.FoodSaveRequest;
 import com.vita.backend.health.data.response.FoodResponse;
 import com.vita.backend.health.service.HealthSaveService;
@@ -32,5 +33,14 @@ public class HealthController {
 		FoodResponse foodResponse = healthSaveService.foodSave(1L, image, request);
 
 		return ResponseEntity.ok().body(foodResponse);
+	}
+
+	@PostMapping("/daily")
+	public ResponseEntity<Void> dailySave(
+		@RequestBody @Valid DailySaveRequest request
+	) {
+		healthSaveService.dailySave(1L, request);
+
+		return ResponseEntity.ok().body(null);
 	}
 }

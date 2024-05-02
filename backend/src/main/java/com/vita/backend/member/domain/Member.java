@@ -10,10 +10,7 @@ import lombok.*;
 
 @Entity
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member")
 public class Member extends BaseEntity{
     @Id
@@ -47,4 +44,12 @@ public class Member extends BaseEntity{
 
     @Column(name = "weight")
     private Double weight;
+
+    @Builder
+    public Member(Long providerId, String name, Gender gender, Integer birthYear) {
+        this.providerId = providerId;
+        this.name = name;
+        this.gender = gender;
+        this.birthYear = birthYear;
+    }
 }

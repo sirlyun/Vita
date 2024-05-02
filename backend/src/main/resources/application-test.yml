@@ -4,7 +4,7 @@ spring:
       host: localhost
       port: 6379
     mongodb:
-      uri: mongodb://${TEST_MONGODB_USERNAME}:${TEST_MONGODB_PASSWORD}@localhost:${TEST_MONGODB_BINDING_PORT}/?authSource=admin
+      uri: mongodb://localhost:${TEST_MONGODB_BINDING_PORT}
       database: ${TEST_MONGODB_DATABASE}
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
