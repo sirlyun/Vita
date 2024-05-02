@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.request.CharacterSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
+import com.vita.backend.character.data.response.CharacterLoadResponse;
 import com.vita.backend.character.domain.enumeration.GameType;
 import com.vita.backend.character.service.CharacterLoadService;
 import com.vita.backend.character.service.CharacterSaveService;
@@ -34,6 +35,13 @@ public class CharacterController {
 		characterSaveService.characterSave(1L, request);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(null);
+	}
+
+	@GetMapping
+	public ResponseEntity<CharacterLoadResponse> characterLoad() {
+		CharacterLoadResponse characterLoadResponse = characterLoadService.characterLoad(1L);
+
+		return ResponseEntity.ok().body(characterLoadResponse);
 	}
 
 	@GetMapping("/{character_id}/game/single/{type}/ranking")
