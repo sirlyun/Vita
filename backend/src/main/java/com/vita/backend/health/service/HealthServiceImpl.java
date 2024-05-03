@@ -57,8 +57,8 @@ public class HealthServiceImpl implements HealthSaveService {
 		OpenAIApiFoodResponse openAIApiFoodResponse = openAIVisionClient.getFoodInformation(image);
 
 		Food food = foodRepository.findByCreatedAt(LocalDate.now())
-			.orElse(
-				foodRepository.save(Food.builder()
+			.orElseGet(
+				() -> foodRepository.save(Food.builder()
 					.calorie(0L)
 					.salt(0L)
 					.fat(0L)

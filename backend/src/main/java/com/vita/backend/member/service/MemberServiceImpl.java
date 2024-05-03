@@ -53,8 +53,8 @@ public class MemberServiceImpl implements MemberSaveService {
 	public ResponseEntity<LoginResponse> memberLogin(String code) {
 		UserInfoResponse googleUserInfo = googleClient.getGoogleUserInfo(code);
 		Member member = memberRepository.findByUuid(googleUserInfo.id())
-			.orElse(
-				memberRepository.save(
+			.orElseGet(
+				() -> memberRepository.save(
 					Member.builder()
 						.uuid(googleUserInfo.id())
 						.name(googleUserInfo.name())
