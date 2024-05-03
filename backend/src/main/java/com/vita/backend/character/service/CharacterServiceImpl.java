@@ -235,24 +235,26 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 		characterRepository.save(character);
 
 		applyChronicDeBuff(member, character);
-		applyDeBuff(request.smoke() != null, DeBuffType.SMOKE, request.smoke().smokeType().getValue(),
-			request.smoke().level(), character);
-		applyDeBuff(request.drink() != null, DeBuffType.DRINK, request.drink().drinkType().getValue(),
-			request.drink().level(), character);
+		if (request.smoke() != null) {
+			applyDeBuff(DeBuffType.SMOKE, request.smoke().smokeType().getValue(),
+				request.smoke().level(), character);
+		}
+		if (request.drink() != null) {
+			applyDeBuff(DeBuffType.DRINK, request.drink().drinkType().getValue(),
+				request.drink().level(), character);
+		}
 	}
 
-	private void applyDeBuff(boolean request, DeBuffType smoke, Integer request1, Level request2,
+	private void applyDeBuff(DeBuffType smoke, Integer request1, Level request2,
 		Character character) {
-		if (request) {
-			DeBuff smokeDeBuff = CharacterUtils.findByDeBuffType(deBuffRepository, smoke);
-			Integer smokeValue = request1 * request2.getValue();
-			CharacterDeBuff characterDeBuff = CharacterDeBuff.builder()
-				.vitaPoint(Long.valueOf(smokeValue))
-				.deBuff(smokeDeBuff)
-				.character(character)
-				.build();
-			characterDeBuffRepository.save(characterDeBuff);
-		}
+		DeBuff smokeDeBuff = CharacterUtils.findByDeBuffType(deBuffRepository, smoke);
+		Integer smokeValue = request1 * request2.getValue();
+		CharacterDeBuff characterDeBuff = CharacterDeBuff.builder()
+			.vitaPoint(Long.valueOf(smokeValue))
+			.deBuff(smokeDeBuff)
+			.character(character)
+			.build();
+		characterDeBuffRepository.save(characterDeBuff);
 	}
 
 	private void applyChronicDeBuff(Member member, Character character) {
