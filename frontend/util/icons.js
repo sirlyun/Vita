@@ -16,6 +16,11 @@ const icons = {
   gym: "/icons/gym-icon.png",
   cancel: "/icons/cancel.png",
   home: "/icons/home-icon.png",
+  kcal: "/icons/kcal-icon.png",
+  salt: "/icons/salt-icon.png",
+  sugar: "/icons/sugar-icon.png",
+  fat: "/icons/fat-icon.png",
+  protein: "/icons/protein-icon.png",
   prev: "/icons/prev-icon.png",
 };
 
