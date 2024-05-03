@@ -1,11 +1,12 @@
 import React, { MouseEvent, useCallback, useState, ChangeEvent } from "react";
 
 import styles from "@/public/styles/health.module.scss";
+import nutri from "@/public/styles/nutrition.module.scss";
 import Image from "next/image";
 import images from "@/util/images";
 import icons from "@/util/icons";
 import useStopPropagation from "@/components/UseStopPropagation";
-
+import NutritionItem from "@/components/health/nutrition-item";
 interface NutritionalInfo {
   name: string;
   image: string;
@@ -156,38 +157,38 @@ const FoodNutrition = () => {
 
   const foodNutrition: FoodNutritionalDetails = {
     calories: {
-      name: "calrorie",
-      image: "url/to/apple/image",
+      name: "칼로리",
+      image: icons.kcal,
       unit: "kcal",
-      consumedAmount: 95,
+      consumedAmount: 1000,
       recommendedAmount: 2000,
     },
     salts: {
-      name: "salt",
-      image: "url/to/apple/image",
+      name: "나트륨",
+      image: icons.salt,
       unit: "mg",
-      consumedAmount: 1,
+      consumedAmount: 1000,
       recommendedAmount: 2300,
     },
     sugars: {
-      name: "sugar",
-      image: "url/to/apple/image",
+      name: "당분",
+      image: icons.sugar,
       unit: "g",
       consumedAmount: 19,
       recommendedAmount: 37.5,
     },
     fats: {
-      name: "fat",
-      image: "url/to/apple/image",
+      name: "지방",
+      image: icons.fat,
       unit: "g",
-      consumedAmount: 0.3,
+      consumedAmount: 30,
       recommendedAmount: 70,
     },
     proteins: {
-      name: "protein",
-      image: "url/to/apple/image",
+      name: "단백질",
+      image: icons.protein,
       unit: "g",
-      consumedAmount: 0.5,
+      consumedAmount: 21,
       recommendedAmount: 56,
     },
   };
@@ -195,18 +196,28 @@ const FoodNutrition = () => {
   return (
     <div
       onClick={handleModalContentClick}
-      className={`${styles["board-frame"]}`}
+      className={`${nutri["board-frame"]}`}
     >
-      <div className={styles.nickname}>눈물의 여왕</div>
-      <div className={styles.character}></div>
-      <div className={`${styles["nutrition-frame"]}`}>
-        <div className={`${styles["nutrition-div"]}`}>
-          <div className={`${styles["nutrition-left"]}`}>
-            <div></div>
-            <div></div>
-          </div>
-          <div className={`${styles["nutrition-bar"]}`}></div>
-        </div>
+      <div className={nutri.nickname}>눈물의 여왕</div>
+      <div className={nutri.character}>
+        <Image
+          src={images.damagochi}
+          width={55}
+          height={115}
+          alt="damagochi"
+        ></Image>
+      </div>
+      <div className={`${nutri["nutrition-frame"]}`}>
+        {Object.values(foodNutrition).map((nutrient, index) => (
+          <NutritionItem
+            key={index}
+            name={nutrient.name}
+            image={nutrient.image}
+            unit={nutrient.unit}
+            consumedAmount={nutrient.consumedAmount}
+            recommendedAmount={nutrient.recommendedAmount}
+          />
+        ))}
       </div>
     </div>
   );

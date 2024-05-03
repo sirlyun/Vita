@@ -9,14 +9,6 @@
   align-items: center;
 }
 
-.board-frame {
-  background-image: url("/images/backgrounds/board-bg.png");
-  background-size: 100% 100%;
-  width: 90vw;
-  height: 60vh;
-  background-repeat: no-repeat;
-}
-
 .clock-and-cancel-frame {
   display: flex;
   justify-content: space-between;
@@ -214,6 +206,7 @@
     padding-left: 0.2vh;
   }
 }
+
 .menu-right {
   background-image: url("/images/button.png");
   width: 30vw;

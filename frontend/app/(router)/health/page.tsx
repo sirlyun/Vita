@@ -6,7 +6,7 @@ import Image from "next/image";
 import spoonFork from "@/public/images/spoon-fork.png";
 import checkup from "@/public/images/checkup.png";
 import Link from "next/link";
-import HealthFood from "@/components/health-food";
+import HealthFood from "@/components/health/food";
 import { useState } from "react";
 
 export default function HealthHome() {
