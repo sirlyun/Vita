@@ -5,6 +5,6 @@ import com.vita.backend.character.data.response.CharacterLoadResponse;
 import com.vita.backend.character.domain.enumeration.GameType;
 
 public interface CharacterLoadService {
-	CharacterGameSingleRankingResponse characterGameSingleRankingLoad(long characterId, GameType type);
+	CharacterGameSingleRankingResponse characterGameSingleRankingLoad(long memberId, long characterId);
 	CharacterLoadResponse characterLoad(long memberId);
 }

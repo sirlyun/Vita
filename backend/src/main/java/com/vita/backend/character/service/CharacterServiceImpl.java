@@ -17,6 +17,7 @@ import com.vita.backend.character.data.response.CharacterGameSingleRankingRespon
 import com.vita.backend.character.data.response.CharacterLoadResponse;
 import com.vita.backend.character.data.response.detail.CharacterGameSingleRankingDetail;
 import com.vita.backend.character.data.response.detail.DeBuffLoadDetail;
+import com.vita.backend.character.data.response.detail.GameSingleRankingDetail;
 import com.vita.backend.character.data.response.detail.RequesterGameSingleRankingDetail;
 import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.CharacterDeBuff;
@@ -31,9 +32,7 @@ import com.vita.backend.character.utils.CharacterUtils;
 import com.vita.backend.global.domain.enumeration.Level;
 import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.ForbiddenException;
-import com.vita.backend.global.exception.response.Errorcode;
 import com.vita.backend.member.domain.Member;
-import com.vita.backend.member.domain.enumeration.Gender;
 import com.vita.backend.member.repository.MemberRepository;
 import com.vita.backend.member.utils.MemberUtils;
 
@@ -53,30 +52,59 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 
 	/**
 	 * 싱글 플레이 랭킹 조회
+	 * @param memberId 요청자 member_id
 	 * @param characterId 요청자 character_id
-	 * @param type 게임 종류
 	 * @return 요청자 랭킹과 상위 10명 점수
 	 */
 	@Override
-	public CharacterGameSingleRankingResponse characterGameSingleRankingLoad(long characterId, GameType type) {
+	public CharacterGameSingleRankingResponse characterGameSingleRankingLoad(long memberId, long characterId) {
+		MemberUtils.findByMemberId(memberRepository, memberId);
+		System.out.println("characterId = " + characterId);
 		Character character = CharacterUtils.findByCharacterId(characterRepository, characterId);
+		System.out.println("characterId = " + character);
+		if (memberId != character.getMember().getId()) {
+			throw new ForbiddenException("CharacterGameSingleLoad", CHARACTER_FORBIDDEN);
+		}
 
+		System.out.println("character = " + character);
+		GameSingleRankingDetail running = getGameSingleRankingDetail(
+			characterId, GameType.running, character);
+		System.out.println("running = " + running);
+		GameSingleRankingDetail training = getGameSingleRankingDetail(
+			characterId, GameType.training, character);
+		System.out.println("training = " + training);
+
+		return CharacterGameSingleRankingResponse.builder()
+			.running(running)
+			.training(training)
+			.build();
+	}
+
+	private GameSingleRankingDetail getGameSingleRankingDetail(long characterId, GameType type,
+		Character character) {
+		System.out.println("characterId = " + 1);
 		Boolean singleRankingExist = redisTemplate.hasKey(type + "_single_ranking");
+		System.out.println("2 = " + 2);
 		if (Boolean.FALSE.equals(singleRankingExist)) {
-			return CharacterGameSingleRankingResponse.builder()
+			return GameSingleRankingDetail.builder()
 				.requesterRanking(null)
 				.totalRanking(null)
 				.build();
 		}
+		System.out.println("5 = " + 5);
 
 		RequesterGameSingleRankingDetail requesterRanking = getRequesterRanking(
 			characterId, character, type);
+		System.out.println("6 = " + 6);
+
 		if (type.equals(GameType.running)) {
+			System.out.println("7 = " + 7);
 			Set<ZSetOperations.TypedTuple<String>> singleRanking = redisTemplate.opsForZSet()
 				.rangeWithScores(type + "_single_ranking", 0, 9);
+			System.out.println("8 = " + 8);
 			List<CharacterGameSingleRankingDetail> totalRanking = getTotalRanking(singleRanking);
-
-			return CharacterGameSingleRankingResponse.builder()
+			System.out.println("9 = " + 9);
+			return GameSingleRankingDetail.builder()
 				.requesterRanking(requesterRanking)
 				.totalRanking(totalRanking)
 				.build();
@@ -87,13 +115,13 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 				.reverseRangeWithScores(type + "_single_ranking", 0, 9);
 			List<CharacterGameSingleRankingDetail> totalRanking = getTotalRanking(singleRanking);
 
-			return CharacterGameSingleRankingResponse.builder()
+			return GameSingleRankingDetail.builder()
 				.requesterRanking(requesterRanking)
 				.totalRanking(totalRanking)
 				.build();
 		}
 
-		return CharacterGameSingleRankingResponse.builder()
+		return GameSingleRankingDetail.builder()
 			.requesterRanking(null)
 			.totalRanking(null)
 			.build();
@@ -219,11 +247,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			throw new BadRequestException("CharacterSave", CHARACTER_BAD_REQUEST);
 		}
 
-		if (!characterRepository.existsByMemberId(memberId)) {
-			member.updateChronic(request.chronic());
-		}
-
-		Long vitaPoint = CharacterUtils.characterVitaPointInitCalculator(member.getGender(), member.getBirthYear());
+		Long vitaPoint = CharacterUtils.characterVitaPointInitCalculator(member.getGender(), member.getBirth());
 		BodyShape bodyShape = CharacterUtils.characterBodyShapeInitCalculator(member.getGender(), request.height(),
 			request.weight());
 		Character character = Character.builder()

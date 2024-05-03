@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.ForbiddenException;
-import com.vita.backend.global.exception.response.Errorcode;
 import com.vita.backend.health.data.request.DailySaveRequest;
 import com.vita.backend.health.data.request.FoodSaveRequest;
 import com.vita.backend.health.data.response.FoodResponse;
@@ -22,8 +21,8 @@ import com.vita.backend.health.domain.document.DrinkDetail;
 import com.vita.backend.health.domain.document.SmokeDetail;
 import com.vita.backend.health.repository.DailyHealthRepository;
 import com.vita.backend.health.repository.FoodRepository;
-import com.vita.backend.infra.OpenAIVisionClient;
-import com.vita.backend.infra.data.response.OpenAIApiFoodResponse;
+import com.vita.backend.infra.openai.OpenAIVisionClient;
+import com.vita.backend.infra.openai.data.response.OpenAIApiFoodResponse;
 import com.vita.backend.member.domain.Member;
 import com.vita.backend.member.repository.MemberRepository;
 import com.vita.backend.member.utils.MemberUtils;

@@ -35,8 +35,8 @@ import com.vita.backend.health.domain.enumeration.DrinkType;
 import com.vita.backend.health.domain.enumeration.SmokeType;
 import com.vita.backend.health.repository.DailyHealthRepository;
 import com.vita.backend.health.repository.FoodRepository;
-import com.vita.backend.infra.OpenAIVisionClient;
-import com.vita.backend.infra.data.response.OpenAIApiFoodResponse;
+import com.vita.backend.infra.openai.OpenAIVisionClient;
+import com.vita.backend.infra.openai.data.response.OpenAIApiFoodResponse;
 import com.vita.backend.member.domain.Member;
 import com.vita.backend.member.domain.enumeration.Gender;
 import com.vita.backend.member.repository.MemberRepository;
@@ -82,9 +82,8 @@ class HealthServiceImplTest {
 				.quantity(Level.MID)
 				.build();
 			Member member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
 			// when & then
@@ -108,9 +107,8 @@ class HealthServiceImplTest {
 				.quantity(Level.MID)
 				.build();
 			Member member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			OpenAIApiFoodResponse openAIApiFoodResponse = OpenAIApiFoodResponse.builder()
 				.calorie("10")
@@ -158,14 +156,12 @@ class HealthServiceImplTest {
 				.quantity(Level.MID)
 				.build();
 			Member member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			Member fakeMember = Member.builder()
+				.googleUuid("fake")
 				.name("fake")
-				.gender(Gender.FEMALE)
-				.birthYear(1998)
 				.build();
 			OpenAIApiFoodResponse openAIApiFoodResponse = OpenAIApiFoodResponse.builder()
 				.calorie("10")
@@ -206,9 +202,8 @@ class HealthServiceImplTest {
 				.quantity(Level.MID)
 				.build();
 			Member member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			OpenAIApiFoodResponse openAIApiFoodResponse = OpenAIApiFoodResponse.builder()
 				.calorie("10")
@@ -281,9 +276,8 @@ class HealthServiceImplTest {
 		void dailyHealthExist() {
 			// given
 			Member member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
 			given(dailyHealthRepository.existsByCreatedAtBetween(any(LocalDateTime.class),
@@ -299,9 +293,8 @@ class HealthServiceImplTest {
 		void success() {
 			// given
 			Member member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
 			given(dailyHealthRepository.existsByCreatedAtBetween(any(LocalDateTime.class),

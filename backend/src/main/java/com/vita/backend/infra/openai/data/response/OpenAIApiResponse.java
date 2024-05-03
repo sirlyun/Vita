@@ -1,10 +1,10 @@
-package com.vita.backend.infra.data.response;
+package com.vita.backend.infra.openai.data.response;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vita.backend.infra.data.response.detail.ChoicesDetail;
-import com.vita.backend.infra.data.response.detail.UsageDetail;
+import com.vita.backend.infra.openai.data.response.detail.ChoicesDetail;
+import com.vita.backend.infra.openai.data.response.detail.UsageDetail;
 
 import lombok.Builder;
 import lombok.Getter;
