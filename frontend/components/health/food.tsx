@@ -7,6 +7,8 @@ import images from "@/util/images";
 import icons from "@/util/icons";
 import useStopPropagation from "@/components/UseStopPropagation";
 import NutritionItem from "@/components/health/nutrition-item";
+import { getImagePath } from "@/util/images";
+
 interface NutritionalInfo {
   name: string;
   image: string;
@@ -201,7 +203,7 @@ const FoodNutrition = () => {
       <div className={nutri.nickname}>눈물의 여왕</div>
       <div className={nutri.character}>
         <Image
-          src={images.damagochi}
+          src={getImagePath("characters", "woman", "avg", "idle", 0)}
           width={55}
           height={115}
           alt="damagochi"
