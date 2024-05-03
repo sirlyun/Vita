@@ -79,7 +79,7 @@ export default function SinglePlayPage() {
             ))}
       </div>
       <div className={styles["btn-container"]}>
-        <Link href="/single/running">
+        <Link href="/game/single/running">
           <button className={"bg"}>
             <Image
               src={icons.running}
@@ -89,7 +89,7 @@ export default function SinglePlayPage() {
             ></Image>
           </button>
         </Link>
-        <Link href="/single/workout">
+        <Link href="/game/single/workout">
           <button className={"bg"}>
             <Image
               src={icons.gym}

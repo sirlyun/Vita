@@ -33,23 +33,20 @@
     }
 
     h1 {
-      background-image: linear-gradient(to top, #ffea81, #f37d01);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: #febb26;
       font-size: 8vh;
-      font-weight: bolder;
       text-shadow: -4px 0 #000, 0 4px #000, 4px 0 #000, 0 -4px #000; /* 각 방향에 대해 1px의 검은색 그림자 */
     }
 
     h3 {
-      background-image: linear-gradient(to top, #ffea81, #f37d01);
+      font-size: 6vh;
+      text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000; /* 각 방향에 대해 1px의 검은색 그림자 */
+    }
+    .special-font {
+      background-color: linear-gradient(to top, #ffea81, #f37d01);
       background-clip: text;
       -webkit-background-clip: text;
       color: #febb26;
-      font-size: 6vh;
       font-weight: bolder;
-      text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000; /* 각 방향에 대해 1px의 검은색 그림자 */
     }
   }
 

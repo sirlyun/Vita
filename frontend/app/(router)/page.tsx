@@ -136,7 +136,7 @@ export default function Home() {
           </button>
         </div>
         <div className={styles.right}>
-          <Link href="/single">
+          <Link href="/game/single">
             <button className={styles.single}>
               <Image
                 src={icons.single}
