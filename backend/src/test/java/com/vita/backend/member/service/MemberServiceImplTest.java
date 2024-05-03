@@ -62,7 +62,7 @@ class MemberServiceImplTest {
 				.chronic(Chronic.DIABETES)
 				.build();
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			ReflectionTestUtils.setField(member, "gender", Gender.MALE);
@@ -85,7 +85,7 @@ class MemberServiceImplTest {
 				.chronic(Chronic.DIABETES)
 				.build();
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));

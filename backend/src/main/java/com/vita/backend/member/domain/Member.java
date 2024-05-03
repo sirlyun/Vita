@@ -29,8 +29,8 @@ public class Member extends BaseEntity{
     private Long id;
 
     @NotBlank
-    @Column(name = "google_uuid", unique = true)
-    private String googleUuid;
+    @Column(name = "uuid", unique = true)
+    private String uuid;
 
     @NotBlank
     @Column(name = "name")
@@ -56,8 +56,8 @@ public class Member extends BaseEntity{
     private List<Food> foods = new ArrayList<>();
 
     @Builder
-    public Member(String googleUuid, String name) {
-        this.googleUuid = googleUuid;
+    public Member(String uuid, String name) {
+        this.uuid = uuid;
         this.name = name;
     }
 

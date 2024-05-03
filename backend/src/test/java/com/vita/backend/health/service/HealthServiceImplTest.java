@@ -82,7 +82,7 @@ class HealthServiceImplTest {
 				.quantity(Level.MID)
 				.build();
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
@@ -107,7 +107,7 @@ class HealthServiceImplTest {
 				.quantity(Level.MID)
 				.build();
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			OpenAIApiFoodResponse openAIApiFoodResponse = OpenAIApiFoodResponse.builder()
@@ -156,11 +156,11 @@ class HealthServiceImplTest {
 				.quantity(Level.MID)
 				.build();
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			Member fakeMember = Member.builder()
-				.googleUuid("fake")
+				.uuid("fake")
 				.name("fake")
 				.build();
 			OpenAIApiFoodResponse openAIApiFoodResponse = OpenAIApiFoodResponse.builder()
@@ -202,7 +202,7 @@ class HealthServiceImplTest {
 				.quantity(Level.MID)
 				.build();
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			OpenAIApiFoodResponse openAIApiFoodResponse = OpenAIApiFoodResponse.builder()
@@ -276,7 +276,7 @@ class HealthServiceImplTest {
 		void dailyHealthExist() {
 			// given
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
@@ -293,7 +293,7 @@ class HealthServiceImplTest {
 		void success() {
 			// given
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));

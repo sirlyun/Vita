@@ -23,7 +23,7 @@ public class SecurityMember implements UserDetails {
 
 	public SecurityMember(Member member) {
 		this.id = member.getId();
-		this.uuid = member.getGoogleUuid();
+		this.uuid = member.getUuid();
 		this.username = member.getName();
 	}
 

@@ -84,7 +84,7 @@ class CharacterServiceImplTest {
 			type1 = GameType.running;
 			type2 = GameType.training;
 			member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			testCharacter = Character.builder()
@@ -214,7 +214,7 @@ class CharacterServiceImplTest {
 		void characterNotFoundFail() {
 			// given
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
@@ -230,11 +230,11 @@ class CharacterServiceImplTest {
 		void memberCharacterForbidden() {
 			// given
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			Member fakeMember = Member.builder()
-				.googleUuid("fake")
+				.uuid("fake")
 				.name("fake")
 				.build();
 			ReflectionTestUtils.setField(fakeMember, "id", 2L);
@@ -257,7 +257,7 @@ class CharacterServiceImplTest {
 		void newScoreSuccess() {
 			// given
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			ReflectionTestUtils.setField(member, "id", memberId);
@@ -283,7 +283,7 @@ class CharacterServiceImplTest {
 		void highScoreSuccess() {
 			// given
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			ReflectionTestUtils.setField(member, "id", memberId);
@@ -309,7 +309,7 @@ class CharacterServiceImplTest {
 		void notHighScoreSuccess() {
 			// given
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			ReflectionTestUtils.setField(member, "id", memberId);
@@ -373,7 +373,7 @@ class CharacterServiceImplTest {
 		void aliveCharacterExistFail() {
 			// given
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
@@ -389,7 +389,7 @@ class CharacterServiceImplTest {
 		void characterSaveSuccess() {
 			// given
 			Member member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 			ReflectionTestUtils.setField(member, "chronic", Chronic.DIABETES);
@@ -425,7 +425,7 @@ class CharacterServiceImplTest {
 		void setup() {
 			memberId = 1L;
 			member = Member.builder()
-				.googleUuid("test")
+				.uuid("test")
 				.name("test")
 				.build();
 		}

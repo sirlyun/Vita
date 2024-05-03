@@ -52,13 +52,11 @@ public class MemberServiceImpl implements MemberSaveService {
 	@Override
 	public ResponseEntity<LoginResponse> memberLogin(String code) {
 		UserInfoResponse googleUserInfo = googleClient.getGoogleUserInfo(code);
-		Member member1 = memberRepository.findByGoogleUuid(googleUserInfo.id()).get();
-		System.out.println("member1 = " + member1);
-		Member member = memberRepository.findByGoogleUuid(googleUserInfo.id())
+		Member member = memberRepository.findByUuid(googleUserInfo.id())
 			.orElse(
 				memberRepository.save(
 					Member.builder()
-						.googleUuid(googleUserInfo.id())
+						.uuid(googleUserInfo.id())
 						.name(googleUserInfo.name())
 						.build()
 				)
@@ -66,10 +64,10 @@ public class MemberServiceImpl implements MemberSaveService {
 
 
 		Authentication authentication =
-			new UsernamePasswordAuthenticationToken(member.getId(), member.getGoogleUuid(),
+			new UsernamePasswordAuthenticationToken(member.getId(), member.getUuid(),
 				Collections.singleton(new SimpleGrantedAuthority("AUTHORITY")));
 
-		Map<String, String> tokenMap = jwtTokenProvider.generateToken(member.getId(), member.getGoogleUuid(),
+		Map<String, String> tokenMap = jwtTokenProvider.generateToken(member.getId(), member.getUuid(),
 			authentication);
 
 		Claims claims = jwtTokenProvider.parseClaims(tokenMap.get("access").substring(7));
@@ -86,7 +84,6 @@ public class MemberServiceImpl implements MemberSaveService {
 				.build())
 			.build();
 
-		System.out.println("googleUserInfo = " + googleUserInfo.accessToken());
 		saveToken("google:" + member.getId(), googleUserInfo.accessToken(),
 			googleUserInfo.expiresIn());
 		saveToken("refresh:" + member.getId(), tokenMap.get("refresh"),

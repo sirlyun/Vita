@@ -7,5 +7,5 @@ import com.vita.backend.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-	Optional<Member> findByGoogleUuid(String googleUuid);
+	Optional<Member> findByUuid(String uuid);
 }
