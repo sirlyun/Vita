@@ -1,4 +1,4 @@
-package com.vita.backend.infra.data.response.detail;
+package com.vita.backend.infra.openai.data.response.detail;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

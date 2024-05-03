@@ -1,11 +1,15 @@
 package com.vita.backend.member.domain;
 
+import static com.vita.backend.global.exception.response.Errorcode.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vita.backend.character.domain.Character;
 import com.vita.backend.global.domain.BaseEntity;
+import com.vita.backend.global.exception.category.BadRequestException;
+import com.vita.backend.global.exception.response.Errorcode;
 import com.vita.backend.health.domain.Food;
 import com.vita.backend.member.domain.enumeration.Chronic;
 import com.vita.backend.member.domain.enumeration.Gender;
@@ -24,22 +28,20 @@ public class Member extends BaseEntity{
     @Column(name = "id")
     private Long id;
 
-//    @NotBlank
-    @Column(name = "provider_id")
-    private Long providerId;
+    @NotBlank
+    @Column(name = "google_uuid", unique = true)
+    private String googleUuid;
 
-//    @NotBlank
+    @NotBlank
     @Column(name = "name")
     private String name;
 
-//    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
 
-//    @NotNull
-    @Column(name = "birth_year")
-    private Integer birthYear;
+    @Column(name = "birth")
+    private Integer birth;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "chronic")
@@ -54,14 +56,17 @@ public class Member extends BaseEntity{
     private List<Food> foods = new ArrayList<>();
 
     @Builder
-    public Member(Long providerId, String name, Gender gender, Integer birthYear) {
-        this.providerId = providerId;
+    public Member(String googleUuid, String name) {
+        this.googleUuid = googleUuid;
         this.name = name;
-        this.gender = gender;
-        this.birthYear = birthYear;
     }
 
-    public void updateChronic(Chronic newChronic) {
+    public void updateMember(Gender newGender, Integer newBirth, Chronic newChronic) {
+        if (this.gender != null && this.birth != null) {
+            throw new BadRequestException("MemberUpdate", MEMBER_UPDATE_BAD_REQUEST);
+        }
+        this.gender = newGender;
+        this.birth = newBirth;
         this.chronic = newChronic;
     }
 }

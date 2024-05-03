@@ -4,5 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum Chronic {
-    STROKE, DIABETES, HYPERTENSION, HEART, PNEUMONIA
+    STROKE,
+    DIABETES,
+    HYPERTENSION,
+    HEART,
+    PNEUMONIA
 }

@@ -1,90 +1,119 @@
 package com.vita.backend.member.service;
 
-import com.vita.backend.member.data.request.CustomOAuth2User;
-import com.vita.backend.member.data.request.MemberDto;
-import com.vita.backend.member.data.response.GoogleResponse;
-import com.vita.backend.member.data.response.OAuth2Response;
+import com.vita.backend.auth.provider.CookieProvider;
+import com.vita.backend.auth.provider.JwtTokenProvider;
+import com.vita.backend.infra.google.GoogleClient;
+import com.vita.backend.infra.google.data.response.UserInfoResponse;
+import com.vita.backend.member.data.request.MemberUpdateRequest;
+import com.vita.backend.member.data.response.LoginResponse;
+import com.vita.backend.member.data.response.detail.TokenDetail;
 import com.vita.backend.member.domain.Member;
 import com.vita.backend.member.repository.MemberRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.*;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import com.vita.backend.member.utils.MemberUtils;
 
+import io.jsonwebtoken.Claims;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImpl extends DefaultOAuth2UserService {
+@Transactional(readOnly = true)
+public class MemberServiceImpl implements MemberSaveService {
+	/* Repository */
+	private final MemberRepository memberRepository;
+	/* Infra */
+	private final GoogleClient googleClient;
+	/* Provider */
+	private final JwtTokenProvider jwtTokenProvider;
+	private final CookieProvider cookieProvider;
+	/* Template */
+	private final RedisTemplate<String, String> redisTemplate;
 
-    private final MemberRepository memberRepository;
+	/**
+	 * 로그인
+	 * @param code 구글에서 발급한 코드
+	 * @return 회원 정보
+	 */
+	@Transactional
+	@Override
+	public ResponseEntity<LoginResponse> memberLogin(String code) {
+		UserInfoResponse googleUserInfo = googleClient.getGoogleUserInfo(code);
+		Member member = memberRepository.findByGoogleUuid(googleUserInfo.id())
+			.orElse(
+				memberRepository.save(
+					Member.builder()
+						.googleUuid(googleUserInfo.id())
+						.name(googleUserInfo.name())
+						.build()
+				)
+			);
 
-    @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        OAuth2User oAuth2User = super.loadUser(userRequest);
-        String accessToken = userRequest.getAccessToken().getTokenValue();
 
-        System.out.println(accessToken);
+		Authentication authentication =
+			new UsernamePasswordAuthenticationToken(member.getId(), member.getGoogleUuid(),
+				Collections.singleton(new SimpleGrantedAuthority("AUTHORITY")));
 
-        Map<String, Object> additionalInfo = fetchAdditionalUserInfo(accessToken);
+		Map<String, String> tokenMap = jwtTokenProvider.generateToken(member.getId(), member.getGoogleUuid(),
+			authentication);
 
-        GoogleResponse oAuth2Response = new GoogleResponse(oAuth2User.getAttributes(), additionalInfo);
+		Claims claims = jwtTokenProvider.parseClaims(tokenMap.get("access").substring(7));
+		Number createdAtNumber = (Number)claims.get("created_at");
+		Long createdAt = createdAtNumber.longValue();
+		Number expiresInNumber = (Number)claims.get("expiresIn");
+		Long expiresIn = expiresInNumber.longValue();
 
-        Member existData = memberRepository.findByName(oAuth2Response.getName());
+		LoginResponse response = LoginResponse.builder()
+			.token(TokenDetail.builder()
+				.accessToken(tokenMap.get("access").substring(7))
+				.createdAt(createdAt)
+				.expiresIn(expiresIn)
+				.build())
+			.build();
 
-        if (existData == null) {  // 사용자가 없다면
-            Member member = Member.builder()
-                .name(oAuth2Response.getName())
-                .gender(oAuth2Response.getGender())
-                .birthYear(oAuth2Response.getBirthYear())
-                .build();
-            memberRepository.save(member);
-            return getOauth2User(member);
-        } else {
-            return getOauth2User(existData);
-        }
+		System.out.println("googleUserInfo = " + googleUserInfo.accessToken());
+		saveToken("google:" + member.getId(), googleUserInfo.accessToken(),
+			googleUserInfo.expiresIn());
+		saveToken("refresh:" + member.getId(), tokenMap.get("refresh"),
+			jwtTokenProvider.getREFRESH_TOKEN_EXPIRE_TIME());
 
-    }
+		String refreshToken = tokenMap.get("refresh");
+		ResponseCookie cookie = cookieProvider.createCookie(refreshToken);
+		HttpHeaders headers = cookieProvider.addCookieHttpHeaders(cookie);
 
-    private OAuth2User getOauth2User(Member member) {
-        MemberDto memberDto = new MemberDto();
-        memberDto.setName(member.getName());
-        memberDto.setGender(member.getGender());
-        memberDto.setBirthYear(member.getBirthYear());
+		return ResponseEntity
+			.status(HttpStatus.OK)
+			.headers(headers)
+			.body(response);
+	}
 
-        return new CustomOAuth2User(memberDto);
-    }
+	/**
+	 * 회원 정보 수정
+	 * @param memberId 요청자 member_id
+	 * @param request 수정할 정보
+	 */
+	@Transactional
+	@Override
+	public void memberUpdate(long memberId, MemberUpdateRequest request) {
+		Member member = MemberUtils.findByMemberId(memberRepository, memberId);
+		member.updateMember(request.gender(), request.birth(), request.chronic());
+	}
 
-    /**
-     * Google People API를 사용하여 사용자 추가 정보를 가져오는 메서드
-     *
-     * @param accessToken
-     * @return
-     */
-    private Map<String, Object> fetchAdditionalUserInfo(String accessToken) {
-        // API의 엔드포인트와 요청 필드를 정의
-        String uri = "https://people.googleapis.com/v1/people/me?personFields=genders,birthdays";
-
-        // RestTemplate를 사용하여 HTTP 요청을 준비
-        RestTemplate restTemplate = new RestTemplate();
-
-        // HttpHeaders 객체 생성 및 구성
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(accessToken); // Bearer 토큰 설정
-
-        // HttpEntity 객체 생성 (요청 본문 없음, 헤더만 포함)
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        // API 요청 및 응답 수신
-        ResponseEntity<Map> response = restTemplate.exchange(uri, HttpMethod.GET, entity, Map.class);
-
-        // 응답 본문 반환
-        return response.getBody();
-    }
-
+	private void saveToken(String key, String value, long expire) {
+		redisTemplate.opsForValue()
+			.set(key, value, expire, TimeUnit.MILLISECONDS);
+	}
 }

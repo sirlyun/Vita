@@ -71,6 +71,7 @@ class CharacterServiceImplTest {
 	@Nested
 	@DisplayName("싱글 플레이 랭킹 조회")
 	class CharacterGameSingleRankingResponseLoadTest {
+		long memberId;
 		long characterId;
 		GameType type1, type2;
 		Member member;
@@ -78,13 +79,13 @@ class CharacterServiceImplTest {
 
 		@BeforeEach
 		void setup() {
+			memberId = 1L;
 			characterId = 1L;
 			type1 = GameType.running;
 			type2 = GameType.training;
-			Member member = Member.builder()
+			member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			testCharacter = Character.builder()
 				.nickname("test")
@@ -92,16 +93,29 @@ class CharacterServiceImplTest {
 				.vitaPoint(10L)
 				.member(member)
 				.build();
+			ReflectionTestUtils.setField(member, "id", 1L);
+		}
+
+		@Test
+		@DisplayName("요청자가 존재하지 않아 실패")
+		void memberNotFoundFail() {
+			// given
+			given(memberRepository.findById(memberId)).willReturn(Optional.empty());
+			// when & then
+			assertThrows(NotFoundException.class, () -> {
+				characterService.characterGameSingleRankingLoad(memberId, characterId);
+			});
 		}
 
 		@Test
 		@DisplayName("캐릭터가 존재하지 않아 실패")
 		void characterNotFoundFail() {
 			// given
+			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
 			given(characterRepository.findById(characterId)).willReturn(Optional.empty());
 			// when & then
 			assertThrows(NotFoundException.class, () -> {
-				characterService.characterGameSingleRankingLoad(characterId, type1);
+				characterService.characterGameSingleRankingLoad(memberId, characterId);
 			});
 		}
 
@@ -109,59 +123,33 @@ class CharacterServiceImplTest {
 		@DisplayName("싱글 플레이를 한 사람이 한 명도 없는 경우 성공")
 		void singleRankingNullSuccess() {
 			// given
+			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
 			given(characterRepository.findById(anyLong())).willReturn(Optional.of(testCharacter));
 			given(redisTemplate.hasKey(type1 + "_single_ranking")).willReturn(Boolean.FALSE);
+			given(redisTemplate.hasKey(type2 + "_single_ranking")).willReturn(Boolean.FALSE);
 			// when
-			CharacterGameSingleRankingResponse characterGameSingleRankingResponse = characterService.characterGameSingleRankingLoad(
-				characterId, type1);
+			CharacterGameSingleRankingResponse characterGameSingleRankingResponse = characterService.characterGameSingleRankingLoad(memberId,
+				characterId);
 			// then
-			assertNull(characterGameSingleRankingResponse.requesterRanking());
-			assertNull(characterGameSingleRankingResponse.totalRanking());
+			assertNull(characterGameSingleRankingResponse.running().requesterRanking());
+			assertNull(characterGameSingleRankingResponse.running().totalRanking());
+			assertNull(characterGameSingleRankingResponse.training().requesterRanking());
+			assertNull(characterGameSingleRankingResponse.training().totalRanking());
 		}
 
 		@Test
-		@DisplayName("헬스 싱글 플레이 랭킹 조회 성공")
+		@DisplayName("싱글 플레이 랭킹 조회 성공")
 		void trainingSuccess() {
 			// given
-			given(characterRepository.findById(anyLong())).willReturn(Optional.of(testCharacter));
-			given(redisTemplate.hasKey(type2 + "_single_ranking")).willReturn(Boolean.TRUE);
-			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
-			given(zSetOperations.reverseRank(type2 + "_single_ranking", String.valueOf(characterId))).willReturn(2L);
-			given(zSetOperations.score(type2 + "_single_ranking", String.valueOf(characterId))).willReturn(1.43);
-			ZSetOperations.TypedTuple<String> testTuple1 = typedTuple1;
-			ZSetOperations.TypedTuple<String> testTuple2 = typedTuple2;
-			ZSetOperations.TypedTuple<String> testTuple3 = typedTuple3;
-			given(testTuple1.getValue()).willReturn("1");
-			given(testTuple1.getScore()).willReturn(3.04);
-			given(testTuple2.getValue()).willReturn("2");
-			given(testTuple2.getScore()).willReturn(4.01);
-			given(testTuple3.getValue()).willReturn(String.valueOf(characterId));
-			given(testTuple3.getScore()).willReturn(1.43);
-			Set<ZSetOperations.TypedTuple<String>> tupleSet = new HashSet<>();
-			tupleSet.add(testTuple1);
-			tupleSet.add(testTuple2);
-			tupleSet.add(testTuple3);
-			given(redisTemplate.opsForZSet().reverseRangeWithScores(type2 + "_single_ranking", 0, 9))
-				.willReturn(tupleSet);
-			// when
-			CharacterGameSingleRankingResponse characterGameSingleRankingResponse = characterService.characterGameSingleRankingLoad(
-				characterId, type2);
-			// then
-			assertNotNull(characterGameSingleRankingResponse.requesterRanking());
-			assertEquals(3, characterGameSingleRankingResponse.totalRanking().size());
-			verify(zSetOperations, times(0)).rank(type2 + "_single_ranking", String.valueOf(characterId));
-			verify(zSetOperations, times(1)).reverseRank(type2 + "_single_ranking", String.valueOf(characterId));
-		}
-
-		@Test
-		@DisplayName("달리기 싱글 플레이 랭킹 조회 성공")
-		void runningSuccess() {
-			// given
+			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
 			given(characterRepository.findById(anyLong())).willReturn(Optional.of(testCharacter));
 			given(redisTemplate.hasKey(type1 + "_single_ranking")).willReturn(Boolean.TRUE);
+			given(redisTemplate.hasKey(type2 + "_single_ranking")).willReturn(Boolean.TRUE);
 			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
 			given(zSetOperations.rank(type1 + "_single_ranking", String.valueOf(characterId))).willReturn(2L);
+			given(zSetOperations.reverseRank(type2 + "_single_ranking", String.valueOf(characterId))).willReturn(2L);
 			given(zSetOperations.score(type1 + "_single_ranking", String.valueOf(characterId))).willReturn(1.43);
+			given(zSetOperations.score(type2 + "_single_ranking", String.valueOf(characterId))).willReturn(1.43);
 			ZSetOperations.TypedTuple<String> testTuple1 = typedTuple1;
 			ZSetOperations.TypedTuple<String> testTuple2 = typedTuple2;
 			ZSetOperations.TypedTuple<String> testTuple3 = typedTuple3;
@@ -177,14 +165,18 @@ class CharacterServiceImplTest {
 			tupleSet.add(testTuple3);
 			given(redisTemplate.opsForZSet().rangeWithScores(type1 + "_single_ranking", 0, 9))
 				.willReturn(tupleSet);
+			given(redisTemplate.opsForZSet().reverseRangeWithScores(type2 + "_single_ranking", 0, 9))
+				.willReturn(tupleSet);
 			// when
-			CharacterGameSingleRankingResponse characterGameSingleRankingResponse = characterService.characterGameSingleRankingLoad(
-				characterId, type1);
+			CharacterGameSingleRankingResponse characterGameSingleRankingResponse = characterService.characterGameSingleRankingLoad(memberId,
+				characterId);
 			// then
-			assertNotNull(characterGameSingleRankingResponse.requesterRanking());
-			assertEquals(3, characterGameSingleRankingResponse.totalRanking().size());
+			assertNotNull(characterGameSingleRankingResponse.running().requesterRanking());
+			assertNotNull(characterGameSingleRankingResponse.running().totalRanking());
+			assertNotNull(characterGameSingleRankingResponse.training().requesterRanking());
+			assertNotNull(characterGameSingleRankingResponse.training().totalRanking());
 			verify(zSetOperations, times(1)).rank(type1 + "_single_ranking", String.valueOf(characterId));
-			verify(zSetOperations, times(0)).reverseRank(type1 + "_single_ranking", String.valueOf(characterId));
+			verify(zSetOperations, times(1)).reverseRank(type2 + "_single_ranking", String.valueOf(characterId));
 		}
 	}
 
@@ -222,9 +214,8 @@ class CharacterServiceImplTest {
 		void characterNotFoundFail() {
 			// given
 			Member member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
 			given(characterRepository.findById(characterId)).willReturn(Optional.empty());
@@ -239,14 +230,12 @@ class CharacterServiceImplTest {
 		void memberCharacterForbidden() {
 			// given
 			Member member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			Member fakeMember = Member.builder()
+				.googleUuid("fake")
 				.name("fake")
-				.gender(Gender.FEMALE)
-				.birthYear(1998)
 				.build();
 			ReflectionTestUtils.setField(fakeMember, "id", 2L);
 			Character character = Character.builder()
@@ -268,9 +257,8 @@ class CharacterServiceImplTest {
 		void newScoreSuccess() {
 			// given
 			Member member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			ReflectionTestUtils.setField(member, "id", memberId);
 			Character character = Character.builder()
@@ -295,9 +283,8 @@ class CharacterServiceImplTest {
 		void highScoreSuccess() {
 			// given
 			Member member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			ReflectionTestUtils.setField(member, "id", memberId);
 			Character character = Character.builder()
@@ -322,9 +309,8 @@ class CharacterServiceImplTest {
 		void notHighScoreSuccess() {
 			// given
 			Member member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			ReflectionTestUtils.setField(member, "id", memberId);
 			Character character = Character.builder()
@@ -368,7 +354,6 @@ class CharacterServiceImplTest {
 				.weight(70)
 				.smoke(smokeSaveDetail)
 				.drink(drinkSaveDetail)
-				.chronic(Chronic.DIABETES)
 				.build();
 		}
 
@@ -388,9 +373,8 @@ class CharacterServiceImplTest {
 		void aliveCharacterExistFail() {
 			// given
 			Member member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
 			given(characterRepository.existsByMemberIdAndIsDeadFalse(memberId)).willReturn(true);
@@ -405,9 +389,8 @@ class CharacterServiceImplTest {
 		void characterSaveSuccess() {
 			// given
 			Member member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 			ReflectionTestUtils.setField(member, "chronic", Chronic.DIABETES);
 			DeBuff chronicDeBuff = DeBuff.builder()
@@ -442,9 +425,8 @@ class CharacterServiceImplTest {
 		void setup() {
 			memberId = 1L;
 			member = Member.builder()
+				.googleUuid("test")
 				.name("test")
-				.gender(Gender.MALE)
-				.birthYear(1999)
 				.build();
 		}
 		@Test
