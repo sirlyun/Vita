@@ -236,6 +236,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 
 		applyChronicDeBuff(member, character);
 		if (request.smoke() != null) {
+			System.out.println("request.smoke() = " + request.smoke());
 			applyDeBuff(DeBuffType.SMOKE, request.smoke().smokeType().getValue(),
 				request.smoke().level(), character);
 		}
