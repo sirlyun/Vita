@@ -1,7 +1,11 @@
-// 파일: utils/images.js
+export const getImagePath = (key, gender, bodyShape, stance, number) => {
+  if (key.includes("characters")) {
+    return `/images/${key}/${gender}/${bodyShape}/${stance}${number}.png`;
+  }
+  return images[key];
+};
 
 const images = {
-  damagochi: "/images/characters/woman/avg/woman_avg_idle.png",
   camera: "/images/camera.png",
   breakfast: "/images/clock-breakfast.png",
   lunch: "/images/clock-lunch.png",

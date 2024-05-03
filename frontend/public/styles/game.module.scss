@@ -4,7 +4,7 @@
   justify-content: space-between;
   align-items: center;
   height: 100vh;
-  background-image: url("~/public/images/backgrounds/single-running-bg.png");
+  background-image: url("~/public/images/backgrounds/game/running-bg.png");
 
   .title {
     height: 10%;
@@ -23,6 +23,8 @@
     background-image: url("~/public/images/backgrounds/board-bg.png");
     height: 70%;
     width: 90%;
+    max-width: 900px;
+    max-height: 700px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,9 +39,10 @@
 
     h1 {
       width: 30vw;
+      max-width: 300px;
       text-align: center;
       font-size: 4vh;
-      background-image: url("~/public/images/backgrounds/ranker-bg.png");
+      background-image: url("~/public/images/wide-button.png");
       padding: 1.2vh;
       filter: brightness(50%);
       color: #a60000;
@@ -59,7 +62,6 @@
     justify-content: space-around;
 
     button {
-      background-image: url("~/public/images/button.png");
       padding: 2vh 3vh 4vh 3vh;
       img {
         width: 10vh;
@@ -73,6 +75,14 @@
   position: absolute;
   top: 2vh;
   left: 5vw;
+  width: 6vh;
+  height: 6vh;
+}
+
+.home {
+  position: absolute;
+  top: 2vh;
+  right: 5vw;
   width: 6vh;
   height: 6vh;
 }

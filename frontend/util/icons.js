@@ -16,6 +16,7 @@ const icons = {
   gym: "/icons/gym-icon.png",
   cancel: "/icons/cancel.png",
   home: "/icons/home-icon.png",
+  prev: "/icons/prev-icon.png",
 };
 
 export default icons;

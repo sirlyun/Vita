@@ -1,8 +1,9 @@
 .main {
   width: 60vw;
+  max-width: 600px;
   display: flex;
   justify-content: space-between;
-  background-image: url("~/public/images/backgrounds/ranker-bg.png");
+  background-image: url("~/public/images/wide-button.png");
   padding: 1.5vh 1vh 1.2vh 1vh;
 
   .rank {

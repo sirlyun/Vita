@@ -1,7 +1,8 @@
 .main {
-  background-image: url("/images/backgrounds/main-bg.png");
+  background-image: url("/images/backgrounds/main-bg-2500ms.gif");
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   height: 100vh;
 }
 
@@ -40,6 +41,10 @@
   flex-direction: column;
   justify-content: space-around;
 
+  button {
+    background: none !important;
+  }
+
   a {
     align-self: center;
   }
@@ -54,7 +59,7 @@
 
 /*************************************/
 .content {
-  height: 55vh;
+  height: 45vh;
   display: flex;
   justify-content: space-between;
   padding: 0 5%;
@@ -168,7 +173,5 @@
   button {
     width: 100%;
     height: 100%;
-    background-image: url("../images/button.png");
-    background-size: 100% 100%;
   }
 }

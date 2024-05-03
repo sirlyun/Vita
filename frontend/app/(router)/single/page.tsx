@@ -89,7 +89,7 @@ export default function SinglePlayPage() {
             ></Image>
           </button>
         </Link>
-        <Link href="/single/dumbelling">
+        <Link href="/single/workout">
           <button className={"bg"}>
             <Image
               src={icons.gym}
