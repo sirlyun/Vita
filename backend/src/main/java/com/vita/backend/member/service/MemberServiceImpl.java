@@ -52,6 +52,8 @@ public class MemberServiceImpl implements MemberSaveService {
 	@Override
 	public ResponseEntity<LoginResponse> memberLogin(String code) {
 		UserInfoResponse googleUserInfo = googleClient.getGoogleUserInfo(code);
+		Member member1 = memberRepository.findByGoogleUuid(googleUserInfo.id()).get();
+		System.out.println("member1 = " + member1);
 		Member member = memberRepository.findByGoogleUuid(googleUserInfo.id())
 			.orElse(
 				memberRepository.save(
