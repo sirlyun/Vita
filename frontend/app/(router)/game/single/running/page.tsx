@@ -46,7 +46,7 @@ export default function RunningPage() {
     setElapsedTime(finalTime); // 클릭이 끝났을 때의 시간을 설정
     userStore.setGameType(0);
     userStore.setRecord(finalTime);
-    router.push("/single/result");
+    router.push("/game/single/result");
   };
 
   // 게이지 비율 계산
@@ -66,8 +66,10 @@ export default function RunningPage() {
         clickCount > 0 ? styles["bg-move"] : styles["bg-idle"]
       }`}
     >
-      <div className={`${styles.top}`}>
-        <h3>{(elapsedTime / 1000).toFixed(3)}s</h3>
+      <div className={`${styles.top} `}>
+        <h3 className={styles["special-font"]}>
+          {(elapsedTime / 1000).toFixed(3)}s
+        </h3>
 
         <div className={`bg ${styles.gaugeContainer}`}>
           <div
@@ -76,7 +78,7 @@ export default function RunningPage() {
           ></div>
         </div>
 
-        <h1>{clickCount}</h1>
+        <h1 className={styles["special-font"]}>{clickCount}</h1>
       </div>
       <div className={styles.mid}>
         <Image src={imageUrl} width={200} height={200} alt="damagochi"></Image>

@@ -11,7 +11,8 @@ interface UserState {
   // 게임 정보
   gameType: number;
   record: number;
-  bestRecord: number;
+  runningBestRecord: number;
+  workoutBestRecord: number;
   isNewBestRecord: boolean;
 }
 
@@ -21,7 +22,8 @@ interface UserActions {
   setBodyShape: (bodyShape: string) => void;
   setGameType: (gameType: number) => void;
   setRecord: (record: number) => void;
-  setBestRecord: (bestRecord: number) => void;
+  setRunningBestRecord: (runningBestRecord: number) => void;
+  setWorkoutBestRecord: (workoutBestRecord: number) => void;
   setIsNewBestRecord: (isNewBestRecord: boolean) => void;
   updateBestRecord: () => void;
 }
@@ -34,24 +36,34 @@ const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
 ) => ({
   name: "TESTDAMAGOCHI",
   gender: "woman",
-  bodyShape: "fat",
+  bodyShape: "FAT",
   gameType: 0,
   record: 0,
-  bestRecord: 0,
+  runningBestRecord: 9999,
+  workoutBestRecord: 0,
   isNewBestRecord: false,
   setName: (name) => set({ name }),
   setGender: (gender) => set({ gender }),
   setBodyShape: (bodyShape) => set({ bodyShape }),
   setGameType: (gameType) => set({ gameType }),
   setRecord: (record) => set({ record }),
-  setBestRecord: (bestRecord) => set({ bestRecord }),
+  setRunningBestRecord: (runningBestRecord) => set({ runningBestRecord }),
+  setWorkoutBestRecord: (workoutBestRecord) => set({ workoutBestRecord }),
   setIsNewBestRecord: (isNewBestRecord) => set({ isNewBestRecord }),
   updateBestRecord: () =>
     set((state) => {
-      if (state.record > state.bestRecord) {
-        return { bestRecord: state.record };
+      if (state.gameType === 0) {
+        // Running game
+        if (state.record < state.runningBestRecord) {
+          return { runningBestRecord: state.record, isNewBestRecord: true };
+        }
+      } else if (state.gameType === 1) {
+        // Workout game
+        if (state.record > state.workoutBestRecord) {
+          return { workoutBestRecord: state.record, isNewBestRecord: true };
+        }
       }
-      return {}; // 기존의 bestRecord가 더 크거나 같으면 변경 없음
+      return {}; // If no new record, update isNewBestRecord only
     }),
 });
 

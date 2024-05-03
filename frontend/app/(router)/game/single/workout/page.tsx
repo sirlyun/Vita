@@ -25,7 +25,7 @@ export default function Page() {
           userStore.setRecord(clickCount); // 클릭 수 기록
           userStore.setGameType(1); // 게임 타입 설정
           setTimerActive(false); // 타이머 비활성화
-          router.push("/single/result"); // 결과 페이지로 이동
+          router.push("/game/single/result"); // 결과 페이지로 이동
         }
       }, 10);
 
@@ -51,8 +51,10 @@ export default function Page() {
   return (
     <div className={`bg ${styles.main} ${styles["bg-idle"]}`}>
       <div className={`${styles.top}`}>
-        <h3>{(remainingTime / 1000).toFixed(3)}s</h3>
-        <h1>{clickCount}</h1>
+        <h3 className={styles["special-font"]}>
+          {(remainingTime / 1000).toFixed(3)}s
+        </h3>
+        <h1 className={styles["special-font"]}>{clickCount}</h1>
       </div>
       <div className={styles.mid}>
         <Image src={imageUrl} width={300} height={300} alt="damagochi" />
