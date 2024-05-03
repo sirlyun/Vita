@@ -66,7 +66,7 @@ public class GoogleClient {
 			.id(googleUserInfoResponse.getBody().getId())
 			.name(googleUserInfoResponse.getBody().getName())
 			.accessToken(googleAccessTokenResponse.getBody().getAccessToken())
-			.expiresIn(googleAccessTokenResponse.getBody().getExpiresIn())
+			.expiresIn(googleAccessTokenResponse.getBody().getExpiresIn()*1000L)
 			.build();
 	}
 }
