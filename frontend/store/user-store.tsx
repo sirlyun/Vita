@@ -12,6 +12,7 @@ interface UserState {
   gameType: number;
   record: number;
   bestRecord: number;
+  isNewBestRecord: boolean;
 }
 
 interface UserActions {
@@ -21,6 +22,7 @@ interface UserActions {
   setGameType: (gameType: number) => void;
   setRecord: (record: number) => void;
   setBestRecord: (bestRecord: number) => void;
+  setIsNewBestRecord: (isNewBestRecord: boolean) => void;
   updateBestRecord: () => void;
 }
 
@@ -36,12 +38,14 @@ const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
   gameType: 0,
   record: 0,
   bestRecord: 0,
+  isNewBestRecord: false,
   setName: (name) => set({ name }),
   setGender: (gender) => set({ gender }),
   setBodyShape: (bodyShape) => set({ bodyShape }),
   setGameType: (gameType) => set({ gameType }),
   setRecord: (record) => set({ record }),
   setBestRecord: (bestRecord) => set({ bestRecord }),
+  setIsNewBestRecord: (isNewBestRecord) => set({ isNewBestRecord }),
   updateBestRecord: () =>
     set((state) => {
       if (state.record > state.bestRecord) {

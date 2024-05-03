@@ -1,12 +1,15 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import style from "@/public/styles/modal.module.scss";
 
 export function Modal({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const dialogRef = useRef<React.ElementRef<"dialog">>(null);
+
+  // 현재 페이지의 경로
+  const pathname = router.pathname;
 
   useEffect(() => {
     dialogRef.current?.showModal();
