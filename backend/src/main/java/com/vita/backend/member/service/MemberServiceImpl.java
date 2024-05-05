@@ -115,6 +115,10 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 		if (redisTemplate.opsForValue().get("refresh:" + memberId) != null) {
 			redisTemplate.delete("refresh:" + memberId);
 		}
+
+		if (redisTemplate.opsForValue().get("google: " + memberId) != null) {
+			redisTemplate.delete("google: " + memberId);
+		}
 	}
 
 	/**

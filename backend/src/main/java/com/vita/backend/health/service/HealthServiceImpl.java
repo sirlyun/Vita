@@ -101,6 +101,8 @@ public class HealthServiceImpl implements HealthSaveService {
 			throw new BadRequestException("DailyHealthExist", DAILY_HEALTH_EXIST);
 		}
 
+		// TODO: 디버프 갱신 날짜 기준 정하기
+
 		// TODO: 구글 피트니스 운동 데이터 수집
 
 		DailyHealth dailyHealth = DailyHealth.builder()
