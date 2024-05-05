@@ -5,7 +5,11 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum Errorcode {
+public enum ErrorCode {
+	// AUTH
+	COOKIE_NOT_FOUND(400, "쿠키가 존재하지 않습니다."),
+	EXPIRED_TOKEN(401, "토큰이 만료되었습니다."),
+	REFRESH_NOT_MATCH(401, "토큰이 일치하지 않습니다."),
 	// MEMBER
 	MEMBER_UPDATE_BAD_REQUEST(400, "회원 정보 수정이 불가능합니다."),
 	MEMBER_NOT_FOUND(404, "존재하지 않는 회원입니다."),

@@ -1,6 +1,6 @@
 package com.vita.backend.infra.google;
 
-import static com.vita.backend.global.exception.response.Errorcode.*;
+import static com.vita.backend.global.exception.response.ErrorCode.*;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.UnAuthorizedException;

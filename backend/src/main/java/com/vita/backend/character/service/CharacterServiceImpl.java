@@ -1,8 +1,7 @@
 package com.vita.backend.character.service;
 
-import static com.vita.backend.global.exception.response.Errorcode.*;
+import static com.vita.backend.global.exception.response.ErrorCode.*;
 
-import java.time.Year;
 import java.util.List;
 import java.util.Set;
 

@@ -1,6 +1,6 @@
 package com.vita.backend.global.exception.category;
 
-import com.vita.backend.global.exception.response.Errorcode;
+import com.vita.backend.global.exception.response.ErrorCode;
 
 /**
  * 404 에러
@@ -9,7 +9,7 @@ import com.vita.backend.global.exception.response.Errorcode;
 public class NotFoundException extends VitaRuntimeException {
 	protected static final String MESSAGE_KEY = "error.NotFound";
 
-	public NotFoundException(String detailMessageKey, Errorcode errorCode, Object... params) {
+	public NotFoundException(String detailMessageKey, ErrorCode errorCode, Object... params) {
 		super(MESSAGE_KEY + "." + detailMessageKey, errorCode, params);
 	}
 }

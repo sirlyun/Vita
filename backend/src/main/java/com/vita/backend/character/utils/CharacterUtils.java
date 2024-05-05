@@ -1,6 +1,6 @@
 package com.vita.backend.character.utils;
 
-import static com.vita.backend.global.exception.response.Errorcode.*;
+import static com.vita.backend.global.exception.response.ErrorCode.*;
 
 import java.time.Year;
 
@@ -11,7 +11,6 @@ import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.repository.CharacterRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
 import com.vita.backend.global.exception.category.NotFoundException;
-import com.vita.backend.global.exception.response.Errorcode;
 import com.vita.backend.member.domain.enumeration.Gender;
 
 import lombok.AccessLevel;

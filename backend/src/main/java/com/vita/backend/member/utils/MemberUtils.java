@@ -1,7 +1,7 @@
 package com.vita.backend.member.utils;
 
 import com.vita.backend.global.exception.category.NotFoundException;
-import com.vita.backend.global.exception.response.Errorcode;
+import com.vita.backend.global.exception.response.ErrorCode;
 import com.vita.backend.member.domain.Member;
 import com.vita.backend.member.repository.MemberRepository;
 
@@ -13,7 +13,7 @@ public class MemberUtils {
 	public static Member findByMemberId(MemberRepository repository, Long memberId) {
 		return repository.findById(memberId)
 			.orElseThrow(
-				() -> new NotFoundException("FindByMemberId", Errorcode.MEMBER_NOT_FOUND)
+				() -> new NotFoundException("FindByMemberId", ErrorCode.MEMBER_NOT_FOUND)
 			);
 	}
 }
