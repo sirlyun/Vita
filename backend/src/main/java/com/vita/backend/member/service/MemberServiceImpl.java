@@ -106,6 +106,18 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 	}
 
 	/**
+	 * 회원 로그아웃
+	 * @param memberId 요청자 member_id
+	 */
+	@Transactional
+	@Override
+	public void memberLogout(long memberId) {
+		if (redisTemplate.opsForValue().get("refresh:" + memberId) != null) {
+			redisTemplate.delete("refresh:" + memberId);
+		}
+	}
+
+	/**
 	 * 회원 정보 수정
 	 * @param memberId 요청자 member_id
 	 * @param request 수정할 정보
@@ -122,6 +134,11 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 			.set(key, value, expire, TimeUnit.MILLISECONDS);
 	}
 
+	/**
+	 * 토큰 재발급
+	 * @param refreshToken 요청자 refresh_token
+	 * @return 재발급된 토큰 정보
+	 */
 	@Override
 	public ResponseEntity<ReissueResponse> reissue(String refreshToken) {
 		if (refreshToken == null) {
