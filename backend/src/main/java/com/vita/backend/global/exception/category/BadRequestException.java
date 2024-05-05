@@ -1,6 +1,6 @@
 package com.vita.backend.global.exception.category;
 
-import com.vita.backend.global.exception.response.Errorcode;
+import com.vita.backend.global.exception.response.ErrorCode;
 
 /**
  * 400
@@ -10,7 +10,7 @@ import com.vita.backend.global.exception.response.Errorcode;
 public class BadRequestException extends VitaRuntimeException {
 	protected static final String MESSAGE_KEY = "error.BadRequest";
 
-	public BadRequestException(String detailMessageKey, Errorcode errorCode, Object... params) {
+	public BadRequestException(String detailMessageKey, ErrorCode errorCode, Object... params) {
 		super(MESSAGE_KEY + "." + detailMessageKey, errorCode, params);
 	}
 }

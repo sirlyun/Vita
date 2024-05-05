@@ -1,6 +1,6 @@
 package com.vita.backend.global.exception.category;
 
-import com.vita.backend.global.exception.response.Errorcode;
+import com.vita.backend.global.exception.response.ErrorCode;
 
 import lombok.Getter;
 
@@ -11,9 +11,9 @@ import lombok.Getter;
 public abstract class VitaRuntimeException extends RuntimeException {
 	private final String messageKey;
 	private final Object[] params;
-	private final Errorcode errorCode;
+	private final ErrorCode errorCode;
 
-	public VitaRuntimeException(String messageKey, Errorcode errorCode, Object... params) {
+	public VitaRuntimeException(String messageKey, ErrorCode errorCode, Object... params) {
 		this.messageKey = messageKey;
 		this.params = params;
 		this.errorCode = errorCode;

@@ -1,6 +1,6 @@
 package com.vita.backend.member.domain;
 
-import static com.vita.backend.global.exception.response.Errorcode.*;
+import static com.vita.backend.global.exception.response.ErrorCode.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +9,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vita.backend.character.domain.Character;
 import com.vita.backend.global.domain.BaseEntity;
 import com.vita.backend.global.exception.category.BadRequestException;
-import com.vita.backend.global.exception.response.Errorcode;
 import com.vita.backend.health.domain.Food;
 import com.vita.backend.member.domain.enumeration.Chronic;
 import com.vita.backend.member.domain.enumeration.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity

@@ -1,6 +1,6 @@
 package com.vita.backend.health.service;
 
-import static com.vita.backend.global.exception.response.Errorcode.*;
+import static com.vita.backend.global.exception.response.ErrorCode.*;
 
 import java.io.IOException;
 import java.time.LocalDate;

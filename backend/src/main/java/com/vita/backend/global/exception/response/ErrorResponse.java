@@ -19,7 +19,7 @@ public class ErrorResponse {
 	/**
 	 * @param errorCode - 커스텀 에러 코드
 	 */
-	public ErrorResponse(Errorcode errorCode) {
+	public ErrorResponse(ErrorCode errorCode) {
 		this.status = errorCode.getStatus();
 		this.message = errorCode.getMessage();
 	}
