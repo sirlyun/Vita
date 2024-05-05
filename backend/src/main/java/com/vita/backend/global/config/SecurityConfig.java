@@ -39,7 +39,7 @@ public class SecurityConfig {
 				configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 관리 정책 설정 : STATELESS
 			.authorizeHttpRequests(authorize ->
 				authorize
-					.requestMatchers("/member/login", "/test/health").permitAll()
+					.requestMatchers("/member/login", "/auth/reissue", "/test/health").permitAll()
 					.anyRequest().authenticated()
 			)
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
