@@ -46,5 +46,5 @@ fi
 # 4
 echo "$BEFORE_COLOR server down(port:${BEFORE_PORT})"
 docker-compose -f docker-compose-prod-${BEFORE_COLOR}.yml kill
-docker-compose -f docker-compose-prod-${BEFORE_COLOR}.yml rm
+docker-compose -f docker-compose-prod-${BEFORE_COLOR}.yml rm -f
 docker image rm -f ${BEFORE_IMAGE}
