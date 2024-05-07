@@ -3,11 +3,11 @@ import style from "@/public/styles/ranker.module.scss";
 export default function RunningRanker({
   rank,
   name,
-  record,
+  score,
 }: {
   rank: number;
   name: string;
-  record: number;
+  score: number;
 }) {
   return (
     <div className={`${style.main} bg`}>
@@ -17,8 +17,8 @@ export default function RunningRanker({
       <div className={style.name}>
         <p>{name}</p>
       </div>
-      <div className={style.record}>
-        <p>{record}초</p>
+      <div className={style.score}>
+        <p>{(score / 1000).toFixed(3)}초</p>
       </div>
     </div>
   );

@@ -101,15 +101,15 @@ export default function Home() {
       <div className={styles.menu}>
         <div className={styles.left}>
           <button className={styles.shop}>
-            <Link href="/login">
+            <Link href="/shop">
               <Image
                 src={icons.shop}
                 width={60}
                 height={60}
                 alt="option"
               ></Image>
+              <p>SHOP</p>
             </Link>
-            <p>SHOP</p>
           </button>
           <button className={styles.report}>
             <Link href="/attendance">

@@ -3,11 +3,11 @@ import style from "@/public/styles/ranker.module.scss";
 export default function FitnessRanker({
   rank,
   name,
-  record,
+  score,
 }: {
   rank: number;
   name: string;
-  record: number;
+  score: number;
 }) {
   return (
     <div className={`${style.main} bg`}>
@@ -17,8 +17,8 @@ export default function FitnessRanker({
       <div className={style.name}>
         <p>{name}</p>
       </div>
-      <div className={style.record}>
-        <p>{record}회</p>
+      <div className={style.score}>
+        <p>{score}회</p>
       </div>
     </div>
   );
