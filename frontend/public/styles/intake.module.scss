@@ -1,0 +1,51 @@
+.intake-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 30vh;
+  padding-bottom: 6vh;
+}
+
+.intake-title {
+  color: white;
+  font-size: 7vw;
+}
+
+.intake-content-layout {
+  display: flex;
+  width: 90vw;
+  justify-content: space-evenly;
+}
+
+.selected-intake {
+  background-image: url("/images/button.png");
+  background-size: 100% 100%;
+  width: 24vw;
+  height: 12vh;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-size: 5.5vw;
+    padding-bottom: 1vh;
+  }
+}
+.unselected-intake {
+  background-image: url("/images/button.png");
+  background-size: 100% 100%;
+  width: 23vw;
+  height: 11vh;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: brightness(60%); /* 어둡게 표시 */
+
+  p {
+    font-size: 5vw;
+    padding-bottom: 1vh;
+  }
+}
