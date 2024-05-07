@@ -1,7 +1,7 @@
 services:
   prod_spring_container_green:
     container_name: prod_spring_container_green
-    image: docker-prod
+    image: ${DOCKER_IMAGE_GREEN}
     ports:
       - ${PROD_SPRING_GREEN_BINDING_PORT}:8080
     build:

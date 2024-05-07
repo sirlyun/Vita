@@ -6,6 +6,7 @@ echo "블루 상태: ${EXIST_BLUE}"
 if [ -n "$EXIST_BLUE" ]; then
     echo "yes blue"
     docker-compose -f ./docker-compose-prod-green.yml up -d
+    BEFORE_IMAGE="docker-prod-blue"
     BEFORE_COLOR="blue"
     AFTER_COLOR="green"
     BEFORE_PORT=8081
@@ -13,6 +14,7 @@ if [ -n "$EXIST_BLUE" ]; then
 else
   echo "no blue"
   docker-compose -f ./docker-compose-prod-blue.yml up -d
+  BEFORE_IMAGE="docker-prod-green"
   BEFORE_COLOR="green"
   AFTER_COLOR="blue"
   BEFORE_PORT=8082
@@ -43,4 +45,6 @@ fi
 
 # 4
 echo "$BEFORE_COLOR server down(port:${BEFORE_PORT})"
-docker-compose -f docker-compose-prod-${BEFORE_COLOR}.yml stop
+docker-compose -f docker-compose-prod-${BEFORE_COLOR}.yml kill
+docker-compose -f docker-compose-prod-${BEFORE_COLOR}.yml rm
+docker image rm -f ${BEFORE_IMAGE}
