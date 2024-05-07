@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import styles from "@/public/styles/login.module.scss";
-import GoogleSignIn from "@/components/ui/google-sign-in-button";
+import GoogleSignIn from "@/components/ui/GoogleSignInButton";
 
 export default function Login() {
   return (
