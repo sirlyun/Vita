@@ -36,8 +36,7 @@ public class MemberController {
 
 	@PostMapping("/logout")
 	public ResponseEntity<Void> memberLogout(
-		@AuthenticationPrincipal SecurityMember securityMember,
-		HttpServletRequest request
+		@AuthenticationPrincipal SecurityMember securityMember
 	) {
 		long memberId = securityMember.getId();
 		memberSaveService.memberLogout(memberId);

@@ -20,6 +20,11 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.vita.backend.character.domain.DeBuff;
+import com.vita.backend.character.domain.enumeration.DeBuffType;
+import com.vita.backend.character.repository.CharacterDeBuffRepository;
+import com.vita.backend.character.repository.CharacterRepository;
+import com.vita.backend.character.repository.DeBuffRepository;
 import com.vita.backend.global.domain.enumeration.Level;
 import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.ForbiddenException;
@@ -51,6 +56,10 @@ class HealthServiceImplTest {
 	MemberRepository memberRepository;
 	@Mock
 	DailyHealthRepository dailyHealthRepository;
+	@Mock
+	CharacterRepository characterRepository;
+	@Mock
+	DeBuffRepository deBuffRepository;
 	@Mock
 	OpenAIVisionClient openAIVisionClient;
 
@@ -241,6 +250,7 @@ class HealthServiceImplTest {
 	class DailySave {
 		long memberId;
 		DailySaveRequest request;
+		DeBuff smokeDeBuff, drinkDeBuff;
 
 		@BeforeEach
 		void setup() {
@@ -257,6 +267,12 @@ class HealthServiceImplTest {
 				.builder()
 				.smoke(smokeSaveDetail)
 				.drink(drinkSaveDetail)
+				.build();
+			smokeDeBuff = DeBuff.builder()
+				.deBuffType(DeBuffType.SMOKE)
+				.build();
+			drinkDeBuff = DeBuff.builder()
+				.deBuffType(DeBuffType.DRINK)
 				.build();
 		}
 
@@ -299,6 +315,9 @@ class HealthServiceImplTest {
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
 			given(dailyHealthRepository.existsByCreatedAtBetween(any(LocalDateTime.class),
 				any(LocalDateTime.class))).willReturn(false);
+			given(deBuffRepository.findByDeBuffType(DeBuffType.SMOKE)).willReturn(Optional.ofNullable(smokeDeBuff));
+			given(deBuffRepository.findByDeBuffType(DeBuffType.DRINK)).willReturn(Optional.ofNullable(drinkDeBuff));
+			given(characterRepository.findByMemberIdAndIsDeadFalse(memberId)).willReturn(Optional.empty());
 			// when
 			healthService.dailySave(memberId, request);
 			// then

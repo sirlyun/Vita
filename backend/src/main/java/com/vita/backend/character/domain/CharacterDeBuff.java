@@ -55,4 +55,8 @@ public class CharacterDeBuff {
 		this.character = character;
 		character.getCharacterDeBuffs().add(this);
 	}
+
+	public void characterDeBuffUpdate(Long newVitaPoint) {
+		this.vitaPoint = newVitaPoint;
+	}
 }

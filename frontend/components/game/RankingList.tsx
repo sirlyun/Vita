@@ -1,5 +1,5 @@
-import RunningRanker from "@/components/running-ranker";
-import FitnessRanker from "@/components/fitness-ranker";
+import RunningRanker from "@/components/game/RunningRanker";
+import FitnessRanker from "@/components/game/TrainingRanker";
 import styles from "@/public/styles/game.module.scss";
 
 interface rankingListProps {

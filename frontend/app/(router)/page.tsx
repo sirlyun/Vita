@@ -1,14 +1,14 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
-import styles from '@/public/styles/main.module.scss';
-import icons from '@/util/icons.js';
-import ChallengeFrame from '@/components/challenge-frame';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { getImagePath } from '@/util/images';
-import useUserStore from '@/store/user-store';
+import Link from "next/link";
+import Image from "next/image";
+import styles from "@/public/styles/main.module.scss";
+import icons from "@/util/icons.js";
+import ChallengeFrame from "@/components/ChallengeFrame";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { getImagePath } from "@/util/images";
+import useUserStore from "@/store/user-store";
 
 export default function Home() {
   const userStore = useUserStore.getState();
