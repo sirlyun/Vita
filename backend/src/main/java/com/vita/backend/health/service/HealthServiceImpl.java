@@ -93,7 +93,6 @@ public class HealthServiceImpl implements HealthSaveService {
 	@Override
 	public void dailySave(long memberId, DailySaveRequest request) {
 		MemberUtils.findByMemberId(memberRepository, memberId);
-
 		LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
 		LocalDateTime endOfDay = LocalDate.now().atTime(23, 59, 59);
 		boolean check = dailyHealthRepository.existsByCreatedAtBetween(startOfDay, endOfDay);
@@ -101,20 +100,18 @@ public class HealthServiceImpl implements HealthSaveService {
 			throw new BadRequestException("DailyHealthExist", DAILY_HEALTH_EXIST);
 		}
 
-		// TODO: 디버프 갱신 날짜 기준 정하기
-
 		// TODO: 구글 피트니스 운동 데이터 수집
 
 		DailyHealth dailyHealth = DailyHealth.builder()
 			.memberId(memberId)
-			.smoke(SmokeDetail.builder()
+			.smoke(request.smoke() != null ? SmokeDetail.builder()
 				.smokeType(request.smoke().smokeType())
 				.level(request.smoke().level())
-				.build())
-			.drink(DrinkDetail.builder()
+				.build() : null)
+			.drink(request.drink() != null ? DrinkDetail.builder()
 				.drinkType(request.drink().drinkType())
 				.level(request.drink().level())
-				.build())
+				.build() : null)
 			.build();
 		dailyHealthRepository.save(dailyHealth);
 	}

@@ -20,6 +20,9 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.vita.backend.character.repository.CharacterDeBuffRepository;
+import com.vita.backend.character.repository.CharacterRepository;
+import com.vita.backend.character.repository.DeBuffRepository;
 import com.vita.backend.global.domain.enumeration.Level;
 import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.ForbiddenException;

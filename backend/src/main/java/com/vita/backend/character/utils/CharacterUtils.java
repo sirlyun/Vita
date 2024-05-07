@@ -39,8 +39,12 @@ public class CharacterUtils {
 			);
 	}
 
-	public static Long characterVitaPointInitCalculator(Gender gender, Integer birthYear) {
-		return gender.getVita() - (Year.now().getValue() - birthYear);
+	public static Long deBuffValueCalculator(Integer deBuffTool, Integer deBuffLevel) {
+		return Long.valueOf(deBuffTool * deBuffLevel);
+	}
+
+	public static Long characterVitaPointInitCalculator(Gender gender, Integer birth) {
+		return gender.getVita() - (Year.now().getValue() - birth);
 	}
 
 	public static BodyShape characterBodyShapeInitCalculator(Gender gender, Integer height, Integer weight) {
