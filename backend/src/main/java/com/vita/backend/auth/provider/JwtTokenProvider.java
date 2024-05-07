@@ -1,5 +1,6 @@
 package com.vita.backend.auth.provider;
 
+
 import static com.vita.backend.global.exception.response.ErrorCode.*;
 
 import java.security.Key;
@@ -22,6 +23,7 @@ import com.vita.backend.auth.service.UserDetailServiceImpl;
 import com.vita.backend.auth.utils.SecurityMember;
 import com.vita.backend.auth.utils.SecurityUtil;
 import com.vita.backend.global.exception.category.UnAuthorizedException;
+import com.vita.backend.global.exception.response.ErrorCode;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -39,8 +41,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class JwtTokenProvider {
-	private final long ACCESS_TOKEN_EXPIRE_TIME = 30 * 60 * 1000L; // 30분
-	private final long REFRESH_TOKEN_EXPIRE_TIME = 30 * 24 * 60 * 60 * 1000L; // 7일
+	private final long ACCESS_TOKEN_EXPIRE_TIME = 30 * 24 * 60 * 60 * 1000L;
+	private final long REFRESH_TOKEN_EXPIRE_TIME = 30 * 24 * 60 * 60 * 1000L;
 	private final Key key;
 
 	@Autowired
