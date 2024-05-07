@@ -13,11 +13,9 @@ public class Scheduler {
 	/* Service */
 	private final CharacterSaveService characterSaveService;
 
-	/**
-	 * 캐릭터 수명 차감
-	 */
 	@Scheduled(cron = "0 0 6 * * *")
-	public void characterVitaUpdate() {
+	public void characterUpdate() {
 		characterSaveService.characterVitaUpdate();
+		characterSaveService.rankingReset();
 	}
 }

@@ -4,6 +4,9 @@ package com.vita.backend.auth.provider;
 import static com.vita.backend.global.exception.response.ErrorCode.*;
 
 import java.security.Key;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,7 +68,10 @@ public class JwtTokenProvider {
 			.collect(Collectors.joining(","));
 
 		// access token 발급
-		long now = (new Date()).getTime();
+		ZoneId koreaZoneId = ZoneId.of("Asia/Seoul");
+		LocalDateTime nowLocalDateTime = LocalDateTime.now(koreaZoneId);
+		ZonedDateTime nowZonedDateTime = nowLocalDateTime.atZone(koreaZoneId);
+		long now = Date.from(nowZonedDateTime.toInstant()).getTime();
 		String accessToken = createToken(now, id, ACCESS_TOKEN_EXPIRE_TIME, Jwts.builder()
 			.setSubject(authentication.getName())
 			.claim("created_at", now)

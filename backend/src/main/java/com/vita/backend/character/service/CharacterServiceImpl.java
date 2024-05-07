@@ -273,6 +273,20 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 		// TODO: 수명 차감 기록 저장 (영수증 양식)
 	}
 
+	/**
+	 * 싱글 플레이 일일 랭킹 리셋
+	 */
+	@Transactional
+	@Override
+	public void rankingReset() {
+		if (Boolean.TRUE.equals(redisTemplate.hasKey("running_single_ranking"))) {
+			redisTemplate.opsForZSet().remove("running_single_ranking");
+		}
+
+		if (Boolean.TRUE.equals(redisTemplate.hasKey("training_single_ranking"))) {
+			redisTemplate.opsForZSet().remove("training_single_ranking");
+		}
+	}
 
 	private void applyDeBuff(DeBuffType deBuffType, Integer request1, Level request2,
 		Character character) {
