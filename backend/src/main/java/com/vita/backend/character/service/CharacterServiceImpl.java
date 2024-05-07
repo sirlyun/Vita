@@ -256,6 +256,38 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 		}
 	}
 
+	/**
+	 * 캐릭터 수명 차감
+	 */
+	@Transactional
+	@Override
+	public void characterVitaUpdate() {
+		List<Character> characterList = characterRepository.findByIsDeadFalse();
+		characterList.forEach(character -> {
+			long totalDeBuff = character.getCharacterDeBuffs().stream()
+				.mapToLong(CharacterDeBuff::getVitaPoint)
+				.sum();
+			character.vitaUpdate(totalDeBuff + 1);
+		});
+
+		// TODO: 수명 차감 기록 저장 (영수증 양식)
+	}
+
+	/**
+	 * 싱글 플레이 일일 랭킹 리셋
+	 */
+	@Transactional
+	@Override
+	public void rankingReset() {
+		if (Boolean.TRUE.equals(redisTemplate.hasKey("running_single_ranking"))) {
+			redisTemplate.opsForZSet().remove("running_single_ranking");
+		}
+
+		if (Boolean.TRUE.equals(redisTemplate.hasKey("training_single_ranking"))) {
+			redisTemplate.opsForZSet().remove("training_single_ranking");
+		}
+	}
+
 	private void applyDeBuff(DeBuffType deBuffType, Integer request1, Level request2,
 		Character character) {
 		DeBuff smokeDeBuff = CharacterUtils.findByDeBuffType(deBuffRepository, deBuffType);

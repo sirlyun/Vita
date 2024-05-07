@@ -8,4 +8,6 @@ public interface CharacterSaveService {
 	void characterGameSingleSave(long memberId, long characterId, GameType type,
 		CharacterGameSingleSaveRequest request);
 	void characterSave(long memberId, CharacterSaveRequest request);
+	void characterVitaUpdate();
+	void rankingReset();
 }
