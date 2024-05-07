@@ -1,46 +1,20 @@
-"use client";
-
 import Link from "next/link";
 import icons from "@/util/icons";
 import Image from "next/image";
 import styles from "@/public/styles/game.module.scss";
-import { useState } from "react";
-import RankingList from "@/components/RankingList";
+import RankingBoard from "@/components/RankingBoard";
+import { getRankingList } from "@/util/axios";
 
-export default function SinglePlayPage() {
+export default async function SinglePlayPage() {
   // data fetching part
-  // const result = await getRanking();
-
-  // 달리기, 헬스 메뉴 활성화 변수
-  const [activeMenu, setActiveMenu] = useState("running");
-
-  const handleClick = (menuName: string) => {
-    setActiveMenu(menuName);
-  };
+  const rankingList = await getRankingList();
 
   return (
     <div className={`${styles.main} bg`}>
       <div className={styles.title}>
         <h1>RANKING</h1>
       </div>
-
-      <div className={`${styles.board} bg`}>
-        <div className={styles.menu}>
-          <h1
-            className={`bg ${activeMenu === "running" ? styles.active : ""}`}
-            onClick={() => handleClick("running")}
-          >
-            달리기
-          </h1>
-          <h1
-            className={`bg ${activeMenu === "fitness" ? styles.active : ""}`}
-            onClick={() => handleClick("fitness")}
-          >
-            헬스
-          </h1>
-        </div>
-        <RankingList activeMenu={activeMenu} />
-      </div>
+      <RankingBoard rankingList={rankingList} />
       <div className={styles["btn-container"]}>
         <Link href="/game/single/running">
           <button className={"bg"}>
