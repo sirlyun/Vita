@@ -10,6 +10,7 @@ const images = {
   breakfast: "/images/clock-breakfast.png",
   lunch: "/images/clock-lunch.png",
   dinner: "/images/clock-dinner.png",
+  karina: "/images/karina.png",
 };
 
 export default images;
