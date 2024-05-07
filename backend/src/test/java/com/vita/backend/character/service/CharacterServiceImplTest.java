@@ -393,6 +393,8 @@ class CharacterServiceImplTest {
 				.name("test")
 				.build();
 			ReflectionTestUtils.setField(member, "chronic", Chronic.DIABETES);
+			ReflectionTestUtils.setField(member, "gender", Gender.MALE);
+			ReflectionTestUtils.setField(member, "birth", 1999);
 			DeBuff chronicDeBuff = DeBuff.builder()
 				.deBuffType(DeBuffType.CHRONIC)
 				.build();
@@ -404,7 +406,6 @@ class CharacterServiceImplTest {
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
 			given(characterRepository.existsByMemberIdAndIsDeadFalse(memberId)).willReturn(false);
-			given(characterRepository.existsByMemberId(memberId)).willReturn(true);
 			given(deBuffRepository.findByDeBuffType(DeBuffType.CHRONIC)).willReturn(Optional.ofNullable(chronicDeBuff));
 			given(deBuffRepository.findByDeBuffType(DeBuffType.SMOKE)).willReturn(Optional.ofNullable(smokeDeBuff));
 			given(deBuffRepository.findByDeBuffType(DeBuffType.DRINK)).willReturn(Optional.ofNullable(drinkDeBuff));

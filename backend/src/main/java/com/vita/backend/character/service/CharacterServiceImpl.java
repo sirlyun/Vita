@@ -58,20 +58,15 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	@Override
 	public CharacterGameSingleRankingResponse characterGameSingleRankingLoad(long memberId, long characterId) {
 		MemberUtils.findByMemberId(memberRepository, memberId);
-		System.out.println("characterId = " + characterId);
 		Character character = CharacterUtils.findByCharacterId(characterRepository, characterId);
-		System.out.println("characterId = " + character);
 		if (memberId != character.getMember().getId()) {
 			throw new ForbiddenException("CharacterGameSingleLoad", CHARACTER_FORBIDDEN);
 		}
 
-		System.out.println("character = " + character);
 		GameSingleRankingDetail running = getGameSingleRankingDetail(
 			characterId, GameType.running, character);
-		System.out.println("running = " + running);
 		GameSingleRankingDetail training = getGameSingleRankingDetail(
 			characterId, GameType.training, character);
-		System.out.println("training = " + training);
 
 		return CharacterGameSingleRankingResponse.builder()
 			.running(running)
@@ -81,28 +76,21 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 
 	private GameSingleRankingDetail getGameSingleRankingDetail(long characterId, GameType type,
 		Character character) {
-		System.out.println("characterId = " + 1);
 		Boolean singleRankingExist = redisTemplate.hasKey(type + "_single_ranking");
-		System.out.println("2 = " + 2);
 		if (Boolean.FALSE.equals(singleRankingExist)) {
 			return GameSingleRankingDetail.builder()
 				.requesterRanking(null)
 				.totalRanking(null)
 				.build();
 		}
-		System.out.println("5 = " + 5);
 
 		RequesterGameSingleRankingDetail requesterRanking = getRequesterRanking(
 			characterId, character, type);
-		System.out.println("6 = " + 6);
 
 		if (type.equals(GameType.running)) {
-			System.out.println("7 = " + 7);
 			Set<ZSetOperations.TypedTuple<String>> singleRanking = redisTemplate.opsForZSet()
 				.rangeWithScores(type + "_single_ranking", 0, 9);
-			System.out.println("8 = " + 8);
 			List<CharacterGameSingleRankingDetail> totalRanking = getTotalRanking(singleRanking);
-			System.out.println("9 = " + 9);
 			return GameSingleRankingDetail.builder()
 				.requesterRanking(requesterRanking)
 				.totalRanking(totalRanking)
@@ -268,12 +256,12 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 		}
 	}
 
-	private void applyDeBuff(DeBuffType smoke, Integer request1, Level request2,
+	private void applyDeBuff(DeBuffType deBuffType, Integer request1, Level request2,
 		Character character) {
-		DeBuff smokeDeBuff = CharacterUtils.findByDeBuffType(deBuffRepository, smoke);
-		Integer smokeValue = request1 * request2.getValue();
+		DeBuff smokeDeBuff = CharacterUtils.findByDeBuffType(deBuffRepository, deBuffType);
+		Long deBuffValue = CharacterUtils.deBuffValueCalculator(request1, request2.getValue());
 		CharacterDeBuff characterDeBuff = CharacterDeBuff.builder()
-			.vitaPoint(Long.valueOf(smokeValue))
+			.vitaPoint(deBuffValue)
 			.deBuff(smokeDeBuff)
 			.character(character)
 			.build();
