@@ -54,6 +54,13 @@
     }
   }
 
+  .ranking-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+
   .btn-container {
     width: 90%;
     height: 20%;
