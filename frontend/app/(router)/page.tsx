@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import styles from "@/public/styles/main.module.scss";
-import icons from "@/util/icons.js";
-import ChallengeFrame from "@/components/challenge-frame";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { getImagePath } from "@/util/images";
-import useUserStore from "@/store/user-store";
+import Link from 'next/link';
+import Image from 'next/image';
+import styles from '@/public/styles/main.module.scss';
+import icons from '@/util/icons.js';
+import ChallengeFrame from '@/components/challenge-frame';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { getImagePath } from '@/util/images';
+import useUserStore from '@/store/user-store';
 
 export default function Home() {
   const userStore = useUserStore.getState();
@@ -29,13 +29,13 @@ export default function Home() {
           <p>남은수명</p>
           <h2>100년</h2>
         </div>
-        <div className={styles["side-menu"]}>
+        <div className={styles['side-menu']}>
           <Link href={`/option`}>
             <Image
               src={icons.option}
               width={60}
               height={60}
-              alt="option"
+              alt='option'
             ></Image>
           </Link>
           <button onClick={toggleChallengeModal}>
@@ -43,81 +43,81 @@ export default function Home() {
               src={icons.daily}
               width={60}
               height={60}
-              alt="option"
+              alt='option'
             ></Image>
           </button>
         </div>
       </div>
       <div className={styles.content}>
-        <div className={styles["debuff-menu"]}></div>
+        <div className={styles['debuff-menu']}></div>
         <div className={styles.damagochi}>
           <Image
             src={getImagePath(
-              "characters",
+              'characters',
               userStore.gender,
               userStore.bodyShape,
-              "idle",
+              'idle',
               0
             )}
             width={300}
             height={300}
-            alt="option"
+            alt='option'
           ></Image>
         </div>
-        <div className={styles["debuff-menu"]}>
+        <div className={styles['debuff-menu']}>
           <Image
             src={icons.alcohol}
             width={60}
             height={60}
-            alt="alcohol"
-            onClick={() => debuffRouter("0")}
+            alt='alcohol'
+            onClick={() => debuffRouter('0')}
           ></Image>
 
           <Image
             src={icons.cigarette}
             width={60}
             height={60}
-            alt="cigarette"
-            onClick={() => debuffRouter("1")}
+            alt='cigarette'
+            onClick={() => debuffRouter('1')}
           ></Image>
 
           <Image
             src={icons.food}
             width={60}
             height={60}
-            alt="food"
-            onClick={() => debuffRouter("2")}
+            alt='food'
+            onClick={() => debuffRouter('2')}
           ></Image>
 
           <Image
             src={icons.chronic}
             width={60}
             height={60}
-            alt="chronic"
-            onClick={() => debuffRouter("3")}
+            alt='chronic'
+            onClick={() => debuffRouter('3')}
           ></Image>
         </div>
       </div>
       <div className={styles.menu}>
         <div className={styles.left}>
           <button className={styles.shop}>
-            <Link href="/login">
+            <Link href='/login'>
               <Image
                 src={icons.shop}
                 width={60}
                 height={60}
-                alt="option"
+                alt='option'
               ></Image>
             </Link>
             <p>SHOP</p>
           </button>
           <button className={styles.report}>
-            <Link href="/attendance">
+            <Link href='/report'>
               <Image
                 src={icons.report}
                 width={60}
                 height={60}
-                alt="option"
+                alt='option'
               ></Image>
             </Link>
           </button>
@@ -125,30 +125,30 @@ export default function Home() {
 
         <div className={styles.center}>
           <button>
-            <Link href="/health">
+            <Link href='/health'>
               <Image
                 src={icons.hospital}
                 width={60}
                 height={60}
-                alt="option"
+                alt='option'
               ></Image>
             </Link>
           </button>
         </div>
         <div className={styles.right}>
-          <Link href="/game/single">
+          <Link href='/game/single'>
             <button className={styles.single}>
               <Image
                 src={icons.single}
                 width={60}
                 height={60}
-                alt="single"
+                alt='single'
               ></Image>
             </button>
           </Link>
-          <Link href="/multi">
+          <Link href='/multi'>
             <button className={styles.multi}>
-              <Image src={icons.pvp} width={60} height={60} alt="multi"></Image>
+              <Image src={icons.pvp} width={60} height={60} alt='multi'></Image>
             </button>
           </Link>
         </div>
