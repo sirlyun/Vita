@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import RankingList from "@/components/RankingList";
+import RankingList from "@/components/game/RankingList";
 import styles from "@/public/styles/game.module.scss";
 
 export default function RankingBoard({ rankingList }: { rankingList: any }) {
