@@ -91,7 +91,6 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 
 		saveToken("google:" + member.getId(), googleUserInfo.accessToken(),
 			googleUserInfo.expiresIn());
-		System.out.println("googleUserInfo = " + googleUserInfo.expiresIn());
 		saveToken("refresh:" + member.getId(), tokenMap.get("refresh"),
 			jwtTokenProvider.getREFRESH_TOKEN_EXPIRE_TIME());
 

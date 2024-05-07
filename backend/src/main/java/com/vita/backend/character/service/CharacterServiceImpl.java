@@ -78,10 +78,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 		Character character) {
 		Boolean singleRankingExist = redisTemplate.hasKey(type + "_single_ranking");
 		if (Boolean.FALSE.equals(singleRankingExist)) {
-			return GameSingleRankingDetail.builder()
-				.requesterRanking(null)
-				.totalRanking(null)
-				.build();
+			return null;
 		}
 
 		RequesterGameSingleRankingDetail requesterRanking = getRequesterRanking(
@@ -108,10 +105,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 				.build();
 		}
 
-		return GameSingleRankingDetail.builder()
-			.requesterRanking(null)
-			.totalRanking(null)
-			.build();
+		return null;
 	}
 
 	/**
