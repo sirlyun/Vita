@@ -9,4 +9,5 @@ public interface CharacterSaveService {
 		CharacterGameSingleSaveRequest request);
 	void characterSave(long memberId, CharacterSaveRequest request);
 	void characterVitaUpdate();
+	void rankingReset();
 }

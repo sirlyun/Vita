@@ -10,6 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.vita.backend.character.domain.CharacterDeBuff;
+import com.vita.backend.character.domain.DeBuff;
+import com.vita.backend.character.domain.enumeration.DeBuffType;
+import com.vita.backend.character.repository.CharacterDeBuffRepository;
+import com.vita.backend.character.repository.CharacterRepository;
+import com.vita.backend.character.repository.DeBuffRepository;
+import com.vita.backend.character.utils.CharacterUtils;
 import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.ForbiddenException;
 import com.vita.backend.health.data.request.DailySaveRequest;
@@ -37,6 +44,9 @@ public class HealthServiceImpl implements HealthSaveService {
 	private final FoodRepository foodRepository;
 	private final MemberRepository memberRepository;
 	private final DailyHealthRepository dailyHealthRepository;
+	private final CharacterRepository characterRepository;
+	private final DeBuffRepository deBuffRepository;
+	private final CharacterDeBuffRepository characterDeBuffRepository;
 	/* Client */
 	private final OpenAIVisionClient openAIVisionClient;
 
@@ -99,6 +109,55 @@ public class HealthServiceImpl implements HealthSaveService {
 		if (check) {
 			throw new BadRequestException("DailyHealthExist", DAILY_HEALTH_EXIST);
 		}
+
+		DeBuff smokeDeBuff = CharacterUtils.findByDeBuffType(deBuffRepository, DeBuffType.SMOKE);
+		DeBuff drinkDeBuff = CharacterUtils.findByDeBuffType(deBuffRepository, DeBuffType.DRINK);
+		characterRepository.findByMemberIdAndIsDeadFalse(memberId)
+			.ifPresent(character -> {
+				characterDeBuffRepository.findByDeBuffIdAndCharacterId(smokeDeBuff.getId(), character.getId())
+					.ifPresentOrElse(characterDeBuff -> {
+						if (request.smoke() != null) {
+							Long smokeValue = CharacterUtils.deBuffValueCalculator(request.smoke().smokeType().getValue(),
+								request.smoke().level().getValue());
+							characterDeBuff.characterDeBuffUpdate(smokeValue);
+						} else {
+							characterDeBuff.characterDeBuffUpdate(null);
+						}
+					}, () -> {
+						if (request.smoke() != null) {
+							Long smokeValue = CharacterUtils.deBuffValueCalculator(request.smoke().smokeType().getValue(),
+								request.smoke().level().getValue());
+							CharacterDeBuff characterDeBuff = CharacterDeBuff.builder()
+								.vitaPoint(smokeValue)
+								.deBuff(smokeDeBuff)
+								.character(character)
+								.build();
+							characterDeBuffRepository.save(characterDeBuff);
+						}
+					});
+
+				characterDeBuffRepository.findByDeBuffIdAndCharacterId(drinkDeBuff.getId(), character.getId())
+					.ifPresentOrElse(characterDeBuff -> {
+						if (request.drink() != null) {
+							Long drinkValue = CharacterUtils.deBuffValueCalculator(request.drink().drinkType().getValue(),
+								request.drink().level().getValue());
+							characterDeBuff.characterDeBuffUpdate(drinkValue);
+						} else {
+							characterDeBuff.characterDeBuffUpdate(null);
+						}
+					}, () -> {
+						if (request.drink() != null) {
+							Long drinkValue = CharacterUtils.deBuffValueCalculator(request.drink().drinkType().getValue(),
+								request.drink().level().getValue());
+							CharacterDeBuff characterDeBuff = CharacterDeBuff.builder()
+								.vitaPoint(drinkValue)
+								.deBuff(smokeDeBuff)
+								.character(character)
+								.build();
+							characterDeBuffRepository.save(characterDeBuff);
+						}
+					});
+			});
 
 		// TODO: 구글 피트니스 운동 데이터 수집
 
