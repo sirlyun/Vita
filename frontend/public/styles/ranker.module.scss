@@ -15,9 +15,12 @@
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-  .record {
-    width: 30%;
+  .score {
+    width: 35%;
     color: #a60000;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   p {

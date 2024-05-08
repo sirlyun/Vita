@@ -3,18 +3,14 @@ import icons from "@/util/icons";
 import Image from "next/image";
 import styles from "@/public/styles/game.module.scss";
 import RankingBoard from "@/components/game/RankingBoard";
-import { getRankingList } from "@/util/axios";
 
 export default async function SinglePlayPage() {
-  // data fetching part
-  const rankingList = await getRankingList();
-
   return (
     <div className={`${styles.main} bg`}>
       <div className={styles.title}>
         <h1>RANKING</h1>
       </div>
-      <RankingBoard rankingList={rankingList} />
+      <RankingBoard />
       <div className={styles["btn-container"]}>
         <Link href="/game/single/running">
           <button className={"bg"}>

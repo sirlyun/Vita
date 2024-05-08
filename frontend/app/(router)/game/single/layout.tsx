@@ -12,26 +12,24 @@ export default function singleLayout({
 }) {
   const router = useRouter();
   return (
-    <html lang="en">
-      <body>
-        <Image
-          src={icons.prev}
-          width={60}
-          height={60}
-          alt="home"
-          className={styles.prev}
-          onClick={() => router.back()}
-        ></Image>
-        <Image
-          src={icons.home}
-          width={60}
-          height={60}
-          alt="home"
-          className={styles.home}
-          onClick={() => router.push("/")}
-        ></Image>
-        {children}
-      </body>
-    </html>
+    <div>
+      <Image
+        src={icons.prev}
+        width={60}
+        height={60}
+        alt="home"
+        className={styles.prev}
+        onClick={() => router.back()}
+      ></Image>
+      <Image
+        src={icons.home}
+        width={60}
+        height={60}
+        alt="home"
+        className={styles.home}
+        onClick={() => router.push("/")}
+      ></Image>
+      {children}
+    </div>
   );
 }

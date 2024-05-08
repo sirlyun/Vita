@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-position: center;
   height: 100vh;
 }
 
@@ -115,6 +116,11 @@
     align-items: center;
     justify-content: center;
 
+    a {
+      display: flex;
+      align-items: center;
+      padding-bottom: 0.5vh;
+    }
     img {
       width: 5vh;
       height: 5vh;
