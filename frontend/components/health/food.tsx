@@ -43,6 +43,25 @@ function HealthFood({ onClose, complete }: FoodImageFrameProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
 
+  function renderContent() {
+    if (isComplete) {
+      return <FoodNutrition onClose={onClose} />;
+    } else if (isLoading) {
+      return <Loading />;
+    } else if (nextStep) {
+      return <IntakeContent />;
+    } else if (foodImage) {
+      return <ShowImage foodImage={foodImage} selectFile={selectFile} />;
+    } else {
+      return (
+        <UploadImage
+          selectFile={selectFile}
+          handleImageChange={handleImageChange}
+        />
+      );
+    }
+  }
+
   const handleCompleteClick = async () => {
     setIsLoading(true);
     try {
@@ -125,18 +144,7 @@ function HealthFood({ onClose, complete }: FoodImageFrameProps) {
               <p>{selectedMeal}</p>
             </div>
             <div className={`${styles["modal-content"]} modal-content-recycle`}>
-              {isLoading ? (
-                <Loading />
-              ) : nextStep ? (
-                <IntakeContent />
-              ) : foodImage ? (
-                <ShowImage foodImage={foodImage} selectFile={selectFile} />
-              ) : (
-                <UploadImage
-                  selectFile={selectFile}
-                  handleImageChange={handleImageChange}
-                />
-              )}
+              {renderContent()}
             </div>
             {nextStep ? (
               <div
