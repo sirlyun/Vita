@@ -38,7 +38,7 @@ export default function RankingList({
   return (
     <div className={styles["ranking-container"]}>
       {activeMenu === "running" ? (
-        rankingList.running.total_ranking && rankingList.running ? (
+        rankingList.running && rankingList.running.total_ranking.length > 0 ? (
           rankingList.running.total_ranking.map((ranker, index) => (
             <RunningRanker
               key={ranker.nickname} // 'rank'가 아닌 'nickname'을 key로 사용
@@ -50,7 +50,7 @@ export default function RankingList({
         ) : (
           <div>No data</div>
         )
-      ) : rankingList.training.total_ranking &&
+      ) : rankingList.training &&
         rankingList.training.total_ranking.length > 0 ? (
         rankingList.training.total_ranking.map((ranker, index) => (
           <FitnessRanker
