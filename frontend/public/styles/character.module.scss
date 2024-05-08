@@ -52,10 +52,9 @@
   .select-box {
     background-image: url("/images/input-1.png");
     width: 50vw;
-    height: 4vh;
+    height: 5vh;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    margin-bottom: 2vh;
 
     input {
       width: 100%; // 부모 요소인 .select-box의 크기에 맞춤
@@ -67,16 +66,90 @@
       font-size: 3vh; // 텍스트 크기 조정, 필요에 따라 변경 가능
       padding: 0; // 패딩 제거
       text-align: center; // 텍스트 중앙 정렬
+      font-family: "neodgm";
+      font-size: 7.5vw;
     }
   }
 
   .step-button {
     display: flex;
+    width: 50vw;
+    justify-content: space-evenly;
   }
 
   button {
-    width: 15vw;
+    width: 20vw;
     height: 5vh;
     font-size: 2.5vh;
   }
+}
+
+.check-box {
+  background-image: url("/images/input-red.png");
+  width: 60vw;
+  height: 5vh;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    color: white;
+    font-size: 5vw;
+  }
+}
+
+.smoke-layout {
+  display: flex;
+  justify-content: space-evenly;
+  width: 80vw;
+  align-items: center;
+
+  p {
+    font-size: 3.8vw;
+    color: white;
+  }
+
+  .smoke-box {
+    height: 13vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .selected-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .unselected-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: brightness(60%); /* 어둡게 표시 */
+  }
+
+  .smoke-box div {
+    background-image: url("/images/button.png");
+    width: 18vw;
+    height: 10vh;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
+    img {
+      width: 7vh;
+      height: 7vh;
+      padding-bottom: 1.5vh;
+    }
+  }
+}
+
+@font-face {
+  font-family: "neodgm";
+  src: url("~/public/fonts/neodgm.ttf") format(truetype);
+  font-weight: normal;
+  font-style: normal;
 }

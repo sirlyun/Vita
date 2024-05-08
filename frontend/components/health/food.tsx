@@ -92,6 +92,7 @@ function HealthFood({ onClose, complete }: FoodImageFrameProps) {
   };
 
   const handleModalContentClick = useStopPropagation();
+
   const handleMealClick = useCallback((mealType: string) => {
     setSelectedMeal(mealType);
 
