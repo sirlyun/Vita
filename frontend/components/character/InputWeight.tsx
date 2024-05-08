@@ -13,6 +13,7 @@ export default function InputWeight({ weight, setWeight }: InputWeightProps) {
   return (
     <div className={styles["select-box"]}>
       <input type="number" value={weight} onChange={handleChange} />
+      <p>KG</p>
     </div>
   );
 }

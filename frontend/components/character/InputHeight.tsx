@@ -1,5 +1,4 @@
 import styles from "@/public/styles/character.module.scss";
-import React, { useState } from "react";
 
 interface InputHeightProps {
   height: string;
@@ -7,6 +6,7 @@ interface InputHeightProps {
 }
 
 export default function InputHeight({ height, setHeight }: InputHeightProps) {
+  height = height;
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setHeight(event.target.value);
   };
@@ -14,6 +14,7 @@ export default function InputHeight({ height, setHeight }: InputHeightProps) {
   return (
     <div className={styles["select-box"]}>
       <input type="number" value={height} onChange={handleChange} />
+      <p>CM</p>
     </div>
   );
 }

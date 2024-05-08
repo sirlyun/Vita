@@ -7,14 +7,15 @@ import { useState } from "react";
 import InputHeight from "@/components/character/InputHeight";
 import InputWeight from "@/components/character/InputWeight";
 import CheckSmoke from "@/components/character/CheckSmoke";
-
 import CheckSmokeType from "@/components/character/CheckSmokeType";
 import CheckDrink from "@/components/character/CheckDrink";
 import CheckDrinkType from "@/components/character/CheckDrinkType";
+import Complete from "@/components/character/Complete";
+import Button from "@/components/character/Button";
 
 export default function createCharacter() {
   const [step, setStep] = useState<number>(0);
-  const [height, setHeight] = useState<string>(""); // height 상태 추가
+  const [height, setHeight] = useState<string>("");
   const [weight, setWeight] = useState<string>("");
   const [quantity, setQuantity] = useState<string | null>("none");
 
@@ -51,8 +52,6 @@ export default function createCharacter() {
     </>,
   ];
 
-  const stepHeights = ["15vh", "15vh", "30vh", "30vh", "30vh", "30vh", "10vh"];
-
   function renderContent() {
     if (step === 0) {
       return <InputHeight height={height} setHeight={setHeight} />;
@@ -75,7 +74,32 @@ export default function createCharacter() {
       return (
         <CheckDrinkType drinkType={drinkType} setDrinkType={setDrinkType} />
       );
+    } else if (step === stepMessages.length - 1) {
+      return <Complete />;
     }
+  }
+
+  function renderButton() {
+    const showPrevButton = step > 0;
+    const showNextButton =
+      (step === 0 && height !== "") ||
+      (step === 1 && weight !== "") ||
+      (step === 2 && quantity !== "none") ||
+      (step === 3 && smokeType !== "none") ||
+      (step === 4 && drinkQuantity !== "none") ||
+      (step === 5 && drinkType !== "none");
+
+    return (
+      <Button
+        step={step}
+        handlePrev={handlePrev}
+        handleNext={handleNext}
+        topStep={stepMessages.length - 1}
+        onClick={() => console.log("Button clicked!")}
+        showPrevButton={showPrevButton} // 이전 버튼 활성화
+        showNextButton={showNextButton} // 조건에 따라 다음 버튼 활성화
+      />
+    );
   }
 
   const handleNext = (): void => {
@@ -116,21 +140,22 @@ export default function createCharacter() {
           alt="karina"
         ></Image>
       </div>
-      <div
-        className={styles["select-layout"]}
-        style={{ minHeight: stepHeights[step] }}
-      >
+      <div className={styles["select-layout"]}>
         {renderContent()}
-        <div className={styles["step-button"]}>
-          {step > 0 && <button onClick={handlePrev}>이전</button>}
-          {step === stepMessages.length - 1 ? (
-            <button onClick={handleNext}>완료</button>
-          ) : (
-            step < stepMessages.length - 1 && (
-              <button onClick={handleNext}>다음</button>
-            )
-          )}
-        </div>
+        {step === stepMessages.length - 1 ? (
+          <div className={styles["step-button"]}>
+            {step > 0 && <button onClick={handlePrev}>이전</button>}
+            {step === stepMessages.length - 1 ? (
+              <button onClick={handleNext}>완료</button>
+            ) : (
+              step < stepMessages.length - 1 && (
+                <button onClick={handleNext}>다음</button>
+              )
+            )}
+          </div>
+        ) : (
+          renderButton()
+        )}
       </div>
     </div>
   );
