@@ -1,21 +1,34 @@
+'use client';
+
 import { ReportModal } from '../report-modal';
 
-import Link from 'next/link';
-import styles from '@/public/styles/modal.module.scss';
-import report from '@/public/styles/report.module.scss';
+import DamagochiHealth from '@/components/report/DamagochiHealth';
+import DamagochiHistory from '@/components/report/DamagochiHistory';
+import UserHealth from '@/components/report/UserHealth';
+import UserHistory from '@/components/report/UserHistory';
+import { useState } from 'react';
 
 export default function ModalReport() {
+  const [activeMenu, setActiveMenu] = useState('damagochi-report');
+
+  const getComponent = () => {
+    switch (activeMenu) {
+      case 'damagochi-report':
+        return <DamagochiHealth />;
+      case 'user-report':
+        return <DamagochiHistory />;
+      case 'damagochi-history':
+        return <UserHealth />;
+      case 'user-history':
+        return <UserHistory />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <ReportModal>
-      <div className={report['inner-text']}>
-        <h1 className={report['sub-title']}>리포트</h1>
-        <div>평균 수명: 8일</div>
-        <div>최장 생존 시간: 13일</div>
-        <div>총 획득 시간: 1282시간</div>
-        <div>평균 체형: 보통</div>
-        <div>환생한 횟수: 9회</div>
-        <div>출석 횟수: 83일</div>
-      </div>
+    <ReportModal activeMenu={activeMenu} setActiveMenu={setActiveMenu}>
+      {getComponent()}
     </ReportModal>
   );
 }

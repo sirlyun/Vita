@@ -1,22 +1,29 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import style from '@/public/styles/modal.module.scss';
 import styles from '@/public/styles/main.module.scss';
 import report from '@/public/styles/report.module.scss';
 import useUserStore from '@/store/user-store';
 import Image from 'next/image';
-import Link from 'next/link';
 import images from '@/util/images.js';
 
-export function ReportModal({ children }: { children: React.ReactNode }) {
+export function ReportModal({
+  children,
+  activeMenu,
+  setActiveMenu,
+}: {
+  children: React.ReactNode;
+  activeMenu: string;
+  setActiveMenu: (menuName: string) => void;
+}) {
   const router = useRouter();
   const dialogRef = useRef<React.ElementRef<'dialog'>>(null);
   const userStore = useUserStore();
 
   // 메뉴 활성화 변수
-  const [activeMenu, setActiveMenu] = useState('damagochi-report');
+  // const [activeMenu, setActiveMenu] = useState('damagochi-report');
 
   const handleClick = (menuName: string) => {
     setActiveMenu(menuName);
@@ -35,6 +42,11 @@ export function ReportModal({ children }: { children: React.ReactNode }) {
   // 모달 외부 클릭 시 종료
   // const closeModal = (e: React.MouseEvent<HTMLDialogElement, MouseEvent>) =>
   //   e.target === dialogRef.current && router.back();
+  const closeModal = (e) => {
+    if (e.target === dialogRef.current) {
+      router.back(); // 또는 다른 모달 닫기 로직
+    }
+  };
 
   // 홈으로 이동하면서 모달 닫기
   const gameModalClose = () => {
@@ -50,7 +62,7 @@ export function ReportModal({ children }: { children: React.ReactNode }) {
   return (
     <dialog
       ref={dialogRef}
-      // onClick={closeModal}
+      onClick={closeModal}
       onClose={router.back}
       className={style['modal-outer']}
     >
@@ -65,27 +77,23 @@ export function ReportModal({ children }: { children: React.ReactNode }) {
             }`}
             onClick={() => handleClick('damagochi-report')}
           >
-            <Link href={`/`}>
-              <Image
-                src={images.routine_icon}
-                width={60}
-                height={60}
-                alt='option'
-              ></Image>
-            </Link>
+            <Image
+              src={images.routine_icon}
+              width={60}
+              height={60}
+              alt='option'
+            ></Image>
           </button>
           <button
             className={`${activeMenu === 'user-report' ? '' : report.inactive}`}
             onClick={() => handleClick('user-report')}
           >
-            <Link href={`/`}>
-              <Image
-                src={images.stastitic_icon}
-                width={60}
-                height={60}
-                alt='option'
-              ></Image>
-            </Link>
+            <Image
+              src={images.stastitic_icon}
+              width={60}
+              height={60}
+              alt='option'
+            ></Image>
           </button>
           <button
             className={`${report['button-blue']} ${
@@ -93,14 +101,12 @@ export function ReportModal({ children }: { children: React.ReactNode }) {
             }`}
             onClick={() => handleClick('damagochi-history')}
           >
-            <Link href={`/`}>
-              <Image
-                src={images.routine_icon}
-                width={60}
-                height={60}
-                alt='option'
-              ></Image>
-            </Link>
+            <Image
+              src={images.routine_icon}
+              width={60}
+              height={60}
+              alt='option'
+            ></Image>
           </button>
           <button
             className={`${report['button-blue']} ${
@@ -108,14 +114,12 @@ export function ReportModal({ children }: { children: React.ReactNode }) {
             }`}
             onClick={() => handleClick('user-history')}
           >
-            <Link href={`/`}>
-              <Image
-                src={images.stastitic_icon}
-                width={60}
-                height={60}
-                alt='option'
-              ></Image>
-            </Link>
+            <Image
+              src={images.stastitic_icon}
+              width={60}
+              height={60}
+              alt='option'
+            ></Image>
           </button>
         </div>
         <div className={`${report['modal-inner']} bg`}>{children}</div>
