@@ -7,7 +7,7 @@ import icons from "@/util/icons.js";
 import ChallengeFrame from "@/components/ChallengeFrame";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { getImagePath } from "@/util/images";
+import { getUserCharacterImagePath } from "@/util/images";
 import useUserStore from "@/store/user-store";
 
 export default function Home() {
@@ -52,8 +52,7 @@ export default function Home() {
         <div className={styles["debuff-menu"]}></div>
         <div className={styles.damagochi}>
           <Image
-            src={getImagePath(
-              "characters",
+            src={getUserCharacterImagePath(
               userStore.gender,
               userStore.bodyShape,
               "idle",

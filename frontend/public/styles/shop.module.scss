@@ -15,18 +15,28 @@
     flex-direction: column;
     justify-content: space-between;
 
-    .item-container {
-      position: relative;
-      top: 10vh;
-      height: 45%;
-    }
-
     .menu {
       width: 100%;
       height: 20%;
       display: flex;
       justify-content: space-evenly;
       align-items: center;
+
+      h1 {
+        position: relative;
+        max-width: 300px;
+        text-align: center;
+        font-size: 3vh;
+        background-image: url("~/public/images/wide-button.png");
+        padding: 1.2vh;
+        filter: brightness(50%);
+        color: #a60000;
+      }
+
+      .active {
+        filter: brightness(100%);
+        color: #a60000;
+      }
 
       img {
         width: 30vh;
@@ -35,6 +45,7 @@
         left: 3vw;
         position: absolute;
       }
+
       .npc {
         width: 65%;
         height: 16vh;
@@ -42,7 +53,8 @@
         background-image: url("~/public/images/wide-button.png");
 
         p {
-          padding: 5vh;
+          align-self: center;
+          padding: 0 2vh;
         }
       }
 
@@ -56,4 +68,41 @@
       }
     }
   }
+}
+
+/* shop list css */
+.item-container {
+  position: relative;
+  top: 10vh;
+  height: 45%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contents {
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1vh;
+}
+
+.item {
+  width: 17vh;
+  height: 17vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  img {
+    width: 16vh;
+    height: 13vh;
+  }
+}
+
+.owned {
+  filter: brightness(30%);
 }

@@ -12,7 +12,7 @@ const pwaConfig = withPWA({
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    BASE_URL: "https://k10a103.p.ssafy.io/api/v1/", // 여기에 원하는 기본 URL 입력
+    BASE_URL: "https://k10a103.p.ssafy.io/api/v1", // 여기에 원하는 기본 URL 입력
   },
 }; // 여기에 기존 설정을 입력하세요.
 

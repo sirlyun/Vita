@@ -1,8 +1,15 @@
-export const getImagePath = (key, gender, bodyShape, stance, number) => {
-  if (key.includes("characters")) {
-    return `/images/${key}/${gender}/${bodyShape}/${stance}${number}.png`;
-  }
-  return images[key];
+export const getUserCharacterImagePath = (type, bodyShape, stance, number) => {
+  return `/images/characters/${type}/${bodyShape}/${stance}${number}.png`;
+};
+
+export const getNPCCharacterImagePath = (name) => {
+  return `/images/characters/npc/${name}.png`;
+};
+
+export const getShopImagePath = (name, type) => {
+  if (type == "BACKGROUND") return `/images/backgrounds/${name}-bg.png`;
+
+  return `/images/characters/emotions/${name}`;
 };
 
 const images = {
@@ -13,7 +20,6 @@ const images = {
   breakfast: "/images/clock-breakfast.png",
   camera: "/images/camera.png",
   karina: "/images/karina.png",
-  shopkeeper: "/images/characters/npc/shopkeeper.png",
 };
 
 export default images;

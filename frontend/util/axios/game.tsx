@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = process.env.BASE_URL;
+const BASE_URL = process.env.BASE_URL;
 
 // const data = {
 //   running: [
@@ -30,10 +30,10 @@ const baseUrl = process.env.BASE_URL;
 
 async function getRankingList(characterId: number, accessToken: string) {
   try {
-    console.log("baseUrl: ", baseUrl);
+    console.log("baseUrl: ", BASE_URL);
     // API로부터 랭킹 리스트를 가져옵니다. 여기서는 예시 URL을 사용하고 있습니다.
     const response = await axios.get(
-      baseUrl + `character/${characterId}/game/single/ranking`,
+      BASE_URL + `/character/${characterId}/game/single/ranking`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
