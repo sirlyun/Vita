@@ -1,8 +1,8 @@
 .title {
   height: 10%;
   width: 100%;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
+  margin-bottom: 2vh;
+  padding: 2vh 2vh 3vh 2vh;
 
   p {
     font-size: 7vh;
@@ -14,7 +14,7 @@
   flex-direction: column;
   align-items: center;
   width: 80vw;
-  height: 100vh;
+  height: 85vh;
 
   .menu-container {
     width: 80vw;
@@ -40,21 +40,81 @@
   .modal-inner {
     width: 80vw;
     height: 65vh;
-    background-image: url('~/public/images/backgrounds/board-bg.png');
   }
   .inner-text {
+    height: 50vh;
     padding: 8vh 5vh;
+    overflow: hidden; // 이 요소에서는 스크롤 발생 안 함
   }
 
   .sub-title {
-    font-size: 3vh;
-    color: tomato;
+    font-size: 2.5vh;
+    font-weight: 900;
     text-align: center;
-    margin-bottom: 3vh;
+    margin-bottom: 2vh;
+  }
+
+  .sub-content {
+    max-height: 45vh; // 최대 높이 설정
+    overflow-y: auto; // 세로 스크롤바 자동 설정
+    div {
+      margin-bottom: 0.5vh;
+
+      span {
+        color: tomato;
+      }
+    }
+
+    button {
+      padding: 3vh;
+      margin: 1vh;
+      span {
+        font-size: 2vh;
+      }
+    }
   }
 
   .inactive {
     filter: brightness(50%);
     transform: scale(0.85);
+  }
+}
+
+.inner-background {
+  background-image: url('~/public/images/backgrounds/board-bg.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.inner-image {
+  width: 15vh;
+  height: 15vh;
+}
+
+.damagochi-history {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1vh;
+  height: 65vh;
+  overflow: hidden;
+  overflow-y: auto;
+
+  button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 48%;
+    height: 30vh;
+    padding-bottom: 4vh;
+
+    img {
+      width: 8vh;
+      height: 16vh;
+    }
+    span {
+      font-size: 2.5vh;
+    }
   }
 }
