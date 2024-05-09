@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import org.aspectj.weaver.ast.Not;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -22,21 +23,27 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.request.CharacterSaveRequest;
+import com.vita.backend.character.data.request.ItemSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
 import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.CharacterDeBuff;
+import com.vita.backend.character.domain.CharacterShop;
 import com.vita.backend.character.domain.DeBuff;
+import com.vita.backend.character.domain.Shop;
 import com.vita.backend.character.domain.document.Receipt;
 import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.domain.enumeration.GameType;
+import com.vita.backend.character.domain.enumeration.ItemType;
 import com.vita.backend.character.domain.enumeration.ReceiptType;
 import com.vita.backend.character.provider.ReceiptProvider;
 import com.vita.backend.character.repository.CharacterDeBuffRepository;
 import com.vita.backend.character.repository.CharacterRepository;
+import com.vita.backend.character.repository.CharacterShopRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
 import com.vita.backend.character.repository.ReceiptRepository;
+import com.vita.backend.character.repository.ShopRepository;
 import com.vita.backend.global.domain.enumeration.Level;
 import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.ForbiddenException;
@@ -64,6 +71,10 @@ class CharacterServiceImplTest {
 	DeBuffRepository deBuffRepository;
 	@Mock
 	CharacterDeBuffRepository characterDeBuffRepository;
+	@Mock
+	ShopRepository shopRepository;
+	@Mock
+	CharacterShopRepository characterShopRepository;
 	@Mock
 	RedisTemplate<String, String> redisTemplate;
 	@Mock
@@ -500,7 +511,7 @@ class CharacterServiceImplTest {
 
 		@Test
 		@DisplayName("요청자가 캐릭터 접근 권한이 없어 실패")
-		void memberCharacterForbidden() {
+		void memberCharacterForbiddenFail() {
 			// given
 			given(characterRepository.findByIdAndMemberId(characterId, memberId)).willReturn(Optional.empty());
 			// when & then
@@ -599,6 +610,83 @@ class CharacterServiceImplTest {
 			// then
 			verify(receiptProvider, times(1)).receiptSave(anyLong(), any(ReceiptType.class), anyBoolean(), anyLong(),
 				anyLong());
+		}
+	}
+
+	@Nested
+	@DisplayName("상점 아이템 구매")
+	class ItemSave{
+		long memberId, characterId, shopId;
+		ItemSaveRequest request;
+
+		@BeforeEach
+		void setup() {
+			memberId = 1L;
+			characterId = 1L;
+			shopId = 1L;
+			request = ItemSaveRequest.builder()
+				.itemId(shopId)
+				.build();
+		}
+
+		@Test
+		@DisplayName("요청자가 캐릭터 접근 권한이 없어 실패")
+		void memberCharacterForbiddenFail() {
+			// given
+			given(characterRepository.findByIdAndMemberId(characterId, memberId)).willReturn(Optional.empty());
+			// when & then
+			assertThrows(ForbiddenException.class, () -> {
+				characterService.itemSave(memberId, characterId, request);
+			});
+		}
+
+		@Test
+		@DisplayName("아이템이 존재하지 않아 실패")
+		void itemNotFoundFail() {
+			// given
+			Member member = Member.builder()
+				.uuid("test")
+				.name("test")
+				.build();
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.member(member)
+				.build();
+			given(characterRepository.findByIdAndMemberId(characterId, memberId)).willReturn(Optional.of(character));
+			given(shopRepository.findById(shopId)).willReturn(Optional.empty());
+			// when & then
+			assertThrows(NotFoundException.class, () -> {
+				characterService.itemSave(memberId, characterId, request);
+			});
+		}
+
+		@Test
+		@DisplayName("아이템 구매 성공")
+		void success() {
+			// given
+			Member member = Member.builder()
+				.uuid("test")
+				.name("test")
+				.build();
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.member(member)
+				.build();
+			given(characterRepository.findByIdAndMemberId(characterId, memberId)).willReturn(Optional.of(character));
+			Shop item = Shop.builder()
+				.type(ItemType.BACKGROUND)
+				.name("test")
+				.vitaPoint(10L)
+				.build();
+			given(shopRepository.findById(shopId)).willReturn(Optional.of(item));
+			// when
+			characterService.itemSave(memberId, characterId, request);
+			// then
+			verify(characterShopRepository, times(1)).save(any(CharacterShop.class));
 		}
 	}
 }

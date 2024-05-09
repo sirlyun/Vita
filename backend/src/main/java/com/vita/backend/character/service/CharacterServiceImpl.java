@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.request.CharacterSaveRequest;
+import com.vita.backend.character.data.request.ItemSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
 import com.vita.backend.character.data.response.ItemLoadResponse;
@@ -26,7 +27,9 @@ import com.vita.backend.character.data.response.detail.ShopDetail;
 import com.vita.backend.character.data.response.detail.RequesterGameSingleRankingDetail;
 import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.CharacterDeBuff;
+import com.vita.backend.character.domain.CharacterShop;
 import com.vita.backend.character.domain.DeBuff;
+import com.vita.backend.character.domain.Shop;
 import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.domain.enumeration.GameType;
@@ -34,6 +37,7 @@ import com.vita.backend.character.domain.enumeration.ReceiptType;
 import com.vita.backend.character.provider.ReceiptProvider;
 import com.vita.backend.character.repository.CharacterDeBuffRepository;
 import com.vita.backend.character.repository.CharacterRepository;
+import com.vita.backend.character.repository.CharacterShopRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
 import com.vita.backend.character.repository.ShopRepository;
 import com.vita.backend.character.utils.CharacterUtils;
@@ -56,6 +60,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	private final DeBuffRepository deBuffRepository;
 	private final CharacterDeBuffRepository characterDeBuffRepository;
 	private final ShopRepository shopRepository;
+	private final CharacterShopRepository characterShopRepository;
 	/* Template */
 	private final RedisTemplate<String, String> redisTemplate;
 	/* Provider */
@@ -167,6 +172,12 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			.build();
 	}
 
+	/**
+	 * 보유한 아이템 목록 조회
+	 * @param memberId 요청자 member_id
+	 * @param characterId 요청자 character_id
+	 * @return 보유한 아이템 목록
+	 */
 	@Override
 	public ItemLoadResponse itemLoad(long memberId, long characterId) {
 		CharacterUtils.findByCharacterIdAndMemberId(characterRepository, characterId, memberId);
@@ -312,6 +323,26 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 		}
 
 		throw new BadRequestException("CharacterAttendance", ATTENDANCE_BAD_REQUEST);
+	}
+
+	/**
+	 * 아이템 구매
+	 * @param memberId 요청자 member_id
+	 * @param characterId 요청자 character_id
+	 * @param request 아이템 정보
+	 */
+	@Transactional
+	@Override
+	public void itemSave(long memberId, long characterId, ItemSaveRequest request) {
+		Character character = CharacterUtils.findByCharacterIdAndMemberId(characterRepository,
+			characterId, memberId);
+		Shop shop = CharacterUtils.findByItemId(shopRepository, request.itemId());
+
+		characterShopRepository.save(CharacterShop.builder()
+			.character(character)
+			.shop(shop)
+			.build()
+		);
 	}
 
 	/**

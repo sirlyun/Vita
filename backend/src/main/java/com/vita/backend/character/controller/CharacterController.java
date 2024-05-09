@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vita.backend.auth.utils.SecurityMember;
 import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.request.CharacterSaveRequest;
+import com.vita.backend.character.data.request.ItemSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
 import com.vita.backend.character.data.response.ItemLoadResponse;
@@ -109,5 +110,17 @@ public class CharacterController {
 		ItemLoadResponse itemLoadResponse = characterLoadService.itemLoad(memberId, characterId);
 
 		return ResponseEntity.ok(itemLoadResponse);
+	}
+
+	@PostMapping("/{character_id}/item")
+	public ResponseEntity<Void> itemSave(
+		@PathVariable("character_id") long characterId,
+		@RequestBody @Valid ItemSaveRequest request,
+		@AuthenticationPrincipal SecurityMember securityMember
+	) {
+		long memberId = securityMember.getId();
+		characterSaveService.itemSave(memberId, characterId, request);
+
+		return ResponseEntity.ok(null);
 	}
 }
