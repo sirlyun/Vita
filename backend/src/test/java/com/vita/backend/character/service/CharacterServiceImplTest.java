@@ -689,4 +689,63 @@ class CharacterServiceImplTest {
 			verify(characterShopRepository, times(1)).save(any(CharacterShop.class));
 		}
 	}
+
+	@Nested
+	@DisplayName("아이템 장착")
+	class ItemUpdate {
+		long memberId, characterId, shopId;
+		ItemSaveRequest request;
+
+		@BeforeEach
+		void setup() {
+			memberId = 1L;
+			characterId = 1L;
+			shopId = 1L;
+			request = ItemSaveRequest.builder()
+				.itemId(shopId)
+				.build();
+		}
+
+		@Test
+		@DisplayName("요청자가 캐릭터 접근 권한이 없어 실패")
+		void memberCharacterForbiddenFail() {
+			// given
+			given(characterRepository.findByIdAndMemberId(characterId, memberId)).willReturn(Optional.empty());
+			// when & then
+			assertThrows(ForbiddenException.class, () -> {
+				characterService.itemUpdate(memberId, characterId, request);
+			});
+		}
+
+		@Test
+		@DisplayName("보유한 아이템이 아니라 실패")
+		void notOwnedItemFail() {
+			// given
+			Member member = Member.builder()
+				.uuid("test")
+				.name("test")
+				.build();
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.member(member)
+				.build();
+			given(characterRepository.findByIdAndMemberId(characterId, memberId)).willReturn(Optional.of(character));
+			given(characterShopRepository.findById(request.itemId())).willReturn(Optional.empty());
+			// when & then
+			assertThrows(NotFoundException.class, () -> {
+				characterService.itemUpdate(memberId, characterId, request);
+			});
+			Shop item = Shop.builder()
+				.type(ItemType.BACKGROUND)
+				.name("test")
+				.vitaPoint(10L)
+				.build();
+			CharacterShop characterShop = CharacterShop.builder()
+				.shop(item)
+				.character(character)
+				.build();
+		}
+	}
 }

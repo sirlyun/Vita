@@ -2,6 +2,7 @@ package com.vita.backend.character.repository.query;
 
 import java.util.List;
 
+import com.vita.backend.character.data.response.detail.CharacterItemDetail;
 import com.vita.backend.character.data.response.detail.ItemDetail;
 import com.vita.backend.character.data.response.detail.ShopDetail;
 

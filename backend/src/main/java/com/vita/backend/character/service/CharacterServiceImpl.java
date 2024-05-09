@@ -20,6 +20,7 @@ import com.vita.backend.character.data.response.CharacterLoadResponse;
 import com.vita.backend.character.data.response.ItemLoadResponse;
 import com.vita.backend.character.data.response.ShopLoadResponse;
 import com.vita.backend.character.data.response.detail.CharacterGameSingleRankingDetail;
+import com.vita.backend.character.data.response.detail.CharacterItemDetail;
 import com.vita.backend.character.data.response.detail.DeBuffLoadDetail;
 import com.vita.backend.character.data.response.detail.GameSingleRankingDetail;
 import com.vita.backend.character.data.response.detail.ItemDetail;
@@ -140,10 +141,14 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 
 		List<DeBuffLoadDetail> deBuffLoadDetails = character.getCharacterDeBuffs().stream()
 			.map(deBuff -> DeBuffLoadDetail.builder()
+				.id(deBuff.getDeBuff().getId())
 				.deBuffType(deBuff.getDeBuff().getDeBuffType())
 				.vitaPoint(deBuff.getVitaPoint())
 				.build())
 			.toList();
+
+		List<CharacterItemDetail> characterItemDetails = characterShopRepository.findByCharacterIdAndIsUsed(
+			character.getId());
 
 		return CharacterLoadResponse.builder()
 			.characterId(character.getId())
@@ -153,6 +158,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			.gender(member.getGender())
 			.bodyShape(character.getBodyShape())
 			.deBuffs(deBuffLoadDetails)
+			.items(characterItemDetails)
 			.build();
 	}
 
@@ -343,6 +349,25 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			.shop(shop)
 			.build()
 		);
+	}
+
+	/**
+	 * 아이템 장착
+	 * @param memberId 요청자 member_id
+	 * @param characterId 요청자 character_id
+	 * @param request 장착 아이템 정보
+	 */
+	@Transactional
+	@Override
+	public void itemUpdate(long memberId, long characterId, ItemSaveRequest request) {
+		CharacterUtils.findByCharacterIdAndMemberId(characterRepository, characterId, memberId);
+		CharacterShop characterShop = CharacterUtils.findByCharacterShopId(characterShopRepository,
+			request.itemId());
+		characterShopRepository.findByCharacterIdAndItemTypeAndIsUsed(characterId, characterShop.getShop().getType())
+			.ifPresent(preCharacterShop -> {
+				preCharacterShop.isUsedUpdate(false);
+			});
+		characterShop.isUsedUpdate(true);
 	}
 
 	/**

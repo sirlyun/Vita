@@ -7,7 +7,7 @@ import lombok.Builder;
 
 @Builder
 public record ShopDetail(
-	@JsonProperty("item_id")
+	@JsonProperty("shop_item_id")
 	Long itemId,
 	@JsonProperty("type")
 	ItemType type,

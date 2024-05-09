@@ -11,6 +11,7 @@ public interface CharacterSaveService {
 	void characterSave(long memberId, CharacterSaveRequest request);
 	void characterAttendance(long memberId, long characterId);
 	void itemSave(long memberId, long characterId, ItemSaveRequest request);
+	void itemUpdate(long memberId, long characterId, ItemSaveRequest request);
 	void characterVitaUpdate();
 	void rankingReset();
 }

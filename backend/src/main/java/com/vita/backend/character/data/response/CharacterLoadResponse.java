@@ -3,6 +3,7 @@ package com.vita.backend.character.data.response;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vita.backend.character.data.response.detail.CharacterItemDetail;
 import com.vita.backend.character.data.response.detail.DeBuffLoadDetail;
 import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.member.domain.enumeration.Gender;
@@ -23,6 +24,8 @@ public record CharacterLoadResponse(
 	Gender gender,
 	@JsonProperty("body_shape")
 	BodyShape bodyShape,
+	@JsonProperty("character_item")
+	List<CharacterItemDetail> items,
 	@JsonProperty("de_buff")
 	List<DeBuffLoadDetail> deBuffs
 ) {
