@@ -63,12 +63,9 @@ async function getShopList() {
 async function buyShopItem(itemId: number) {
   try {
     // API 요청문
-    const response = await localAxios.post(
-      `/character/${getCharacterId()}/item`,
-      {
-        itemId,
-      }
-    );
+    await localAxios.post(`/character/${getCharacterId()}/item`, {
+      itemId,
+    });
     console.log("구매 성공");
   } catch (error) {
     console.log(error);
