@@ -349,6 +349,10 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			.shop(shop)
 			.build()
 		);
+
+		character.vitaUpdate(shop.getVitaPoint() * -1);
+		receiptProvider.receiptSave(characterId, ReceiptType.SHOP, false, shop.getVitaPoint(),
+			character.getVitaPoint());
 	}
 
 	/**
