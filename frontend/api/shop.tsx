@@ -1,32 +1,36 @@
-import axios from "axios";
-const BASE_URL = process.env.BASE_URL;
+import { localAxios, getCharacterId } from "@/util/axios";
 
 const shops = [
   {
+    item_id: 1,
     type: "BACKGROUND",
     name: "beach-park",
     vita_point: 10,
     is_own: true,
   },
   {
+    item_id: 2,
     type: "BACKGROUND",
     name: "veld",
     vita_point: 10,
     is_own: false,
   },
   {
+    item_id: 3,
     type: "BACKGROUND",
     name: "veld",
     vita_point: 1,
     is_own: false,
   },
   {
+    item_id: 4,
     type: "BACKGROUND",
     name: "veld",
     vita_point: 6,
     is_own: false,
   },
   {
+    item_id: 5,
     type: "BACKGROUND",
     name: "veld",
     vita_point: 5,
@@ -34,7 +38,7 @@ const shops = [
   },
 ];
 
-async function getShopList(characterId: number, accessToken: string) {
+async function getShopList() {
   //   try {
   //     console.log("baseUrl: ", BASE_URL);
   //     // API로부터 랭킹 리스트를 가져옵니다. 여기서는 예시 URL을 사용하고 있습니다.
@@ -56,4 +60,19 @@ async function getShopList(characterId: number, accessToken: string) {
   return shops;
 }
 
-export { getShopList };
+async function buyShopItem(itemId: number) {
+  try {
+    // API 요청문
+    const response = await localAxios.post(
+      `/character/${getCharacterId()}/item`,
+      {
+        itemId,
+      }
+    );
+    console.log("구매 성공");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export { getShopList, buyShopItem };

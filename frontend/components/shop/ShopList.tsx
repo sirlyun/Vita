@@ -1,19 +1,14 @@
 "use client";
 import styles from "@/public/styles/shop.module.scss";
 import ShopItemComponent from "./ShopItem";
-import { ShopItem, ShopList } from "@/interfaces/shop";
+import { ShopListComponentProps } from "@/interfaces/shop-interface";
 
 export default function ShopListComponent({
   shopList,
   activeMenu,
   selecteditem,
   setSelectedItem,
-}: {
-  shopList: ShopList;
-  activeMenu: string;
-  selecteditem: ShopItem | null;
-  setSelectedItem: (item: ShopItem) => void; // 타입 추가
-}) {
+}: ShopListComponentProps) {
   function renderContent() {
     if (!shopList) {
       return <p>No items to display.</p>;

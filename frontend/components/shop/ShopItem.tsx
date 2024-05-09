@@ -1,17 +1,13 @@
 import styles from "@/public/styles/shop.module.scss";
 import Image from "next/image";
 import { getShopImagePath } from "@/util/images";
-import { ShopItem } from "@/interfaces/shop";
+import { ShopItemComponentProps } from "@/interfaces/shop-interface";
 
 export default function ShopItemComponent({
   item,
   onClick,
   selected,
-}: {
-  item: ShopItem;
-  onClick: () => void;
-  selected: boolean;
-}) {
+}: ShopItemComponentProps) {
   const handleClick = () => {
     if (!item.is_own) {
       // 소유하지 않은 아이템만 클릭 가능
