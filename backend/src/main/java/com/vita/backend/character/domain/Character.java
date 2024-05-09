@@ -83,7 +83,7 @@ public class Character extends BaseEntity {
 	}
 
 	public void vitaUpdate(Long newVitaPoint) {
-		this.vitaPoint = Math.max(0, this.vitaPoint - newVitaPoint);
+		this.vitaPoint = Math.max(0, this.vitaPoint + newVitaPoint);
 
 		if (this.vitaPoint == 0) {
 			this.isDead = true;

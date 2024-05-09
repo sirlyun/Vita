@@ -261,7 +261,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			long totalDeBuff = character.getCharacterDeBuffs().stream()
 				.mapToLong(CharacterDeBuff::getVitaPoint)
 				.sum();
-			character.vitaUpdate(totalDeBuff + 1);
+			character.vitaUpdate((totalDeBuff + 1)*-1);
 		});
 
 		// TODO: 수명 차감 기록 저장 (영수증 양식)
