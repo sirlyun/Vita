@@ -39,12 +39,7 @@ export default function Home() {
             ></Image>
           </Link>
           <button onClick={toggleChallengeModal}>
-            <Image
-              src={icons.daily}
-              width={60}
-              height={60}
-              alt="option"
-            ></Image>
+            <Image src={icons.daily} width={60} height={60} alt="daily"></Image>
           </button>
         </div>
       </div>
@@ -60,7 +55,7 @@ export default function Home() {
             )}
             width={300}
             height={300}
-            alt="option"
+            alt="damagochi"
           ></Image>
         </div>
         <div className={styles["debuff-menu"]}>
@@ -101,12 +96,7 @@ export default function Home() {
         <div className={styles.left}>
           <button className={styles.shop}>
             <Link href="/shop">
-              <Image
-                src={icons.shop}
-                width={60}
-                height={60}
-                alt="option"
-              ></Image>
+              <Image src={icons.shop} width={60} height={60} alt="shop"></Image>
               <p>SHOP</p>
             </Link>
           </button>
@@ -116,7 +106,7 @@ export default function Home() {
                 src={icons.report}
                 width={60}
                 height={60}
-                alt="option"
+                alt="report"
               ></Image>
             </Link>
           </button>
@@ -129,7 +119,7 @@ export default function Home() {
                 src={icons.hospital}
                 width={60}
                 height={60}
-                alt="option"
+                alt="health"
               ></Image>
             </Link>
           </button>
