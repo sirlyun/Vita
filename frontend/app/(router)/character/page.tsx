@@ -2,7 +2,7 @@
 
 import styles from "@/public/styles/character.module.scss";
 import Image from "next/image";
-import images from "@/util/images";
+import { getNPCCharacterImagePath } from "@/util/images";
 import { useState } from "react";
 import InputHeight from "@/components/character/InputHeight";
 import InputWeight from "@/components/character/InputWeight";
@@ -134,7 +134,7 @@ export default function createCharacter() {
           <p>{stepMessages[step]}</p>
         </div>
         <Image
-          src={images.karina}
+          src={getNPCCharacterImagePath("karina")}
           width={344}
           height={211}
           alt="karina"

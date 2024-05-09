@@ -1,7 +1,6 @@
 .dark-overlay {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
@@ -16,4 +15,43 @@
   justify-content: space-evenly;
   align-items: center;
   padding: 4vh 0;
+
+  .step-button {
+    display: flex;
+    width: 50vw;
+    justify-content: space-evenly;
+  }
+
+  button {
+    width: 20vw;
+    height: 5vh;
+    font-size: 2.5vh;
+  }
+}
+
+.speech-doctor {
+  margin-top: 17vh;
+  width: 90vw;
+  display: flex;
+  justify-content: space-between;
+  img {
+    width: 50vw;
+    height: 25vh;
+  }
+}
+
+.speech-bubble {
+  background-image: url("/images/speech-bubble-left.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 45vw;
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-size: 4vw;
+    padding-bottom: 3.5vh;
+  }
 }
