@@ -1,13 +1,18 @@
+"use client";
 import styles from "@/public/styles/shop.module.scss";
 import ShopItemComponent from "./ShopItem";
-import { ShopList } from "@/interfaces/shop";
+import { ShopItem, ShopList } from "@/interfaces/shop";
 
 export default function ShopListComponent({
   shopList,
   activeMenu,
+  selecteditem,
+  setSelectedItem,
 }: {
   shopList: ShopList;
   activeMenu: string;
+  selecteditem: ShopItem | null;
+  setSelectedItem: (item: ShopItem) => void; // 타입 추가
 }) {
   function renderContent() {
     if (!shopList) {
@@ -25,7 +30,12 @@ export default function ShopListComponent({
     }
 
     return filteredItems.map((item, index) => (
-      <ShopItemComponent key={index} item={item} />
+      <ShopItemComponent
+        key={index}
+        item={item}
+        onClick={() => setSelectedItem(item)}
+        selected={selecteditem == item}
+      />
     ));
   }
 

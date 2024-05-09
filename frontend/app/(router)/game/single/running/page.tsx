@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "@/public/styles/running.module.scss";
 import Image from "next/image";
-import { getImagePath } from "@/util/images";
+import { getUserCharacterImagePath } from "@/util/images";
 import useUserStore from "@/store/user-store";
 
 export default function RunningPage() {
@@ -52,8 +52,7 @@ export default function RunningPage() {
   // 게이지 비율 계산
   const gaugeWidth = (clickCount / maxClicks) * 100;
 
-  const imageUrl = getImagePath(
-    "characters",
+  const imageUrl = getUserCharacterImagePath(
     userStore.gender,
     userStore.bodyShape,
     "walking",

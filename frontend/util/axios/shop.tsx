@@ -14,6 +14,24 @@ const shops = [
     vita_point: 10,
     is_own: false,
   },
+  {
+    type: "BACKGROUND",
+    name: "veld",
+    vita_point: 1,
+    is_own: false,
+  },
+  {
+    type: "BACKGROUND",
+    name: "veld",
+    vita_point: 6,
+    is_own: false,
+  },
+  {
+    type: "BACKGROUND",
+    name: "veld",
+    vita_point: 5,
+    is_own: false,
+  },
 ];
 
 async function getShopList(characterId: number, accessToken: string) {
