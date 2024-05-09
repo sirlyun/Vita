@@ -54,4 +54,8 @@ public class CharacterShop extends BaseEntity {
 		this.character = character;
 		character.getCharacterShops().add(this);
 	}
+
+	public void isUsedUpdate(Boolean newIsUsed) {
+		this.isUsed = newIsUsed;
+	}
 }

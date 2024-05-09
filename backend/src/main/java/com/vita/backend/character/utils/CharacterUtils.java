@@ -5,11 +5,13 @@ import static com.vita.backend.global.exception.response.ErrorCode.*;
 import java.time.Year;
 
 import com.vita.backend.character.domain.Character;
+import com.vita.backend.character.domain.CharacterShop;
 import com.vita.backend.character.domain.DeBuff;
 import com.vita.backend.character.domain.Shop;
 import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.repository.CharacterRepository;
+import com.vita.backend.character.repository.CharacterShopRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
 import com.vita.backend.character.repository.ShopRepository;
 import com.vita.backend.global.exception.category.ForbiddenException;
@@ -52,6 +54,13 @@ public class CharacterUtils {
 		return repository.findById(itemId)
 			.orElseThrow(
 				() -> new NotFoundException("FindByItemId", ITEM_NOT_FOUND)
+			);
+	}
+
+	public static CharacterShop findByCharacterShopId(CharacterShopRepository repository, long itemId) {
+		return repository.findById(itemId)
+			.orElseThrow(
+				() -> new NotFoundException("FindByCharacterShopId", ITEM_NOT_FOUND)
 			);
 	}
 
