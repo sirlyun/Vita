@@ -6,14 +6,16 @@ import com.vita.backend.character.domain.enumeration.ItemType;
 import lombok.Builder;
 
 @Builder
-public record ItemDetail(
+public record ShopDetail(
 	@JsonProperty("item_id")
 	Long itemId,
 	@JsonProperty("type")
 	ItemType type,
 	@JsonProperty("name")
 	String name,
-	@JsonProperty("is_used")
-	Boolean isUsed
+	@JsonProperty("vita_point")
+	Long vitaPoint,
+	@JsonProperty("is_own")
+	Boolean isOwn
 ) {
 }

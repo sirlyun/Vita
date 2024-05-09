@@ -16,16 +16,17 @@ import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.request.CharacterSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
+import com.vita.backend.character.data.response.ItemLoadResponse;
 import com.vita.backend.character.data.response.ShopLoadResponse;
 import com.vita.backend.character.data.response.detail.CharacterGameSingleRankingDetail;
 import com.vita.backend.character.data.response.detail.DeBuffLoadDetail;
 import com.vita.backend.character.data.response.detail.GameSingleRankingDetail;
 import com.vita.backend.character.data.response.detail.ItemDetail;
+import com.vita.backend.character.data.response.detail.ShopDetail;
 import com.vita.backend.character.data.response.detail.RequesterGameSingleRankingDetail;
 import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.CharacterDeBuff;
 import com.vita.backend.character.domain.DeBuff;
-import com.vita.backend.character.domain.document.Receipt;
 import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.domain.enumeration.GameType;
@@ -34,13 +35,11 @@ import com.vita.backend.character.provider.ReceiptProvider;
 import com.vita.backend.character.repository.CharacterDeBuffRepository;
 import com.vita.backend.character.repository.CharacterRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
-import com.vita.backend.character.repository.ReceiptRepository;
 import com.vita.backend.character.repository.ShopRepository;
 import com.vita.backend.character.utils.CharacterUtils;
 import com.vita.backend.global.domain.enumeration.Level;
 import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.ForbiddenException;
-import com.vita.backend.global.exception.response.ErrorCode;
 import com.vita.backend.member.domain.Member;
 import com.vita.backend.member.repository.MemberRepository;
 import com.vita.backend.member.utils.MemberUtils;
@@ -162,9 +161,19 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	public ShopLoadResponse shopLoad(long memberId, long characterId) {
 		CharacterUtils.findByCharacterIdAndMemberId(characterRepository, characterId, memberId);
 
-		List<ItemDetail> items = shopRepository.findAllItemsWithOwnCheck(characterId);
+		List<ShopDetail> shop = shopRepository.findAllItemsWithOwnCheck(characterId);
 		return ShopLoadResponse.builder()
-			.shop(items)
+			.shop(shop)
+			.build();
+	}
+
+	@Override
+	public ItemLoadResponse itemLoad(long memberId, long characterId) {
+		CharacterUtils.findByCharacterIdAndMemberId(characterRepository, characterId, memberId);
+
+		List<ItemDetail> items = shopRepository.findAllCharacterItems(characterId);
+		return ItemLoadResponse.builder()
+			.items(items)
 			.build();
 	}
 
