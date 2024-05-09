@@ -39,7 +39,7 @@ public class CharacterShop extends BaseEntity {
 	private Character character;
 
 	@Builder
-	public CharacterShop(Boolean isUsed, Shop shop, Character character) {
+	public CharacterShop(Shop shop, Character character) {
 		this.isUsed = false;
 		setShop(shop);
 		setCharacter(character);
