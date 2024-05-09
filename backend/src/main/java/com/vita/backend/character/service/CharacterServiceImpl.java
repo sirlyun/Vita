@@ -16,9 +16,11 @@ import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.request.CharacterSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
+import com.vita.backend.character.data.response.ShopLoadResponse;
 import com.vita.backend.character.data.response.detail.CharacterGameSingleRankingDetail;
 import com.vita.backend.character.data.response.detail.DeBuffLoadDetail;
 import com.vita.backend.character.data.response.detail.GameSingleRankingDetail;
+import com.vita.backend.character.data.response.detail.ItemDetail;
 import com.vita.backend.character.data.response.detail.RequesterGameSingleRankingDetail;
 import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.CharacterDeBuff;
@@ -33,6 +35,7 @@ import com.vita.backend.character.repository.CharacterDeBuffRepository;
 import com.vita.backend.character.repository.CharacterRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
 import com.vita.backend.character.repository.ReceiptRepository;
+import com.vita.backend.character.repository.ShopRepository;
 import com.vita.backend.character.utils.CharacterUtils;
 import com.vita.backend.global.domain.enumeration.Level;
 import com.vita.backend.global.exception.category.BadRequestException;
@@ -53,6 +56,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	private final CharacterRepository characterRepository;
 	private final DeBuffRepository deBuffRepository;
 	private final CharacterDeBuffRepository characterDeBuffRepository;
+	private final ShopRepository shopRepository;
 	/* Template */
 	private final RedisTemplate<String, String> redisTemplate;
 	/* Provider */
@@ -145,6 +149,22 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			.gender(member.getGender())
 			.bodyShape(character.getBodyShape())
 			.deBuffs(deBuffLoadDetails)
+			.build();
+	}
+
+	/**
+	 * 상점 전체 목록 조회
+	 * @param memberId 요청자 member_id
+	 * @param characterId 요청자 character_id
+	 * @return 상점 아이템 목록
+	 */
+	@Override
+	public ShopLoadResponse shopLoad(long memberId, long characterId) {
+		CharacterUtils.findByCharacterIdAndMemberId(characterRepository, characterId, memberId);
+
+		List<ItemDetail> items = shopRepository.findAllItemsWithOwnCheck(characterId);
+		return ShopLoadResponse.builder()
+			.shop(items)
 			.build();
 	}
 
@@ -267,6 +287,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	 * @param memberId 요청자 member_id
 	 * @param characterId 요청자 character_id
 	 */
+	@Transactional
 	@Override
 	public void characterAttendance(long memberId, long characterId) {
 		Character character = CharacterUtils.findByCharacterIdAndMemberId(characterRepository, characterId, memberId);

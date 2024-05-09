@@ -15,6 +15,7 @@ import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.request.CharacterSaveRequest;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
+import com.vita.backend.character.data.response.ShopLoadResponse;
 import com.vita.backend.character.domain.enumeration.GameType;
 import com.vita.backend.character.service.CharacterLoadService;
 import com.vita.backend.character.service.CharacterSaveService;
@@ -85,5 +86,16 @@ public class CharacterController {
 		characterSaveService.characterAttendance(memberId, characterId);
 
 		return ResponseEntity.ok(null);
+	}
+
+	@GetMapping("/{character_id}/shop")
+	public ResponseEntity<ShopLoadResponse> shopLoad(
+		@PathVariable("character_id") long characterId,
+		@AuthenticationPrincipal SecurityMember securityMember
+	) {
+		long memberId = securityMember.getId();
+		ShopLoadResponse shopLoadResponse = characterLoadService.shopLoad(memberId, characterId);
+
+		return ResponseEntity.ok(shopLoadResponse);
 	}
 }
