@@ -5,6 +5,8 @@ import static com.vita.backend.global.exception.response.ErrorCode.*;
 import com.vita.backend.auth.data.response.ReissueResponse;
 import com.vita.backend.auth.provider.CookieProvider;
 import com.vita.backend.auth.provider.JwtTokenProvider;
+import com.vita.backend.character.provider.ReceiptProvider;
+import com.vita.backend.character.repository.CharacterRepository;
 import com.vita.backend.global.exception.category.NotFoundException;
 import com.vita.backend.global.exception.category.UnAuthorizedException;
 import com.vita.backend.infra.google.GoogleClient;
@@ -30,6 +32,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -40,11 +44,13 @@ import java.util.concurrent.TimeUnit;
 public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 	/* Repository */
 	private final MemberRepository memberRepository;
+	private final CharacterRepository characterRepository;
 	/* Infra */
 	private final GoogleClient googleClient;
 	/* Provider */
 	private final JwtTokenProvider jwtTokenProvider;
 	private final CookieProvider cookieProvider;
+	private final ReceiptProvider receiptProvider;
 	/* Template */
 	private final RedisTemplate<String, String> redisTemplate;
 
@@ -81,14 +87,6 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 		Number expiresInNumber = (Number)claims.get("expiresIn");
 		Long expiresIn = expiresInNumber.longValue();
 
-		LoginResponse response = LoginResponse.builder()
-			.token(TokenDetail.builder()
-				.accessToken(tokenMap.get("access").substring(7))
-				.createdAt(createdAt)
-				.expiresIn(expiresIn)
-				.build())
-			.build();
-
 		saveToken("google:" + member.getId(), googleUserInfo.accessToken(),
 			googleUserInfo.expiresIn());
 		saveToken("refresh:" + member.getId(), tokenMap.get("refresh"),
@@ -98,10 +96,30 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 		ResponseCookie cookie = cookieProvider.createCookie(refreshToken);
 		HttpHeaders headers = cookieProvider.addCookieHttpHeaders(cookie);
 
+		boolean attendanceCheck = attendanceMaker(member.getId());
+
+		LoginResponse response = LoginResponse.builder()
+			.firstAttendance(attendanceCheck)
+			.token(TokenDetail.builder()
+				.accessToken(tokenMap.get("access").substring(7))
+				.createdAt(createdAt)
+				.expiresIn(expiresIn)
+				.build())
+			.build();
+
 		return ResponseEntity
 			.status(HttpStatus.OK)
 			.headers(headers)
 			.body(response);
+	}
+
+	private boolean attendanceMaker(long memberId) {
+		String attendanceKey = MemberUtils.attendanceKeyMaker(LocalDate.now(), memberId);
+		if (redisTemplate.opsForValue().get(attendanceKey) == null) {
+			redisTemplate.opsForValue().set(attendanceKey, "unconfirmed", Duration.ofDays(1));
+			return true;
+		}
+		return false;
 	}
 
 	/**

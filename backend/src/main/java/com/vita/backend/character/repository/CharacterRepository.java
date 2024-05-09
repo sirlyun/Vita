@@ -12,4 +12,5 @@ public interface CharacterRepository extends JpaRepository<Character, Long>, Cha
 	boolean existsByMemberIdAndIsDeadFalse(long memberId);
 	List<Character> findByIsDeadFalse();
 	Optional<Character> findByMemberIdAndIsDeadFalse(long memberId);
+	Optional<Character> findByIdAndMemberId(long id, long memberId);
 }

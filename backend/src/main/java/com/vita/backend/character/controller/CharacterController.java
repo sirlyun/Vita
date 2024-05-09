@@ -75,4 +75,15 @@ public class CharacterController {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(null);
 	}
+
+	@GetMapping("/{character_id}/attendance")
+	public ResponseEntity<Void> characterAttendance(
+		@PathVariable("character_id") long characterId,
+		@AuthenticationPrincipal SecurityMember securityMember
+	) {
+		long memberId = securityMember.getId();
+		characterSaveService.characterAttendance(memberId, characterId);
+
+		return ResponseEntity.ok(null);
+	}
 }

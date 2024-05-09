@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -26,12 +27,16 @@ import com.vita.backend.character.data.response.CharacterLoadResponse;
 import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.CharacterDeBuff;
 import com.vita.backend.character.domain.DeBuff;
+import com.vita.backend.character.domain.document.Receipt;
 import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.domain.enumeration.GameType;
+import com.vita.backend.character.domain.enumeration.ReceiptType;
+import com.vita.backend.character.provider.ReceiptProvider;
 import com.vita.backend.character.repository.CharacterDeBuffRepository;
 import com.vita.backend.character.repository.CharacterRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
+import com.vita.backend.character.repository.ReceiptRepository;
 import com.vita.backend.global.domain.enumeration.Level;
 import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.ForbiddenException;
@@ -50,6 +55,8 @@ class CharacterServiceImplTest {
 	@InjectMocks
 	CharacterServiceImpl characterService;
 	@Mock
+	ReceiptProvider receiptProvider;
+	@Mock
 	MemberRepository memberRepository;
 	@Mock
 	CharacterRepository characterRepository;
@@ -61,6 +68,8 @@ class CharacterServiceImplTest {
 	RedisTemplate<String, String> redisTemplate;
 	@Mock
 	ZSetOperations<String, String> zSetOperations;
+	@Mock
+	ValueOperations<String, String> valueOperations;
 	@Mock
 	ZSetOperations.TypedTuple<String> typedTuple1;
 	@Mock
@@ -128,7 +137,8 @@ class CharacterServiceImplTest {
 			given(redisTemplate.hasKey(type1 + "_single_ranking")).willReturn(Boolean.FALSE);
 			given(redisTemplate.hasKey(type2 + "_single_ranking")).willReturn(Boolean.FALSE);
 			// when
-			CharacterGameSingleRankingResponse characterGameSingleRankingResponse = characterService.characterGameSingleRankingLoad(memberId,
+			CharacterGameSingleRankingResponse characterGameSingleRankingResponse = characterService.characterGameSingleRankingLoad(
+				memberId,
 				characterId);
 			// then
 			assertNull(characterGameSingleRankingResponse.running().requesterRanking());
@@ -168,7 +178,8 @@ class CharacterServiceImplTest {
 			given(redisTemplate.opsForZSet().reverseRangeWithScores(type2 + "_single_ranking", 0, 9))
 				.willReturn(tupleSet);
 			// when
-			CharacterGameSingleRankingResponse characterGameSingleRankingResponse = characterService.characterGameSingleRankingLoad(memberId,
+			CharacterGameSingleRankingResponse characterGameSingleRankingResponse = characterService.characterGameSingleRankingLoad(
+				memberId,
 				characterId);
 			// then
 			assertNotNull(characterGameSingleRankingResponse.running().requesterRanking());
@@ -422,6 +433,7 @@ class CharacterServiceImplTest {
 	class CharacterLoad {
 		long memberId;
 		Member member;
+
 		@BeforeEach
 		void setup() {
 			memberId = 1L;
@@ -430,6 +442,7 @@ class CharacterServiceImplTest {
 				.name("test")
 				.build();
 		}
+
 		@Test
 		@DisplayName("요청자가 존재하지 않아 실패")
 		void memberNotFoundFail() {
@@ -471,6 +484,121 @@ class CharacterServiceImplTest {
 			// then
 			assertEquals(characterLoadResponse.nickname(), "test");
 			assertEquals(characterLoadResponse.vitaPoint(), 10L);
+		}
+	}
+
+	@Nested
+	@DisplayName("캐릭터 출석 보상")
+	class CharacterAttendance {
+		long memberId, characterId;
+
+		@BeforeEach
+		void setup() {
+			memberId = 1L;
+			characterId = 1L;
+		}
+
+		@Test
+		@DisplayName("요청자가 캐릭터 접근 권한이 없어 실패")
+		void memberCharacterForbidden() {
+			// given
+			given(characterRepository.findByIdAndMemberId(characterId, memberId)).willReturn(Optional.empty());
+			// when & then
+			assertThrows(ForbiddenException.class, () -> {
+				characterService.characterAttendance(memberId, characterId);
+			});
+		}
+
+		@Test
+		@DisplayName("요청자의 캐릭터가 살아있지 않아 실패")
+		void characterDeadFail() {
+			// given
+			Member member = Member.builder()
+				.uuid("test")
+				.name("test")
+				.build();
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.member(member)
+				.build();
+			ReflectionTestUtils.setField(character, "isDead", true);
+			given(characterRepository.findByIdAndMemberId(characterId, memberId)).willReturn(Optional.of(character));
+			// when & then
+			assertThrows(BadRequestException.class, () -> {
+				characterService.characterAttendance(memberId, characterId);
+			});
+		}
+
+		@Test
+		@DisplayName("출석한 적이 없어 실패")
+		void noAttendanceFail() {
+			// given
+			Member member = Member.builder()
+				.uuid("test")
+				.name("test")
+				.build();
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.member(member)
+				.build();
+			given(characterRepository.findByIdAndMemberId(characterId, memberId)).willReturn(Optional.of(character));
+			given(redisTemplate.opsForValue()).willReturn(valueOperations);
+			given(valueOperations.get(anyString())).willReturn(null);
+			// when & then
+			assertThrows(BadRequestException.class, () -> {
+				characterService.characterAttendance(memberId, characterId);
+			});
+		}
+
+		@Test
+		@DisplayName("이미 출석 보상이 지급되어 실패")
+		void alreadyAttendanceFail() {
+			// given
+			Member member = Member.builder()
+				.uuid("test")
+				.name("test")
+				.build();
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.member(member)
+				.build();
+			given(characterRepository.findByIdAndMemberId(characterId, memberId)).willReturn(Optional.of(character));
+			given(redisTemplate.opsForValue()).willReturn(valueOperations);
+			given(valueOperations.get(anyString())).willReturn("confirmed");
+			// when & then
+			assertThrows(BadRequestException.class, () -> {
+				characterService.characterAttendance(memberId, characterId);
+			});
+		}
+
+		@Test
+		@DisplayName("출석 보상 지급 성공")
+		void success() {
+			// given
+			Member member = Member.builder()
+				.uuid("test")
+				.name("test")
+				.build();
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.member(member)
+				.build();
+			given(characterRepository.findByIdAndMemberId(characterId, memberId)).willReturn(Optional.of(character));
+			given(redisTemplate.opsForValue()).willReturn(valueOperations);
+			given(valueOperations.get(anyString())).willReturn("unconfirmed");
+			// when
+			characterService.characterAttendance(memberId, characterId);
+			// then
+			verify(receiptProvider, times(1)).receiptSave(anyLong(), any(ReceiptType.class), anyBoolean(), anyLong(),
+				anyLong());
 		}
 	}
 }

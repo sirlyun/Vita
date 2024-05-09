@@ -1,5 +1,7 @@
 package com.vita.backend.member.utils;
 
+import java.time.LocalDate;
+
 import com.vita.backend.global.exception.category.NotFoundException;
 import com.vita.backend.global.exception.response.ErrorCode;
 import com.vita.backend.member.domain.Member;
@@ -15,5 +17,9 @@ public class MemberUtils {
 			.orElseThrow(
 				() -> new NotFoundException("FindByMemberId", ErrorCode.MEMBER_NOT_FOUND)
 			);
+	}
+
+	public static String attendanceKeyMaker(LocalDate localDate, Long memberId) {
+		return "attendance:" + localDate+ ":" + memberId;
 	}
 }

@@ -10,7 +10,9 @@ import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.repository.CharacterRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
+import com.vita.backend.global.exception.category.ForbiddenException;
 import com.vita.backend.global.exception.category.NotFoundException;
+import com.vita.backend.global.exception.response.ErrorCode;
 import com.vita.backend.member.domain.enumeration.Gender;
 
 import lombok.AccessLevel;
@@ -25,11 +27,16 @@ public class CharacterUtils {
 			);
 	}
 
+	public static Character findByCharacterIdAndMemberId(CharacterRepository repository, long characterId, long memberId) {
+		return repository.findByIdAndMemberId(characterId, memberId)
+			.orElseThrow(
+				() -> new ForbiddenException("FindByCharacterIdAndMemberId", FORBIDDEN_ACCESS_MEMBER)
+			);
+	}
+
 	public static Character findLastCreatedCharacterByMemberId(CharacterRepository repository, Long memberId) {
 		return repository.findLastCreatedCharacterByMemberId(memberId)
-			.orElseThrow(
-				() -> new NotFoundException("FindLastCreatedCharacterByMemberId", CHARACTER_NOT_FOUND)
-			);
+			.orElse(null);
 	}
 
 	public static DeBuff findByDeBuffType(DeBuffRepository repository, DeBuffType deBuffType) {
