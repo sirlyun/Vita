@@ -33,6 +33,13 @@ const icons = {
   soju: "/icons/soju-icon.png",
   "soju-two": "/icons/soju-two.png",
   "soju-three": "/icons/soju-three.png",
+  heart: "/icons/heart-icon.png",
+  diabetes: "/icons/diabetes-icon.png",
+  hypertension: "/icons/hypertension-icon.png",
+  pnewmonia: "/icons/pnewmonia-icon.png",
+  stroke: "/icons/stroke-icon.png",
+  male: "/icons/male-icon.png",
+  female: "/icons/female-icon.png",
 };
 
 export default icons;
