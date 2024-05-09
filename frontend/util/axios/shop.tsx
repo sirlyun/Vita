@@ -14,12 +14,6 @@ const shops = [
     vita_point: 10,
     is_own: false,
   },
-  {
-    type: "EMOTION",
-    name: "happy",
-    vita_point: 5,
-    is_own: false,
-  },
 ];
 
 async function getShopList(characterId: number, accessToken: string) {

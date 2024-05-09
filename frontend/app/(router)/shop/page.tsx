@@ -3,20 +3,11 @@
 import { getShopList } from "@/util/axios/shop";
 import { useEffect, useState } from "react";
 import { getNPCCharacterImagePath } from "@/util/images";
+import { ShopList } from "@/interfaces/shop";
 import styles from "@/public/styles/shop.module.scss";
 import Image from "next/image";
 import ShopListComponent from "@/components/shop/ShopList";
 import useUserStore from "@/store/user-store";
-
-interface ShopItem {
-  type: string;
-  name: string;
-  vita_point: number;
-  is_own: boolean;
-}
-
-// 상점 아이템 배열 또는 null을 포함할 수 있는 타입 정의
-type ShopList = ShopItem[] | null;
 
 export default function ShopPage() {
   const userStore = useUserStore();

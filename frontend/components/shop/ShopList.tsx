@@ -1,16 +1,6 @@
 import styles from "@/public/styles/shop.module.scss";
 import ShopItemComponent from "./ShopItem";
-
-// 상점 아이템 인터페이스
-interface ShopItem {
-  type: string;
-  name: string;
-  vita_point: number;
-  is_own: boolean;
-}
-
-// 상점 아이템 배열 또는 null을 포함할 수 있는 타입 정의
-type ShopList = ShopItem[] | null;
+import { ShopList } from "@/interfaces/shop";
 
 export default function ShopListComponent({
   shopList,
