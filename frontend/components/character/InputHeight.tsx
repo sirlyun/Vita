@@ -6,7 +6,6 @@ interface InputHeightProps {
 }
 
 export default function InputHeight({ height, setHeight }: InputHeightProps) {
-  height = height;
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setHeight(event.target.value);
   };
