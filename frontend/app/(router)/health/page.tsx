@@ -32,7 +32,7 @@ export default function HealthHome() {
       {foodModal && (
         <HealthFood onClose={toggleFoodModal} complete={handleComplete} />
       )}
-      {dailyModal && <HealthDaily />}
+      {dailyModal && <HealthDaily onClose={toggleDailyModal} />}
       <div className={styles.header}>
         <div className={styles["speech-bubble"]}>
           <p className={styles["speech-bubble-text"]}>

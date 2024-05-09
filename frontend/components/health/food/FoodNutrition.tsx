@@ -3,7 +3,7 @@ import useStopPropagation from "@/components/UseStopPropagation";
 import NutritionItem from "@/components/health/food/NutritionItem";
 import icons from "@/util/icons";
 import Image from "next/image";
-import { getImagePath } from "@/util/images";
+import { getUserCharacterImagePath } from "@/util/images";
 
 interface FoodNutritionProps {
   onClose: () => void; // onClose 함수 타입 정의
@@ -86,7 +86,7 @@ const FoodNutrition = ({ onClose }: FoodNutritionProps) => {
         <div className={styles.nickname}>눈물의 여왕</div>
         <div className={styles.character}>
           <Image
-            src={getImagePath("characters", "woman", "avg", "idle", 0)}
+            src={getUserCharacterImagePath("woman", "avg", "idle", 0)}
             width={55}
             height={115}
             alt="damagochi"
