@@ -2,7 +2,9 @@ package com.vita.backend.character.service;
 
 import static com.vita.backend.global.exception.response.ErrorCode.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,6 +28,7 @@ import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.domain.enumeration.GameType;
 import com.vita.backend.character.domain.enumeration.ReceiptType;
+import com.vita.backend.character.provider.ReceiptProvider;
 import com.vita.backend.character.repository.CharacterDeBuffRepository;
 import com.vita.backend.character.repository.CharacterRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
@@ -34,6 +37,7 @@ import com.vita.backend.character.utils.CharacterUtils;
 import com.vita.backend.global.domain.enumeration.Level;
 import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.ForbiddenException;
+import com.vita.backend.global.exception.response.ErrorCode;
 import com.vita.backend.member.domain.Member;
 import com.vita.backend.member.repository.MemberRepository;
 import com.vita.backend.member.utils.MemberUtils;
@@ -49,9 +53,10 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	private final CharacterRepository characterRepository;
 	private final DeBuffRepository deBuffRepository;
 	private final CharacterDeBuffRepository characterDeBuffRepository;
-	private final ReceiptRepository receiptRepository;
 	/* Template */
 	private final RedisTemplate<String, String> redisTemplate;
+	/* Provider */
+	private final ReceiptProvider receiptProvider;
 
 	/**
 	 * 싱글 플레이 랭킹 조회
@@ -121,6 +126,9 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	public CharacterLoadResponse characterLoad(long memberId) {
 		Member member = MemberUtils.findByMemberId(memberRepository, memberId);
 		Character character = CharacterUtils.findLastCreatedCharacterByMemberId(characterRepository, memberId);
+		if (character == null) {
+			return null;
+		}
 
 		List<DeBuffLoadDetail> deBuffLoadDetails = character.getCharacterDeBuffs().stream()
 			.map(deBuff -> DeBuffLoadDetail.builder()
@@ -255,6 +263,28 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	}
 
 	/**
+	 * 캐릭터 출석 보상
+	 * @param memberId 요청자 member_id
+	 * @param characterId 요청자 character_id
+	 */
+	@Override
+	public void characterAttendance(long memberId, long characterId) {
+		Character character = CharacterUtils.findByCharacterIdAndMemberId(characterRepository, characterId, memberId);
+		if (character.getIsDead()) {
+			throw new BadRequestException("CharacterAttendance", CHARACTER_REWARD_BAD_REQUEST);
+		}
+
+		String attendanceKey = MemberUtils.attendanceKeyMaker(LocalDate.now(), memberId);
+		if (Objects.equals(redisTemplate.opsForValue().get(attendanceKey), "unconfirmed")) {
+			character.vitaUpdate(1L);
+			receiptProvider.receiptSave(characterId, ReceiptType.ATTENDANCE, true, 1L, character.getVitaPoint());
+			return;
+		}
+
+		throw new BadRequestException("CharacterAttendance", ATTENDANCE_BAD_REQUEST);
+	}
+
+	/**
 	 * 캐릭터 수명 차감
 	 */
 	@Transactional
@@ -266,14 +296,8 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 				.mapToLong(CharacterDeBuff::getVitaPoint)
 				.sum();
 			character.vitaUpdate((totalDeBuff + 1) * -1);
-			receiptRepository.save(Receipt.builder()
-				.characterId(character.getId())
-				.type(ReceiptType.DE_BUFF)
-				.isPositive(false)
-				.vitaPoint(totalDeBuff)
-				.nowVitaPoint(character.getVitaPoint())
-				.build()
-			);
+			receiptProvider.receiptSave(character.getId(), ReceiptType.DE_BUFF, false, totalDeBuff,
+				character.getVitaPoint());
 		});
 	}
 

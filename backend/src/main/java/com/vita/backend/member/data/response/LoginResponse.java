@@ -7,6 +7,8 @@ import lombok.Builder;
 
 @Builder
 public record LoginResponse(
+	@JsonProperty("first_attendance")
+	Boolean firstAttendance,
 	@JsonProperty("token")
 	TokenDetail token
 ) {
