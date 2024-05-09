@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import RankingList from "@/components/game/RankingList";
 import styles from "@/public/styles/game.module.scss";
-import { getRankingList } from "@/util/axios/game/axios";
 import useUserStore from "@/store/user-store";
+import { getRankingList } from "@/util/axios/game";
 
 // { rankingList }: { rankingList: any }
 export default function RankingBoard() {
