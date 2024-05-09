@@ -68,6 +68,10 @@ public class Character extends BaseEntity {
 	@OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
 	private List<CharacterDeBuff> characterDeBuffs = new ArrayList<>();
 
+	@JsonIgnore
+	@OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
+	private List<CharacterShop> characterShops = new ArrayList<>();
+
 	@Builder
 	public Character(String nickname, BodyShape bodyShape, Long vitaPoint, Member member) {
 		this.nickname = nickname;
