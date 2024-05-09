@@ -5,11 +5,11 @@ import Image from "next/image";
 import images from "@/util/images";
 import icons from "@/util/icons";
 import useStopPropagation from "@/components/UseStopPropagation";
-import MealImage from "@/components/health/MealImage";
-import FoodNutrition from "@/components/health/FoodNutrition";
+import MealImage from "@/components/health/food/MealImage";
+import FoodNutrition from "@/components/health/food/FoodNutrition";
 import ShowImage from "@/components/ShowImage";
 import UploadImage from "@/components/UploadImage";
-import IntakeContent from "@/components/health/IntakeContent";
+import IntakeContent from "@/components/health/food/IntakeContent";
 
 const Loading = () => (
   <div>
@@ -36,29 +36,49 @@ interface FoodImageFrameProps {
 
 function HealthFood({ onClose, complete }: FoodImageFrameProps) {
   type ImageUrl = string | null;
-
   const [foodImage, setFoodImage] = useState<ImageUrl>(null);
-  const [nextStep, setNextStep] = useState(false);
+  const [step, setStep] = useState<number>(0);
   const [selectedMeal, setSelectedMeal] = useState("breakfast");
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const imageUrl = URL.createObjectURL(file);
+      setFoodImage(imageUrl);
+    }
+  };
+
+  const selectFile = () => {
+    document.getElementById("fileInput")?.click();
+  };
 
   function renderContent() {
     if (isComplete) {
       return <FoodNutrition onClose={onClose} />;
     } else if (isLoading) {
       return <Loading />;
-    } else if (nextStep) {
+    } else if (step === 1) {
       return <IntakeContent />;
-    } else if (foodImage) {
-      return <ShowImage foodImage={foodImage} selectFile={selectFile} />;
-    } else {
-      return (
-        <UploadImage
-          selectFile={selectFile}
-          handleImageChange={handleImageChange}
-        />
-      );
+    } else if (step === 0) {
+      if (foodImage) {
+        return (
+          <ShowImage
+            foodImage={foodImage}
+            selectFile={selectFile}
+            handleImageChange={handleImageChange}
+          />
+        );
+      } else {
+        return (
+          <ShowImage
+            foodImage={images.camera}
+            selectFile={selectFile}
+            handleImageChange={handleImageChange}
+          />
+        );
+      }
     }
   }
 
@@ -75,20 +95,14 @@ function HealthFood({ onClose, complete }: FoodImageFrameProps) {
     setIsLoading(false);
   };
 
-  const toggleNextStep = () => {
-    setNextStep(!nextStep);
+  const handleNext = (): void => {
+    setStep(step + 1);
   };
 
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const imageUrl = URL.createObjectURL(file);
-      setFoodImage(imageUrl);
+  const handlePrev = (): void => {
+    if (step > 0) {
+      setStep(step - 1);
     }
-  };
-
-  const selectFile = () => {
-    document.getElementById("fileInput")?.click();
   };
 
   const handleModalContentClick = useStopPropagation();
@@ -147,16 +161,14 @@ function HealthFood({ onClose, complete }: FoodImageFrameProps) {
             <div className={`${styles["modal-content"]} modal-content-recycle`}>
               {renderContent()}
             </div>
-            {nextStep ? (
-              <div
-                onClick={handleCompleteClick}
-                className={styles["next-step"]}
-              >
-                <p>확인</p>
+            {step === 1 ? (
+              <div className={styles["step"]}>
+                <button onClick={handlePrev}>이전</button>
+                <button onClick={handleCompleteClick}>확인</button>
               </div>
             ) : foodImage ? (
-              <div onClick={toggleNextStep} className={styles["next-step"]}>
-                <p>다음</p>
+              <div onClick={handleNext} className={styles["step"]}>
+                <button>다음</button>
               </div>
             ) : (
               <p className={styles["food-choice-text"]}>

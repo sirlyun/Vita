@@ -1,0 +1,19 @@
+.dark-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.select-layout {
+  background-image: url("/images/login-box.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 90vw;
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 4vh 0;
+}

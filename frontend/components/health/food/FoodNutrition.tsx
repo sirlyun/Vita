@@ -1,6 +1,6 @@
 import styles from "@/public/styles/nutrition.module.scss";
 import useStopPropagation from "@/components/UseStopPropagation";
-import NutritionItem from "@/components/health/NutritionItem";
+import NutritionItem from "@/components/health/food/NutritionItem";
 import icons from "@/util/icons";
 import Image from "next/image";
 import { getImagePath } from "@/util/images";
