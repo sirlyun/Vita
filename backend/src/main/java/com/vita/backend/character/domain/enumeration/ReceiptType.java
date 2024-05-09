@@ -7,5 +7,6 @@ public enum ReceiptType {
 	SHOP,
 	CHALLENGE,
 	ATTENDANCE,
-	GAME
+	GAME,
+	DE_BUFF
 }

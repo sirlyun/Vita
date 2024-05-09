@@ -27,7 +27,7 @@ public class Receipt extends BaseDocument {
 	private ReceiptType type;
 
 	@Field("is_positive")
-	private BodyShape isPositive;
+	private Boolean isPositive;
 
 	@Field("vita_point")
 	private Long vitaPoint;
@@ -36,7 +36,7 @@ public class Receipt extends BaseDocument {
 	private Long nowVitaPoint;
 
 	@Builder
-	public Receipt(Long characterId, ReceiptType type, BodyShape isPositive, Long vitaPoint, Long nowVitaPoint) {
+	public Receipt(Long characterId, ReceiptType type, Boolean isPositive, Long vitaPoint, Long nowVitaPoint) {
 		this.characterId = characterId;
 		this.type = type;
 		this.isPositive = isPositive;

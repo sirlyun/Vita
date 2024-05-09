@@ -21,12 +21,15 @@ import com.vita.backend.character.data.response.detail.RequesterGameSingleRankin
 import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.CharacterDeBuff;
 import com.vita.backend.character.domain.DeBuff;
+import com.vita.backend.character.domain.document.Receipt;
 import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.domain.enumeration.GameType;
+import com.vita.backend.character.domain.enumeration.ReceiptType;
 import com.vita.backend.character.repository.CharacterDeBuffRepository;
 import com.vita.backend.character.repository.CharacterRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
+import com.vita.backend.character.repository.ReceiptRepository;
 import com.vita.backend.character.utils.CharacterUtils;
 import com.vita.backend.global.domain.enumeration.Level;
 import com.vita.backend.global.exception.category.BadRequestException;
@@ -46,6 +49,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	private final CharacterRepository characterRepository;
 	private final DeBuffRepository deBuffRepository;
 	private final CharacterDeBuffRepository characterDeBuffRepository;
+	private final ReceiptRepository receiptRepository;
 	/* Template */
 	private final RedisTemplate<String, String> redisTemplate;
 
@@ -261,10 +265,16 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			long totalDeBuff = character.getCharacterDeBuffs().stream()
 				.mapToLong(CharacterDeBuff::getVitaPoint)
 				.sum();
-			character.vitaUpdate((totalDeBuff + 1)*-1);
+			character.vitaUpdate((totalDeBuff + 1) * -1);
+			receiptRepository.save(Receipt.builder()
+				.characterId(character.getId())
+				.type(ReceiptType.DE_BUFF)
+				.isPositive(false)
+				.vitaPoint(totalDeBuff)
+				.nowVitaPoint(character.getVitaPoint())
+				.build()
+			);
 		});
-
-		// TODO: 수명 차감 기록 저장 (영수증 양식)
 	}
 
 	/**
