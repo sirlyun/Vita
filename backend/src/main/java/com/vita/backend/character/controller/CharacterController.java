@@ -68,7 +68,7 @@ public class CharacterController {
 	}
 
 	@PostMapping("/{character_id}/game/single/{type}")
-	public ResponseEntity<Void> characterGameSingleRunningSave(
+	public ResponseEntity<Void> characterGameSingleSave(
 		@PathVariable("character_id") long characterId,
 		@PathVariable("type") GameType type,
 		@RequestBody @Valid CharacterGameSingleSaveRequest request,
