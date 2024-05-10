@@ -44,7 +44,7 @@ const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
   gameType: 0,
   characterId: 1,
   accessToken:
-    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiY3JlYXRlZF9hdCI6MTcxNTA2MzIxOTc5MiwiZXhwaXJlc0luIjoyNTkyMDAwMDAwLCJhdXRoIjoiQVVUSE9SSVRZIiwiZXhwIjoxNzE3NjU1MjE5LCJpZCI6MX0.XQwhRYwknDZ3BfXgX2YCR-6o2sXs7Or8ET8Je0qzINA",
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiY3JlYXRlZF9hdCI6MTcxNTMwMTEyMzIyMCwiZXhwaXJlc0luIjoyNTkyMDAwMDAwLCJhdXRoIjoiQVVUSE9SSVRZIiwiZXhwIjoxNzE3ODkzMTIzLCJpZCI6MX0.v4YnYAwB30AACnSEKYd3TPIvy39Pvh_cs3TDrsOp8o0",
   record: 0,
   runningBestRecord: 9999,
   workoutBestRecord: 0,

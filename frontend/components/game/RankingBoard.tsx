@@ -16,7 +16,7 @@ export default function RankingBoard() {
   const fetchRankingList = async () => {
     try {
       const fetchedRankingList = await getRankingList();
-      console.log("RankingBoard fetching: ", fetchRankingList);
+      // console.log("RankingBoard fetching: ", fetchedRankingList);
       setRankingList(fetchedRankingList); // 상태 업데이트
     } catch (error) {
       console.error("Failed to fetch ranking list:", error);

@@ -1,4 +1,3 @@
-"use client";
 import styles from "@/public/styles/shop.module.scss";
 import ShopItemComponent from "./ShopItem";
 import { ShopListComponentProps } from "@/interfaces/shop-interface";

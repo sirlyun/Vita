@@ -3,7 +3,7 @@ export type ShopList = ShopItem[] | null;
 
 // 상점 아이템 인터페이스
 export interface ShopItem {
-  item_id: number;
+  shop_item_id: number;
   type: string;
   name: string;
   vita_point: number;

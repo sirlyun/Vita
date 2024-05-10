@@ -26,7 +26,7 @@ export default function ShopItemComponent({
         ${item.is_own ? styles.owned : ""} 
         ${selected ? styles.selectedItem : ""}`}
       />
-      <p>{!item.is_own ? `${item.vita_point}시간` : "구매완료"}</p>
+      <p>{!item.is_own ? `${item.vita_point}년` : "구매완료"}</p>
     </div>
   );
 }

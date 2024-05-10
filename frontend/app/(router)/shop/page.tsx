@@ -24,7 +24,8 @@ export default function ShopPage() {
   const fetchShopList = async () => {
     try {
       const fetchedShopList = await getShopList();
-      setShopList(fetchedShopList);
+      // console.log("fetchedData: ", fetchedShopList.shop);
+      setShopList(fetchedShopList.shop);
     } catch (error) {
       console.error("Failed to fetch shop list:", error);
       setShopList(null); // 에러 발생 시 상태 초기화
@@ -50,7 +51,8 @@ export default function ShopPage() {
   const handleButtonClick = async () => {
     if (selectedItem) {
       try {
-        await buyShopItem(selectedItem?.item_id);
+        await buyShopItem(selectedItem.shop_item_id);
+        fetchShopList();
       } catch (error) {
         console.error("Failed to buy the item:", error);
       }

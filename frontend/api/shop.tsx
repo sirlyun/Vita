@@ -39,37 +39,23 @@ const shops = [
 ];
 
 async function getShopList() {
-  //   try {
-  //     console.log("baseUrl: ", BASE_URL);
-  //     // API로부터 랭킹 리스트를 가져옵니다. 여기서는 예시 URL을 사용하고 있습니다.
-  //     const response = await axios.get(
-  //       BASE_URL + `/character/${characterId}/shop`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       }
-  //     );
-  //     console.log("fetched data: ", response.data);
-  //     return response.data; // API 응답에서 데이터를 반환합니다.
-  //   } catch (error) {
-  //     // 에러 처리: 에러 로깅이나 에러 메시지 반환 등을 할 수 있습니다.
-  //     console.error("Failed to fetch ranking list:", error);
-  //     return null; // 또는 적절한 에러 메시지나 코드를 반환할 수 있습니다.
-  //   }
-  return shops;
+  return localAxios
+    .get(`/character/${getCharacterId()}/shop`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+  // return shops;
 }
 
 async function buyShopItem(itemId: number) {
-  try {
-    // API 요청문
-    await localAxios.post(`/character/${getCharacterId()}/item`, {
-      itemId,
+  // console.log("inAxios: ", itemId);
+  return localAxios
+    .post(`/character/${getCharacterId()}/item`, { item_id: itemId })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
     });
-    console.log("구매 성공");
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 export { getShopList, buyShopItem };

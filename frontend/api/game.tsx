@@ -1,16 +1,12 @@
 import { localAxios, getCharacterId } from "@/util/axios";
 
 async function getRankingList() {
-  try {
-    const response = await localAxios.get(
-      `/character/${getCharacterId()}/game/single/ranking`
-    );
-    console.log("fetched data: ", response.data);
-    return response.data; // API 응답에서 데이터를 반환합니다.
-  } catch (error) {
-    console.error("Failed to fetch ranking list:", error);
-    return null;
-  }
+  return localAxios
+    .get(`/character/${getCharacterId()}/game/single/ranking`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error; // 에러를 다시 throw 하여 컴포넌트에서 처리할 수 있도록 함
+    });
 }
 
 export { getRankingList };
