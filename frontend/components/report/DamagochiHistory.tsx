@@ -5,28 +5,11 @@ import images from '@/util/images.js';
 import report from '@/public/styles/report.module.scss';
 import { getCharacterList } from '@/api/character';
 
-// 캐릭터 데이터 타입 정의
-type Character = {
-  character_id: number;
-  nickname: string;
-  vita_point: number;
-  is_dead: boolean;
-  gender: 'MALE' | 'FEMALE';
-  body_shape: string;
-  character_item: any[];
-  de_buff: any[];
-};
-
 export default function DamagochiHistory() {
   // 캐릭터 목록을 저장할 상태 변수
   const [characterList, setCharacterList] = useState([]);
   const [showDetail, setShowDetail] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
-
-  // // 액세스 토큰 및 캐릭터 ID (예시)
-  // const characterId = 1;
-  // const accessToken =
-  //   'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiY3JlYXRlZF9hdCI6MTcxNTMwMTEyMzIyMCwiZXhwaXJlc0luIjoyNTkyMDAwMDAwLCJhdXRoIjoiQVVUSE9SSVRZIiwiZXhwIjoxNzE3ODkzMTIzLCJpZCI6MX0.v4YnYAwB30AACnSEKYd3TPIvy39Pvh_cs3TDrsOp8o0'; // 실제 액세스 토큰을 여기에 설정
 
   // API로부터 캐릭터 목록 가져오기
   useEffect(() => {
@@ -45,7 +28,6 @@ export default function DamagochiHistory() {
   };
 
   if (showDetail && selectedCharacter) {
-    // return <DamagochiHistoryDetail />;
     return <DamagochiHistoryDetail character={selectedCharacter} />;
   }
 
