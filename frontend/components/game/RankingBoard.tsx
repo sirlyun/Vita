@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import RankingList from "@/components/game/RankingList";
 import styles from "@/public/styles/game.module.scss";
 import useUserStore from "@/store/user-store";
-import { getRankingList } from "@/util/axios/game";
+import { getRankingList } from "@/api/game";
 
 // { rankingList }: { rankingList: any }
 export default function RankingBoard() {
@@ -15,10 +15,7 @@ export default function RankingBoard() {
   // data fetching part
   const fetchRankingList = async () => {
     try {
-      const fetchedRankingList = await getRankingList(
-        userStore.characterId,
-        userStore.accessToken
-      );
+      const fetchedRankingList = await getRankingList();
       console.log("RankingBoard fetching: ", fetchRankingList);
       setRankingList(fetchedRankingList); // 상태 업데이트
     } catch (error) {

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "@/public/styles/workout.module.scss";
 import Image from "next/image";
-import { getImagePath } from "@/util/images";
+import { getUserCharacterImagePath } from "@/util/images";
 import useUserStore from "@/store/user-store";
 
 export default function Page() {
@@ -40,8 +40,7 @@ export default function Page() {
     setClickCount((prev) => prev + 1);
   };
 
-  const imageUrl = getImagePath(
-    "characters",
+  const imageUrl = getUserCharacterImagePath(
     userStore.gender,
     userStore.bodyShape,
     "workout",

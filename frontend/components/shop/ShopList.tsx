@@ -1,14 +1,14 @@
+"use client";
 import styles from "@/public/styles/shop.module.scss";
 import ShopItemComponent from "./ShopItem";
-import { ShopList } from "@/interfaces/shop";
+import { ShopListComponentProps } from "@/interfaces/shop-interface";
 
 export default function ShopListComponent({
   shopList,
   activeMenu,
-}: {
-  shopList: ShopList;
-  activeMenu: string;
-}) {
+  selecteditem,
+  setSelectedItem,
+}: ShopListComponentProps) {
   function renderContent() {
     if (!shopList) {
       return <p>No items to display.</p>;
@@ -25,7 +25,12 @@ export default function ShopListComponent({
     }
 
     return filteredItems.map((item, index) => (
-      <ShopItemComponent key={index} item={item} />
+      <ShopItemComponent
+        key={index}
+        item={item}
+        onClick={() => setSelectedItem(item)}
+        selected={selecteditem == item}
+      />
     ));
   }
 
