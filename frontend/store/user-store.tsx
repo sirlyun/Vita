@@ -43,8 +43,7 @@ const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
   bodyShape: "FAT",
   gameType: "",
   characterId: 1,
-  accessToken:
-    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiY3JlYXRlZF9hdCI6MTcxNTMxMTQ4MjIyNiwiZXhwaXJlc0luIjoyNTkyMDAwMDAwLCJhdXRoIjoiQVVUSE9SSVRZIiwiZXhwIjoxNzE3OTAzNDgyLCJpZCI6MX0.u7KfK6v3Hri5Swnh6kB_MySrOteGXyXShnd2qNSQa6U",
+  accessToken: "",
   record: 0,
   runningBestRecord: 9999,
   trainingBestRecord: 0,

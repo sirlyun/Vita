@@ -12,15 +12,15 @@ import useUserStore from "@/store/user-store";
 
 export default function Home() {
   const userStore = useUserStore.getState();
-  console.log(userStore); // 현재 bears의 수를 콘솔에 출력
-
   const [challengeModal, setChallengeModal] = useState(false);
   const toggleChallengeModal = () => setChallengeModal(!challengeModal);
 
   const router = useRouter();
+
   const debuffRouter = (id: string) => {
     router.push(`/debuff/${id}`);
   };
+
   return (
     <div className={`${styles.main} background`}>
       {challengeModal && <ChallengeFrame onClose={toggleChallengeModal} />}
