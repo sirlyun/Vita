@@ -1,4 +1,4 @@
-import { Modal } from "../modal";
+import { Modal } from "@/app/@modal/modal";
 
 import Link from "next/link";
 import styles from "@/public/styles/modal.module.scss";
@@ -10,7 +10,7 @@ export default function OptionModal() {
         <h1 className={`${styles.title} ${styles.center}`}>SETTING</h1>
         <div className={`${styles.content} ${styles.center}`}>
           <div className={`${styles.item} ${styles.center}`}>
-            <Link href="/">
+            <Link href="/settings/background">
               <button>
                 <p>배경화면</p>
               </button>

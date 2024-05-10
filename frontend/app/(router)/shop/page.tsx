@@ -16,7 +16,7 @@ export default function ShopPage() {
   // 변수 정의
   const [shopList, setShopList] = useState<ShopList>(null);
   const [activeMenu, setActiveMenu] = useState("all");
-  const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null); // index를 저장하는 상태
+  const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null);
   const [selectCount, setSelectCount] = useState(0); // 선택 횟수를 저장하는 상태
   console.log(selectedItem);
 

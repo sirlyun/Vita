@@ -30,7 +30,7 @@ export default function Home() {
           <h2>100년</h2>
         </div>
         <div className={styles["side-menu"]}>
-          <Link href={`/option`}>
+          <Link href={`/settings`}>
             <Image
               src={icons.option}
               width={60}
