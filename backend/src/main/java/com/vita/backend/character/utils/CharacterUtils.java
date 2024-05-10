@@ -14,6 +14,7 @@ import com.vita.backend.character.repository.CharacterRepository;
 import com.vita.backend.character.repository.CharacterShopRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
 import com.vita.backend.character.repository.ShopRepository;
+import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.ForbiddenException;
 import com.vita.backend.global.exception.category.NotFoundException;
 import com.vita.backend.global.exception.response.ErrorCode;
