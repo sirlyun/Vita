@@ -9,5 +9,5 @@ import com.vita.backend.character.domain.CharacterShop;
 import com.vita.backend.character.repository.query.CharacterShopRepositoryCustom;
 
 public interface CharacterShopRepository extends JpaRepository<CharacterShop, Long>, CharacterShopRepositoryCustom {
-
+	Optional<CharacterShop> findByCharacterIdAndShopId(long characterId, long shopId);
 }

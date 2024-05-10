@@ -344,6 +344,11 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			characterId, memberId);
 		Shop shop = CharacterUtils.findByItemId(shopRepository, request.itemId());
 
+		characterShopRepository.findByCharacterIdAndShopId(characterId, shop.getId())
+				.ifPresent(characterShop -> {
+					throw new BadRequestException("FindByCharacterIdAndShopId", ITEM_SAVE_BAD_REQUEST);
+				});
+
 		characterShopRepository.save(CharacterShop.builder()
 			.character(character)
 			.shop(shop)
