@@ -9,7 +9,18 @@ async function getRankingList(): Promise<RankingListProps> {
     });
 }
 
-export { getRankingList };
+async function registerGameResult(type: string, score: number) {
+  return localAxios
+    .post(`/character/${getCharacterId()}/game/single/${type}`, {
+      score,
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+}
+
+export { getRankingList, registerGameResult };
 
 // const data = {
 //   running: [

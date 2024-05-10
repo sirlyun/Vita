@@ -6,6 +6,7 @@ import styles from "@/public/styles/workout.module.scss";
 import Image from "next/image";
 import { getUserCharacterImagePath } from "@/util/images";
 import useUserStore from "@/store/user-store";
+import { registerGameResult } from "@/api/game";
 
 export default function Page() {
   const router = useRouter();
@@ -23,8 +24,11 @@ export default function Page() {
         } else {
           clearTimeout(timerId); // 타이머 정지
           userStore.setRecord(clickCount); // 클릭 수 기록
-          userStore.setGameType(1); // 게임 타입 설정
+          userStore.setGameType("training"); // 게임 타입 설정
           setTimerActive(false); // 타이머 비활성화
+
+          goToResult("training", clickCount); // 결과 저장
+
           router.push("/game/single/result"); // 결과 페이지로 이동
         }
       }, 10);
@@ -46,6 +50,17 @@ export default function Page() {
     "workout",
     (clickCount % 2) + 1
   );
+
+  const goToResult = async (type: string, record: number) => {
+    // 결과 api
+    // console.log("before axios request in training: ", userStore.gameType);
+    try {
+      await registerGameResult(type, record);
+      router.push("/game/single/result"); // 결과 모달 띄우기
+    } catch (error) {
+      console.log("Score registration failed: ", error);
+    }
+  };
 
   return (
     <div className={`bg ${styles.main} ${styles["bg-idle"]}`}>

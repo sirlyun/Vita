@@ -7,6 +7,7 @@ export default function RankingListPage({
   activeMenu,
 }: RankingListPageProps) {
   console.log(rankingList);
+
   return (
     <div className={styles["ranking-container"]}>
       {activeMenu === "running" ? (

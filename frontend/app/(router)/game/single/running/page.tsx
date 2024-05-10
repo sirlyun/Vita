@@ -6,6 +6,7 @@ import styles from "@/public/styles/running.module.scss";
 import Image from "next/image";
 import { getUserCharacterImagePath } from "@/util/images";
 import useUserStore from "@/store/user-store";
+import { registerGameResult } from "@/api/game";
 
 export default function RunningPage() {
   // clickCount 상태를 초기화하고, 이를 업데이트하는 함수를 선언합니다.
@@ -24,7 +25,7 @@ export default function RunningPage() {
         setElapsedTime(newElapsedTime);
         if (clickCount >= maxClicks) {
           clearInterval(interval);
-          finalizeTime(newElapsedTime);
+          finalizeTime("running", newElapsedTime);
         }
       }, 10);
       return () => clearInterval(interval);
@@ -42,11 +43,20 @@ export default function RunningPage() {
     }
   };
 
-  const finalizeTime = (finalTime: number) => {
+  const finalizeTime = async (type: string, finalTime: number) => {
     setElapsedTime(finalTime); // 클릭이 끝났을 때의 시간을 설정
-    userStore.setGameType(0);
+
+    // 사용자의 결과 스토어에 저장 및 최고기록 비교
+    userStore.setGameType("running");
     userStore.setRecord(finalTime);
-    router.push("/game/single/result");
+
+    // 결과 api
+    try {
+      await registerGameResult(type, finalTime);
+      router.push("/game/single/result"); // 결과 모달 띄우기
+    } catch (error) {
+      console.log("Score registration failed: ", error);
+    }
   };
 
   // 게이지 비율 계산
