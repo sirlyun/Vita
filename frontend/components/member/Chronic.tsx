@@ -14,7 +14,16 @@ export default function Chronic({ chronic, setChronic }: Props) {
   return (
     <div className={styles["chronic-content"]}>
       <div className={styles["select-line"]}>
-        <div>
+        <div
+          className={
+            chronic === "none"
+              ? styles["selected-div"]
+              : chronic === "null"
+              ? styles["selected-div"]
+              : styles["unselected-div"]
+          }
+          onClick={() => handleChronic("null")}
+        >
           <button>
             <Image
               src={icons.x}
@@ -24,9 +33,18 @@ export default function Chronic({ chronic, setChronic }: Props) {
               style={{ width: "7vh", height: "7vh" }}
             ></Image>
           </button>
-          <p></p>
+          <p>없음</p>
         </div>
-        <div>
+        <div
+          className={
+            chronic === "none"
+              ? styles["selected-div"]
+              : chronic === "STROKE"
+              ? styles["selected-div"]
+              : styles["unselected-div"]
+          }
+          onClick={() => handleChronic("STROKE")}
+        >
           <button>
             <Image
               src={icons.stroke}
@@ -35,11 +53,20 @@ export default function Chronic({ chronic, setChronic }: Props) {
               alt="stroke"
             ></Image>
           </button>
-          <p></p>
+          <p>뇌졸증</p>
         </div>
       </div>
       <div className={styles["select-line"]}>
-        <div>
+        <div
+          className={
+            chronic === "none"
+              ? styles["selected-div"]
+              : chronic === "DIABETES"
+              ? styles["selected-div"]
+              : styles["unselected-div"]
+          }
+          onClick={() => handleChronic("DIABETES")}
+        >
           <button>
             <Image
               src={icons.diabetes}
@@ -48,9 +75,18 @@ export default function Chronic({ chronic, setChronic }: Props) {
               alt="diabetes"
             ></Image>
           </button>
-          <p></p>
+          <p>당뇨병</p>
         </div>
-        <div>
+        <div
+          className={
+            chronic === "none"
+              ? styles["selected-div"]
+              : chronic === "HYPERTENSION"
+              ? styles["selected-div"]
+              : styles["unselected-div"]
+          }
+          onClick={() => handleChronic("HYPERTENSION")}
+        >
           <button>
             <Image
               src={icons.hypertension}
@@ -59,17 +95,35 @@ export default function Chronic({ chronic, setChronic }: Props) {
               alt="hypertension"
             ></Image>
           </button>
-          <p></p>
+          <p>고혈압</p>
         </div>
       </div>
       <div className={styles["select-line"]}>
-        <div>
+        <div
+          className={
+            chronic === "none"
+              ? styles["selected-div"]
+              : chronic === "HEART"
+              ? styles["selected-div"]
+              : styles["unselected-div"]
+          }
+          onClick={() => handleChronic("HEART")}
+        >
           <button>
             <Image src={icons.heart} width={60} height={60} alt="heart"></Image>
           </button>
-          <p></p>
+          <p>심장</p>
         </div>
-        <div>
+        <div
+          className={
+            chronic === "none"
+              ? styles["selected-div"]
+              : chronic === "PNEWMONIA"
+              ? styles["selected-div"]
+              : styles["unselected-div"]
+          }
+          onClick={() => handleChronic("PNEWMONIA")}
+        >
           <button>
             <Image
               src={icons.pnewmonia}
@@ -78,7 +132,7 @@ export default function Chronic({ chronic, setChronic }: Props) {
               alt="pnewmonia"
             ></Image>
           </button>
-          <p></p>
+          <p>신경통</p>
         </div>
       </div>
     </div>

@@ -8,7 +8,6 @@ import useStopPropagation from "@/components/UseStopPropagation";
 import MealImage from "@/components/health/food/MealImage";
 import FoodNutrition from "@/components/health/food/FoodNutrition";
 import ShowImage from "@/components/ShowImage";
-import UploadImage from "@/components/UploadImage";
 import IntakeContent from "@/components/health/food/IntakeContent";
 
 const Loading = () => (

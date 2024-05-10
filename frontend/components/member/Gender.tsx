@@ -15,7 +15,13 @@ export default function Gender({ gender, setGender }: Props) {
     <div className={styles["chronic-content"]}>
       <div className={styles["chronic-select"]}>
         <div
-          className={styles["chronic-gender"]}
+          className={
+            gender === "none"
+              ? styles["selected-div"]
+              : gender === "MALE"
+              ? styles["selected-div"]
+              : styles["unselected-div"]
+          }
           onClick={() => handleGender("MALE")}
         >
           <button>
@@ -31,7 +37,13 @@ export default function Gender({ gender, setGender }: Props) {
         </div>
 
         <div
-          className={styles["chronic-gender"]}
+          className={
+            gender === "none"
+              ? styles["selected-div"]
+              : gender === "FEMALE"
+              ? styles["selected-div"]
+              : styles["unselected-div"]
+          }
           onClick={() => handleGender("FEMALE")}
         >
           <button>
