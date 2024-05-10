@@ -1,6 +1,6 @@
 import { localAxios, getCharacterId } from "@/util/axios";
 
-async function getRankingList() {
+async function getRankingList(): Promise<RankingListProps> {
   return localAxios
     .get(`/character/${getCharacterId()}/game/single/ranking`)
     .then((response) => response.data)
