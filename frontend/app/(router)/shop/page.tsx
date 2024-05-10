@@ -53,6 +53,7 @@ export default function ShopPage() {
       try {
         await buyShopItem(selectedItem.shop_item_id);
         fetchShopList();
+        setSelectedItem(null);
       } catch (error) {
         console.error("Failed to buy the item:", error);
       }
