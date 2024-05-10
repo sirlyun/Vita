@@ -268,8 +268,16 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			return;
 		}
 
-		if (request.score() > score) {
-			redisTemplate.opsForZSet().add(type + "_single_ranking", String.valueOf(characterId), request.score());
+		if (type == GameType.running) {
+			if (request.score() < score) {
+				redisTemplate.opsForZSet().add(type + "_single_ranking", String.valueOf(characterId), request.score());
+			}
+			return;
+		}
+		if (type == GameType.training) {
+			if (request.score() > score) {
+				redisTemplate.opsForZSet().add(type + "_single_ranking", String.valueOf(characterId), request.score());
+			}
 		}
 	}
 
