@@ -1,6 +1,6 @@
 "use client";
 
-import { Modal } from "../../../modal";
+import { Modal } from "@/app/@modal/modal";
 import { useEffect } from "react";
 import useUserStore from "@/store/user-store";
 import styles from "@/public/styles/modal.module.scss";

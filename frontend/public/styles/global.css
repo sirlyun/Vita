@@ -136,10 +136,6 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
 .background {
   background-size: 100% 100%;
   background-repeat: no-repeat;
