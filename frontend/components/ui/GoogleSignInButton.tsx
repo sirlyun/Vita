@@ -1,21 +1,28 @@
-import { FC, ReactNode } from "react";
-import { signIn } from "next-auth/react";
 import styles from "@/public/styles/login.module.scss";
+import Image from "next/image";
+import icons from "@/util/icons";
 
-interface GoogleSignInButtonProps {
-  children: ReactNode;
-}
-const GoogleSignInButton: FC = () => {
-  const loginWithGoogleSign = () => {
-    console.log("login with google");
-  };
+export default function GoogleSignInButton() {
+  const requestCodeUrl =
+    "https://accounts.google.com/o/oauth2/v2/auth?client_id=609175007986-4nadjui4c11ingavajsmgljld5c4d3he.apps.googleusercontent.com&redirect_uri=http://localhost:3000/login&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile";
 
   return (
-    <img
-      className={styles["google-login"]}
-      src="/images/google-login.png"
-      alt=""
-    />
+    <div>
+      <a
+        href={requestCodeUrl}
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <div className={styles["google-sign-in-layout"]}>
+          <Image
+            src={icons["google-logo"]}
+            width={60}
+            height={60}
+            alt="google-logo"
+          ></Image>
+          <p>Google Login</p>
+          <div></div>
+        </div>
+      </a>
+    </div>
   );
-};
-export default GoogleSignInButton;
+}

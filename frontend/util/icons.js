@@ -40,6 +40,7 @@ const icons = {
   stroke: "/icons/stroke-icon.png",
   male: "/icons/male-icon.png",
   female: "/icons/female-icon.png",
+  "google-logo": "/icons/google-logo-icon.png",
 };
 
 export default icons;

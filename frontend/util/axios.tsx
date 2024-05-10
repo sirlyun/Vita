@@ -17,6 +17,9 @@ localAxios.interceptors.request.use(
   (config) => {
     // Zustand 스토어에서 accessToken을 동적으로 가져옵니다.
     const { accessToken } = useUserStore.getState();
+
+    
+
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
