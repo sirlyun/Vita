@@ -20,7 +20,10 @@ export default function Page() {
     <>
       앓고 계신 <br></br>지병이 있으신가요?
     </>,
-    <>회원 정보 작성을 완료하시겠습니까?</>,
+    <>
+      회원 정보 작성을
+      <br></br>완료하시겠습니까?
+    </>,
   ];
 
   function renderContent() {
@@ -46,7 +49,9 @@ export default function Page() {
   function renderButton() {
     const showPrevButton = step > 0;
     const showNextButton =
-      (step === 0 && gender !== "none") || (step === 1 && birth !== "");
+      (step === 0 && gender !== "none") ||
+      (step === 1 && birth !== "") ||
+      (step === 2 && chronic !== "none");
 
     return (
       <Button
