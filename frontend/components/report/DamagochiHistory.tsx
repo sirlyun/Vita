@@ -3,7 +3,7 @@ import DamagochiHistoryDetail from './DamagochiHistoryDetail';
 import Image from 'next/image';
 import images from '@/util/images.js';
 import report from '@/public/styles/report.module.scss';
-import { getCharacterList } from '@/util/axios/report/character';
+import { getCharacterList } from '@/api/character';
 
 // 캐릭터 데이터 타입 정의
 type Character = {
@@ -23,21 +23,21 @@ export default function DamagochiHistory() {
   const [showDetail, setShowDetail] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
 
-  // 액세스 토큰 및 캐릭터 ID (예시)
-  const characterId = 1;
-  const accessToken =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiY3JlYXRlZF9hdCI6MTcxNTMwMTEyMzIyMCwiZXhwaXJlc0luIjoyNTkyMDAwMDAwLCJhdXRoIjoiQVVUSE9SSVRZIiwiZXhwIjoxNzE3ODkzMTIzLCJpZCI6MX0.v4YnYAwB30AACnSEKYd3TPIvy39Pvh_cs3TDrsOp8o0'; // 실제 액세스 토큰을 여기에 설정
+  // // 액세스 토큰 및 캐릭터 ID (예시)
+  // const characterId = 1;
+  // const accessToken =
+  //   'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiY3JlYXRlZF9hdCI6MTcxNTMwMTEyMzIyMCwiZXhwaXJlc0luIjoyNTkyMDAwMDAwLCJhdXRoIjoiQVVUSE9SSVRZIiwiZXhwIjoxNzE3ODkzMTIzLCJpZCI6MX0.v4YnYAwB30AACnSEKYd3TPIvy39Pvh_cs3TDrsOp8o0'; // 실제 액세스 토큰을 여기에 설정
 
   // API로부터 캐릭터 목록 가져오기
   useEffect(() => {
     async function fetchCharacterList() {
-      const data = await getCharacterList(characterId, accessToken);
+      const data = await getCharacterList();
       console.log('Received data:', data); // 데이터 확인
       setCharacterList([data]); // 단일 객체를 배열로 변환하여 저장
     }
 
     fetchCharacterList();
-  }, [characterId, accessToken]);
+  }, []);
 
   const handleButtonClick = (character: any) => {
     setSelectedCharacter(character);
