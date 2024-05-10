@@ -1,42 +1,42 @@
 import { localAxios, getCharacterId } from "@/util/axios";
 
-const shops = [
-  {
-    item_id: 1,
-    type: "BACKGROUND",
-    name: "beach-park",
-    vita_point: 10,
-    is_own: true,
-  },
-  {
-    item_id: 2,
-    type: "BACKGROUND",
-    name: "veld",
-    vita_point: 10,
-    is_own: false,
-  },
-  {
-    item_id: 3,
-    type: "BACKGROUND",
-    name: "veld",
-    vita_point: 1,
-    is_own: false,
-  },
-  {
-    item_id: 4,
-    type: "BACKGROUND",
-    name: "veld",
-    vita_point: 6,
-    is_own: false,
-  },
-  {
-    item_id: 5,
-    type: "BACKGROUND",
-    name: "veld",
-    vita_point: 5,
-    is_own: false,
-  },
-];
+// const shops = [
+//   {
+//     item_id: 1,
+//     type: "BACKGROUND",
+//     name: "beach-park",
+//     vita_point: 10,
+//     is_own: true,
+//   },
+//   {
+//     item_id: 2,
+//     type: "BACKGROUND",
+//     name: "veld",
+//     vita_point: 10,
+//     is_own: false,
+//   },
+//   {
+//     item_id: 3,
+//     type: "BACKGROUND",
+//     name: "veld",
+//     vita_point: 1,
+//     is_own: false,
+//   },
+//   {
+//     item_id: 4,
+//     type: "BACKGROUND",
+//     name: "veld",
+//     vita_point: 6,
+//     is_own: false,
+//   },
+//   {
+//     item_id: 5,
+//     type: "BACKGROUND",
+//     name: "veld",
+//     vita_point: 5,
+//     is_own: false,
+//   },
+// ];
 
 async function getShopList() {
   return localAxios

@@ -16,7 +16,7 @@ export default function SingleResult() {
     <div>
       <Modal>
         <p className={`${styles.title} ${styles.center}`}>RESULT</p>
-        {userStore.gameType === 0 ? (
+        {userStore.gameType === "running" ? (
           <div className={styles.content}>
             <p>달리기</p>
             <p>나의 기록: {(userStore.record / 1000).toFixed(3)}초</p>
@@ -28,11 +28,11 @@ export default function SingleResult() {
               <p className={styles.highlight}>최고 기록 갱신!</p>
             )}
           </div>
-        ) : userStore.gameType === 1 ? (
+        ) : userStore.gameType === "training" ? (
           <div className={styles.content}>
             <p>10초안에 아령 존나 하기</p>
             <p>나의 기록: {userStore.record}</p>
-            <p>나의 최고 기록: {userStore.workoutBestRecord}</p>
+            <p>나의 최고 기록: {userStore.trainingBestRecord}</p>
             {userStore.isNewBestRecord && (
               <p className={styles.highlight}>최고 기록 갱신!</p>
             )}

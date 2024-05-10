@@ -11,10 +11,10 @@ interface UserState {
   accessToken: string;
 
   // 게임 정보
-  gameType: number;
+  gameType: string;
   record: number;
   runningBestRecord: number;
-  workoutBestRecord: number;
+  trainingBestRecord: number;
   isNewBestRecord: boolean;
 }
 
@@ -24,10 +24,10 @@ interface UserActions {
   setBodyShape: (bodyShape: string) => void;
   setCharacterId: (characterId: number) => void;
   setAccessToken: (accessToken: string) => void;
-  setGameType: (gameType: number) => void;
+  setGameType: (gameType: string) => void;
   setRecord: (record: number) => void;
   setRunningBestRecord: (runningBestRecord: number) => void;
-  setWorkoutBestRecord: (workoutBestRecord: number) => void;
+  settrainingBestRecord: (trainingBestRecord: number) => void;
   setIsNewBestRecord: (isNewBestRecord: boolean) => void;
   updateBestRecord: () => void;
 }
@@ -41,13 +41,13 @@ const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
   name: "TESTDAMAGOCHI",
   gender: "woman",
   bodyShape: "FAT",
-  gameType: 0,
+  gameType: "",
   characterId: 1,
   accessToken:
-    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiY3JlYXRlZF9hdCI6MTcxNTMwMTEyMzIyMCwiZXhwaXJlc0luIjoyNTkyMDAwMDAwLCJhdXRoIjoiQVVUSE9SSVRZIiwiZXhwIjoxNzE3ODkzMTIzLCJpZCI6MX0.v4YnYAwB30AACnSEKYd3TPIvy39Pvh_cs3TDrsOp8o0",
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiY3JlYXRlZF9hdCI6MTcxNTMxMTQ4MjIyNiwiZXhwaXJlc0luIjoyNTkyMDAwMDAwLCJhdXRoIjoiQVVUSE9SSVRZIiwiZXhwIjoxNzE3OTAzNDgyLCJpZCI6MX0.u7KfK6v3Hri5Swnh6kB_MySrOteGXyXShnd2qNSQa6U",
   record: 0,
   runningBestRecord: 9999,
-  workoutBestRecord: 0,
+  trainingBestRecord: 0,
   isNewBestRecord: false,
   setName: (name) => set({ name }),
   setGender: (gender) => set({ gender }),
@@ -57,19 +57,19 @@ const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
   setGameType: (gameType) => set({ gameType }),
   setRecord: (record) => set({ record }),
   setRunningBestRecord: (runningBestRecord) => set({ runningBestRecord }),
-  setWorkoutBestRecord: (workoutBestRecord) => set({ workoutBestRecord }),
+  settrainingBestRecord: (trainingBestRecord) => set({ trainingBestRecord }),
   setIsNewBestRecord: (isNewBestRecord) => set({ isNewBestRecord }),
   updateBestRecord: () =>
     set((state) => {
-      if (state.gameType === 0) {
+      if (state.gameType === "running") {
         // Running game
         if (state.record < state.runningBestRecord) {
           return { runningBestRecord: state.record, isNewBestRecord: true };
         }
-      } else if (state.gameType === 1) {
+      } else if (state.gameType === "training") {
         // Workout game
-        if (state.record > state.workoutBestRecord) {
-          return { workoutBestRecord: state.record, isNewBestRecord: true };
+        if (state.record > state.trainingBestRecord) {
+          return { trainingBestRecord: state.record, isNewBestRecord: true };
         }
       }
       return {}; // If no new record, update isNewBestRecord only
