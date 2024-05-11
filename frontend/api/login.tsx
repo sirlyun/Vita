@@ -12,12 +12,9 @@ async function login(code: string) {
 }
 
 async function logout() {
-  return localAxios
-    .post("/member/logout")
-    .then((response) => response.data)
-    .catch((error) => {
-      throw error;
-    });
+  return localAxios.post("/member/logout").catch((error) => {
+    throw error;
+  });
 }
 
-export { login };
+export { login, logout };
