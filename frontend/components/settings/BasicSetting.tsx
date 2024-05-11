@@ -10,7 +10,6 @@ export default function BasicSettingPage({
 }) {
   const router = useRouter();
   const fetchLogout = async () => {
-    console.log("로그아웃버튼클릭");
     try {
       await logout();
       document.cookie =
