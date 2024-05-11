@@ -12,13 +12,18 @@ const localAxios = axios.create({
   },
 });
 
+// accessToken 쿠키 가져오기
+function getCookie(name: string | undefined) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(";").shift();
+}
+
 // 요청 인터셉터
 localAxios.interceptors.request.use(
   (config) => {
-    // Zustand 스토어에서 accessToken을 동적으로 가져옵니다.
-    const { accessToken } = useUserStore.getState();
-
-    
+    // 쿠키에 담겨있는 accessToken을 가져옵니다.
+    const accessToken = getCookie("accessToken");
 
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
