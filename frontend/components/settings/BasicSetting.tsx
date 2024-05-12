@@ -14,7 +14,11 @@ export default function BasicSettingPage({
       await logout();
       document.cookie =
         "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      useUserStore.getState().setAccessToken("");
+      document.cookie =
+        "characterId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "memberId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
       router.push("/login");
     } catch (error) {
       console.log("Failded logout, 로그아웃이 실패했습니다.", error);

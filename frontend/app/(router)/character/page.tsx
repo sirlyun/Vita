@@ -12,17 +12,24 @@ import CheckDrink from "@/components/character/CheckDrink";
 import CheckDrinkType from "@/components/character/CheckDrinkType";
 import Complete from "@/components/character/Complete";
 import Button from "@/components/character/Button";
+import { createdCharacter } from "@/api/character";
+import { useRouter } from "next/navigation";
+import InputNickname from "@/components/character/InputNickname";
 
 export default function createCharacter() {
+  const router = useRouter();
+
   const [step, setStep] = useState<number>(0);
+  const [nickname, setNickname] = useState<string>("");
   const [height, setHeight] = useState<string>("");
   const [weight, setWeight] = useState<string>("");
-  const [quantity, setQuantity] = useState<string | null>("none");
+  const [quantity, setQuantity] = useState<string>("none");
 
   const [smokeType, setSmokeType] = useState<string>("none");
-  const [drinkQuantity, setDrinkQuantity] = useState<string | null>("none");
+  const [drinkQuantity, setDrinkQuantity] = useState<string>("none");
   const [drinkType, setDrinkType] = useState<string>("none");
   const stepMessages: JSX.Element[] = [
+    <>닉네임을 입력해주세요</>,
     <>키를 입력해주세요</>,
     <>체중을 입력해주세요</>,
     <>
@@ -54,23 +61,25 @@ export default function createCharacter() {
 
   function renderContent() {
     if (step === 0) {
-      return <InputHeight height={height} setHeight={setHeight} />;
+      return <InputNickname nickname={nickname} setNickname={setNickname} />;
     } else if (step === 1) {
-      return <InputWeight weight={weight} setWeight={setWeight} />;
+      return <InputHeight height={height} setHeight={setHeight} />;
     } else if (step === 2) {
-      return <CheckSmoke quantity={quantity} setQuantity={setQuantity} />;
+      return <InputWeight weight={weight} setWeight={setWeight} />;
     } else if (step === 3) {
+      return <CheckSmoke quantity={quantity} setQuantity={setQuantity} />;
+    } else if (step === 4) {
       return (
         <CheckSmokeType smokeType={smokeType} setSmokeType={setSmokeType} />
       );
-    } else if (step === 4) {
+    } else if (step === 5) {
       return (
         <CheckDrink
           drinkQuantity={drinkQuantity}
           setDrinkQuantity={setDrinkQuantity}
         />
       );
-    } else if (step === 5) {
+    } else if (step === 6) {
       return (
         <CheckDrinkType drinkType={drinkType} setDrinkType={setDrinkType} />
       );
@@ -82,12 +91,13 @@ export default function createCharacter() {
   function renderButton() {
     const showPrevButton = step > 0;
     const showNextButton =
-      (step === 0 && height !== "") ||
-      (step === 1 && weight !== "") ||
-      (step === 2 && quantity !== "none") ||
-      (step === 3 && smokeType !== "none") ||
-      (step === 4 && drinkQuantity !== "none") ||
-      (step === 5 && drinkType !== "none");
+      (step === 0 && nickname !== "") ||
+      (step === 1 && height !== "") ||
+      (step === 2 && weight !== "") ||
+      (step === 3 && quantity !== "none") ||
+      (step === 4 && smokeType !== "none") ||
+      (step === 5 && drinkQuantity !== "none") ||
+      (step === 6 && drinkType !== "none");
 
     return (
       <Button
@@ -104,8 +114,8 @@ export default function createCharacter() {
 
   const handleNext = (): void => {
     if (
-      (step === 2 && quantity === null) ||
-      (step === 4 && drinkQuantity === null)
+      (step === 3 && quantity === "null") ||
+      (step === 5 && drinkQuantity === "null")
     ) {
       setStep(step + 2);
     } else if (step < stepMessages.length - 1) {
@@ -116,14 +126,36 @@ export default function createCharacter() {
   const handlePrev = (): void => {
     if (step > 0) {
       if (
-        (step === 4 && quantity === null) ||
-        (step === 6 && drinkQuantity === null)
+        (step === 5 && quantity === "null") ||
+        (step === 7 && drinkQuantity === "null")
       ) {
         setStep(step - 2);
       } else {
         setStep(step - 1);
       }
     }
+  };
+
+  const completeCreateCharacter = async () => {
+    const smoke = {
+      type: smokeType,
+      quantity: quantity,
+    };
+    const drink = {
+      type: drinkType,
+      quantity: drinkQuantity,
+    };
+
+    const responseCharacter = await createdCharacter(
+      nickname,
+      Number(height),
+      Number(weight),
+      smoke,
+      drink
+    );
+
+    console.log(responseCharacter.message);
+    router.push("/");
   };
 
   return (
@@ -146,7 +178,7 @@ export default function createCharacter() {
           <div className={styles["step-button"]}>
             {step > 0 && <button onClick={handlePrev}>이전</button>}
             {step === stepMessages.length - 1 ? (
-              <button onClick={handleNext}>완료</button>
+              <button onClick={completeCreateCharacter}>완료</button>
             ) : (
               step < stepMessages.length - 1 && (
                 <button onClick={handleNext}>다음</button>

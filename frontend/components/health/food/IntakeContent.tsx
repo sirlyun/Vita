@@ -1,15 +1,23 @@
 import styles from "@/public/styles/intake.module.scss";
-import React, { useState } from "react";
+import React from "react";
 
-const IntakeContent = () => {
-  const intakeOptions: string[] = ["0.5인분", "1인분", "n인분"];
-  const [selectedIntake, setSelectedIntake] = useState("1인분");
+interface Props {
+  selectedIntake: "LOW" | "MID" | "HIGH";
+  setSelectedIntake: (value: "LOW" | "MID" | "HIGH") => void;
+}
 
-  const handleOptionClick = (option: string) => {
+const IntakeContent = ({ selectedIntake, setSelectedIntake }: Props) => {
+  const intakeOptions: ("LOW" | "MID" | "HIGH")[] = ["LOW", "MID", "HIGH"];
+  const intakeMapping: { [key in "LOW" | "MID" | "HIGH"]: string } = {
+    LOW: "1인분 미만",
+    MID: "1인분 이상",
+    HIGH: "2인분 이상",
+  };
+
+  const handleOptionClick = (option: "LOW" | "MID" | "HIGH") => {
     setSelectedIntake(option);
     console.log(option);
   };
-
   return (
     <div className={styles["intake-layout"]}>
       <div className={styles["intake-title"]}>섭취량</div>
@@ -22,7 +30,7 @@ const IntakeContent = () => {
             }`}
             onClick={() => handleOptionClick(option)}
           >
-            <p>{option}</p>
+            <p>{intakeMapping[option]}</p>
           </div>
         ))}
       </div>

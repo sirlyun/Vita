@@ -7,13 +7,18 @@ import { getUserCharacterImagePath } from "@/util/images";
 
 interface FoodNutritionProps {
   onClose: () => void; // onClose 함수 타입 정의
+  calrorie: string;
+  salt: string;
+  protein: string;
+  sugar: string;
+  fat: string;
 }
 
 interface NutritionalInfo {
   name: string;
   image: string;
   unit: string;
-  consumedAmount: number;
+  consumedAmount: string;
   recommendedAmount: number;
 }
 
@@ -25,7 +30,14 @@ interface FoodNutritionalDetails {
   proteins: NutritionalInfo;
 }
 
-const FoodNutrition = ({ onClose }: FoodNutritionProps) => {
+const FoodNutrition = ({
+  onClose,
+  calrorie,
+  salt,
+  protein,
+  sugar,
+  fat,
+}: FoodNutritionProps) => {
   const handleModalContentClick = useStopPropagation();
 
   const foodNutrition: FoodNutritionalDetails = {
@@ -33,35 +45,35 @@ const FoodNutrition = ({ onClose }: FoodNutritionProps) => {
       name: "칼로리",
       image: icons.kcal,
       unit: "kcal",
-      consumedAmount: 1000,
+      consumedAmount: calrorie,
       recommendedAmount: 2000,
     },
     salts: {
       name: "나트륨",
       image: icons.salt,
       unit: "mg",
-      consumedAmount: 1000,
+      consumedAmount: salt,
       recommendedAmount: 2300,
     },
     sugars: {
       name: "당분",
       image: icons.sugar,
       unit: "g",
-      consumedAmount: 19,
+      consumedAmount: sugar,
       recommendedAmount: 37.5,
     },
     fats: {
       name: "지방",
       image: icons.fat,
       unit: "g",
-      consumedAmount: 30,
+      consumedAmount: fat,
       recommendedAmount: 70,
     },
     proteins: {
       name: "단백질",
       image: icons.protein,
       unit: "g",
-      consumedAmount: 21,
+      consumedAmount: protein,
       recommendedAmount: 56,
     },
   };

@@ -27,9 +27,6 @@ export default function Home() {
       try {
         const checkCharacter = await getCharacterList();
         console.log("캐릭터 조회 성공!", checkCharacter);
-        if (!checkCharacter) {
-          console.log("캐릭터가 null 값입니다.");
-        }
       } catch (error) {
         console.log("캐릭터 조회에 실패했습니다!.", error);
       }

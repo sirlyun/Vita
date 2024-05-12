@@ -7,7 +7,7 @@ interface UserState {
   name: string;
   gender: string;
   bodyShape: string;
-  characterId: number;
+  characterId: number | null;
   accessToken: string;
 
   // 게임 정보
@@ -22,7 +22,7 @@ interface UserActions {
   setName: (name: string) => void;
   setGender: (gender: string) => void;
   setBodyShape: (bodyShape: string) => void;
-  setCharacterId: (characterId: number) => void;
+  setCharacterId: (characterId: number | null) => void;
   setAccessToken: (accessToken: string) => void;
   setGameType: (gameType: string) => void;
   setRecord: (record: number) => void;
@@ -51,7 +51,7 @@ const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
   setName: (name) => set({ name }),
   setGender: (gender) => set({ gender }),
   setBodyShape: (bodyShape) => set({ bodyShape }),
-  setCharacterId: (characterId: number) => set({ characterId }),
+  setCharacterId: (characterId: number | null) => set({ characterId }),
   setAccessToken: (accessToken: string) => set({ accessToken }),
   setGameType: (gameType) => set({ gameType }),
   setRecord: (record) => set({ record }),
