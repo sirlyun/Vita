@@ -4,7 +4,7 @@ import styles from "@/public/styles/chronic.module.scss";
 interface Props {
   chronic: string | null;
   setChronic: (value: string | null) => void;
-  option: string;
+  option: string | null;
   icon: string;
   name: string;
 }

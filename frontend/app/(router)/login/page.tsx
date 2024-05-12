@@ -4,8 +4,8 @@ import styles from "@/public/styles/login.module.scss";
 import GoogleSignIn from "@/components/ui/GoogleSignInButton";
 import { useSearchParams, useRouter } from "next/navigation";
 import { login } from "@/api/login";
-import useUserStore from "@/store/user-store";
 import { useEffect } from "react";
+import { getCharacterList } from "@/api/character";
 
 export default function Login() {
   const searchParam = useSearchParams();
@@ -13,26 +13,23 @@ export default function Login() {
 
   useEffect(() => {
     const queryCode = searchParam.get("code");
-    if (queryCode) {
-      const checkLogin = async () => {
+    const authenticateAndFetchChracter = async () => {
+      if (queryCode) {
+        // 로그인 후 쿠키에 액세스 토큰 저장\
         const encodedCode = encodeURIComponent(queryCode);
-        try {
-          const fetchedLogin = await login(encodedCode);
-          console.log(fetchedLogin.token.access_token);
+        const fetchedLogin = await login(encodedCode);
+        document.cookie = `accessToken=${fetchedLogin.token.access_token}; path=/; max-age=3600; secure; SameSite=None`;
 
-          document.cookie = `accessToken=${fetchedLogin.token.access_token}; path=/; max-age=3600; secure; SameSite=None`;
-
-          useUserStore
-            .getState()
-            .setAccessToken(fetchedLogin.token.access_token);
-          router.push("/");
-        } catch (error) {
-          console.error("Login failed:", error);
+        const checkCharacter = await getCharacterList();
+        if (checkCharacter.character_id !== undefined) {
+          document.cookie = `characterId=${checkCharacter.character_id}; path=/; max-age=3600; secure; SameSite=None`;
+          document.cookie = `memberId=${"createdMember"}; path=/; max-age=3600; secure; SameSite=None`;
         }
-      };
 
-      checkLogin();
-    }
+        router.push("/");
+      }
+    };
+    authenticateAndFetchChracter();
   });
 
   return (

@@ -3,23 +3,26 @@ import Image from "next/image";
 import icons from "@/util/icons";
 
 interface Props {
-  drinkQuantity: string | null;
-  setDrinkQuantity: (value: string | null) => void;
+  drinkQuantity: string;
+  setDrinkQuantity: (value: string) => void;
 }
 
 export default function CheckDrink({ drinkQuantity, setDrinkQuantity }: Props) {
-  const handleQuantity = (value: string | null) => {
+  const handleQuantity = (value: string) => {
     setDrinkQuantity(value);
   };
 
   return (
     <div className={styles["smoke-layout"]}>
-      <div className={styles["smoke-box"]} onClick={() => handleQuantity(null)}>
+      <div
+        className={styles["smoke-box"]}
+        onClick={() => handleQuantity("null")}
+      >
         <div
           className={
             drinkQuantity === "none"
               ? styles["selected-div"]
-              : drinkQuantity === null
+              : drinkQuantity === "null"
               ? styles["selected-div"]
               : styles["unselected-div"]
           }

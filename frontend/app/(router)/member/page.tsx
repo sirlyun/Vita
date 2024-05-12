@@ -5,6 +5,8 @@ import Gender from "@/components/member/Gender";
 import Birth from "@/components/member/Birth";
 import Button from "@/components/member/Button";
 import Chronic from "@/components/member/Chronic";
+import { modifyMember } from "@/api/member";
+import { useRouter } from "next/navigation";
 
 import { useState } from "react";
 
@@ -13,6 +15,8 @@ export default function Page() {
   const [gender, setGender] = useState<string>("none");
   const [birth, setBirth] = useState<string>("");
   const [chronic, setChronic] = useState<string | null>("none");
+
+  const router = useRouter();
 
   const stepMessages: JSX.Element[] = [
     <>성별을 선택해주세요</>,
@@ -25,6 +29,16 @@ export default function Page() {
       <br></br>완료하시겠습니까?
     </>,
   ];
+
+  const completeModifyMember = async () => {
+    console.log(gender, Number(birth));
+
+    const responseMember = await modifyMember(gender, Number(birth), chronic);
+    console.log(responseMember.status);
+    document.cookie = `memberId=${"createdMember"}; path=/; max-age=3600; secure; SameSite=None`;
+    console.log("memeberId를 담는 아래 코드");
+    router.push("/character");
+  };
 
   function renderContent() {
     if (step === 0) {
@@ -67,23 +81,25 @@ export default function Page() {
   }
 
   return (
-    <div className={styles["chronic-layout"]}>
-      <p className={styles["chronic-title"]}>{stepMessages[step]}</p>
-      {renderContent()}
-      {step === stepMessages.length - 1 ? (
-        <div className={styles["step-button"]}>
-          {step > 0 && <button onClick={handlePrev}>이전</button>}
-          {step === stepMessages.length - 1 ? (
-            <button onClick={handleNext}>완료</button>
-          ) : (
-            step < stepMessages.length - 1 && (
-              <button onClick={handleNext}>다음</button>
-            )
-          )}
-        </div>
-      ) : (
-        renderButton()
-      )}
+    <div className={`${styles.main} background`}>
+      <div className={styles["chronic-layout"]}>
+        <p className={styles["chronic-title"]}>{stepMessages[step]}</p>
+        {renderContent()}
+        {step === stepMessages.length - 1 ? (
+          <div className={styles["step-button"]}>
+            {step > 0 && <button onClick={handlePrev}>이전</button>}
+            {step === stepMessages.length - 1 ? (
+              <button onClick={completeModifyMember}>완료</button>
+            ) : (
+              step < stepMessages.length - 1 && (
+                <button onClick={handleNext}>다음</button>
+              )
+            )}
+          </div>
+        ) : (
+          renderButton()
+        )}
+      </div>
     </div>
   );
 }

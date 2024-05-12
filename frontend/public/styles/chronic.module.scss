@@ -1,3 +1,11 @@
+.main {
+  background-image: url("/images/backgrounds/login-bg.gif");
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .chronic-layout {
   background-image: url("/images/login-box.png");
   background-size: 100% 100%;
