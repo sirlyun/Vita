@@ -43,4 +43,11 @@ const icons = {
   "google-logo": "/icons/google-logo-icon.png",
 };
 
-export default icons;
+const debuffIcons = [
+  { name: "alcohol", ref: "/icons/debuff-alcohol-icon.png" },
+  { name: "cigarette", ref: "/icons/debuff-cigarette-icon.png" },
+  { name: "food", ref: "/icons/debuff-food-icon.png" },
+  { name: "chronic", ref: "/icons/debuff-chronic-icon.png" },
+];
+
+export { icons, debuffIcons };
