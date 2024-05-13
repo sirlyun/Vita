@@ -1,7 +1,7 @@
 "use client";
 import styles from "@/public/styles/challenge.module.scss";
 import Image from "next/image";
-import icons from "@/util/icons";
+import { getIconPath } from "@/util/icons";
 import useStopPropagation from "@/components/UseStopPropagation";
 
 interface ChallengeFrameProps {
@@ -18,7 +18,7 @@ export default function ChallengeFrame({ onClose }: ChallengeFrameProps) {
       <div className={styles["cancel-div"]}>
         <Image
           onClick={onClose}
-          src={icons.cancel}
+          src={getIconPath("cancel")}
           width={60}
           height={60}
           alt="cancelIcon"
