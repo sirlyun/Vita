@@ -8,30 +8,32 @@ export default function ShopListComponent({
   selecteditem,
   setSelectedItem,
 }: ShopListComponentProps) {
-  function renderContent() {
-    if (!shopList) {
-      return <p>No items to display.</p>;
-    }
-
-    // 필터링된 아이템을 렌더링합니다.
-    const filteredItems = shopList.filter((item) => {
-      if (activeMenu === "all") return true;
-      return item.type.toUpperCase() === activeMenu.toUpperCase();
-    });
-
-    if (filteredItems.length === 0) {
-      return <p>No items to display under {activeMenu}.</p>;
-    }
-
-    return filteredItems.map((item, index) => (
-      <ShopItemComponent
-        key={index}
-        item={item}
-        onClick={() => setSelectedItem(item)}
-        selected={selecteditem == item}
-      />
-    ));
-  }
-
-  return <div className={styles.contents}>{renderContent()}</div>;
+  return (
+    <div className={styles.contents}>
+      {!shopList ? (
+        <p>No items to display.</p>
+      ) : shopList.filter(
+          (item) =>
+            activeMenu === "all" ||
+            item.type.toUpperCase() === activeMenu.toUpperCase()
+        ).length === 0 ? (
+        <p>No items to display under {activeMenu}.</p>
+      ) : (
+        shopList
+          .filter(
+            (item) =>
+              activeMenu === "all" ||
+              item.type.toUpperCase() === activeMenu.toUpperCase()
+          )
+          .map((item, index) => (
+            <ShopItemComponent
+              key={index}
+              item={item}
+              onClick={() => setSelectedItem(item)}
+              selected={selecteditem === item}
+            />
+          ))
+      )}
+    </div>
+  );
 }

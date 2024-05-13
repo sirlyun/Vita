@@ -5,7 +5,13 @@ import { useEffect, useRef } from "react";
 import style from "@/public/styles/modal.module.scss";
 import useUserStore from "@/store/user-store";
 
-export function Modal({ children }: { children: React.ReactNode }) {
+export function Modal({
+  option,
+  children,
+}: {
+  option: number;
+  children: React.ReactNode;
+}) {
   const router = useRouter();
   const dialogRef = useRef<React.ElementRef<"dialog">>(null);
   const userStore = useUserStore();
@@ -57,7 +63,7 @@ export function Modal({ children }: { children: React.ReactNode }) {
           >
             <p>닫기</p>
           </button>
-        ) : pathname.includes("settings") ? (
+        ) : pathname.includes("settings") && option == 1 ? (
           <button
             className={style["close-btn"]}
             onClick={settingModalClose} // "settings" 일 때 호출할 함수

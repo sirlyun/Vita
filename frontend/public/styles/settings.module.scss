@@ -9,21 +9,31 @@
   gap: 1vh;
   overflow: hidden;
   overflow-y: auto;
+  padding: 1vh;
 
   .item {
     height: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
   }
 
   img {
-    width: 90%;
-    height: 90%;
+    width: 14vh;
+    height: 14vh;
+  }
+
+  .used {
+    filter: brightness(50%);
+  }
+
+  .used-text {
+    color: #00ff15;
   }
 
   .selectedItem {
-    outline: 3px solid rgb(0, 255, 0); // 초록색 안쪽 경계선
+    outline: 3px solid #00ff15; // 초록색 안쪽 경계선
     transition-duration: 0.1s;
   }
 }

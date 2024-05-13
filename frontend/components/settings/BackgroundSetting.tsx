@@ -25,7 +25,7 @@ export default function BackgroundSettingPage() {
   }, []);
 
   const handleClick = (item: MyItem) => {
-    setSelectedItem(item);
+    if (!item.is_used) setSelectedItem(item);
   };
 
   return (
@@ -47,10 +47,15 @@ export default function BackgroundSettingPage() {
                 height={60}
                 alt={`${item.name}`}
                 layout="fixed"
-                className={` ${
-                  item === selectedItem ? styles.selectedItem : ""
-                }`}
+                className={` 
+                ${item.is_used ? styles.used : ""}
+                ${item === selectedItem ? styles.selectedItem : ""}`}
               />
+              {item.is_used ? (
+                <p className={styles["used-text"]}>사용중</p>
+              ) : (
+                ""
+              )}
             </div>
           ))
       )}

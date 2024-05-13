@@ -5,34 +5,78 @@ import Image from "next/image";
 import styles from "@/public/styles/main.module.scss";
 import icons from "@/util/icons.js";
 import ChallengeFrame from "@/components/ChallengeFrame";
+import { getUserCharacterImagePath } from "@/util/images";
+import { getMyCharacterInfo } from "@/api/character";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { getUserCharacterImagePath } from "@/util/images";
-import useUserStore from "@/store/user-store";
-import { getCharacterList } from "@/api/character";
-import { useEffect } from "react";
+
+// Enum for Gender and Body Shape
+enum Gender {
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+}
+
+enum BodyShape {
+  SKINNY = "SKINNY",
+  NORMAL = "NORMAL",
+  FAT = "FAT",
+}
+
+// Interface for Achievement
+interface Achievement {
+  level: number;
+  name: string;
+}
+
+// Interface for Debuff
+interface DeBuff {
+  de_buff_id: number;
+  type: string;
+  vita_point: number;
+}
+
+// Interface for Character Item
+interface CharacterItem {
+  my_item_id: number;
+  type: string;
+  name: string;
+}
+
+// Main Character Interface
+interface Character {
+  character_id: number;
+  nickname: string;
+  vita_point: number;
+  is_dead: boolean;
+  gender: Gender;
+  body_shape: BodyShape;
+  achievement: Achievement;
+  de_buff: DeBuff[];
+  character_item: CharacterItem[];
+}
 
 export default function Home() {
-  const userStore = useUserStore.getState();
   const [challengeModal, setChallengeModal] = useState(false);
+  const [userInfo, setUserInfo] = useState<Character | null>(null);
   const toggleChallengeModal = () => setChallengeModal(!challengeModal);
   const router = useRouter();
-
-  const debuffRouter = (id: string) => {
-    router.push(`/debuff/${id}`);
-  };
 
   useEffect(() => {
     const fetchCharacterList = async () => {
       try {
-        const checkCharacter = await getCharacterList();
-        console.log("캐릭터 조회 성공!", checkCharacter);
+        // 내 캐릭터 정보 가져오기
+        const myCharacterInfo = await getMyCharacterInfo();
+        console.log("캐릭터 조회 성공!", myCharacterInfo);
+
+        // 내 캐릭터 정보 저장
+        setUserInfo(myCharacterInfo);
       } catch (error) {
         console.log("캐릭터 조회에 실패했습니다!.", error);
       }
     };
     fetchCharacterList();
-  });
+  }, []);
 
   return (
     <div className={`${styles.main} background`}>
@@ -59,50 +103,58 @@ export default function Home() {
       <div className={styles.content}>
         <div className={styles["debuff-menu"]}></div>
         <div className={styles.damagochi}>
-          <Image
-            src={getUserCharacterImagePath(
-              userStore.gender,
-              userStore.bodyShape,
-              "idle",
-              0
-            )}
-            width={300}
-            height={300}
-            alt="damagochi"
-          ></Image>
+          {userInfo ? (
+            <Image
+              src={getUserCharacterImagePath(
+                userInfo.gender,
+                userInfo.body_shape,
+                "idle",
+                0
+              )}
+              width={300}
+              height={300}
+              alt="damagochi"
+            ></Image>
+          ) : (
+            ""
+          )}
         </div>
         <div className={styles["debuff-menu"]}>
-          <Image
-            src={icons.alcohol}
-            width={60}
-            height={60}
-            alt="alcohol"
-            onClick={() => debuffRouter("0")}
-          ></Image>
+          <Link href={`/debuff/${0}`}>
+            <Image
+              src={icons.alcohol}
+              width={60}
+              height={60}
+              alt="alcohol"
+            ></Image>
+          </Link>
 
-          <Image
-            src={icons.cigarette}
-            width={60}
-            height={60}
-            alt="cigarette"
-            onClick={() => debuffRouter("1")}
-          ></Image>
+          <Link href={`/debuff/${1}`}>
+            <Image
+              src={icons.cigarette}
+              width={60}
+              height={60}
+              alt="alcohol"
+            ></Image>
+          </Link>
 
-          <Image
-            src={icons.food}
-            width={60}
-            height={60}
-            alt="food"
-            onClick={() => debuffRouter("2")}
-          ></Image>
+          <Link href={`/debuff/${2}`}>
+            <Image
+              src={icons.food}
+              width={60}
+              height={60}
+              alt="alcohol"
+            ></Image>
+          </Link>
 
-          <Image
-            src={icons.chronic}
-            width={60}
-            height={60}
-            alt="chronic"
-            onClick={() => debuffRouter("3")}
-          ></Image>
+          <Link href={`/debuff/${3}`}>
+            <Image
+              src={icons.chronic}
+              width={60}
+              height={60}
+              alt="alcohol"
+            ></Image>
+          </Link>
         </div>
       </div>
       <div className={styles.menu}>
