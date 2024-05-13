@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import DamagochiHistoryDetail from './DamagochiHistoryDetail';
-import Image from 'next/image';
-import images, { getUserCharacterImagePath } from '@/util/images.js';
-import report from '@/public/styles/report.module.scss';
-import { getCharacterList } from '@/api/report';
-import { CharacterList } from '@/interfaces/report-interface';
+import React, { useState, useEffect } from "react";
+import DamagochiHistoryDetail from "./DamagochiHistoryDetail";
+import Image from "next/image";
+import images, { getUserCharacterImagePath } from "@/util/images.js";
+import report from "@/public/styles/report.module.scss";
+import { getCharacterList } from "@/api/report";
+import { CharacterList } from "@/interfaces/report-interface";
 
 export default function DamagochiHistory() {
   // 캐릭터 목록을 저장할 상태 변수
@@ -16,7 +16,7 @@ export default function DamagochiHistory() {
   useEffect(() => {
     async function fetchCharacterList() {
       const data = await getCharacterList();
-      console.log('Received data:', data);
+      console.log("Received data:", data);
       setCharacterList([data]);
     }
 
@@ -36,15 +36,15 @@ export default function DamagochiHistory() {
 
   // 캐릭터 이미지 이미지 가져오기
   const characterImage = getUserCharacterImagePath(
-    'woman',
-    'avg',
-    'walking',
+    "female",
+    "normal",
+    "walking",
     1
   );
 
   // 캐릭터 목록 표시
   return (
-    <div className={report['damagochi-history']}>
+    <div className={report["damagochi-history"]}>
       {characterList &&
         characterList.length > 0 &&
         characterList.map((character, index) => (

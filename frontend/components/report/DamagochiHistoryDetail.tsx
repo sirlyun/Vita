@@ -1,14 +1,14 @@
-import report from '@/public/styles/report.module.scss';
-import Image from 'next/image';
-import images, { getUserCharacterImagePath } from '@/util/images.js';
-import React, { useState } from 'react';
+import report from "@/public/styles/report.module.scss";
+import Image from "next/image";
+import images, { getUserCharacterImagePath } from "@/util/images.js";
+import React, { useState } from "react";
 
 type Character = {
   character_id: number;
   nickname: string;
   vita_point: number;
   is_dead: boolean;
-  gender: 'MALE' | 'FEMALE';
+  gender: "MALE" | "FEMALE";
   body_shape: string;
   character_item: any[];
   de_buff: any[];
@@ -23,7 +23,7 @@ const BasicInfo = ({ character }: { character: Character }) => (
   <div>
     <p>이름: {character.nickname}</p>
     <p>체력: {character.vita_point}</p>
-    <p>상태: {character.is_dead ? '사망' : '생존'}</p>
+    <p>상태: {character.is_dead ? "사망" : "생존"}</p>
     <p>성별: {character.gender}</p>
     <p>체형: {character.body_shape}</p>
   </div>
@@ -47,18 +47,23 @@ const PvpRecord = () => (
 );
 
 // 캐릭터 이미지 이미지 가져오기
-const characterImage = getUserCharacterImagePath('woman', 'avg', 'walking', 1);
+const characterImage = getUserCharacterImagePath(
+  "female",
+  "normal",
+  "walking",
+  1
+);
 
 const DamagochiHistoryDetail: React.FC<Props> = ({ character }) => {
-  const [activeTab, setActiveTab] = useState('basicInfo');
+  const [activeTab, setActiveTab] = useState("basicInfo");
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'basicInfo':
+      case "basicInfo":
         return <BasicInfo character={character} />;
-      case 'inventory':
+      case "inventory":
         return <Inventory character={character} />;
-      case 'pvpRecord':
+      case "pvpRecord":
         return <PvpRecord />;
       default:
         return <div>선택된 탭이 없습니다.</div>;
@@ -66,8 +71,8 @@ const DamagochiHistoryDetail: React.FC<Props> = ({ character }) => {
   };
 
   return (
-    <div className={`${report['inner-text']} ${report['inner-background']}`}>
-      <div className={report['inner-image-block']}>
+    <div className={`${report["inner-text"]} ${report["inner-background"]}`}>
+      <div className={report["inner-image-block"]}>
         <Image
           src={characterImage} // 캐릭터 이미지는 prop에 따라 동적으로 변경될 수 있습니다.
           width={100}
@@ -76,23 +81,23 @@ const DamagochiHistoryDetail: React.FC<Props> = ({ character }) => {
         />
         <span>{character.nickname}</span>
       </div>
-      <div className={report['damagochi-history-detail']}>
-        <div className={report['tabs']}>
+      <div className={report["damagochi-history-detail"]}>
+        <div className={report["tabs"]}>
           <span
-            className={activeTab === 'basicInfo' ? 'active' : ''}
-            onClick={() => setActiveTab('basicInfo')}
+            className={activeTab === "basicInfo" ? "active" : ""}
+            onClick={() => setActiveTab("basicInfo")}
           >
             기본정보
           </span>
           <span
-            className={activeTab === 'inventory' ? 'active' : ''}
-            onClick={() => setActiveTab('inventory')}
+            className={activeTab === "inventory" ? "active" : ""}
+            onClick={() => setActiveTab("inventory")}
           >
             인벤토리
           </span>
           <span
-            className={activeTab === 'pvpRecord' ? 'active' : ''}
-            onClick={() => setActiveTab('pvpRecord')}
+            className={activeTab === "pvpRecord" ? "active" : ""}
+            onClick={() => setActiveTab("pvpRecord")}
           >
             PvP전적
           </span>
