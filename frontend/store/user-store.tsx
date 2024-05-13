@@ -1,6 +1,6 @@
-import { create, StateCreator } from "zustand";
-import { devtools } from "zustand/middleware";
-import { StoreApi } from "zustand";
+import { create, StateCreator } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { StoreApi } from 'zustand';
 
 interface UserState {
   // 사용자 정보
@@ -36,14 +36,15 @@ type UserStore = UserState & UserActions;
 
 // 스토어 설정을 위한 함수
 const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
-  set: StoreApi<UserStore>["setState"]
+  set: StoreApi<UserStore>['setState']
 ) => ({
-  name: "TESTDAMAGOCHI",
-  gender: "woman",
-  bodyShape: "FAT",
-  gameType: "",
+  name: 'TESTDAMAGOCHI',
+  gender: 'woman',
+  bodyShape: 'FAT',
+  gameType: '',
   characterId: 1,
-  accessToken: "",
+  accessToken:
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiY3JlYXRlZF9hdCI6MTcxNTMyMTg3NjUyNSwiZXhwaXJlc0luIjoyNTkyMDAwMDAwLCJhdXRoIjoiQVVUSE9SSVRZIiwiZXhwIjoxNzE3OTEzODc2LCJpZCI6MX0.hFCNrkkydz5dGlfu5zdOO3ZbortTT3p9jLpGI_vr39A',
   record: 0,
   runningBestRecord: 9999,
   trainingBestRecord: 0,
@@ -60,12 +61,12 @@ const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
   setIsNewBestRecord: (isNewBestRecord) => set({ isNewBestRecord }),
   updateBestRecord: () =>
     set((state) => {
-      if (state.gameType === "running") {
+      if (state.gameType === 'running') {
         // Running game
         if (state.record < state.runningBestRecord) {
           return { runningBestRecord: state.record, isNewBestRecord: true };
         }
-      } else if (state.gameType === "training") {
+      } else if (state.gameType === 'training') {
         // Workout game
         if (state.record > state.trainingBestRecord) {
           return { trainingBestRecord: state.record, isNewBestRecord: true };
@@ -78,7 +79,7 @@ const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
 // 스토어 생성 및 devtools 미들웨어 적용
 const useUserStore = create(
   devtools(storeConfig, {
-    name: "UserStore", // 올바른 방식으로 devtools에 이름을 설정
+    name: 'UserStore', // 올바른 방식으로 devtools에 이름을 설정
   })
 );
 

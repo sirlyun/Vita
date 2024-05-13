@@ -1,5 +1,6 @@
 import report from '@/public/styles/report.module.scss';
 
+// 사용자 건강 리포트 컴포넌트
 export default function UserHealth() {
   return (
     <div className={`${report['inner-text']} ${report['inner-background']}`}>

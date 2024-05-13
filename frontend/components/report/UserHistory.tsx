@@ -1,5 +1,6 @@
 import report from '@/public/styles/report.module.scss';
 
+// 사용자 건강 히스토리 컴포넌트
 export default function Fourth() {
   return (
     <div className={`${report['inner-text']} ${report['inner-background']}`}>
