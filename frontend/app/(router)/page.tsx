@@ -8,14 +8,12 @@ import ChallengeFrame from "@/components/ChallengeFrame";
 import { getUserCharacterImagePath } from "@/util/images";
 import { getMyCharacterInfo } from "@/api/character";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Home() {
   const [challengeModal, setChallengeModal] = useState(false);
   const [userInfo, setUserInfo] = useState<Character | null>(null);
   const toggleChallengeModal = () => setChallengeModal(!challengeModal);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchCharacterList = async () => {
