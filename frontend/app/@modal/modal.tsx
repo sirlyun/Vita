@@ -1,13 +1,19 @@
-'use client';
+"use client";
 
-import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useRef } from 'react';
-import style from '@/public/styles/modal.module.scss';
-import useUserStore from '@/store/user-store';
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
+import style from "@/public/styles/modal.module.scss";
+import useUserStore from "@/store/user-store";
 
-export function Modal({ children }: { children: React.ReactNode }) {
+export function Modal({
+  option,
+  children,
+}: {
+  option: number;
+  children: React.ReactNode;
+}) {
   const router = useRouter();
-  const dialogRef = useRef<React.ElementRef<'dialog'>>(null);
+  const dialogRef = useRef<React.ElementRef<"dialog">>(null);
   const userStore = useUserStore();
 
   // 현재 페이지의 경로
@@ -31,6 +37,12 @@ export function Modal({ children }: { children: React.ReactNode }) {
     router.back();
   };
 
+  const settingModalClose = () => {
+    dialogRef.current?.close(); // 모달 닫기
+    //  배경 설정 api
+    router.push("/");
+  };
+
   const modalClose = () => {
     router.back();
   };
@@ -40,20 +52,26 @@ export function Modal({ children }: { children: React.ReactNode }) {
       ref={dialogRef}
       // onClick={closeModal}
       onClose={router.back}
-      className={style['modal-outer']}
+      className={style["modal-outer"]}
     >
-      <div className={`${style['modal-inner']} bg`}>
+      <div className={`${style["modal-inner"]} bg`}>
         {children}
-        {pathname.includes('game') ? (
+        {pathname.includes("game") ? (
           <button
-            className={style['close-btn']}
+            className={style["close-btn"]}
             onClick={() => gameModalClose()}
-            // onClick={closeModalOnButtonClick}
           >
             <p>닫기</p>
           </button>
+        ) : pathname.includes("settings") && option == 1 ? (
+          <button
+            className={style["close-btn"]}
+            onClick={settingModalClose} // "settings" 일 때 호출할 함수
+          >
+            <p>선택</p>
+          </button>
         ) : (
-          <button className={style['close-btn']} onClick={modalClose}>
+          <button className={style["close-btn"]} onClick={modalClose}>
             <p>닫기</p>
           </button>
         )}

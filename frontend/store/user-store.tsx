@@ -43,8 +43,8 @@ const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
   bodyShape: 'FAT',
   gameType: '',
   characterId: 1,
-  accessToken:
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiY3JlYXRlZF9hdCI6MTcxNTMyMTg3NjUyNSwiZXhwaXJlc0luIjoyNTkyMDAwMDAwLCJhdXRoIjoiQVVUSE9SSVRZIiwiZXhwIjoxNzE3OTEzODc2LCJpZCI6MX0.hFCNrkkydz5dGlfu5zdOO3ZbortTT3p9jLpGI_vr39A',
+  // eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiY3JlYXRlZF9hdCI6MTcxNTMyMTg3NjUyNSwiZXhwaXJlc0luIjoyNTkyMDAwMDAwLCJhdXRoIjoiQVVUSE9SSVRZIiwiZXhwIjoxNzE3OTEzODc2LCJpZCI6MX0.hFCNrkkydz5dGlfu5zdOO3ZbortTT3p9jLpGI_vr39A
+  accessToken: '',
   record: 0,
   runningBestRecord: 9999,
   trainingBestRecord: 0,

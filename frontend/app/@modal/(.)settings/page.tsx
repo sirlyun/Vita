@@ -10,7 +10,7 @@ export default function OptionModal() {
 
   return (
     <div>
-      <Modal>
+      <Modal option={settingOption}>
         <h1 className={`${styles.title} ${styles.center}`}>
           {settingOption == 0 ? "SETTING" : "SELECT BACKGROUND"}
         </h1>

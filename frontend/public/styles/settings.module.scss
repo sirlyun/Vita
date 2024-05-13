@@ -1,0 +1,39 @@
+.content {
+  width: 90%;
+  height: 50%;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(15vh, 1fr)
+  ); /* 사용 가능한 공간에 따라 자동으로 열 수를 조정합니다. */
+  gap: 1vh;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 1vh;
+
+  .item {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  img {
+    width: 14vh;
+    height: 14vh;
+  }
+
+  .used {
+    filter: brightness(50%);
+  }
+
+  .used-text {
+    color: #00ff15;
+  }
+
+  .selectedItem {
+    outline: 3px solid #00ff15; // 초록색 안쪽 경계선
+    transition-duration: 0.1s;
+  }
+}

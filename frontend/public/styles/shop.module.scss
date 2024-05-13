@@ -92,7 +92,7 @@
   grid-template-columns: repeat(
     auto-fill,
     minmax(17vh, 1fr)
-  ); /* 예시로 100px 크기의 그리드 열을 생성하고, 사용 가능한 공간에 따라 자동으로 열 수를 조정합니다. */
+  ); /* 사용 가능한 공간에 따라 자동으로 열 수를 조정합니다. */
   gap: 0.5vh;
   text-align: center;
   justify-items: center;

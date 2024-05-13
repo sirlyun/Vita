@@ -1,12 +1,10 @@
 import { localAxios } from '@/util/axios';
 
-async function getCharacterList() {
+async function getMyCharacterInfo() {
   return localAxios
     .get('/character')
     .then((response) => response.data)
-    .catch((error) => {
-      throw error;
-    });
+    .catch((error) => error.throw);
 }
 
 async function createdCharacter(
@@ -24,4 +22,4 @@ async function createdCharacter(
     });
 }
 
-export { getCharacterList, createdCharacter };
+export { getMyCharacterInfo, createdCharacter };
