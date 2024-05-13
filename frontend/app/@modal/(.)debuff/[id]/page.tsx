@@ -1,14 +1,13 @@
 import { Modal } from "../../modal";
 
-import Link from "next/link";
 import styles from "@/public/styles/modal.module.scss";
 
 function useDebuff(optionId: string) {
   const debuffList = [
-    { id: 0, content: "alcohol", rate: 1 },
-    { id: 1, content: "cigarette", rate: 1 },
-    { id: 2, content: "food", rate: 1 },
-    { id: 3, content: "chronic", rate: 2 },
+    { id: 3, content: "술", rate: 1 },
+    { id: 2, content: "담배", rate: 1 },
+    { id: 1, content: "식습관", rate: 1 },
+    { id: 4, content: "만성 질병", rate: 2 },
   ];
 
   const optionIdNumber = parseInt(optionId, 10);
@@ -28,16 +27,14 @@ export default function OptionModal({
   return (
     <div>
       {selectedDebuff ? (
-        <Modal>
+        <Modal option={0}>
           <h1 className={`${styles.title} ${styles.center}`}>
             {selectedDebuff.content}
           </h1>
           <div className={`${styles.content} ${styles.center}`}>
             <div className={`${styles.item} ${styles.center}`}>
               {selectedDebuff ? (
-                <button>
-                  <p>-{selectedDebuff.rate}년/일</p>
-                </button>
+                <p>-{selectedDebuff.rate}년/일</p>
               ) : (
                 <p>No debuff found</p>
               )}
