@@ -1,6 +1,6 @@
 import styles from "@/public/styles/login.module.scss";
 import Image from "next/image";
-import icons from "@/util/icons";
+import { getIconPath } from "@/util/icons";
 
 export default function GoogleSignInButton() {
   const requestCodeUrl =
@@ -14,7 +14,7 @@ export default function GoogleSignInButton() {
       >
         <div className={styles["google-sign-in-layout"]}>
           <Image
-            src={icons["google-logo"]}
+            src={getIconPath("google-logo")}
             width={60}
             height={60}
             alt="google-logo"

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "@/public/styles/game.module.scss";
-import icons from "@/util/icons.js";
+import { getIconPath } from "@/util/icons.js";
 
 export default function singleLayout({
   children,
@@ -14,7 +14,7 @@ export default function singleLayout({
   return (
     <div>
       <Image
-        src={icons.prev}
+        src={getIconPath("prev")}
         width={60}
         height={60}
         alt="home"

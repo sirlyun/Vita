@@ -5,7 +5,7 @@ import GoogleSignIn from "@/components/ui/GoogleSignInButton";
 import { useSearchParams, useRouter } from "next/navigation";
 import { login } from "@/api/login";
 import { useEffect } from "react";
-import { getCharacterList } from "@/api/character";
+import { getMyCharacterInfo } from "@/api/character";
 
 export default function Login() {
   const searchParam = useSearchParams();
@@ -20,7 +20,7 @@ export default function Login() {
         const fetchedLogin = await login(encodedCode);
         document.cookie = `accessToken=${fetchedLogin.token.access_token}; path=/; max-age=3600; secure; SameSite=None`;
 
-        const checkCharacter = await getCharacterList();
+        const checkCharacter = await getMyCharacterInfo();
         if (checkCharacter.character_id !== undefined) {
           document.cookie = `characterId=${checkCharacter.character_id}; path=/; max-age=3600; secure; SameSite=None`;
           document.cookie = `memberId=${"createdMember"}; path=/; max-age=3600; secure; SameSite=None`;

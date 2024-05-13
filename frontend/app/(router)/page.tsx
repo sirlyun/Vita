@@ -3,13 +3,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "@/public/styles/main.module.scss";
-import { icons } from "@/util/icons.js";
+import { getIconPath } from "@/util/icons.js";
 import ChallengeFrame from "@/components/ChallengeFrame";
 import { getUserCharacterImagePath } from "@/util/images";
 import { getMyCharacterInfo } from "@/api/character";
 import { useEffect } from "react";
 import { useState } from "react";
 import useUserStore from "@/store/user-store";
+import DebuffItem from "@/components/ui/DebuffItem";
 
 export default function Home() {
   const userStore = useUserStore();
@@ -52,14 +53,19 @@ export default function Home() {
         <div className={styles["side-menu"]}>
           <Link href={`/settings`}>
             <Image
-              src={icons.option}
+              src={getIconPath("option")}
               width={60}
               height={60}
               alt="option"
             ></Image>
           </Link>
           <button onClick={toggleChallengeModal}>
-            <Image src={icons.daily} width={60} height={60} alt="daily"></Image>
+            <Image
+              src={getIconPath("daily")}
+              width={60}
+              height={60}
+              alt="daily"
+            ></Image>
           </button>
         </div>
       </div>
@@ -83,9 +89,13 @@ export default function Home() {
           )}
         </div>
         <div className={styles["debuff-menu"]}>
-          <Link href={`/debuff/${0}`}>
+          {myCharacterInfo &&
+            myCharacterInfo.de_buff.map((debuff, index) => (
+              <DebuffItem key={index} debuff={debuff} />
+            ))}
+          {/* <Link href={`/debuff/${0}`}>
             <Image
-              src={icons.alcohol}
+              src={debuffIcons[0].ref}
               width={60}
               height={60}
               alt="alcohol"
@@ -94,7 +104,7 @@ export default function Home() {
 
           <Link href={`/debuff/${1}`}>
             <Image
-              src={icons.cigarette}
+              src={getIconPath("cigarrete")}
               width={60}
               height={60}
               alt="alcohol"
@@ -103,7 +113,7 @@ export default function Home() {
 
           <Link href={`/debuff/${2}`}>
             <Image
-              src={icons.food}
+              src={getIconPath("food")}
               width={60}
               height={60}
               alt="alcohol"
@@ -112,26 +122,31 @@ export default function Home() {
 
           <Link href={`/debuff/${3}`}>
             <Image
-              src={icons.chronic}
+              src={getIconPath("chronic")}
               width={60}
               height={60}
               alt="alcohol"
             ></Image>
-          </Link>
+          </Link> */}
         </div>
       </div>
       <div className={styles.menu}>
         <div className={styles.left}>
           <button className={styles.shop}>
             <Link href="/shop">
-              <Image src={icons.shop} width={60} height={60} alt="shop"></Image>
+              <Image
+                src={getIconPath("shop")}
+                width={60}
+                height={60}
+                alt="shop"
+              ></Image>
               <p>SHOP</p>
             </Link>
           </button>
           <button className={styles.report}>
             <Link href="/report">
               <Image
-                src={icons.report}
+                src={getIconPath("report")}
                 width={60}
                 height={60}
                 alt="report"
@@ -144,7 +159,7 @@ export default function Home() {
           <button>
             <Link href="/health">
               <Image
-                src={icons.hospital}
+                src={getIconPath("hospital")}
                 width={60}
                 height={60}
                 alt="health"
@@ -156,7 +171,7 @@ export default function Home() {
           <Link href="/game/single">
             <button className={styles.single}>
               <Image
-                src={icons.single}
+                src={getIconPath("single")}
                 width={60}
                 height={60}
                 alt="single"
@@ -165,7 +180,12 @@ export default function Home() {
           </Link>
           <Link href="/multi">
             <button className={styles.multi}>
-              <Image src={icons.pvp} width={60} height={60} alt="multi"></Image>
+              <Image
+                src={getIconPath("pvp")}
+                width={60}
+                height={60}
+                alt="multi"
+              ></Image>
             </button>
           </Link>
         </div>
