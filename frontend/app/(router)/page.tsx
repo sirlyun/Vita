@@ -3,27 +3,37 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "@/public/styles/main.module.scss";
-import icons from "@/util/icons.js";
+import { icons } from "@/util/icons.js";
 import ChallengeFrame from "@/components/ChallengeFrame";
 import { getUserCharacterImagePath } from "@/util/images";
 import { getMyCharacterInfo } from "@/api/character";
 import { useEffect } from "react";
 import { useState } from "react";
+import useUserStore from "@/store/user-store";
 
 export default function Home() {
+  const userStore = useUserStore();
   const [challengeModal, setChallengeModal] = useState(false);
-  const [userInfo, setUserInfo] = useState<Character | null>(null);
+  const [myCharacterInfo, setMyCharacterInfo] = useState<Character | null>(
+    null
+  );
   const toggleChallengeModal = () => setChallengeModal(!challengeModal);
 
   useEffect(() => {
     const fetchCharacterList = async () => {
       try {
         // 내 캐릭터 정보 가져오기
-        const myCharacterInfo = await getMyCharacterInfo();
-        console.log("캐릭터 조회 성공!", myCharacterInfo);
+        const characterInfo = await getMyCharacterInfo();
+        console.log("캐릭터 조회 성공!", characterInfo);
 
         // 내 캐릭터 정보 저장
-        setUserInfo(myCharacterInfo);
+        setMyCharacterInfo(characterInfo);
+
+        // 이후를 위한 스토어 별도 저장
+        userStore.characterId = characterInfo.character_id;
+        userStore.gender = characterInfo.gender;
+        userStore.bodyShape = characterInfo.body_shape;
+        userStore.name = characterInfo.name;
       } catch (error) {
         console.log("캐릭터 조회에 실패했습니다!.", error);
       }
@@ -37,7 +47,7 @@ export default function Home() {
       <div className={styles.header}>
         <div className={`${styles.item} bg`}>
           <p>남은수명</p>
-          <h2>100년</h2>
+          <h2>{myCharacterInfo?.vita_point}년</h2>
         </div>
         <div className={styles["side-menu"]}>
           <Link href={`/settings`}>
@@ -56,11 +66,11 @@ export default function Home() {
       <div className={styles.content}>
         <div className={styles["debuff-menu"]}></div>
         <div className={styles.damagochi}>
-          {userInfo ? (
+          {myCharacterInfo ? (
             <Image
               src={getUserCharacterImagePath(
-                userInfo.gender,
-                userInfo.body_shape,
+                myCharacterInfo.gender,
+                myCharacterInfo.body_shape,
                 "idle",
                 0
               )}
