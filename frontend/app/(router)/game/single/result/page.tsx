@@ -10,12 +10,12 @@ export default function SingleResult() {
   return (
     <div className={styles.main}>
       <p>result page</p>
-      {userStore.gameType === 0 ? (
+      {userStore.gameType === "running" ? (
         <div>
           <p>Game Type 0: This is the result for game type 0.</p>
           <p>Your record: {(userStore.record / 1000).toFixed(3)}초</p>
         </div>
-      ) : userStore.gameType === 1 ? (
+      ) : userStore.gameType === "training" ? (
         <div>
           <p>Game Type 1: This is the result for game type 1.</p>
           <p>Your record: {userStore.record}</p>
