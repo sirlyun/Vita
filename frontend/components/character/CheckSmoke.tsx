@@ -3,23 +3,26 @@ import Image from "next/image";
 import icons from "@/util/icons";
 
 interface Props {
-  quantity: string | null;
-  setQuantity: (value: string | null) => void;
+  quantity: string;
+  setQuantity: (value: string) => void;
 }
 
 export default function CheckSmoke({ quantity, setQuantity }: Props) {
-  const handleQuantity = (value: string | null) => {
+  const handleQuantity = (value: string) => {
     setQuantity(value);
   };
 
   return (
     <div className={styles["smoke-layout"]}>
-      <div className={styles["smoke-box"]} onClick={() => handleQuantity(null)}>
+      <div
+        className={styles["smoke-box"]}
+        onClick={() => handleQuantity("null")}
+      >
         <div
           className={
             quantity === "none"
               ? styles["selected-div"]
-              : quantity === null
+              : quantity === "null"
               ? styles["selected-div"]
               : styles["unselected-div"]
           }

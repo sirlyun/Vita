@@ -11,16 +11,10 @@ import HealthDaily from "@/components/health/daily/page";
 
 export default function HealthHome() {
   const [foodModal, setFoodModal] = useState(false);
-  const [foodComplete, setFoodComplete] = useState(false);
   const [dailyModal, setDailyModal] = useState(false);
-
-  const handleComplete = (status: boolean) => {
-    setFoodComplete(status);
-  };
 
   const toggleFoodModal = () => {
     setFoodModal(!foodModal);
-    setFoodComplete(false);
   };
 
   const toggleDailyModal = () => {
@@ -29,9 +23,7 @@ export default function HealthHome() {
 
   return (
     <div className={`${styles.main} background`}>
-      {foodModal && (
-        <HealthFood onClose={toggleFoodModal} complete={handleComplete} />
-      )}
+      {foodModal && <HealthFood onClose={toggleFoodModal} />}
       {dailyModal && <HealthDaily onClose={toggleDailyModal} />}
       <div className={styles.header}>
         <div className={styles["speech-bubble"]}>

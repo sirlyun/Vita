@@ -5,10 +5,13 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const { pathname } = new URL(request.url);
   const accessToken = request.cookies.get("accessToken");
+  const characterId = request.cookies.get("characterId");
+  const memberId = request.cookies.get("memberId");
 
   // 로그인 페이지나 정적 자원 요청시 리디렉트하지 않음
   if (
     (pathname.startsWith("/login") && !accessToken) ||
+    (pathname.startsWith("/member") && !memberId) ||
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next/static") ||
     pathname.startsWith("/_next/image") ||
@@ -24,6 +27,12 @@ export function middleware(request: NextRequest) {
     console.log("Redirecting to /login from: ", pathname);
     return NextResponse.redirect(new URL("/login", request.url));
   }
+
+  // 해당 계정에 생성된 캐릭터가 존재하지 않을 때 회원 정보 수정 페이지로 이동
+  // if (!memberId) {
+  //   console.log("redirecting to /member");
+  //   return NextResponse.redirect(new URL("/member", request.url));
+  // }
 
   if (accessToken && pathname.startsWith("/login")) {
     return NextResponse.redirect(new URL("/", request.url));

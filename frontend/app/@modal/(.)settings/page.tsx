@@ -7,6 +7,7 @@ import { Modal } from "@/app/@modal/modal";
 
 export default function OptionModal() {
   const [settingOption, setSettingOption] = useState<number>(0);
+
   return (
     <div>
       <Modal>

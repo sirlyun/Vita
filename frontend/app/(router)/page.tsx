@@ -9,17 +9,30 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { getUserCharacterImagePath } from "@/util/images";
 import useUserStore from "@/store/user-store";
+import { getCharacterList } from "@/api/character";
+import { useEffect } from "react";
 
 export default function Home() {
   const userStore = useUserStore.getState();
   const [challengeModal, setChallengeModal] = useState(false);
   const toggleChallengeModal = () => setChallengeModal(!challengeModal);
-
   const router = useRouter();
 
   const debuffRouter = (id: string) => {
     router.push(`/debuff/${id}`);
   };
+
+  useEffect(() => {
+    const fetchCharacterList = async () => {
+      try {
+        const checkCharacter = await getCharacterList();
+        console.log("캐릭터 조회 성공!", checkCharacter);
+      } catch (error) {
+        console.log("캐릭터 조회에 실패했습니다!.", error);
+      }
+    };
+    fetchCharacterList();
+  });
 
   return (
     <div className={`${styles.main} background`}>

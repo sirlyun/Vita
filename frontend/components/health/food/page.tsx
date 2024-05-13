@@ -9,6 +9,7 @@ import MealImage from "@/components/health/food/MealImage";
 import FoodNutrition from "@/components/health/food/FoodNutrition";
 import ShowImage from "@/components/ShowImage";
 import IntakeContent from "@/components/health/food/IntakeContent";
+import { getFood } from "@/api/health";
 
 const Loading = () => (
   <div>
@@ -30,22 +31,31 @@ async function getMovies() {
 
 interface FoodImageFrameProps {
   onClose: () => void;
-  complete: (status: boolean) => void;
 }
 
-function HealthFood({ onClose, complete }: FoodImageFrameProps) {
+function HealthFood({ onClose }: FoodImageFrameProps) {
   type ImageUrl = string | null;
   const [foodImage, setFoodImage] = useState<ImageUrl>(null);
+  const [calrorie, setCalrorie] = useState<string>("");
+  const [salt, setSalt] = useState<string>("");
+  const [sugar, setSugar] = useState<string>("");
+  const [fat, setFat] = useState<string>("");
+  const [protein, setProtein] = useState<string>("");
   const [step, setStep] = useState<number>(0);
   const [selectedMeal, setSelectedMeal] = useState("breakfast");
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [selectedIntake, setSelectedIntake] = useState<"MID" | "LOW" | "HIGH">(
+    "MID"
+  );
+  const [foodImagePost, setFoodImagePost] = useState<File | null>(null);
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       const imageUrl = URL.createObjectURL(file);
       setFoodImage(imageUrl);
+      setFoodImagePost(file);
     }
   };
 
@@ -55,11 +65,25 @@ function HealthFood({ onClose, complete }: FoodImageFrameProps) {
 
   function renderContent() {
     if (isComplete) {
-      return <FoodNutrition onClose={onClose} />;
+      return (
+        <FoodNutrition
+          calrorie={calrorie}
+          salt={salt}
+          sugar={sugar}
+          fat={fat}
+          protein={protein}
+          onClose={onClose}
+        />
+      );
     } else if (isLoading) {
       return <Loading />;
     } else if (step === 1) {
-      return <IntakeContent />;
+      return (
+        <IntakeContent
+          selectedIntake={selectedIntake}
+          setSelectedIntake={setSelectedIntake}
+        />
+      );
     } else if (step === 0) {
       if (foodImage) {
         return (
@@ -83,13 +107,25 @@ function HealthFood({ onClose, complete }: FoodImageFrameProps) {
 
   const handleCompleteClick = async () => {
     setIsLoading(true);
-    try {
-      const movies = await getMovies();
-      setIsComplete(true);
-      console.log(movies);
-    } catch (error) {
-      console.error("failed to fetch movies");
+    const formData = new FormData();
+    if (foodImagePost) {
+      formData.append("image", foodImagePost);
     }
+    const intakeData = JSON.stringify({ quantity: selectedIntake });
+    const blob = new Blob([intakeData], {
+      type: "application/json",
+    });
+    formData.append("json", blob);
+
+    const responseNutrition = await getFood(formData);
+    console.log(responseNutrition);
+    setCalrorie(responseNutrition.calorie);
+    setSalt(responseNutrition.salt);
+    setSugar(responseNutrition.sugar);
+    setFat(responseNutrition.fat);
+    setProtein(responseNutrition.protein);
+
+    setIsComplete(true);
 
     setIsLoading(false);
   };
@@ -118,7 +154,14 @@ function HealthFood({ onClose, complete }: FoodImageFrameProps) {
       className={`${styles["dark-overlay"]} dark-overlay-recycle`}
     >
       {isComplete ? (
-        <FoodNutrition onClose={onClose} />
+        <FoodNutrition
+          calrorie={calrorie}
+          salt={salt}
+          sugar={sugar}
+          fat={fat}
+          protein={protein}
+          onClose={onClose}
+        />
       ) : (
         <div className={styles.frame}>
           <div className={styles["clock-and-cancel-frame"]}>
