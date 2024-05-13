@@ -1,18 +1,9 @@
 "use client";
 import Image from "next/image";
-import styles from "@/public/styles/modal.module.scss";
+import styles from "@/public/styles/settings.module.scss";
 import { getMyItemList } from "@/api/settings";
 import { useEffect, useState } from "react";
 import { getShopImagePath } from "@/util/images";
-
-type MyItemList = MyItem[] | null;
-
-interface MyItem {
-  my_item_id: number;
-  type: string;
-  name: String;
-  is_used: boolean;
-}
 
 export default function BackgroundSettingPage() {
   const [myItemList, setMyItemList] = useState<MyItemList>(null);
@@ -37,36 +28,32 @@ export default function BackgroundSettingPage() {
     setSelectedItem(item);
   };
 
-  function renderContent() {
-    if (!myItemList) {
-      return <p>No items to display.</p>;
-    }
-
-    // 필터링된 아이템을 렌더링합니다.
-    const filteredItems = myItemList.filter((item) => {
-      return item.type.toUpperCase();
-    });
-
-    return filteredItems.map((item, index) => (
-      <div
-        onClick={() => handleClick(item)}
-        className={styles.item}
-        key={index}
-      >
-        <Image
-          src={getShopImagePath(item.name, item.type)}
-          width={60}
-          height={60}
-          alt={`${item.name}`}
-          className={`
-        ${item == selectedItem ? styles.selectedItem : ""}`}
-        />
-      </div>
-    ));
-  }
   return (
-    <div className={`${styles.content} `}>
-      <div className={`${styles.item} ${styles.center}`}>{renderContent()}</div>
+    <div className={`${styles.content} ${styles.center}`}>
+      {!myItemList ? (
+        <p>No items to display.</p>
+      ) : (
+        myItemList
+          .filter((item) => item.type.toUpperCase())
+          .map((item, index) => (
+            <div
+              key={index}
+              onClick={() => handleClick(item)}
+              className={styles.item}
+            >
+              <Image
+                src={getShopImagePath(item.name, item.type)}
+                width={60}
+                height={60}
+                alt={`${item.name}`}
+                layout="fixed"
+                className={` ${
+                  item === selectedItem ? styles.selectedItem : ""
+                }`}
+              />
+            </div>
+          ))
+      )}
     </div>
   );
 }
