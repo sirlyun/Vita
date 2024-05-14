@@ -11,7 +11,8 @@ export function middleware(request: NextRequest) {
   // 로그인 페이지나 정적 자원 요청시 리디렉트하지 않음
   if (
     (pathname.startsWith("/login") && !accessToken) ||
-    (pathname.startsWith("/member") && !memberId) ||
+    (pathname.startsWith("/member") && accessToken && !characterId) ||
+    (pathname.startsWith("/character") && accessToken && !characterId) ||
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next/static") ||
     pathname.startsWith("/_next/image") ||
@@ -28,11 +29,19 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // 해당 계정에 생성된 캐릭터가 존재하지 않을 때 회원 정보 수정 페이지로 이동
-  // if (!memberId) {
-  //   console.log("redirecting to /member");
-  //   return NextResponse.redirect(new URL("/member", request.url));
-  // }
+  // 해당 계정에 생성된 캐릭터가 존재하지 않으면서 회원 정보도 없을 떄 회원 정보 등록 페이지로 이동
+  if (accessToken && !memberId && !characterId) {
+    console.log("redirecting to /member");
+    return NextResponse.redirect(new URL("/member", request.url));
+  }
+
+  // 회원 정보는 있지만 캐릭터가 죽은 상태일 때
+  if (accessToken && memberId && !characterId) {
+    console.log(
+      "회원정보는 있지만 캐릭터가 사망한 상태이므로 캐릭터 생성 페이지로 이동합니다."
+    );
+    return NextResponse.redirect(new URL("/character", request.url));
+  }
 
   if (accessToken && pathname.startsWith("/login")) {
     return NextResponse.redirect(new URL("/", request.url));

@@ -156,8 +156,8 @@ export default function createCharacter() {
       smokeValue,
       drinkValue
     );
+    document.cookie = `chracterId=${responseCharacter.character_id}; path=/; max-age=36000; secure; SameSite=None`;
 
-    console.log(responseCharacter.message);
     router.push("/");
   };
 
