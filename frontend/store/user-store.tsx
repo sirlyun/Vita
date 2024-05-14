@@ -8,7 +8,7 @@ interface UserState {
   gender: string;
   bodyShape: string;
   characterId: number | null;
-  accessToken: string;
+  backgroundName: string;
 
   // 게임 정보
   gameType: string;
@@ -23,7 +23,7 @@ interface UserActions {
   setGender: (gender: string) => void;
   setBodyShape: (bodyShape: string) => void;
   setCharacterId: (characterId: number | null) => void;
-  setAccessToken: (accessToken: string) => void;
+  setBackgroundName: (backgroundName: string) => void;
   setGameType: (gameType: string) => void;
   setRecord: (record: number) => void;
   setRunningBestRecord: (runningBestRecord: number) => void;
@@ -43,8 +43,8 @@ const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
   bodyShape: "FAT",
   gameType: "",
   characterId: 1,
+  backgroundName: "main-2500ms",
   // eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiY3JlYXRlZF9hdCI6MTcxNTMyMTg3NjUyNSwiZXhwaXJlc0luIjoyNTkyMDAwMDAwLCJhdXRoIjoiQVVUSE9SSVRZIiwiZXhwIjoxNzE3OTEzODc2LCJpZCI6MX0.hFCNrkkydz5dGlfu5zdOO3ZbortTT3p9jLpGI_vr39A
-  accessToken: "",
   record: 0,
   runningBestRecord: 9999,
   trainingBestRecord: 0,
@@ -53,7 +53,7 @@ const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
   setGender: (gender) => set({ gender }),
   setBodyShape: (bodyShape) => set({ bodyShape }),
   setCharacterId: (characterId: number | null) => set({ characterId }),
-  setAccessToken: (accessToken: string) => set({ accessToken }),
+  setBackgroundName: (backgroundName) => set({ backgroundName }),
   setGameType: (gameType) => set({ gameType }),
   setRecord: (record) => set({ record }),
   setRunningBestRecord: (runningBestRecord) => set({ runningBestRecord }),

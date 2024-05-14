@@ -5,10 +5,9 @@ import styles from "@/public/styles/modal.module.scss";
 
 function useDebuff(optionId: string) {
   const debuffList = [
-    { id: 0, content: "alcohol", rate: 1 },
-    { id: 1, content: "cigarette", rate: 1 },
-    { id: 2, content: "food", rate: 1 },
-    { id: 3, content: "chronic", rate: 2 },
+    { id: 1, content: "담배", rate: 1 },
+    { id: 2, content: "술", rate: 1 },
+    { id: 3, content: "만성 질병", rate: 2 },
   ];
 
   const optionIdNumber = parseInt(optionId, 10);

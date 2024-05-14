@@ -1,15 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { debuffIcons } from "@/util/icons.js";
+import { debuffIcons, getIconPath } from "@/util/icons.js";
 
-export default function DebuffItemComponent(debuffId: number) {
+export default function DebuffItemComponent({ debuff }: { debuff: DeBuff }) {
   return (
-    <Link href={`/debuff/${debuffId}`}>
+    <Link href={`/debuff/${debuff.de_buff_id}`}>
       <Image
-        src={debuffIcons[debuffId].ref}
+        src={getIconPath(debuff.type)}
         width={60}
         height={60}
-        alt={debuffIcons[debuffId].name}
+        alt={debuff.type}
       ></Image>
     </Link>
   );

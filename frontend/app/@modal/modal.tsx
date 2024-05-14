@@ -40,6 +40,7 @@ export function Modal({
   const settingModalClose = () => {
     dialogRef.current?.close(); // 모달 닫기
     //  배경 설정 api
+
     router.push("/");
   };
 

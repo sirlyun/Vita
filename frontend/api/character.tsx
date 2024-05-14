@@ -1,4 +1,4 @@
-import { localAxios, getCharacterId } from "@/util/axios";
+import { getCharacterId, localAxios } from "@/util/axios";
 
 async function getMyCharacterInfo() {
   return localAxios
@@ -22,4 +22,8 @@ async function createdCharacter(
     });
 }
 
-export { getMyCharacterInfo, createdCharacter };
+async function setBackground(itemId: number) {
+  return localAxios.patch(`/character/${getCharacterId()}/item`, { itemId });
+}
+
+export { getMyCharacterInfo, createdCharacter, setBackground };

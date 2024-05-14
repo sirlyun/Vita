@@ -6,7 +6,7 @@ import styles from "@/public/styles/modal.module.scss";
 export default function OptionModal() {
   return (
     <div>
-      <Modal>
+      <Modal option={0}>
         <h1 className={`${styles.title} ${styles.center}`}>SETTING</h1>
         <div className={`${styles.content} ${styles.center}`}>
           <div className={`${styles.item} ${styles.center}`}>

@@ -3,13 +3,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "@/public/styles/main.module.scss";
-import { icons } from "@/util/icons.js";
 import ChallengeFrame from "@/components/ChallengeFrame";
-import { getUserCharacterImagePath } from "@/util/images";
+import useUserStore from "@/store/user-store";
+import DebuffItem from "@/components/ui/DebuffItem";
+import { getIconPath } from "@/util/icons.js";
+import { getUserCharacterImagePath, getBackgroundUrl } from "@/util/images";
 import { getMyCharacterInfo } from "@/api/character";
 import { useEffect } from "react";
 import { useState } from "react";
-import useUserStore from "@/store/user-store";
 
 export default function Home() {
   const userStore = useUserStore();
@@ -38,11 +39,28 @@ export default function Home() {
         console.log("캐릭터 조회에 실패했습니다!.", error);
       }
     };
+
     fetchCharacterList();
   }, []);
 
+  // 배경화면 동적 설정 ***********************************************
+  const getBackgroundName = (): string => {
+    if (myCharacterInfo) {
+      const backgroundItem = myCharacterInfo.character_item.find(
+        (item) => item.type === "BACKGROUND"
+      );
+      return backgroundItem ? backgroundItem.name : "fail";
+    }
+    return "fail";
+  };
+
+  const backgroundName = getBackgroundName();
+  const backgroundStyle = {
+    backgroundImage: `url(${getBackgroundUrl(backgroundName)})`,
+  };
+
   return (
-    <div className={`${styles.main} background`}>
+    <div className={`${styles.main} background`} style={backgroundStyle}>
       {challengeModal && <ChallengeFrame onClose={toggleChallengeModal} />}
       <div className={styles.header}>
         <div className={`${styles.item} bg`}>
@@ -52,14 +70,19 @@ export default function Home() {
         <div className={styles["side-menu"]}>
           <Link href={`/settings`}>
             <Image
-              src={icons.option}
+              src={getIconPath("option")}
               width={60}
               height={60}
               alt="option"
             ></Image>
           </Link>
           <button onClick={toggleChallengeModal}>
-            <Image src={icons.daily} width={60} height={60} alt="daily"></Image>
+            <Image
+              src={getIconPath("daily")}
+              width={60}
+              height={60}
+              alt="daily"
+            ></Image>
           </button>
         </div>
       </div>
@@ -83,55 +106,29 @@ export default function Home() {
           )}
         </div>
         <div className={styles["debuff-menu"]}>
-          <Link href={`/debuff/${0}`}>
-            <Image
-              src={icons.alcohol}
-              width={60}
-              height={60}
-              alt="alcohol"
-            ></Image>
-          </Link>
-
-          <Link href={`/debuff/${1}`}>
-            <Image
-              src={icons.cigarette}
-              width={60}
-              height={60}
-              alt="alcohol"
-            ></Image>
-          </Link>
-
-          <Link href={`/debuff/${2}`}>
-            <Image
-              src={icons.food}
-              width={60}
-              height={60}
-              alt="alcohol"
-            ></Image>
-          </Link>
-
-          <Link href={`/debuff/${3}`}>
-            <Image
-              src={icons.chronic}
-              width={60}
-              height={60}
-              alt="alcohol"
-            ></Image>
-          </Link>
+          {myCharacterInfo &&
+            myCharacterInfo.de_buff.map((debuff, index) => (
+              <DebuffItem key={index} debuff={debuff} />
+            ))}
         </div>
       </div>
       <div className={styles.menu}>
         <div className={styles.left}>
           <button className={styles.shop}>
             <Link href="/shop">
-              <Image src={icons.shop} width={60} height={60} alt="shop"></Image>
+              <Image
+                src={getIconPath("shop")}
+                width={60}
+                height={60}
+                alt="shop"
+              ></Image>
               <p>SHOP</p>
             </Link>
           </button>
           <button className={styles.report}>
             <Link href="/report">
               <Image
-                src={icons.report}
+                src={getIconPath("report")}
                 width={60}
                 height={60}
                 alt="report"
@@ -144,7 +141,7 @@ export default function Home() {
           <button>
             <Link href="/health">
               <Image
-                src={icons.hospital}
+                src={getIconPath("hospital")}
                 width={60}
                 height={60}
                 alt="health"
@@ -156,7 +153,7 @@ export default function Home() {
           <Link href="/game/single">
             <button className={styles.single}>
               <Image
-                src={icons.single}
+                src={getIconPath("single")}
                 width={60}
                 height={60}
                 alt="single"
@@ -165,7 +162,12 @@ export default function Home() {
           </Link>
           <Link href="/multi">
             <button className={styles.multi}>
-              <Image src={icons.pvp} width={60} height={60} alt="multi"></Image>
+              <Image
+                src={getIconPath("pvp")}
+                width={60}
+                height={60}
+                alt="multi"
+              ></Image>
             </button>
           </Link>
         </div>

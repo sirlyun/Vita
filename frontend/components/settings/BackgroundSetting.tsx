@@ -42,7 +42,7 @@ export default function BackgroundSettingPage() {
               className={styles.item}
             >
               <Image
-                src={getShopImagePath(item.name, item.type)}
+                src={getShopImagePath(item.name, "BACKGROUND")}
                 width={60}
                 height={60}
                 alt={`${item.name}`}
