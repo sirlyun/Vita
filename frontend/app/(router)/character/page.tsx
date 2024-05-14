@@ -146,12 +146,15 @@ export default function createCharacter() {
       quantity: drinkQuantity,
     };
 
+    const smokeValue = quantity === "null" ? null : smoke;
+    const drinkValue = drinkQuantity === "null" ? null : drink;
+
     const responseCharacter = await createdCharacter(
       nickname,
       Number(height),
       Number(weight),
-      smoke,
-      drink
+      smokeValue,
+      drinkValue
     );
 
     console.log(responseCharacter.message);

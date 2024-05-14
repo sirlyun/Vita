@@ -1,6 +1,6 @@
 import styles from "@/public/styles/character.module.scss";
 import Image from "next/image";
-import icons from "@/util/icons";
+import { getIconPath } from "@/util/icons";
 
 interface Props {
   smokeType: string;
@@ -10,12 +10,13 @@ interface Props {
 export default function CheckSmokeType({ smokeType, setSmokeType }: Props) {
   const handleQuantity = (value: string) => {
     setSmokeType(value);
+    console.log("smokeType: ", value);
   };
   return (
     <div className={styles["smoke-layout"]}>
       <div
         className={styles["smoke-box"]}
-        onClick={() => handleQuantity("liquid")}
+        onClick={() => handleQuantity("LIQUID")}
       >
         <div
           className={
@@ -26,13 +27,18 @@ export default function CheckSmokeType({ smokeType, setSmokeType }: Props) {
               : styles["unselected-div"]
           }
         >
-          <Image src={icons.liquid} width={60} height={60} alt="liquid" />
+          <Image
+            src={getIconPath("liquid")}
+            width={60}
+            height={60}
+            alt="liquid"
+          />
         </div>
         <p>전자담배</p>
       </div>
       <div
         className={styles["smoke-box"]}
-        onClick={() => handleQuantity("heated")}
+        onClick={() => handleQuantity("HEATED")}
       >
         <div
           className={
@@ -43,13 +49,18 @@ export default function CheckSmokeType({ smokeType, setSmokeType }: Props) {
               : styles["unselected-div"]
           }
         >
-          <Image src={icons.heated} width={60} height={60} alt="heated" />
+          <Image
+            src={getIconPath("heated")}
+            width={60}
+            height={60}
+            alt="heated"
+          />
         </div>
         <p>아이코스</p>
       </div>
       <div
         className={styles["smoke-box"]}
-        onClick={() => handleQuantity("cigarette")}
+        onClick={() => handleQuantity("CIGARETTE")}
       >
         <div
           className={
@@ -61,7 +72,7 @@ export default function CheckSmokeType({ smokeType, setSmokeType }: Props) {
           }
         >
           <Image
-            src={icons["cigarette-one"]}
+            src={getIconPath("cigarette-one")}
             width={60}
             height={60}
             alt="cigarette"

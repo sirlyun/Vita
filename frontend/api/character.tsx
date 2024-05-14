@@ -11,11 +11,18 @@ async function createdCharacter(
   nickname: string,
   height: number,
   weight: number,
-  smoke: { type: string; quantity: string },
-  drink: { type: string; quantity: string }
+  smoke: { type: string; quantity: string } | null,
+  drink: { type: string; quantity: string } | null
 ) {
+  const requestBody = {
+    nickname,
+    height,
+    weight,
+    smoke,
+    drink,
+  };
   return localAxios
-    .post("/character")
+    .post("/character", requestBody)
     .then((response) => response.data)
     .catch((error) => {
       console.log("캐릭터 생성 실패!", error);

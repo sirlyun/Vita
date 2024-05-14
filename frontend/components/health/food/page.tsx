@@ -3,7 +3,7 @@ import React, { useCallback, useState, ChangeEvent } from "react";
 import styles from "@/public/styles/health.module.scss";
 import Image from "next/image";
 import images from "@/util/images";
-import icons from "@/util/icons";
+import { getIconPath } from "@/util/icons";
 import useStopPropagation from "@/components/UseStopPropagation";
 import MealImage from "@/components/health/food/MealImage";
 import FoodNutrition from "@/components/health/food/FoodNutrition";
@@ -45,7 +45,7 @@ function HealthFood({ onClose }: FoodImageFrameProps) {
   const [selectedMeal, setSelectedMeal] = useState("breakfast");
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const [selectedIntake, setSelectedIntake] = useState<"MID" | "LOW" | "HIGH">(
+  const [selectedIntake, setSelectedIntake] = useState<"LOW" | "MID" | "HIGH">(
     "MID"
   );
   const [foodImagePost, setFoodImagePost] = useState<File | null>(null);
@@ -112,6 +112,7 @@ function HealthFood({ onClose }: FoodImageFrameProps) {
       formData.append("image", foodImagePost);
     }
     const intakeData = JSON.stringify({ quantity: selectedIntake });
+    console.log(selectedIntake);
     const blob = new Blob([intakeData], {
       type: "application/json",
     });
@@ -187,7 +188,7 @@ function HealthFood({ onClose }: FoodImageFrameProps) {
             </div>
             <Image
               onClick={onClose}
-              src={icons.cancel}
+              src={getIconPath("cancel")}
               width={60}
               height={60}
               alt="cancelIcon"

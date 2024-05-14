@@ -1,5 +1,5 @@
 import styles from "@/public/styles/chronic.module.scss";
-import icons from "@/util/icons";
+import { getIconPath } from "@/util/icons";
 import ChronicOption from "./ChronicOption";
 
 interface Props {
@@ -18,14 +18,14 @@ export default function Chronic({ chronic, setChronic }: Props) {
           chronic={chronic}
           setChronic={handleChronic}
           option="null"
-          icon={icons.x}
+          icon={getIconPath("x")}
           name="없음"
         />
         <ChronicOption
           chronic={chronic}
           setChronic={handleChronic}
           option="STROKE"
-          icon={icons.stroke}
+          icon={getIconPath("stroke")}
           name="뇌졸증"
         />
       </div>
@@ -34,14 +34,14 @@ export default function Chronic({ chronic, setChronic }: Props) {
           chronic={chronic}
           setChronic={handleChronic}
           option="DIABETES"
-          icon={icons.diabetes}
+          icon={getIconPath("diabetes")}
           name="당뇨병"
         />
         <ChronicOption
           chronic={chronic}
           setChronic={handleChronic}
           option="HYPERTENSION"
-          icon={icons.hypertension}
+          icon={getIconPath("hypertension")}
           name="고혈압"
         />
       </div>
@@ -50,14 +50,14 @@ export default function Chronic({ chronic, setChronic }: Props) {
           chronic={chronic}
           setChronic={handleChronic}
           option="HEART"
-          icon={icons.heart}
+          icon={getIconPath("heart")}
           name="심장"
         />
         <ChronicOption
           chronic={chronic}
           setChronic={handleChronic}
           option="PNEWMONIA"
-          icon={icons.pnewmonia}
+          icon={getIconPath("pnewmonia")}
           name="신경통"
         />
       </div>
