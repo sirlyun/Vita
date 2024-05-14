@@ -15,22 +15,26 @@ export default function Login() {
     const queryCode = searchParam.get("code");
     const authenticateAndFetchChracter = async () => {
       if (queryCode) {
-        // 로그인 후 쿠키에 액세스 토큰 저장\
-        const encodedCode = encodeURIComponent(queryCode);
-        const fetchedLogin = await login(encodedCode);
-        document.cookie = `accessToken=${fetchedLogin.token.access_token}; path=/; max-age=3600; secure; SameSite=None`;
+        try {
+          // 로그인 후 쿠키에 액세스 토큰 저장
+          const encodedCode = encodeURIComponent(queryCode);
+          const fetchedLogin = await login(encodedCode);
+          document.cookie = `accessToken=${fetchedLogin.token.access_token}; path=/; max-age=3600; secure; SameSite=None`;
 
-        const checkCharacter = await getMyCharacterInfo();
-        if (checkCharacter.character_id !== undefined) {
-          document.cookie = `characterId=${checkCharacter.character_id}; path=/; max-age=3600; secure; SameSite=None`;
-          document.cookie = `memberId=${"createdMember"}; path=/; max-age=3600; secure; SameSite=None`;
+          const checkCharacter = await getMyCharacterInfo();
+          if (checkCharacter.character_id !== undefined) {
+            document.cookie = `characterId=${checkCharacter.character_id}; path=/; max-age=3600; secure; SameSite=None`;
+            document.cookie = `memberId=${"createdMember"}; path=/; max-age=3600; secure; SameSite=None`;
+          }
+
+          router.push("/");
+        } catch (error) {
+          console.error("로그인 실패:", error);
         }
-
-        router.push("/");
       }
     };
     authenticateAndFetchChracter();
-  });
+  }, [searchParam, router]);
 
   return (
     <div className={`${styles.main} background`}>
