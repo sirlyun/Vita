@@ -16,9 +16,9 @@ interface Props {
 
 export default function Daily({ onClose }: Props) {
   const [step, setStep] = useState<number>(0);
-  const [drinkQuantity, setDrinkQuantity] = useState<string | null>("none");
+  const [drinkQuantity, setDrinkQuantity] = useState<string>("none");
   const [drinkType, setDrinkType] = useState<string>("none");
-  const [quantity, setQuantity] = useState<string | null>("none");
+  const [quantity, setQuantity] = useState<string>("none");
   const [smokeType, setSmokeType] = useState<string>("none");
 
   const handleModalContentClick = useStopPropagation();
