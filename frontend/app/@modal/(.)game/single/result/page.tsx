@@ -14,7 +14,7 @@ export default function SingleResult() {
 
   return (
     <div>
-      <Modal>
+      <Modal option={0}>
         <p className={`${styles.title} ${styles.center}`}>RESULT</p>
         {userStore.gameType === "running" ? (
           <div className={styles.content}>
