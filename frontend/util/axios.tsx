@@ -39,7 +39,11 @@ localAxios.interceptors.request.use(
 // 응답 인터셉터
 localAxios.interceptors.response.use(
   (response) => {
-    // 응답 데이터를 가공
+    // 응답 헤더에서 refresh_token을 가져와 localStorage에 저장
+    const refreshToken = response.headers["refresh_token"];
+    if (refreshToken) {
+      useUserStore().setRefreshToken(refreshToken);
+    }
     return response;
   },
   (error) => {
@@ -48,9 +52,9 @@ localAxios.interceptors.response.use(
   }
 );
 
-const getCharacterId = () => {
-  const { characterId } = useUserStore.getState();
-  return characterId;
+// characterId 쿠키에서 가져오기
+const getCharacterId = (): string | undefined => {
+  return getCookie("characterId");
 };
 
 export { localAxios, getCharacterId };
