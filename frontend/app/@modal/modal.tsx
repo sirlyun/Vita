@@ -39,9 +39,10 @@ export function Modal({
 
   const settingModalClose = () => {
     dialogRef.current?.close(); // 모달 닫기
-    //  배경 설정 api
-
     router.push("/");
+    setTimeout(() => {
+      window.location.reload();
+    }, 100); // 짧은 지연 후 페이지 새로고침
   };
 
   const modalClose = () => {

@@ -49,9 +49,9 @@ export default function Home() {
       const backgroundItem = myCharacterInfo.character_item.find(
         (item) => item.type === "BACKGROUND"
       );
-      return backgroundItem ? backgroundItem.name : "fail";
+      return backgroundItem ? backgroundItem.name : "";
     }
-    return "fail";
+    return "";
   };
 
   const backgroundName = getBackgroundName();

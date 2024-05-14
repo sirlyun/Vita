@@ -4,15 +4,17 @@ import styles from "@/public/styles/settings.module.scss";
 import { getMyItemList } from "@/api/settings";
 import { useEffect, useState } from "react";
 import { getShopImagePath } from "@/util/images";
+import { setBackground } from "@/api/character";
 
 export default function BackgroundSettingPage() {
-  const [myItemList, setMyItemList] = useState<MyItemList>(null);
-  const [selectedItem, setSelectedItem] = useState<MyItem | null>();
+  const [myItemList, setMyItemList] = useState<MyItemList>(null); // 보유 아이템 리스트
+  const [selectedItem, setSelectedItem] = useState<MyItem | null>(); // 선택된 아이템
 
+  // 내가 보유중인 아이템 리스트 가져오는 API
   const fetchMyItem = async () => {
     try {
       const fetchedMyItemList = await getMyItemList();
-      console.log("fetched my item list: ", fetchedMyItemList.items);
+      // console.log("fetched my item list: ", fetchedMyItemList.items);
       setMyItemList(fetchedMyItemList.items);
     } catch (error) {
       console.log("Loading my item list failed: ", error);
@@ -20,13 +22,24 @@ export default function BackgroundSettingPage() {
     }
   };
 
+  // 컴포넌트 실행시 최초 실행
   useEffect(() => {
     fetchMyItem();
   }, []);
 
+  // 아이템을 선택시
   const handleClick = (item: MyItem) => {
-    if (!item.is_used) setSelectedItem(item);
+    // 아이템(배경)이 현재 사용중이 아닌 아이템이라면 해당 아이템 선택 설정
+    if (!item.is_used) {
+      setSelectedItem(item);
+    }
   };
+
+  // 배경 설정 api 요청
+  // selectedItem이 변경될 때마다 실행
+  useEffect(() => {
+    if (selectedItem) setBackground(selectedItem.my_item_id);
+  }, [selectedItem]);
 
   return (
     <div className={`${styles.content} ${styles.center}`}>

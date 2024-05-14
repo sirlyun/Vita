@@ -23,7 +23,9 @@ async function createdCharacter(
 }
 
 async function setBackground(itemId: number) {
-  return localAxios.patch(`/character/${getCharacterId()}/item`, { itemId });
+  return localAxios.patch(`/character/${getCharacterId()}/item`, {
+    item_id: itemId,
+  });
 }
 
 export { getMyCharacterInfo, createdCharacter, setBackground };
