@@ -2,6 +2,7 @@ package com.vita.backend.member.service;
 
 import static com.vita.backend.global.exception.response.ErrorCode.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vita.backend.auth.data.response.ReissueResponse;
 import com.vita.backend.auth.provider.CookieProvider;
 import com.vita.backend.auth.provider.JwtTokenProvider;
@@ -11,10 +12,17 @@ import com.vita.backend.global.exception.category.NotFoundException;
 import com.vita.backend.global.exception.category.UnAuthorizedException;
 import com.vita.backend.infra.google.GoogleClient;
 import com.vita.backend.infra.google.data.response.UserInfoResponse;
+import com.vita.backend.member.data.request.ChallengeInitRequest;
 import com.vita.backend.member.data.request.MemberUpdateRequest;
+import com.vita.backend.member.data.response.ChallengeLoadResponse;
 import com.vita.backend.member.data.response.LoginResponse;
+import com.vita.backend.member.data.response.detail.ChallengeLoadDetail;
 import com.vita.backend.member.data.response.detail.TokenDetail;
+import com.vita.backend.member.domain.Challenge;
 import com.vita.backend.member.domain.Member;
+import com.vita.backend.member.domain.MemberChallenge;
+import com.vita.backend.member.repository.ChallengeRepository;
+import com.vita.backend.member.repository.MemberChallengeRepository;
 import com.vita.backend.member.repository.MemberRepository;
 import com.vita.backend.member.utils.MemberUtils;
 
@@ -35,6 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -45,6 +54,8 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 	/* Repository */
 	private final MemberRepository memberRepository;
 	private final CharacterRepository characterRepository;
+	private final MemberChallengeRepository memberChallengeRepository;
+	private final ChallengeRepository challengeRepository;
 	/* Infra */
 	private final GoogleClient googleClient;
 	/* Provider */
@@ -53,6 +64,7 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 	private final ReceiptProvider receiptProvider;
 	/* Template */
 	private final RedisTemplate<String, String> redisTemplate;
+	private final ObjectMapper objectMapper;
 
 	/**
 	 * 로그인
@@ -72,7 +84,6 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 						.build()
 				)
 			);
-
 
 		Authentication authentication =
 			new UsernamePasswordAuthenticationToken(member.getId(), member.getUuid(),
@@ -150,6 +161,32 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 		member.updateMember(request.gender(), request.birth(), request.chronic());
 	}
 
+	/**
+	 * 챌린지 수행 기록 초기화
+	 */
+	@Transactional
+	@Override
+	public void challengeInit() {
+		List<Member> members = memberRepository.findAll();
+		members.forEach(member -> {
+			List<MemberChallenge> memberChallenges = memberChallengeRepository.findByMemberId(member.getId());
+			if (memberChallenges.isEmpty()) {
+				List<Challenge> challenges = challengeRepository.findAll();
+				challenges.forEach(challenge -> {
+					memberChallengeRepository.save(MemberChallenge.builder()
+						.score(0L)
+						.isDone(false)
+						.member(member)
+						.challenge(challenge)
+						.build()
+					);
+				});
+			} else {
+				memberChallenges.forEach(MemberChallenge::challengeInit);
+			}
+		});
+	}
+
 	private void saveToken(String key, String value, long expire) {
 		redisTemplate.opsForValue()
 			.set(key, value, expire, TimeUnit.MILLISECONDS);
@@ -203,6 +240,19 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 			.status(HttpStatus.OK)
 			.headers(headers)
 			.body(response);
+	}
+
+	/**
+	 * 챌린지 목록 조회
+	 * @param memberId 요청자 member_id
+	 * @return 요청자가 수행하고 있는 챌린지 목록
+	 */
+	@Override
+	public ChallengeLoadResponse challengeLoad(long memberId) {
+		List<ChallengeLoadDetail> challengeLoadDetails = memberChallengeRepository.challengeLoad(memberId);
+		return ChallengeLoadResponse.builder()
+			.challengeLoadDetails(challengeLoadDetails)
+			.build();
 	}
 
 	private boolean isRefreshTokenExpired(Long id) {
