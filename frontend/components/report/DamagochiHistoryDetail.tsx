@@ -1,6 +1,6 @@
 import report from "@/public/styles/report.module.scss";
 import Image from "next/image";
-import images, { getUserCharacterImagePath } from "@/util/images.js";
+import { getUserCharacterImagePath } from "@/util/images.js";
 import React, { useState } from "react";
 
 type Character = {
@@ -46,14 +46,6 @@ const PvpRecord = () => (
   </div>
 );
 
-// 캐릭터 이미지 이미지 가져오기
-const characterImage = getUserCharacterImagePath(
-  "female",
-  "normal",
-  "walking",
-  1
-);
-
 const DamagochiHistoryDetail: React.FC<Props> = ({ character }) => {
   const [activeTab, setActiveTab] = useState("basicInfo");
 
@@ -74,10 +66,15 @@ const DamagochiHistoryDetail: React.FC<Props> = ({ character }) => {
     <div className={`${report["inner-text"]} ${report["inner-background"]}`}>
       <div className={report["inner-image-block"]}>
         <Image
-          src={characterImage} // 캐릭터 이미지는 prop에 따라 동적으로 변경될 수 있습니다.
+          src={getUserCharacterImagePath(
+            character.gender,
+            character.body_shape,
+            "idle",
+            0
+          )} // 캐릭터 이미지는 prop에 따라 동적으로 변경될 수 있습니다.
           width={100}
           height={100}
-          alt='Character Image'
+          alt="Character Image"
         />
         <span>{character.nickname}</span>
       </div>

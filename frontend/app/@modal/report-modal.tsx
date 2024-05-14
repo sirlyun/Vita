@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useRef } from 'react';
-import style from '@/public/styles/modal.module.scss';
-import styles from '@/public/styles/main.module.scss';
-import report from '@/public/styles/report.module.scss';
-import Image from 'next/image';
-import images from '@/util/images.js';
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
+import style from "@/public/styles/modal.module.scss";
+import styles from "@/public/styles/main.module.scss";
+import report from "@/public/styles/report.module.scss";
+import Image from "next/image";
+import images from "@/util/images.js";
 
 export function ReportModal({
   children,
@@ -18,10 +18,7 @@ export function ReportModal({
   setActiveMenu: (menuName: string) => void;
 }) {
   const router = useRouter();
-  const dialogRef = useRef<React.ElementRef<'dialog'>>(null);
-
-  // 메뉴 활성화 변수
-  // const [activeMenu, setActiveMenu] = useState('damagochi-report');
+  const dialogRef = useRef<React.ElementRef<"dialog">>(null);
 
   const handleClick = (menuName: string) => {
     setActiveMenu(menuName);
@@ -46,65 +43,65 @@ export function ReportModal({
       ref={dialogRef}
       onClick={closeModal}
       onClose={router.back}
-      className={style['modal-outer']}
+      className={style["modal-outer"]}
     >
-      <div className={report['modal-container']}>
+      <div className={report["modal-container"]}>
         <div className={`${styles.item} bg ${report.title}`}>
           <p>Report</p>
         </div>
-        <div className={report['menu-container']}>
+        <div className={report["menu-container"]}>
           <button
             className={`${
-              activeMenu === 'damagochi-report' ? '' : report.inactive
+              activeMenu === "damagochi-report" ? "" : report.inactive
             }`}
-            onClick={() => handleClick('damagochi-report')}
+            onClick={() => handleClick("damagochi-report")}
           >
             <Image
               src={images.routine_icon}
               width={60}
               height={60}
-              alt='option'
+              alt="option"
             ></Image>
           </button>
           <button
-            className={`${activeMenu === 'user-report' ? '' : report.inactive}`}
-            onClick={() => handleClick('user-report')}
+            className={`${activeMenu === "user-report" ? "" : report.inactive}`}
+            onClick={() => handleClick("user-report")}
           >
             <Image
               src={images.stastitic_icon}
               width={60}
               height={60}
-              alt='option'
+              alt="option"
             ></Image>
           </button>
           <button
-            className={`${report['button-blue']} ${
-              activeMenu === 'damagochi-history' ? '' : report.inactive
+            className={`${report["button-blue"]} ${
+              activeMenu === "damagochi-history" ? "" : report.inactive
             }`}
-            onClick={() => handleClick('damagochi-history')}
+            onClick={() => handleClick("damagochi-history")}
           >
             <Image
               src={images.routine_icon}
               width={60}
               height={60}
-              alt='option'
+              alt="option"
             ></Image>
           </button>
           <button
-            className={`${report['button-blue']} ${
-              activeMenu === 'user-history' ? '' : report.inactive
+            className={`${report["button-blue"]} ${
+              activeMenu === "user-history" ? "" : report.inactive
             }`}
-            onClick={() => handleClick('user-history')}
+            onClick={() => handleClick("user-history")}
           >
             <Image
               src={images.stastitic_icon}
               width={60}
               height={60}
-              alt='option'
+              alt="option"
             ></Image>
           </button>
         </div>
-        <div className={`${report['modal-inner']} bg`}>{children}</div>
+        <div className={`${report["modal-inner"]} bg`}>{children}</div>
       </div>
     </dialog>
   );
