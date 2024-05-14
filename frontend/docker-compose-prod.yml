@@ -1,0 +1,9 @@
+services:
+  prod-react-container:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: react
+    ports:
+      - "5173:80"
+    restart: always
