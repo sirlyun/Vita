@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { debuffIcons, getIconPath } from "@/util/icons.js";
+import { getIconPath } from "@/util/icons.js";
 
 export default function DebuffItemComponent({ debuff }: { debuff: DeBuff }) {
   return (

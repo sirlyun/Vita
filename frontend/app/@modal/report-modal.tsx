@@ -5,7 +5,6 @@ import { useEffect, useRef } from 'react';
 import style from '@/public/styles/modal.module.scss';
 import styles from '@/public/styles/main.module.scss';
 import report from '@/public/styles/report.module.scss';
-import useUserStore from '@/store/user-store';
 import Image from 'next/image';
 import images from '@/util/images.js';
 
@@ -20,7 +19,6 @@ export function ReportModal({
 }) {
   const router = useRouter();
   const dialogRef = useRef<React.ElementRef<'dialog'>>(null);
-  const userStore = useUserStore();
 
   // 메뉴 활성화 변수
   // const [activeMenu, setActiveMenu] = useState('damagochi-report');
@@ -40,24 +38,8 @@ export function ReportModal({
   }, []);
 
   // 모달 외부 클릭 시 종료
-  // const closeModal = (e: React.MouseEvent<HTMLDialogElement, MouseEvent>) =>
-  //   e.target === dialogRef.current && router.back();
-  const closeModal = (e) => {
-    if (e.target === dialogRef.current) {
-      router.back(); // 또는 다른 모달 닫기 로직
-    }
-  };
-
-  // 홈으로 이동하면서 모달 닫기
-  const gameModalClose = () => {
-    dialogRef.current?.close(); // 모달 닫기
-    userStore.isNewBestRecord = false;
-    router.back();
-  };
-
-  const modalClose = () => {
-    router.back();
-  };
+  const closeModal = (event: React.MouseEvent<HTMLDialogElement, MouseEvent>) =>
+    event.target === dialogRef.current && router.back();
 
   return (
     <dialog

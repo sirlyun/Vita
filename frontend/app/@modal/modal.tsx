@@ -9,7 +9,7 @@ export function Modal({
   option,
   children,
 }: {
-  option: number;
+  option: number; // 0: 기본 모달, 1: setting 모달
   children: React.ReactNode;
 }) {
   const router = useRouter();

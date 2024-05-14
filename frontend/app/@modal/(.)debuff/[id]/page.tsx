@@ -1,6 +1,5 @@
 import { Modal } from "../../modal";
 
-import Link from "next/link";
 import styles from "@/public/styles/modal.module.scss";
 
 function useDebuff(optionId: string) {
@@ -27,16 +26,14 @@ export default function OptionModal({
   return (
     <div>
       {selectedDebuff ? (
-        <Modal>
+        <Modal option={0}>
           <h1 className={`${styles.title} ${styles.center}`}>
             {selectedDebuff.content}
           </h1>
           <div className={`${styles.content} ${styles.center}`}>
             <div className={`${styles.item} ${styles.center}`}>
               {selectedDebuff ? (
-                <button>
-                  <p>-{selectedDebuff.rate}년/일</p>
-                </button>
+                <p>-{selectedDebuff.rate}년/일</p>
               ) : (
                 <p>No debuff found</p>
               )}

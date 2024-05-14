@@ -1,4 +1,6 @@
-// 파일: utils/icons.js
+const getIconPath = (name) => {
+  return `/icons/${name}-icon.png`;
+};
 
 const icons = {
   // option: "/icons/option-icon.png",
