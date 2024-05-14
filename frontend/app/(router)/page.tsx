@@ -14,6 +14,7 @@ import { useState } from "react";
 
 export default function Home() {
   const userStore = useUserStore();
+  console.log(userStore);
   const [challengeModal, setChallengeModal] = useState(false);
   const [myCharacterInfo, setMyCharacterInfo] = useState<Character | null>(
     null
@@ -31,7 +32,6 @@ export default function Home() {
         setMyCharacterInfo(characterInfo);
 
         // 이후를 위한 스토어 별도 저장
-        userStore.characterId = characterInfo.character_id;
         userStore.gender = characterInfo.gender;
         userStore.bodyShape = characterInfo.body_shape;
         userStore.name = characterInfo.name;
