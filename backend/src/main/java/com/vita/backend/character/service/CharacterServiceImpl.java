@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.request.CharacterSaveRequest;
 import com.vita.backend.character.data.request.ItemSaveRequest;
+import com.vita.backend.character.data.response.AliveCharacterReportLoadResponse;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
 import com.vita.backend.character.data.response.ItemLoadResponse;
@@ -40,6 +41,7 @@ import com.vita.backend.character.repository.CharacterDeBuffRepository;
 import com.vita.backend.character.repository.CharacterRepository;
 import com.vita.backend.character.repository.CharacterShopRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
+import com.vita.backend.character.repository.ReceiptRepository;
 import com.vita.backend.character.repository.ShopRepository;
 import com.vita.backend.character.utils.CharacterUtils;
 import com.vita.backend.global.domain.enumeration.Level;
@@ -62,6 +64,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	private final CharacterDeBuffRepository characterDeBuffRepository;
 	private final ShopRepository shopRepository;
 	private final CharacterShopRepository characterShopRepository;
+	private final ReceiptRepository receiptRepository;
 	/* Template */
 	private final RedisTemplate<String, String> redisTemplate;
 	/* Provider */
@@ -194,6 +197,29 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			.build();
 	}
 
+	/**
+	 * 현재 캐릭터 리포트 조회
+	 * @param memberId 요청자 member_id
+	 * @return 현재 캐릭터 리포트
+	 */
+	@Override
+	public AliveCharacterReportLoadResponse aliveCharacterReportLoad(long memberId) {
+		Character character = CharacterUtils.findByMemberIdAndIsDeadFalse(characterRepository, memberId);
+		Long plusVita = receiptRepository.sumPositiveVitaPointsByCharacterId(character.getId());
+		Long minusVita = receiptRepository.sumNegativeVitaPointsByCharacterId(character.getId());
+
+		return AliveCharacterReportLoadResponse.builder()
+			.createdAt(LocalDate.from(character.getCreatedAt()))
+			.height(character.getHeight())
+			.weight(character.getWeight())
+			.bmi(CharacterUtils.bmiCalculator(character.getHeight(), character.getWeight()))
+			.bodyShape(character.getBodyShape())
+			.plusVita(plusVita)
+			.minusVita(minusVita)
+			.achievementCount(null)
+			.build();
+	}
+
 	private List<CharacterGameSingleRankingDetail> getTotalRanking(
 		Set<ZSetOperations.TypedTuple<String>> singleRanking) {
 		return singleRanking.stream()
@@ -295,11 +321,12 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 		}
 
 		Long vitaPoint = CharacterUtils.characterVitaPointInitCalculator(member.getGender(), member.getBirth());
-		BodyShape bodyShape = CharacterUtils.characterBodyShapeInitCalculator(member.getGender(), request.height(),
-			request.weight());
+		BodyShape bodyShape = CharacterUtils.characterBodyShapeInitCalculator(request.height(), request.weight());
 		Character character = Character.builder()
 			.nickname(request.nickname())
 			.vitaPoint(vitaPoint)
+			.height(request.height())
+			.weight(request.weight())
 			.bodyShape(bodyShape)
 			.member(member)
 			.build();
@@ -361,9 +388,9 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 		Shop shop = CharacterUtils.findByItemId(shopRepository, request.itemId());
 
 		characterShopRepository.findByCharacterIdAndShopId(characterId, shop.getId())
-				.ifPresent(characterShop -> {
-					throw new BadRequestException("FindByCharacterIdAndShopId", ITEM_SAVE_BAD_REQUEST);
-				});
+			.ifPresent(characterShop -> {
+				throw new BadRequestException("FindByCharacterIdAndShopId", ITEM_SAVE_BAD_REQUEST);
+			});
 
 		characterShopRepository.save(CharacterShop.builder()
 			.character(character)

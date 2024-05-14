@@ -65,6 +65,13 @@ public class CharacterUtils {
 			);
 	}
 
+	public static Character findByMemberIdAndIsDeadFalse(CharacterRepository repository, long memberId) {
+		return repository.findByMemberIdAndIsDeadFalse(memberId)
+			.orElseThrow(
+				() -> new NotFoundException("FindByMemberIdAndIsDeadFalse", ALIVE_CHARACTER_NOT_FOUND)
+			);
+	}
+
 	public static Long deBuffValueCalculator(Integer deBuffTool, Integer deBuffLevel) {
 		return Long.valueOf(deBuffTool * deBuffLevel);
 	}
@@ -73,7 +80,7 @@ public class CharacterUtils {
 		return gender.getVita() - (Year.now().getValue() - birth);
 	}
 
-	public static BodyShape characterBodyShapeInitCalculator(Gender gender, Integer height, Integer weight) {
+	public static BodyShape characterBodyShapeInitCalculator(Integer height, Integer weight) {
 		double heightInMeters = height / 100.0;
 		double bmi = weight / (heightInMeters * heightInMeters);
 
@@ -84,5 +91,10 @@ public class CharacterUtils {
 			return BodyShape.NORMAL;
 		}
 		return BodyShape.FAT;
+	}
+
+	public static double bmiCalculator(Integer height, Integer weight) {
+		double heightInMeters = height / 100.0;
+		return weight / (heightInMeters * heightInMeters);
 	}
 }

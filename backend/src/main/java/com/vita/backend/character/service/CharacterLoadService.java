@@ -1,5 +1,6 @@
 package com.vita.backend.character.service;
 
+import com.vita.backend.character.data.response.AliveCharacterReportLoadResponse;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
 import com.vita.backend.character.data.response.ItemLoadResponse;
@@ -11,4 +12,5 @@ public interface CharacterLoadService {
 	CharacterLoadResponse characterLoad(long memberId);
 	ShopLoadResponse shopLoad(long memberId, long characterId);
 	ItemLoadResponse itemLoad(long memberId, long characterId);
+	AliveCharacterReportLoadResponse aliveCharacterReportLoad(long memberId);
 }

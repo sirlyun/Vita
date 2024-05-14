@@ -47,6 +47,14 @@ public class Character extends BaseEntity {
 	private String nickname;
 
 	@NotNull
+	@Column(name = "height")
+	private Integer height;
+
+	@NotNull
+	@Column(name = "weight")
+	private Integer weight;
+
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "body_shape")
 	private BodyShape bodyShape;
@@ -73,8 +81,10 @@ public class Character extends BaseEntity {
 	private List<CharacterShop> characterShops = new ArrayList<>();
 
 	@Builder
-	public Character(String nickname, BodyShape bodyShape, Long vitaPoint, Member member) {
+	public Character(String nickname, Integer height, Integer weight, BodyShape bodyShape, Long vitaPoint, Member member) {
 		this.nickname = nickname;
+		this.height = height;
+		this.weight = weight;
 		this.bodyShape = bodyShape;
 		this.vitaPoint = vitaPoint;
 		this.isDead = false;

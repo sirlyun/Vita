@@ -23,6 +23,7 @@ public enum ErrorCode {
 	CHARACTER_REWARD_BAD_REQUEST(400, "캐릭터가 이미 사망했습니다."),
 	ITEM_NOT_FOUND(404, "존재하지 않는 아이템입니다."),
 	ITEM_SAVE_BAD_REQUEST(400, "이미 구매한 아이템입니다."),
+	ALIVE_CHARACTER_NOT_FOUND(404, "살아있는 캐릭터가 없습니다."),
 	// HEALTH
 	FOOD_FORBIDDEN(403, "식단 정보에 접근 권한이 없습니다."),
 	FOOD_IMAGE_REQUIRED(400, "음식 이미지는 필수값입니다."),
