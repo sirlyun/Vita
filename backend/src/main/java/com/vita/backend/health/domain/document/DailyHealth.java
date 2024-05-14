@@ -27,10 +27,14 @@ public class DailyHealth extends BaseDocument {
 	@Field("drink")
 	private DrinkDetail drink;
 
+	@Field("fitness")
+	private Long fitness;
+
 	@Builder
-	public DailyHealth(Long memberId, SmokeDetail smoke, DrinkDetail drink) {
+	public DailyHealth(Long memberId, SmokeDetail smoke, DrinkDetail drink, Long fitness) {
 		this.memberId = memberId;
 		this.smoke = smoke;
 		this.drink = drink;
+		this.fitness = fitness;
 	}
 }
