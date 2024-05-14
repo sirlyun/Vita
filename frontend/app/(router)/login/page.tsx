@@ -19,14 +19,21 @@ function LoginComponent() {
           // 로그인 후 쿠키에 액세스 토큰 저장
           const encodedCode = encodeURIComponent(queryCode);
           const fetchedLogin = await login(encodedCode);
-          document.cookie = `accessToken=${fetchedLogin.token.access_token}; path=/; max-age=3600; secure; SameSite=None`;
+          document.cookie = `accessToken=${fetchedLogin.token.access_token}; path=/; max-age=3600*3; secure; SameSite=None`;
 
           const checkCharacter = await getMyCharacterInfo();
-          if (checkCharacter.character_id !== undefined) {
-            document.cookie = `characterId=${checkCharacter.character_id}; path=/; max-age=3600; secure; SameSite=None`;
-            document.cookie = `memberId=${"createdMember"}; path=/; max-age=3600; secure; SameSite=None`;
+          // 회원 정보가 등록되어 있으면서, 캐릭터가 죽은 상태가 아닐떄
+          if (
+            checkCharacter.character_id !== undefined &&
+            !checkCharacter.is_dead
+          ) {
+            document.cookie = `characterId=${checkCharacter.character_id}; path=/; max-age=36000; secure; SameSite=None`;
+            document.cookie = `memberId=${checkCharacter.character_id}; path=/; max-age=36000; secure; SameSite=None`;
           }
-
+          // 캐릭터가 죽은 상태일 때
+          else if (checkCharacter.is_dead) {
+            document.cookie = `memberId=${checkCharacter.character_id}; path=/; max-age=36000; secure; SameSite=None`;
+          }
           router.push("/");
         } catch (error) {
           console.error("로그인 실패:", error);
