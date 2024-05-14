@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 
 #yarn build
-RUN npm build
+RUN npm run build
 
 # prod environment
 FROM nginx:stable-alpine
