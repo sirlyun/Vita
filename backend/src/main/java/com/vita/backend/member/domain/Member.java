@@ -53,6 +53,10 @@ public class Member extends BaseEntity{
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Food> foods = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<MemberChallenge> memberChallenges = new ArrayList<>();
+
     @Builder
     public Member(String uuid, String name) {
         this.uuid = uuid;

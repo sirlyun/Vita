@@ -305,6 +305,14 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			.build();
 		characterRepository.save(character);
 
+		Shop shop = shopRepository.findByName("main-2500ms").get();
+		CharacterShop item = characterShopRepository.save(CharacterShop.builder()
+			.character(character)
+			.shop(shop)
+			.build()
+		);
+		item.isUsedUpdate(true);
+
 		applyChronicDeBuff(member, character);
 		if (request.smoke() != null) {
 			applyDeBuff(DeBuffType.SMOKE, request.smoke().smokeType().getValue(),
