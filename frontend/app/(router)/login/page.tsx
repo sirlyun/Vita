@@ -4,10 +4,10 @@ import styles from "@/public/styles/login.module.scss";
 import GoogleSignIn from "@/components/ui/GoogleSignInButton";
 import { useSearchParams, useRouter } from "next/navigation";
 import { login } from "@/api/login";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { getMyCharacterInfo } from "@/api/character";
 
-export default function Login() {
+function LoginComponent() {
   const searchParam = useSearchParams();
   const router = useRouter();
 
@@ -45,5 +45,13 @@ export default function Login() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginComponent />
+    </Suspense>
   );
 }
