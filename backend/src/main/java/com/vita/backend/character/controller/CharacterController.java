@@ -18,6 +18,7 @@ import com.vita.backend.character.data.request.ItemSaveRequest;
 import com.vita.backend.character.data.response.AliveCharacterReportLoadResponse;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
+import com.vita.backend.character.data.response.DeadCharactersLoadResponse;
 import com.vita.backend.character.data.response.ItemLoadResponse;
 import com.vita.backend.character.data.response.ShopLoadResponse;
 import com.vita.backend.character.domain.enumeration.GameType;
@@ -147,5 +148,15 @@ public class CharacterController {
 			memberId);
 
 		return ResponseEntity.ok(aliveCharacterReportLoadResponse);
+	}
+
+	@GetMapping("/reports")
+	public ResponseEntity<DeadCharactersLoadResponse> deadCharacterLoad(
+		@AuthenticationPrincipal SecurityMember securityMember
+	) {
+		long memberId = securityMember.getId();
+		DeadCharactersLoadResponse deadCharactersLoadResponse = characterLoadService.deadCharacterLoad(memberId);
+
+		return ResponseEntity.ok(deadCharactersLoadResponse);
 	}
 }
