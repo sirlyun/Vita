@@ -11,7 +11,6 @@ import useUserStore from "@/store/user-store";
 // AuthType 정의
 interface AuthType {
   characterId: number | null;
-  accessToken: string | null;
 }
 
 // AuthContext의 타입 정의
@@ -34,9 +33,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     // 로그인 상태 검증 로직 등
     setAuth({
       characterId: userStore.characterId,
-      accessToken: userStore.accessToken,
     });
-  }, [userStore.characterId, userStore.accessToken]); // 의존성 추가
+  }, [userStore.characterId]); // 의존성 추가
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
