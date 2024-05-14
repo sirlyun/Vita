@@ -9,6 +9,7 @@ import HealthFood from "@/components/health/food/page";
 import { useState } from "react";
 import HealthDaily from "@/components/health/daily/page";
 
+
 export default function HealthHome() {
   const [foodModal, setFoodModal] = useState(false);
   const [dailyModal, setDailyModal] = useState(false);

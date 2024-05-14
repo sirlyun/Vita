@@ -20,7 +20,10 @@ export default function Page() {
 
   const stepMessages: JSX.Element[] = [
     <>성별을 선택해주세요</>,
-    <>나이를 입력해주세요</>,
+    <>
+      태어난 년도를 <br></br>
+      입력해주세요
+    </>,
     <>
       앓고 계신 <br></br>지병이 있으신가요?
     </>,
@@ -31,9 +34,14 @@ export default function Page() {
   ];
 
   const completeModifyMember = async () => {
-    console.log(gender, Number(birth));
+    const chronicValue = chronic === "null" ? null : chronic;
+    console.log(typeof chronicValue);
 
-    const responseMember = await modifyMember(gender, Number(birth), chronic);
+    const responseMember = await modifyMember(
+      gender,
+      Number(birth),
+      chronicValue
+    );
     console.log(responseMember.status);
     document.cookie = `memberId=${"createdMember"}; path=/; max-age=3600; secure; SameSite=None`;
     console.log("memeberId를 담는 아래 코드");

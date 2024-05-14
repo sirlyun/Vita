@@ -1,5 +1,5 @@
 import styles from "@/public/styles/chronic.module.scss";
-import icons from "@/util/icons";
+import { getIconPath } from "@/util/icons";
 import Image from "next/image";
 
 interface Props {
@@ -26,7 +26,7 @@ export default function Gender({ gender, setGender }: Props) {
         >
           <button>
             <Image
-              src={icons.male}
+              src={getIconPath("male")}
               width={60}
               height={60}
               alt="male"
@@ -47,7 +47,12 @@ export default function Gender({ gender, setGender }: Props) {
           onClick={() => handleGender("FEMALE")}
         >
           <button>
-            <Image src={icons.female} width={60} height={60} alt="male"></Image>
+            <Image
+              src={getIconPath("female")}
+              width={60}
+              height={60}
+              alt="male"
+            ></Image>
           </button>
           <p>여자</p>
         </div>

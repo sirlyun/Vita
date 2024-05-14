@@ -1,7 +1,7 @@
 import styles from "@/public/styles/nutrition.module.scss";
 import useStopPropagation from "@/components/UseStopPropagation";
 import NutritionItem from "@/components/health/food/NutritionItem";
-import icons from "@/util/icons";
+import { getIconPath } from "@/util/icons";
 import Image from "next/image";
 import { getUserCharacterImagePath } from "@/util/images";
 
@@ -43,35 +43,35 @@ const FoodNutrition = ({
   const foodNutrition: FoodNutritionalDetails = {
     calories: {
       name: "칼로리",
-      image: icons.kcal,
+      image: getIconPath("kcal"),
       unit: "kcal",
       consumedAmount: calrorie,
       recommendedAmount: 2000,
     },
     salts: {
       name: "나트륨",
-      image: icons.salt,
+      image: getIconPath("salt"),
       unit: "mg",
       consumedAmount: salt,
       recommendedAmount: 2300,
     },
     sugars: {
       name: "당분",
-      image: icons.sugar,
+      image: getIconPath("sugar"),
       unit: "g",
       consumedAmount: sugar,
       recommendedAmount: 37.5,
     },
     fats: {
       name: "지방",
-      image: icons.fat,
+      image: getIconPath("fat"),
       unit: "g",
       consumedAmount: fat,
       recommendedAmount: 70,
     },
     proteins: {
       name: "단백질",
-      image: icons.protein,
+      image: getIconPath("protein"),
       unit: "g",
       consumedAmount: protein,
       recommendedAmount: 56,
@@ -84,7 +84,7 @@ const FoodNutrition = ({
         <div></div>
         <Image
           onClick={onClose}
-          src={icons.cancel}
+          src={getIconPath("cancel")}
           width={60}
           height={60}
           alt="cancelIcon"

@@ -1,6 +1,6 @@
 import styles from "@/public/styles/character.module.scss";
 import Image from "next/image";
-import icons from "@/util/icons";
+import { getIconPath } from "@/util/icons";
 
 interface Props {
   drinkQuantity: string;
@@ -10,6 +10,7 @@ interface Props {
 export default function CheckDrink({ drinkQuantity, setDrinkQuantity }: Props) {
   const handleQuantity = (value: string) => {
     setDrinkQuantity(value);
+    console.log("drink", value);
   };
 
   return (
@@ -28,7 +29,7 @@ export default function CheckDrink({ drinkQuantity, setDrinkQuantity }: Props) {
           }
         >
           <Image
-            src={icons.x}
+            src={getIconPath("x")}
             width={60}
             height={60}
             alt="x-icon"
@@ -51,10 +52,10 @@ export default function CheckDrink({ drinkQuantity, setDrinkQuantity }: Props) {
           }
         >
           <Image
-            src={icons.soju}
+            src={getIconPath("soju")}
             width={60}
             height={60}
-            alt="cigarette-one-icon"
+            alt="soju-icon"
           />
         </div>
         <p>1병 미만</p>
@@ -73,10 +74,10 @@ export default function CheckDrink({ drinkQuantity, setDrinkQuantity }: Props) {
           }
         >
           <Image
-            src={icons["soju-two"]}
+            src={getIconPath("soju-two")}
             width={60}
             height={60}
-            alt="cigarette-two-icon"
+            alt="soju-two-icon"
           />
         </div>
         <p>1병 이상</p>
@@ -95,10 +96,10 @@ export default function CheckDrink({ drinkQuantity, setDrinkQuantity }: Props) {
           }
         >
           <Image
-            src={icons["soju-three"]}
+            src={getIconPath("soju-three")}
             width={60}
             height={60}
-            alt="cigarette-box-icon"
+            alt="soju-threee-icon"
           />
         </div>
         <p>2병 이상</p>
