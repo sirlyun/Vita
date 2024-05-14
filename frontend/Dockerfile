@@ -20,7 +20,7 @@ FROM nginx:stable-alpine
 
 
 # 이전 빌드 단계에서 빌드한 결과물을 /usr/share/ngnix/html으로 복사
-COPY --from=build . /app/build
+COPY --from=build /.next /app/build
 
 # 기본 nginx 설정 파일을 삭제
 RUN rm /etc/nginx/conf.d/default.conf
