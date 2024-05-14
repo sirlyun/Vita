@@ -18,11 +18,13 @@ import com.vita.backend.character.data.request.ItemSaveRequest;
 import com.vita.backend.character.data.response.AliveCharacterReportLoadResponse;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
+import com.vita.backend.character.data.response.DeadCharactersLoadResponse;
 import com.vita.backend.character.data.response.ItemLoadResponse;
 import com.vita.backend.character.data.response.ShopLoadResponse;
 import com.vita.backend.character.data.response.detail.CharacterGameSingleRankingDetail;
 import com.vita.backend.character.data.response.detail.CharacterItemDetail;
 import com.vita.backend.character.data.response.detail.DeBuffLoadDetail;
+import com.vita.backend.character.data.response.detail.DeadCharacterDetail;
 import com.vita.backend.character.data.response.detail.GameSingleRankingDetail;
 import com.vita.backend.character.data.response.detail.ItemDetail;
 import com.vita.backend.character.data.response.detail.ShopDetail;
@@ -32,12 +34,14 @@ import com.vita.backend.character.domain.CharacterDeBuff;
 import com.vita.backend.character.domain.CharacterShop;
 import com.vita.backend.character.domain.DeBuff;
 import com.vita.backend.character.domain.Shop;
+import com.vita.backend.character.domain.document.CharacterReport;
 import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.domain.enumeration.GameType;
 import com.vita.backend.character.domain.enumeration.ReceiptType;
 import com.vita.backend.character.provider.ReceiptProvider;
 import com.vita.backend.character.repository.CharacterDeBuffRepository;
+import com.vita.backend.character.repository.CharacterReportRepository;
 import com.vita.backend.character.repository.CharacterRepository;
 import com.vita.backend.character.repository.CharacterShopRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
@@ -65,6 +69,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	private final ShopRepository shopRepository;
 	private final CharacterShopRepository characterShopRepository;
 	private final ReceiptRepository receiptRepository;
+	private final CharacterReportRepository characterReportRepository;
 	/* Template */
 	private final RedisTemplate<String, String> redisTemplate;
 	/* Provider */
@@ -217,6 +222,25 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			.plusVita(plusVita)
 			.minusVita(minusVita)
 			.achievementCount(null)
+			.build();
+	}
+
+	/**
+	 * 죽은 캐릭터 목록 조회
+	 * @param memberId 요청자 member_id
+	 * @return 죽은 캐릭터 목록
+	 */
+	@Override
+	public DeadCharactersLoadResponse deadCharacterLoad(long memberId) {
+		List<Character> characters = characterRepository.findByMemberIdAndIsDeadTrue(memberId);
+		List<DeadCharacterDetail> deadCharacterDetails = characters.stream().map(character -> DeadCharacterDetail.builder()
+			.characterId(character.getId())
+			.nickname(character.getNickname())
+			.bodyShape(character.getBodyShape())
+			.build()
+		).toList();
+		return DeadCharactersLoadResponse.builder()
+			.characterDetails(deadCharacterDetails)
 			.build();
 	}
 
@@ -436,6 +460,26 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			character.vitaUpdate((totalDeBuff + 1) * -1);
 			receiptProvider.receiptSave(character.getId(), ReceiptType.DE_BUFF, false, totalDeBuff,
 				character.getVitaPoint());
+
+			if (character.getVitaPoint() == 0L) {
+				Long plusVita = receiptRepository.sumPositiveVitaPointsByCharacterId(character.getId());
+				Long minusVita = receiptRepository.sumNegativeVitaPointsByCharacterId(character.getId());
+				List<ShopDetail> items = shopRepository.findAllItemsWithOwnCheck(character.getId());
+
+				characterReportRepository.save(CharacterReport.builder()
+					.characterId(character.getId())
+					.height(character.getHeight())
+					.weight(character.getWeight())
+					.bmi(CharacterUtils.bmiCalculator(character.getHeight(), character.getWeight()))
+					.bodyShape(character.getBodyShape())
+					.startAt(character.getCreatedAt())
+					.plusVita(plusVita)
+					.minusVita(minusVita)
+					.achievementCount(null)
+					.itemDetails(items)
+					.build()
+				);
+			}
 		});
 	}
 
