@@ -66,12 +66,17 @@ export function Modal({
             <p>닫기</p>
           </button>
         ) : pathname.includes("settings") && option == 1 ? (
-          <button
-            className={style["close-btn"]}
-            onClick={settingModalClose} // "settings" 일 때 호출할 함수
-          >
-            <p>선택</p>
-          </button>
+          <div className={style["btn-container"]}>
+            <button className={style["close-btn"]} onClick={() => modalClose()}>
+              <p>닫기</p>
+            </button>
+            <button
+              className={style["close-btn"]}
+              onClick={settingModalClose} // "settings" 일 때 호출할 함수
+            >
+              <p>선택</p>
+            </button>
+          </div>
         ) : (
           <button className={style["close-btn"]} onClick={modalClose}>
             <p>닫기</p>
