@@ -8,12 +8,12 @@ WORKDIR /app
 COPY package*.json ./
 
 # 명령어 실행 (의존성 설치)
-RUN yarn install --network-timeout 1000000
+RUN npm install --network-timeout 1000000
 
 COPY . .
 
 #yarn build
-RUN yarn build
+RUN npm build
 
 # prod environment
 FROM nginx:stable-alpine
