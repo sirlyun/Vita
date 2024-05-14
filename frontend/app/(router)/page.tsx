@@ -3,14 +3,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "@/public/styles/main.module.scss";
-import { getIconPath } from "@/util/icons.js";
 import ChallengeFrame from "@/components/ChallengeFrame";
-import { getUserCharacterImagePath } from "@/util/images";
+import useUserStore from "@/store/user-store";
+import DebuffItem from "@/components/ui/DebuffItem";
+import { getIconPath } from "@/util/icons.js";
+import { getUserCharacterImagePath, getBackgroundUrl } from "@/util/images";
 import { getMyCharacterInfo } from "@/api/character";
 import { useEffect } from "react";
 import { useState } from "react";
-import useUserStore from "@/store/user-store";
-import DebuffItem from "@/components/ui/DebuffItem";
 
 export default function Home() {
   const userStore = useUserStore();
@@ -39,11 +39,28 @@ export default function Home() {
         console.log("캐릭터 조회에 실패했습니다!.", error);
       }
     };
+
     fetchCharacterList();
   }, []);
 
+  // 배경화면 동적 설정 ***********************************************
+  const getBackgroundName = (): string => {
+    if (myCharacterInfo) {
+      const backgroundItem = myCharacterInfo.character_item.find(
+        (item) => item.type === "BACKGROUND"
+      );
+      return backgroundItem ? backgroundItem.name : "";
+    }
+    return "";
+  };
+
+  const backgroundName = getBackgroundName();
+  const backgroundStyle = {
+    backgroundImage: `url(${getBackgroundUrl(backgroundName)})`,
+  };
+
   return (
-    <div className={`${styles.main} background`}>
+    <div className={`${styles.main} background`} style={backgroundStyle}>
       {challengeModal && <ChallengeFrame onClose={toggleChallengeModal} />}
       <div className={styles.header}>
         <div className={`${styles.item} bg`}>
@@ -93,41 +110,6 @@ export default function Home() {
             myCharacterInfo.de_buff.map((debuff, index) => (
               <DebuffItem key={index} debuff={debuff} />
             ))}
-          {/* <Link href={`/debuff/${0}`}>
-            <Image
-              src={debuffIcons[0].ref}
-              width={60}
-              height={60}
-              alt="alcohol"
-            ></Image>
-          </Link>
-
-          <Link href={`/debuff/${1}`}>
-            <Image
-              src={getIconPath("cigarrete")}
-              width={60}
-              height={60}
-              alt="alcohol"
-            ></Image>
-          </Link>
-
-          <Link href={`/debuff/${2}`}>
-            <Image
-              src={getIconPath("food")}
-              width={60}
-              height={60}
-              alt="alcohol"
-            ></Image>
-          </Link>
-
-          <Link href={`/debuff/${3}`}>
-            <Image
-              src={getIconPath("chronic")}
-              width={60}
-              height={60}
-              alt="alcohol"
-            ></Image>
-          </Link> */}
         </div>
       </div>
       <div className={styles.menu}>

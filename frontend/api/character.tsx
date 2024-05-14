@@ -1,8 +1,8 @@
-import { localAxios } from '@/util/axios';
+import { getCharacterId, localAxios } from "@/util/axios";
 
 async function getMyCharacterInfo() {
   return localAxios
-    .get('/character')
+    .get("/character")
     .then((response) => response.data)
     .catch((error) => error.throw);
 }
@@ -15,11 +15,17 @@ async function createdCharacter(
   drink: { type: string; quantity: string }
 ) {
   return localAxios
-    .post('/character')
+    .post("/character")
     .then((response) => response.data)
     .catch((error) => {
-      console.log('캐릭터 생성 실패!', error);
+      console.log("캐릭터 생성 실패!", error);
     });
 }
 
-export { getMyCharacterInfo, createdCharacter };
+async function setBackground(itemId: number) {
+  return localAxios.patch(`/character/${getCharacterId()}/item`, {
+    item_id: itemId,
+  });
+}
+
+export { getMyCharacterInfo, createdCharacter, setBackground };

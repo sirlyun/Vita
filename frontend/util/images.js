@@ -12,6 +12,10 @@ export const getShopImagePath = (name, type) => {
   return `/images/characters/emotions/${name}`;
 };
 
+export const getBackgroundUrl = (name) => {
+  return `/images/backgrounds/${name}-bg.png`;
+};
+
 const images = {
   stastitic_icon: "/icons/stastitic-icon.png",
   routine_icon: "/icons/routine-icon.png",

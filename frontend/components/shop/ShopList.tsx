@@ -17,7 +17,7 @@ export default function ShopListComponent({
             activeMenu === "all" ||
             item.type.toUpperCase() === activeMenu.toUpperCase()
         ).length === 0 ? (
-        <p>No items to display under {activeMenu}.</p>
+        <p className={styles["pd-t-40"]}>준비중..</p>
       ) : (
         shopList
           .filter(
