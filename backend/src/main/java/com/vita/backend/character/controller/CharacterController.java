@@ -15,6 +15,7 @@ import com.vita.backend.auth.utils.SecurityMember;
 import com.vita.backend.character.data.request.CharacterGameSingleSaveRequest;
 import com.vita.backend.character.data.request.CharacterSaveRequest;
 import com.vita.backend.character.data.request.ItemSaveRequest;
+import com.vita.backend.character.data.response.AliveCharacterReportLoadResponse;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
 import com.vita.backend.character.data.response.ItemLoadResponse;
@@ -135,5 +136,16 @@ public class CharacterController {
 		characterSaveService.itemUpdate(memberId, characterId, request);
 
 		return ResponseEntity.ok(null);
+	}
+
+	@GetMapping("/report")
+	public ResponseEntity<AliveCharacterReportLoadResponse> aliveCharacterReportLoad(
+		@AuthenticationPrincipal SecurityMember securityMember
+	) {
+		long memberId = securityMember.getId();
+		AliveCharacterReportLoadResponse aliveCharacterReportLoadResponse = characterLoadService.aliveCharacterReportLoad(
+			memberId);
+
+		return ResponseEntity.ok(aliveCharacterReportLoadResponse);
 	}
 }

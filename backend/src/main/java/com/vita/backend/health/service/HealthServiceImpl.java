@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +29,7 @@ import com.vita.backend.health.domain.document.DrinkDetail;
 import com.vita.backend.health.domain.document.SmokeDetail;
 import com.vita.backend.health.repository.DailyHealthRepository;
 import com.vita.backend.health.repository.FoodRepository;
+import com.vita.backend.infra.google.GoogleClient;
 import com.vita.backend.infra.openai.OpenAIVisionClient;
 import com.vita.backend.infra.openai.data.response.OpenAIApiFoodResponse;
 import com.vita.backend.member.domain.Member;
@@ -49,6 +51,9 @@ public class HealthServiceImpl implements HealthSaveService {
 	private final CharacterDeBuffRepository characterDeBuffRepository;
 	/* Client */
 	private final OpenAIVisionClient openAIVisionClient;
+	private final GoogleClient googleClient;
+	/* Template */
+	private final RedisTemplate redisTemplate;
 
 	/**
 	 * 식단 정보 등록
@@ -159,7 +164,8 @@ public class HealthServiceImpl implements HealthSaveService {
 					});
 			});
 
-		// TODO: 구글 피트니스 운동 데이터 수집
+		Object googleToken = redisTemplate.opsForValue().get("google:" + memberId);
+		Long userFitness = googleClient.getUserFitness(googleToken);
 
 		DailyHealth dailyHealth = DailyHealth.builder()
 			.memberId(memberId)
@@ -171,6 +177,7 @@ public class HealthServiceImpl implements HealthSaveService {
 				.drinkType(request.drink().drinkType())
 				.level(request.drink().level())
 				.build() : null)
+			.fitness(userFitness)
 			.build();
 		dailyHealthRepository.save(dailyHealth);
 	}
