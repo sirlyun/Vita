@@ -1,5 +1,5 @@
 const getIconPath = (name) => {
-  return `@/public/icons/${name}-icon.png`;
+  return `/icons/${name}-icon.png`;
 };
 
 const icons = {
