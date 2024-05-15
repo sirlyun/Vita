@@ -34,14 +34,6 @@ export default function DamagochiHistory() {
     return <DamagochiHistoryDetail character={selectedCharacter} />;
   }
 
-  // 캐릭터 이미지 이미지 가져오기
-  const characterImage = getUserCharacterImagePath(
-    "female",
-    "normal",
-    "walking",
-    1
-  );
-
   // 캐릭터 목록 표시
   return (
     <div className={report["damagochi-history"]}>
@@ -50,10 +42,15 @@ export default function DamagochiHistory() {
         characterList.map((character, index) => (
           <button key={index} onClick={() => handleButtonClick(character)}>
             <Image
-              src={characterImage} // 캐릭터 이미지에 대한 올바른 경로 설정 필요
+              src={getUserCharacterImagePath(
+                character.gender,
+                character.body_shape,
+                "idle",
+                0
+              )}
               width={40}
               height={80}
-              alt={`Character ${character.nickname}`} // `nickname` 필드 사용
+              alt={`Character ${character.nickname}`}
             />
             <span>{character.nickname}</span>
           </button>

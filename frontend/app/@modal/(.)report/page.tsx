@@ -1,25 +1,42 @@
 "use client";
 
 import { ReportModal } from "../report-modal";
+import { useState, useEffect } from "react";
+import { Character, CharacterList } from "@/interfaces/report-interface";
+import { getCharacterList } from "@/api/report";
 import DamagochiHealth from "@/components/report/DamagochiHealth";
 import DamagochiHistory from "@/components/report/DamagochiHistory";
 import UserHealth from "@/components/report/UserHealth";
 import UserHistory from "@/components/report/UserHistory";
-import { useState } from "react";
 
 export default function ModalReport() {
   const [activeMenu, setActiveMenu] = useState("damagochi-report");
+  const [character, setCharacterList] = useState<CharacterList>([]);
 
-  const getComponent = () => {
+  useEffect(() => {
+    async function fetchCharacter() {
+      const data = await getCharacterList();
+      console.log("Fetched character:", data[0]); // Fetch한 캐릭터 데이터 확인
+      setCharacterList([data]); // 첫 번째 캐릭터를 설정합니다.
+    }
+
+    fetchCharacter();
+  }, []);
+
+  const getReportComponent = () => {
     switch (activeMenu) {
       case "damagochi-report":
-        return <DamagochiHealth />;
+        return character ? (
+          <DamagochiHealth character={character[0]} />
+        ) : (
+          <div>Loading...</div>
+        ); // 다마고치 종합 리포트
       case "user-report":
-        return <DamagochiHistory />;
+        return <DamagochiHistory />; // 다마고치 히스토리
       case "damagochi-history":
-        return <UserHealth />;
+        return <UserHealth />; // 사용자 주간 건강 리포트
       case "user-history":
-        return <UserHistory />;
+        return <UserHistory />; // 사용자 종합 건강 히스토리
       default:
         return null;
     }
@@ -27,7 +44,7 @@ export default function ModalReport() {
 
   return (
     <ReportModal activeMenu={activeMenu} setActiveMenu={setActiveMenu}>
-      {getComponent()}
+      {getReportComponent()}
     </ReportModal>
   );
 }

@@ -33,7 +33,7 @@
     }
 
     .button-blue {
-      background-image: url('~/public/images/button-blue.png');
+      background-image: url("~/public/images/button-blue.png");
     }
   }
 
@@ -87,7 +87,7 @@
 }
 
 .inner-background {
-  background-image: url('~/public/images/backgrounds/board-bg.png');
+  background-image: url("~/public/images/backgrounds/board-bg.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -127,7 +127,7 @@
 
 .damagochi-history-detail {
   padding: 2vh;
-  margin: 2vh auto;
+  // margin: 1vh auto;
   box-shadow: 1vh 1vh 1vh rgba(0, 0, 0, 0.1);
 
   .tabs {
@@ -148,5 +148,14 @@
         color: #306fb9;
       }
     }
+  }
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+
+  .info-title {
+    color: #306fb9;
   }
 }
