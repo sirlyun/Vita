@@ -298,7 +298,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			return RequesterGameSingleRankingDetail.builder()
 				.nickname(character.getNickname())
 				.ranking(requesterSingleRanking != null ? requesterSingleRanking + 1 : null)
-				.score(requesterScore.longValue())
+				.score(requesterScore != null ? requesterScore.longValue() : null)
 				.build();
 		}
 		if (type.equals(GameType.training)) {
@@ -310,7 +310,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			return RequesterGameSingleRankingDetail.builder()
 				.nickname(character.getNickname())
 				.ranking(requesterSingleRanking != null ? requesterSingleRanking + 1 : null)
-				.score(requesterScore.longValue())
+				.score(requesterScore != null ? requesterScore.longValue() : null)
 				.build();
 		}
 		Long requesterSingleRanking = redisTemplate.opsForZSet()
@@ -320,7 +320,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 		return RequesterGameSingleRankingDetail.builder()
 			.nickname(character.getNickname())
 			.ranking(requesterSingleRanking != null ? requesterSingleRanking + 1 : null)
-			.score(requesterScore.longValue())
+			.score(requesterScore != null ? requesterScore.longValue() : null)
 			.build();
 	}
 
