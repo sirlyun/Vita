@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.vita.backend.auth.utils.SecurityMember;
 import com.vita.backend.health.data.request.DailySaveRequest;
 import com.vita.backend.health.data.request.FoodSaveRequest;
 import com.vita.backend.health.data.response.FoodResponse;
 import com.vita.backend.health.service.HealthSaveService;
+import com.vita.backend.infra.openai.data.response.OpenAIApiHealthResponse;
 import com.vita.backend.member.service.MemberSaveService;
 
 import jakarta.validation.Valid;
@@ -41,13 +43,13 @@ public class HealthController {
 	}
 
 	@PostMapping("/daily")
-	public ResponseEntity<Void> dailySave(
+	public ResponseEntity<OpenAIApiHealthResponse> dailySave(
 		@RequestBody @Valid DailySaveRequest request,
 		@AuthenticationPrincipal SecurityMember securityMember
-	) {
+	) throws JsonProcessingException {
 		long memberId = securityMember.getId();
-		healthSaveService.dailySave(memberId, request);
+		OpenAIApiHealthResponse openAIApiHealthResponse = healthSaveService.dailySave(memberId, request);
 
-		return ResponseEntity.ok().body(null);
+		return ResponseEntity.ok(openAIApiHealthResponse);
 	}
 }

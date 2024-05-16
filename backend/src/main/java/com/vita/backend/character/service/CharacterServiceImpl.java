@@ -445,6 +445,10 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 				throw new BadRequestException("FindByCharacterIdAndShopId", ITEM_SAVE_BAD_REQUEST);
 			});
 
+		if (character.getVitaPoint() - shop.getVitaPoint() <= 0) {
+			throw new BadRequestException("ItemSave", ITEM_SAVE_VITA_BAD_REQUEST);
+		}
+
 		characterShopRepository.save(CharacterShop.builder()
 			.character(character)
 			.shop(shop)
