@@ -22,9 +22,10 @@ type Props = {
 const BasicInfo = ({ character }: { character: Character }) => (
   <div>
     <p>이름: {character.nickname}</p>
-    <p>체력: {character.vita_point}</p>
+    {/* <p>생명력: {character.vita_point}</p> */}
+    <p>생명력: 0</p>
     <p>상태: {character.is_dead ? "사망" : "생존"}</p>
-    <p>성별: {character.gender}</p>
+    {/* <p>성별: {character.gender}</p> */}
     <p>체형: {character.body_shape}</p>
   </div>
 );
@@ -86,7 +87,7 @@ const DamagochiHistoryDetail: React.FC<Props> = ({ character }) => {
           >
             기본정보
           </span>
-          <span
+          {/* <span
             className={activeTab === "inventory" ? "active" : ""}
             onClick={() => setActiveTab("inventory")}
           >
@@ -97,7 +98,7 @@ const DamagochiHistoryDetail: React.FC<Props> = ({ character }) => {
             onClick={() => setActiveTab("pvpRecord")}
           >
             PvP전적
-          </span>
+          </span> */}
         </div>
         <div>{renderTabContent()}</div>
       </div>

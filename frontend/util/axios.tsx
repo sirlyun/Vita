@@ -41,6 +41,7 @@ localAxios.interceptors.response.use(
   (response) => {
     // 응답 헤더에서 refresh_token을 가져와 localStorage에 저장
     const refreshToken = response.headers["refresh_token"];
+    console.log("refreshToken : ", refreshToken);
     if (refreshToken) {
       useUserStore().setRefreshToken(refreshToken);
     }

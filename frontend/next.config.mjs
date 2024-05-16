@@ -15,7 +15,7 @@ const nextConfig = {
 
 // module.exports = {
 //   images: {
-//     domains: ["https://k10a103.p.ssafy.io/api/v1"], // 여기에 허용할 외부 도메인을 추가하세요
+//     domains: ["k10a103.p.ssafy.io/api/v1"], // 여기에 허용할 외부 도메인을 추가하세요
 //   },
 // };
 

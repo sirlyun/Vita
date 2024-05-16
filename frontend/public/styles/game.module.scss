@@ -4,7 +4,9 @@
   justify-content: space-between;
   align-items: center;
   height: 100vh;
-  background-image: url("~/public/images/backgrounds/game/running-bg.png");
+  // background-image: url("~/public/images/backgrounds/game/running-bg.png");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("~/public/images/backgrounds/game/running-bg.png");
 
   .title {
     height: 10%;
@@ -102,4 +104,28 @@
   height: 100%;
   display: flex;
   align-items: center;
+}
+
+.dark {
+  // filter: brightness(50%);
+  background-image: rgba(0, 0, 0, 0.3);
+}
+
+.description {
+  height: 100%;
+  padding: 7vh 10vw 0 11vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.warning {
+  text-align: center;
+  color: red;
+}
+
+.disabled {
+  img {
+    opacity: 0.5;
+  }
 }
