@@ -17,7 +17,7 @@ const BasicInfo = ({
   character: Character;
   characterReport: CharacterReport;
 }) => (
-  <div>
+  <div className={report["damagochi-health"]}>
     <div className={report["info"]}>
       <span className={report["info-title"]}>생성일</span>
       <span>{characterReport.created_at}</span>

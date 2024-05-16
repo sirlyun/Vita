@@ -83,6 +83,16 @@ async function getItemList() {
     });
 }
 
+// 죽은 캐릭터 전체 조회
+async function getDeadCharacterList() {
+  return localAxios
+    .get("/character/reports")
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+}
+
 export {
   getCharacterList,
   getHealthReport,
@@ -92,6 +102,7 @@ export {
   getCharacterReportList,
   getCharacterReportDetail,
   getItemList,
+  getDeadCharacterList,
   dummyData,
 };
 

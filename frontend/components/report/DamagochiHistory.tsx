@@ -3,21 +3,26 @@ import DamagochiHistoryDetail from "./DamagochiHistoryDetail";
 import Image from "next/image";
 import images, { getUserCharacterImagePath } from "@/util/images.js";
 import report from "@/public/styles/report.module.scss";
-import { getCharacterList } from "@/api/report";
-import { CharacterList } from "@/interfaces/report-interface";
+import { getDeadCharacterList } from "@/api/report";
+import { CharacterList, Character } from "@/interfaces/report-interface";
 
 export default function DamagochiHistory() {
   // 캐릭터 목록을 저장할 상태 변수
   const [characterList, setCharacterList] = useState<CharacterList>([]);
   const [showDetail, setShowDetail] = useState(false);
-  const [selectedCharacter, setSelectedCharacter] = useState(null);
+  // const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null
+  );
 
   // API로부터 캐릭터 목록 가져오기
   useEffect(() => {
     async function fetchCharacterList() {
-      const data = await getCharacterList();
+      const data = await getDeadCharacterList();
       console.log("Received data:", data);
-      setCharacterList([data]);
+      // setCharacterList([data]);
+      // setCharacterList(data);
+      setCharacterList(data.character_report); // character_report 배열을 상태로 설정
     }
 
     fetchCharacterList();
