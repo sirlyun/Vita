@@ -13,5 +13,11 @@ const nextConfig = {
   reactStrictMode: false,
 }; // 여기에 기존 설정을 입력하세요.
 
+module.exports = {
+  images: {
+    domains: ["https://k10a103.p.ssafy.io/api/v1"], // 여기에 허용할 외부 도메인을 추가하세요
+  },
+};
+
 // ES 모듈 문법을 사용하여 설정을 내보냅니다.
 export default pwaConfig(nextConfig);
