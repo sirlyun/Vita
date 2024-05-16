@@ -3,13 +3,40 @@ import styles from "@/public/styles/challenge.module.scss";
 import Image from "next/image";
 import { getIconPath } from "@/util/icons";
 import useStopPropagation from "@/components/UseStopPropagation";
+import { useEffect, useState } from "react";
+import { getDailyChallenge } from "@/api/challenge";
 
 interface ChallengeFrameProps {
   onClose: () => void;
 }
 
+interface Challenge {
+  challenge_id: number;
+  name: string;
+  standard: number;
+  score: number;
+}
+
 export default function ChallengeFrame({ onClose }: ChallengeFrameProps) {
   const handleModalContentClick = useStopPropagation();
+
+  const [challengeData, setChallengeData] = useState<Challenge[]>([]);
+
+  // 일일 챌린지 가져오기
+  const fetchDailyChallenge = async () => {
+    try {
+      const fetchedDailyChallenge = await getDailyChallenge();
+
+      setChallengeData(fetchedDailyChallenge.challenge);
+    } catch (error) {
+      console.error("일일 챌린지 데이터를 가져오는데 실패했습니다", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDailyChallenge();
+  }, []);
+
   return (
     <div
       className={`${styles["dark-overlay"]} dark-overlay-recycle`}
@@ -33,18 +60,19 @@ export default function ChallengeFrame({ onClose }: ChallengeFrameProps) {
           <p className={styles["challenge-title-text"]}>일일 챌린지</p>
         </div>
         <div className={`${styles["modal-content"]} modal-content-recycle`}>
-          <div className={styles["challenge-info-frame"]}>
-            <div>5000 걸음 걷기</div>
-            <div className={styles["challenge-score"]}>
-              <div>2500/5000걸음</div>
+          {challengeData.map((challenge) => (
+            <div
+              key={challenge.challenge_id}
+              className={styles["challenge-info-frame"]}
+            >
+              <div>{challenge.name}</div>
+              <div className={styles["challenge-score"]}>
+                <div>
+                  {challenge.score}/{challenge.standard}걸음
+                </div>
+              </div>
             </div>
-          </div>
-          <div className={styles["challenge-info-frame"]}>
-            <div>7시간 수면</div>
-            <div className={styles["challenge-score"]}>
-              <div>6/7시간</div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

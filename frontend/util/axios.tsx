@@ -1,5 +1,6 @@
 import axios from "axios";
 import useUserStore from "@/store/user-store";
+import { reissue } from "@/api/login";
 
 // 환경 변수에서 API URL과 토큰을 읽어옵니다.
 const API_URL = "https://k10a103.p.ssafy.io/api/v1";
@@ -39,12 +40,6 @@ localAxios.interceptors.request.use(
 // 응답 인터셉터
 localAxios.interceptors.response.use(
   (response) => {
-    // 응답 헤더에서 refresh_token을 가져와 localStorage에 저장
-    const refreshToken = response.headers["refresh_token"];
-    console.log("refreshToken : ", refreshToken);
-    if (refreshToken) {
-      useUserStore().setRefreshToken(refreshToken);
-    }
     return response;
   },
   (error) => {
