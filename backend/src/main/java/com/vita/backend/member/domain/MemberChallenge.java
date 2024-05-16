@@ -62,5 +62,14 @@ public class MemberChallenge {
 
 	public void challengeInit() {
 		this.score = 0L;
+		this.isDone = false;
+	}
+
+	public void plusScore(Long newScore) {
+		this.score += newScore;
+	}
+
+	public void isDoneUpdate(Boolean newIsDone) {
+		this.isDone = newIsDone;
 	}
 }
