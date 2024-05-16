@@ -3,16 +3,6 @@ const getIconPath = (name) => {
 };
 
 const icons = {
-  // option: "/icons/option-icon.png",
-  // daily: "/icons/daily-icon.png",
-  // hospital: "/icons/hospital-icon.png",
-  // report: "/icons/report-icon.png",
-  // single: "/icons/single-icon.png",
-  // pvp: "/icons/pvp-icon.png",
-  // shop: "/icons/shop-icon.png",
-  // running: "/icons/running-icon.png",
-  // gym: "/icons/gym-icon.png",
-  // cancel: "/icons/cancel.png",
   home: "/icons/home-icon.png",
   kcal: "/icons/kcal-icon.png",
   salt: "/icons/salt-icon.png",
@@ -40,12 +30,5 @@ const icons = {
   female: "/icons/female-icon.png",
   // "google-logo": "/icons/google-logo-icon.png",
 };
-
-const debuffIcons = [
-  { name: "alcohol", ref: "/icons/debuff-alcohol-icon.png" },
-  { name: "cigarette", ref: "/icons/debuff-cigarette-icon.png" },
-  { name: "food", ref: "/icons/debuff-food-icon.png" },
-  { name: "chronic", ref: "/icons/debuff-chronic-icon.png" },
-];
 
 export { icons, debuffIcons, getIconPath };
