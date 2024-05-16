@@ -445,6 +445,10 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 				throw new BadRequestException("FindByCharacterIdAndShopId", ITEM_SAVE_BAD_REQUEST);
 			});
 
+		if (character.getVitaPoint() - shop.getVitaPoint() <= 0) {
+			throw new BadRequestException("ItemSave", ITEM_SAVE_VITA_BAD_REQUEST);
+		}
+
 		characterShopRepository.save(CharacterShop.builder()
 			.character(character)
 			.shop(shop)
@@ -522,12 +526,12 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 		System.out.println(
 			"redisTemplate.hasKey(\"running_single_ranking\") = " + redisTemplate.hasKey("running_single_ranking"));
 		if (Boolean.TRUE.equals(redisTemplate.hasKey("running_single_ranking"))) {
-			redisTemplate.opsForZSet().remove("running_single_ranking");
+			redisTemplate.delete("running_single_ranking");
 		}
 		System.out.println(
 			"redisTemplate.hasKey(\"training_single_ranking\") = " + redisTemplate.hasKey("training_single_ranking"));
 		if (Boolean.TRUE.equals(redisTemplate.hasKey("training_single_ranking"))) {
-			redisTemplate.opsForZSet().remove("training_single_ranking");
+			redisTemplate.delete("training_single_ranking");
 		}
 	}
 

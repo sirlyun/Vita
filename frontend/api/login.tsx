@@ -17,4 +17,10 @@ async function logout() {
   });
 }
 
-export { login, logout };
+async function reissue() {
+  return localAxios.get("/reissue").catch((error) => {
+    throw error;
+  });
+}
+
+export { login, logout, reissue };

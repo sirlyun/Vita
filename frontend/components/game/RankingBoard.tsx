@@ -18,12 +18,10 @@ export default function RankingBoardpage() {
 
       // rankingList 초기화
       setRankingList(fetchedRankingList);
-
       console.log("fetchedRankingList: ", fetchedRankingList);
-      console.log("rankingList: ", rankingList);
+
       // 최고 기록 초기화
       if (fetchedRankingList) {
-        console.log("Are u in if condition?");
         userStore.runningBestRecord = fetchedRankingList.running
           ? fetchedRankingList.running.requester_ranking.score
           : 9999999;
@@ -32,7 +30,6 @@ export default function RankingBoardpage() {
           : 0;
       }
       console.log("userStore: ", userStore);
-      console.log(rankingList);
     } catch (error) {
       console.log("ranking data fetch failed: ", error);
     }
@@ -41,7 +38,6 @@ export default function RankingBoardpage() {
   const handleClick = (menuName: string) => {
     setActiveMenu(menuName);
   };
-  console.log("what are youu?", rankingList);
 
   useEffect(() => {
     fetchRankingList();

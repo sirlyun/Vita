@@ -158,7 +158,7 @@ export default function createCharacter() {
       smokeValue,
       drinkValue
     );
-    document.cookie = `chracterId=${"created"}; path=/; max-age=36000; secure; SameSite=None`;
+    document.cookie = `characterId=${"created"}; path=/; max-age=36000; secure; SameSite=None`;
 
     router.push("/");
   };

@@ -5,13 +5,14 @@ import static com.vita.backend.global.exception.response.ErrorCode.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.CharacterDeBuff;
 import com.vita.backend.character.domain.DeBuff;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
@@ -32,7 +33,9 @@ import com.vita.backend.health.repository.DailyHealthRepository;
 import com.vita.backend.health.repository.FoodRepository;
 import com.vita.backend.infra.google.GoogleClient;
 import com.vita.backend.infra.openai.OpenAIVisionClient;
+import com.vita.backend.infra.openai.data.request.OpenAIHealthRequest;
 import com.vita.backend.infra.openai.data.response.OpenAIApiFoodResponse;
+import com.vita.backend.infra.openai.data.response.OpenAIApiHealthResponse;
 import com.vita.backend.member.domain.Challenge;
 import com.vita.backend.member.domain.Member;
 import com.vita.backend.member.domain.MemberChallenge;
@@ -108,12 +111,14 @@ public class HealthServiceImpl implements HealthSaveService {
 
 	/**
 	 * 일일 건강 문진 등록
+	 *
 	 * @param memberId 요청자 member_id
-	 * @param request 일일 건강 문진 정보
+	 * @param request  일일 건강 문진 정보
+	 * @return 건강 평가
 	 */
 	@Transactional
 	@Override
-	public void dailySave(long memberId, DailySaveRequest request) {
+	public OpenAIApiHealthResponse dailySave(long memberId, DailySaveRequest request) throws JsonProcessingException {
 		MemberUtils.findByMemberId(memberRepository, memberId);
 		LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
 		LocalDateTime endOfDay = LocalDate.now().atTime(23, 59, 59);
@@ -129,7 +134,8 @@ public class HealthServiceImpl implements HealthSaveService {
 				characterDeBuffRepository.findByDeBuffIdAndCharacterId(smokeDeBuff.getId(), character.getId())
 					.ifPresentOrElse(characterDeBuff -> {
 						if (request.smoke() != null) {
-							Long smokeValue = CharacterUtils.deBuffValueCalculator(request.smoke().smokeType().getValue(),
+							Long smokeValue = CharacterUtils.deBuffValueCalculator(
+								request.smoke().smokeType().getValue(),
 								request.smoke().level().getValue());
 							characterDeBuff.characterDeBuffUpdate(smokeValue);
 						} else {
@@ -137,7 +143,8 @@ public class HealthServiceImpl implements HealthSaveService {
 						}
 					}, () -> {
 						if (request.smoke() != null) {
-							Long smokeValue = CharacterUtils.deBuffValueCalculator(request.smoke().smokeType().getValue(),
+							Long smokeValue = CharacterUtils.deBuffValueCalculator(
+								request.smoke().smokeType().getValue(),
 								request.smoke().level().getValue());
 							CharacterDeBuff characterDeBuff = CharacterDeBuff.builder()
 								.vitaPoint(smokeValue)
@@ -151,7 +158,8 @@ public class HealthServiceImpl implements HealthSaveService {
 				characterDeBuffRepository.findByDeBuffIdAndCharacterId(drinkDeBuff.getId(), character.getId())
 					.ifPresentOrElse(characterDeBuff -> {
 						if (request.drink() != null) {
-							Long drinkValue = CharacterUtils.deBuffValueCalculator(request.drink().drinkType().getValue(),
+							Long drinkValue = CharacterUtils.deBuffValueCalculator(
+								request.drink().drinkType().getValue(),
 								request.drink().level().getValue());
 							characterDeBuff.characterDeBuffUpdate(drinkValue);
 						} else {
@@ -159,7 +167,8 @@ public class HealthServiceImpl implements HealthSaveService {
 						}
 					}, () -> {
 						if (request.drink() != null) {
-							Long drinkValue = CharacterUtils.deBuffValueCalculator(request.drink().drinkType().getValue(),
+							Long drinkValue = CharacterUtils.deBuffValueCalculator(
+								request.drink().drinkType().getValue(),
 								request.drink().level().getValue());
 							CharacterDeBuff characterDeBuff = CharacterDeBuff.builder()
 								.vitaPoint(drinkValue)
@@ -172,7 +181,9 @@ public class HealthServiceImpl implements HealthSaveService {
 			});
 
 		Object googleToken = redisTemplate.opsForValue().get("google:" + memberId);
+		System.out.println("googleToken = " + googleToken);
 		Long userFitness = googleClient.getUserFitness(googleToken);
+		System.out.println("userFitness = " + userFitness);
 
 		DailyHealth dailyHealth = DailyHealth.builder()
 			.memberId(memberId)
@@ -194,5 +205,22 @@ public class HealthServiceImpl implements HealthSaveService {
 		if (memberChallenge.getScore() < health.getStandard()) {
 			memberChallenge.plusScore(1L);
 		}
+
+		Character character = characterRepository.findLastCreatedCharacterByMemberId(memberId).get();
+		OpenAIHealthRequest openAIHealthRequest = OpenAIHealthRequest.builder()
+			.height(character.getHeight())
+			.weight(character.getWeight())
+			.openAIFoodDetail(foodRepository.findNutrientSumForToday())
+			.smokeDetail(request.smoke() != null ? SmokeDetail.builder()
+				.smokeType(request.smoke().smokeType())
+				.level(request.smoke().level())
+				.build() : null)
+			.drinkDetail(request.drink() != null ? DrinkDetail.builder()
+				.drinkType(request.drink().drinkType())
+				.level(request.drink().level())
+				.build() : null)
+			.fitness(userFitness)
+			.build();
+		return openAIVisionClient.getHealthReview(openAIHealthRequest);
 	}
 }

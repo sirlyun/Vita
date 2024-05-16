@@ -81,19 +81,22 @@ public class GoogleClient {
 		if (token == null) {
 			return 0L;
 		}
-
+		System.out.println("token = " + token);
 		String getUserFitnessUri = "https://www.googleapis.com/fitness/v1/users/me/dataSources/derived:com.google.calories.expended:com.google.android.gms:merge_calories_expended/datasets/";
 		ZonedDateTime midnight = LocalDateTime.now().toLocalDate().atStartOfDay(ZoneId.systemDefault());
 		long midnightNanos = midnight.toInstant().getEpochSecond() * 1_000_000_000 + midnight.toInstant().getNano();
 		Instant now = Instant.now();
 		long nowNanos = now.getEpochSecond() * 1_000_000_000 + now.getNano();
 		getUserFitnessUri += midnightNanos + "-" + nowNanos;
+		System.out.println("getUserFitnessUri = " + getUserFitnessUri);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> entity = new HttpEntity<>(headers);
+		System.out.println("entity = " + entity);
 		ResponseEntity<GoogleUserFitnessResponse> googleUserInfoResponse = restTemplate.exchange(getUserFitnessUri,
 			HttpMethod.GET, entity,
 			GoogleUserFitnessResponse.class);
+		System.out.println("googleUserInfoResponse = " + googleUserInfoResponse);
 		if (googleUserInfoResponse.getStatusCode() == HttpStatus.UNAUTHORIZED) {
 			throw new UnAuthorizedException("GoogleUserInfo", GOOGLE_USER_INFO);
 		}

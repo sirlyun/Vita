@@ -20,6 +20,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.vita.backend.character.domain.DeBuff;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.repository.CharacterDeBuffRepository;
@@ -306,7 +307,7 @@ class HealthServiceImplTest {
 
 		@Test
 		@DisplayName("일일 건강 문진 등록 성공")
-		void success() {
+		void success() throws JsonProcessingException {
 			// given
 			Member member = Member.builder()
 				.uuid("test")
