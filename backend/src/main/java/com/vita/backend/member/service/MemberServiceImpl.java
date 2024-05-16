@@ -173,10 +173,13 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 	@Override
 	public void challengeInit() {
 		List<Member> members = memberRepository.findAll();
+		System.out.println("members = " + members);
 		members.forEach(member -> {
 			List<MemberChallenge> memberChallenges = memberChallengeRepository.findByMemberId(member.getId());
+			System.out.println("memberChallenges = " + memberChallenges);
 			if (memberChallenges.isEmpty()) {
 				List<Challenge> challenges = challengeRepository.findAll();
+				System.out.println("challenges = " + challenges);
 				challenges.forEach(challenge -> {
 					memberChallengeRepository.save(MemberChallenge.builder()
 						.score(0L)
@@ -187,6 +190,7 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 					);
 				});
 			} else {
+				System.out.println("memberChallenges = " + memberChallenges);
 				memberChallenges.forEach(MemberChallenge::challengeInit);
 			}
 		});
