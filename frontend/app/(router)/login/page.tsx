@@ -4,14 +4,16 @@ import styles from "@/public/styles/login.module.scss";
 import GoogleSignIn from "@/components/ui/GoogleSignInButton";
 import { useSearchParams, useRouter } from "next/navigation";
 import { login } from "@/api/login";
-import { Suspense, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getMyCharacterInfo } from "@/api/character";
 
-function LoginComponent() {
+export default function LoginComponent() {
   const searchParam = useSearchParams();
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const queryCode = searchParam.get("code");
     const authenticateAndFetchChracter = async () => {
       if (queryCode) {
@@ -42,6 +44,9 @@ function LoginComponent() {
     };
     authenticateAndFetchChracter();
   }, [searchParam, router]);
+  if (!isClient) {
+    return null; // 클라이언트에서만 렌더링
+  }
 
   return (
     <div className={`${styles.main} background`}>
@@ -52,13 +57,5 @@ function LoginComponent() {
         </div>
       </div>
     </div>
-  );
-}
-
-export default function Login() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <LoginComponent />
-    </Suspense>
   );
 }
