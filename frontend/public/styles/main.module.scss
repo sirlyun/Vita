@@ -67,9 +67,17 @@
   .damagochi {
     width: 60%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-bottom: 15%;
+    padding-bottom: 2vh;
+
+    p {
+      background-color: rgba($color: #000000, $alpha: 0.6);
+      color: white;
+      padding: 1vh 1.5vh;
+      border-radius: 15px;
+    }
   }
 
   img {

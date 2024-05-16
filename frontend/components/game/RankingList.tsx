@@ -1,5 +1,4 @@
-import RunningRanker from "@/components/game/RunningRanker";
-import FitnessRanker from "@/components/game/TrainingRanker";
+import Ranker from "@/components/game/Ranker";
 import styles from "@/public/styles/game.module.scss";
 
 export default function RankingListPage({
@@ -10,11 +9,28 @@ export default function RankingListPage({
 
   return (
     <div className={styles["ranking-container"]}>
-      {activeMenu === "running" ? (
-        rankingList.running && rankingList.running.total_ranking.length > 0 ? (
-          rankingList.running.total_ranking.map((ranker, index) => (
-            <RunningRanker
+      <div>
+        {activeMenu === "running" ? (
+          rankingList.running &&
+          rankingList.running.total_ranking.length > 0 ? (
+            rankingList.running.total_ranking.map((ranker, index) => (
+              <Ranker
+                key={ranker.nickname} // 'rank'가 아닌 'nickname'을 key로 사용
+                type={activeMenu}
+                rank={index + 1}
+                name={ranker.nickname}
+                score={ranker.score}
+              />
+            ))
+          ) : (
+            <div className={`${styles["pd-top-40"]}`}>No data</div>
+          )
+        ) : rankingList.training &&
+          rankingList.training.total_ranking.length > 0 ? (
+          rankingList.training.total_ranking.map((ranker, index) => (
+            <Ranker
               key={ranker.nickname} // 'rank'가 아닌 'nickname'을 key로 사용
+              type={activeMenu}
               rank={index + 1}
               name={ranker.nickname}
               score={ranker.score}
@@ -22,19 +38,30 @@ export default function RankingListPage({
           ))
         ) : (
           <div className={`${styles["pd-top-40"]}`}>No data</div>
-        )
-      ) : rankingList.training &&
-        rankingList.training.total_ranking.length > 0 ? (
-        rankingList.training.total_ranking.map((ranker, index) => (
-          <FitnessRanker
-            key={ranker.nickname} // 'rank'가 아닌 'nickname'을 key로 사용
-            rank={index + 1}
-            name={ranker.nickname}
-            score={ranker.score}
-          />
-        ))
+        )}
+      </div>
+      {activeMenu === "running" &&
+      rankingList.running &&
+      rankingList.running.requester_ranking ? (
+        <Ranker
+          key={rankingList.running.requester_ranking.nickname}
+          type={activeMenu}
+          rank={rankingList.running.requester_ranking.ranking}
+          name={rankingList.running.requester_ranking.nickname}
+          score={rankingList.running.requester_ranking.score}
+        />
+      ) : activeMenu === "training" &&
+        rankingList.training &&
+        rankingList.training.requester_ranking ? (
+        <Ranker
+          key={rankingList.training.requester_ranking.nickname}
+          type={activeMenu}
+          rank={rankingList.training.requester_ranking.ranking}
+          name={rankingList.training.requester_ranking.nickname}
+          score={rankingList.training.requester_ranking.score}
+        />
       ) : (
-        <div className={`${styles["pd-top-40"]}`}>No data</div>
+        <Ranker key={0} type={activeMenu} rank={0} name={"내 기록"} score={0} />
       )}
     </div>
   );

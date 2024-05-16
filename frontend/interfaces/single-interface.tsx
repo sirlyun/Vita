@@ -31,3 +31,10 @@ interface RankingListPageProps {
   rankingList: RankingListProps;
   activeMenu: string;
 }
+
+interface RankerPageProps {
+  type: string;
+  rank: number;
+  name: string;
+  score: number;
+}

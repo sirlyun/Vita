@@ -11,10 +11,11 @@ import { getUserCharacterImagePath, getBackgroundUrl } from "@/util/images";
 import { getMyCharacterInfo } from "@/api/character";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const userStore = useUserStore();
-  console.log(userStore);
   const [challengeModal, setChallengeModal] = useState(false);
   const [myCharacterInfo, setMyCharacterInfo] = useState<Character | null>(
     null
@@ -28,13 +29,21 @@ export default function Home() {
         const characterInfo = await getMyCharacterInfo();
         console.log("캐릭터 조회 성공!", characterInfo);
 
+        // 캐릭터가 죽었을 때 characterId 쿠키 삭제
+        if (characterInfo.is_dead) {
+          document.cookie =
+            "characterId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          // router.push("/death");
+        }
+
         // 내 캐릭터 정보 저장
         setMyCharacterInfo(characterInfo);
 
         // 이후를 위한 스토어 별도 저장
         userStore.gender = characterInfo.gender;
         userStore.bodyShape = characterInfo.body_shape;
-        userStore.name = characterInfo.name;
+        userStore.name = characterInfo.nickname;
+        console.log("스토어 저장 후: ", userStore);
       } catch (error) {
         console.log("캐릭터 조회에 실패했습니다!.", error);
       }
@@ -56,7 +65,9 @@ export default function Home() {
 
   const backgroundName = getBackgroundName();
   const backgroundStyle = {
-    backgroundImage: `url(${getBackgroundUrl(backgroundName)})`,
+    backgroundImage: `url(${getBackgroundUrl(
+      backgroundName ? backgroundName : "main-2500ms"
+    )})`,
   };
 
   return (
@@ -99,11 +110,13 @@ export default function Home() {
               )}
               width={300}
               height={300}
+              priority
               alt="damagochi"
             ></Image>
           ) : (
             ""
           )}
+          <p>{myCharacterInfo?.nickname}</p>
         </div>
         <div className={styles["debuff-menu"]}>
           {myCharacterInfo &&
