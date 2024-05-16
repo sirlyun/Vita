@@ -171,6 +171,10 @@
   .info-tmp {
     text-align: left;
     width: 48%;
+
+    ul {
+      list-style-type: square;
+    }
   }
 }
 

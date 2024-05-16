@@ -74,7 +74,7 @@ export function ReportModal({
               alt="option"
             ></Image>
           </button>
-          <button
+          {/* <button
             className={`${report["button-blue"]} ${
               activeMenu === "damagochi-history" ? "" : report.inactive
             }`}
@@ -99,7 +99,7 @@ export function ReportModal({
               height={60}
               alt="option"
             ></Image>
-          </button>
+          </button> */}
         </div>
         <div className={`${report["modal-inner"]} bg`}>{children}</div>
       </div>
