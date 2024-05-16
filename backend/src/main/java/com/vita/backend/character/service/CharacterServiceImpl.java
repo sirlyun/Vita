@@ -421,6 +421,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 		if (Objects.equals(redisTemplate.opsForValue().get(attendanceKey), "unconfirmed")) {
 			character.vitaUpdate(1L);
 			receiptProvider.receiptSave(characterId, ReceiptType.ATTENDANCE, true, 1L, character.getVitaPoint());
+			redisTemplate.opsForValue().set(attendanceKey, "confirmed");
 			return;
 		}
 
