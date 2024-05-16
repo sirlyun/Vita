@@ -16,6 +16,7 @@ import com.vita.backend.health.data.request.DailySaveRequest;
 import com.vita.backend.health.data.request.FoodSaveRequest;
 import com.vita.backend.health.data.response.FoodResponse;
 import com.vita.backend.health.service.HealthSaveService;
+import com.vita.backend.member.service.MemberSaveService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
