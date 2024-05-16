@@ -52,7 +52,7 @@ export default function CheckDrink({ drinkQuantity, setDrinkQuantity }: Props) {
           }
         >
           <Image
-            src={getIconPath("soju")}
+            src={getIconPath("SOJU")}
             width={60}
             height={60}
             alt="soju-icon"
