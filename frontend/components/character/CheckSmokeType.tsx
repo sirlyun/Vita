@@ -22,7 +22,7 @@ export default function CheckSmokeType({ smokeType, setSmokeType }: Props) {
           className={
             smokeType === "none"
               ? styles["selected-div"]
-              : smokeType === "liquid"
+              : smokeType === "LIQUID"
               ? styles["selected-div"]
               : styles["unselected-div"]
           }
@@ -44,7 +44,7 @@ export default function CheckSmokeType({ smokeType, setSmokeType }: Props) {
           className={
             smokeType === "none"
               ? styles["selected-div"]
-              : smokeType === "heated"
+              : smokeType === "HEATED"
               ? styles["selected-div"]
               : styles["unselected-div"]
           }
@@ -66,7 +66,7 @@ export default function CheckSmokeType({ smokeType, setSmokeType }: Props) {
           className={
             smokeType === "none"
               ? styles["selected-div"]
-              : smokeType === "cigarette"
+              : smokeType === "CIGARETTE"
               ? styles["selected-div"]
               : styles["unselected-div"]
           }

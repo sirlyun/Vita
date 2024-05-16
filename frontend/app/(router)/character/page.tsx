@@ -149,6 +149,8 @@ export default function createCharacter() {
     const smokeValue = quantity === "null" ? null : smoke;
     const drinkValue = drinkQuantity === "null" ? null : drink;
 
+    console.log(nickname, height, weight, smokeValue, drinkValue);
+
     const responseCharacter = await createdCharacter(
       nickname,
       Number(height),
@@ -156,7 +158,7 @@ export default function createCharacter() {
       smokeValue,
       drinkValue
     );
-    document.cookie = `chracterId=${responseCharacter.character_id}; path=/; max-age=36000; secure; SameSite=None`;
+    document.cookie = `chracterId=${"created"}; path=/; max-age=36000; secure; SameSite=None`;
 
     router.push("/");
   };

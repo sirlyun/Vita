@@ -99,7 +99,7 @@ export default function CheckDrink({ drinkQuantity, setDrinkQuantity }: Props) {
             src={getIconPath("soju-three")}
             width={60}
             height={60}
-            alt="soju-threee-icon"
+            alt="soju-three-icon"
           />
         </div>
         <p>2병 이상</p>

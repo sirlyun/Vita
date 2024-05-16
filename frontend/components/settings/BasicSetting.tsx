@@ -18,6 +18,8 @@ export default function BasicSettingPage({
         "characterId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       document.cookie =
         "memberId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
       router.push("/login");
     } catch (error) {
