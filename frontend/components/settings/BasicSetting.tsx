@@ -1,7 +1,6 @@
 "use client";
 import styles from "@/public/styles/modal.module.scss";
 import { logout } from "@/api/login";
-import useUserStore from "@/store/user-store";
 import { useRouter } from "next/navigation";
 export default function BasicSettingPage({
   setSettingOption,
@@ -9,17 +8,14 @@ export default function BasicSettingPage({
   setSettingOption: (option: number) => void;
 }) {
   const router = useRouter();
+  const COOKIE_EXPIRE = "expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   const fetchLogout = async () => {
     try {
       await logout();
-      document.cookie =
-        "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      document.cookie =
-        "characterId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      document.cookie =
-        "memberId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      document.cookie =
-        "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = `accessToken=; ${COOKIE_EXPIRE}`;
+      document.cookie = `characterId=; ${COOKIE_EXPIRE}`;
+      document.cookie = `memberId=; ${COOKIE_EXPIRE}`;
+      document.cookie = `refreshToken=; ${COOKIE_EXPIRE}`;
 
       router.push("/login");
     } catch (error) {

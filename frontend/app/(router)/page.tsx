@@ -14,7 +14,6 @@ import { useState } from "react";
 
 export default function Home() {
   const userStore = useUserStore();
-  console.log(userStore);
   const [challengeModal, setChallengeModal] = useState(false);
   const [myCharacterInfo, setMyCharacterInfo] = useState<Character | null>(
     null
@@ -34,7 +33,8 @@ export default function Home() {
         // 이후를 위한 스토어 별도 저장
         userStore.gender = characterInfo.gender;
         userStore.bodyShape = characterInfo.body_shape;
-        userStore.name = characterInfo.name;
+        userStore.name = characterInfo.nickname;
+        console.log("스토어 저장 후: ", userStore);
       } catch (error) {
         console.log("캐릭터 조회에 실패했습니다!.", error);
       }
@@ -56,7 +56,9 @@ export default function Home() {
 
   const backgroundName = getBackgroundName();
   const backgroundStyle = {
-    backgroundImage: `url(${getBackgroundUrl(backgroundName)})`,
+    backgroundImage: `url(${getBackgroundUrl(
+      backgroundName ? backgroundName : "main-2500ms"
+    )})`,
   };
 
   return (
@@ -99,11 +101,13 @@ export default function Home() {
               )}
               width={300}
               height={300}
+              priority
               alt="damagochi"
             ></Image>
           ) : (
             ""
           )}
+          <p>{myCharacterInfo?.nickname}</p>
         </div>
         <div className={styles["debuff-menu"]}>
           {myCharacterInfo &&
