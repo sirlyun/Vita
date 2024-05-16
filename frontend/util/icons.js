@@ -31,4 +31,4 @@ const icons = {
   // "google-logo": "/icons/google-logo-icon.png",
 };
 
-export { icons, debuffIcons, getIconPath };
+export { icons, getIconPath };
