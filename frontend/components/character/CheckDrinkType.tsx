@@ -22,7 +22,7 @@ export default function CheckSmokeType({ drinkType, setDrinkType }: Props) {
           className={
             drinkType === "none"
               ? styles["selected-div"]
-              : drinkType === "liquid"
+              : drinkType === "SOJU"
               ? styles["selected-div"]
               : styles["unselected-div"]
           }
@@ -44,7 +44,7 @@ export default function CheckSmokeType({ drinkType, setDrinkType }: Props) {
           className={
             drinkType === "none"
               ? styles["selected-div"]
-              : drinkType === "heated"
+              : drinkType === "BEER"
               ? styles["selected-div"]
               : styles["unselected-div"]
           }
@@ -66,7 +66,7 @@ export default function CheckSmokeType({ drinkType, setDrinkType }: Props) {
           className={
             drinkType === "none"
               ? styles["selected-div"]
-              : drinkType === "cigarette"
+              : drinkType === "LIQUOR"
               ? styles["selected-div"]
               : styles["unselected-div"]
           }
