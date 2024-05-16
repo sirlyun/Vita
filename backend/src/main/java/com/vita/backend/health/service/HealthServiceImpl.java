@@ -164,8 +164,11 @@ public class HealthServiceImpl implements HealthSaveService {
 					});
 			});
 
+		System.out.println("hello");
 		Object googleToken = redisTemplate.opsForValue().get("google:" + memberId);
+		System.out.println("googleToken = " + googleToken);
 		Long userFitness = googleClient.getUserFitness(googleToken);
+		System.out.println("userFitness = " + userFitness);
 
 		DailyHealth dailyHealth = DailyHealth.builder()
 			.memberId(memberId)
