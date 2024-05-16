@@ -15,7 +15,7 @@ public class Scheduler {
 	private final CharacterSaveService characterSaveService;
 	private final MemberSaveService memberSaveService;
 
-	@Scheduled(cron = "0 0 * * * *")
+	@Scheduled(cron = "0 */10 * * * *")
 	public void characterUpdate() {
 		characterSaveService.characterVitaUpdate();
 		characterSaveService.rankingReset();
