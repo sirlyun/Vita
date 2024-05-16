@@ -24,6 +24,7 @@ export default function LoginComponent() {
           document.cookie = `accessToken=${fetchedLogin.token.access_token}; path=/; max-age=3600*3; secure; SameSite=None`;
 
           const checkCharacter = await getMyCharacterInfo();
+          console.log("로그인 response: ", checkCharacter);
           // 회원 정보가 등록되어 있으면서, 캐릭터가 죽은 상태가 아닐떄
           if (
             checkCharacter.character_id !== undefined &&
