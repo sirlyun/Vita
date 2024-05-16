@@ -16,11 +16,21 @@ interface Challenge {
   standard: number;
   score: number;
 }
+const challengeOutputMap: { [key: string]: string } = {
+  health: "문진",
+  food: "식단 등록",
+  running: "러닝",
+  training: "훈련",
+};
 
 export default function ChallengeFrame({ onClose }: ChallengeFrameProps) {
   const handleModalContentClick = useStopPropagation();
 
   const [challengeData, setChallengeData] = useState<Challenge[]>([]);
+
+  function getChallengeOutput(challengeName: Challenge["name"]): string {
+    return challengeOutputMap[challengeName];
+  }
 
   // 일일 챌린지 가져오기
   const fetchDailyChallenge = async () => {
@@ -65,10 +75,10 @@ export default function ChallengeFrame({ onClose }: ChallengeFrameProps) {
               key={challenge.challenge_id}
               className={styles["challenge-info-frame"]}
             >
-              <div>{challenge.name}</div>
+              <div>{getChallengeOutput(challenge.name)}</div>
               <div className={styles["challenge-score"]}>
                 <div>
-                  {challenge.score}/{challenge.standard}걸음
+                  {challenge.score}/{challenge.standard}회
                 </div>
               </div>
             </div>
