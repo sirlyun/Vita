@@ -1,16 +1,6 @@
 import style from "@/public/styles/ranker.module.scss";
 
-export default function Ranker({
-  type,
-  rank,
-  name,
-  score,
-}: {
-  type: string;
-  rank: number;
-  name: string;
-  score: number;
-}) {
+export default function Ranker({ type, rank, name, score }: RankerPageProps) {
   return (
     <div className={`${style.main} bg`}>
       <div className={style.rank}>
