@@ -88,8 +88,8 @@ public class GoogleClient {
 		long midnightNanos = midnight.toInstant().getEpochSecond() * 1_000_000_000 + midnight.toInstant().getNano();
 		Instant now = Instant.now();
 		long nowNanos = now.getEpochSecond() * 1_000_000_000 + now.getNano();
-		getUserFitnessUri += midnightNanos + nowNanos;
-
+		getUserFitnessUri += midnightNanos + "-" + nowNanos;
+		System.out.println("getUserFitnessUri = " + getUserFitnessUri);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.set("Authorization", "Bearer " + token);
