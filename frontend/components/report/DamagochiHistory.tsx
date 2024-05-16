@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
 import DamagochiHistoryDetail from "./DamagochiHistoryDetail";
 import Image from "next/image";
-import images, { getUserCharacterImagePath } from "@/util/images.js";
 import report from "@/public/styles/report.module.scss";
-import { getDeadCharacterList } from "@/api/report";
+import React, { useState, useEffect } from "react";
+import { getUserCharacterImagePath } from "@/util/images.js";
+import { getCharacterList, getDeadCharacterList } from "@/api/report";
 import { CharacterList, Character } from "@/interfaces/report-interface";
 
 export default function DamagochiHistory() {
   // 캐릭터 목록을 저장할 상태 변수
   const [characterList, setCharacterList] = useState<CharacterList>([]);
+  const [character, setCharacter] = useState<Character | null>(null);
   const [showDetail, setShowDetail] = useState(false);
-  // const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
   );
@@ -18,11 +18,21 @@ export default function DamagochiHistory() {
   // API로부터 캐릭터 목록 가져오기
   useEffect(() => {
     async function fetchCharacterList() {
-      const data = await getDeadCharacterList();
-      console.log("Received data:", data);
-      // setCharacterList([data]);
-      // setCharacterList(data);
-      setCharacterList(data.character_report); // character_report 배열을 상태로 설정
+      const deadCharacterData = await getDeadCharacterList();
+      const characterDataResponse = await getCharacterList();
+      console.log("Received data:", deadCharacterData);
+      console.log("Received character data:", characterDataResponse);
+
+      const gender = characterDataResponse.gender;
+
+      const updatedCharacterList = deadCharacterData.character_report.map(
+        (deadCharacter: Character) => ({
+          ...deadCharacter,
+          gender: gender || "unknown", // character 데이터에서 gender 정보 추가
+        })
+      );
+
+      setCharacterList(updatedCharacterList); // character_report 배열을 상태로 설정
     }
 
     fetchCharacterList();

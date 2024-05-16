@@ -5,7 +5,7 @@
   padding: 2vh 2vh 3vh 2vh;
 
   p {
-    font-size: 7vh;
+    font-size: 6vh;
   }
 }
 
@@ -131,7 +131,7 @@
 }
 
 .damagochi-history-detail {
-  padding: 2vh;
+  padding: 2vh 1vh;
   // margin: 1vh auto;
   box-shadow: 1vh 1vh 1vh rgba(0, 0, 0, 0.1);
 
@@ -160,6 +160,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  font-size: 4vw;
 
   .info-title {
     color: #306fb9;
