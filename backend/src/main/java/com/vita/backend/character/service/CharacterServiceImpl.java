@@ -519,10 +519,13 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	@Transactional
 	@Override
 	public void rankingReset() {
+		System.out.println(
+			"redisTemplate.hasKey(\"running_single_ranking\") = " + redisTemplate.hasKey("running_single_ranking"));
 		if (Boolean.TRUE.equals(redisTemplate.hasKey("running_single_ranking"))) {
 			redisTemplate.opsForZSet().remove("running_single_ranking");
 		}
-
+		System.out.println(
+			"redisTemplate.hasKey(\"training_single_ranking\") = " + redisTemplate.hasKey("training_single_ranking"));
 		if (Boolean.TRUE.equals(redisTemplate.hasKey("training_single_ranking"))) {
 			redisTemplate.opsForZSet().remove("training_single_ranking");
 		}
