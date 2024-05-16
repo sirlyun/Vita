@@ -30,6 +30,7 @@
         text-align: center;
         font-size: 3vh;
         background-image: url("~/public/images/wide-button.png");
+        border-radius: 10px;
         padding: 1.2vh;
         filter: brightness(50%);
         color: #a60000;
@@ -133,4 +134,8 @@
 
 .pd-t-40 {
   padding-top: 50%;
+}
+
+.warning {
+  color: #a60000;
 }

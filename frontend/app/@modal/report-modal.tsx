@@ -6,7 +6,7 @@ import style from "@/public/styles/modal.module.scss";
 import styles from "@/public/styles/main.module.scss";
 import report from "@/public/styles/report.module.scss";
 import Image from "next/image";
-import images from "@/util/images.js";
+import { getIconPath } from "@/util/icons.js";
 
 export function ReportModal({
   children,
@@ -57,7 +57,7 @@ export function ReportModal({
             onClick={() => handleClick("damagochi-report")}
           >
             <Image
-              src={images.routine_icon}
+              src={getIconPath("routine")}
               width={60}
               height={60}
               alt="option"
@@ -68,7 +68,7 @@ export function ReportModal({
             onClick={() => handleClick("user-report")}
           >
             <Image
-              src={images.stastitic_icon}
+              src={getIconPath("stastitic")}
               width={60}
               height={60}
               alt="option"

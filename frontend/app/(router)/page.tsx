@@ -11,10 +11,8 @@ import { getUserCharacterImagePath, getBackgroundUrl } from "@/util/images";
 import { getMyCharacterInfo } from "@/api/character";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const router = useRouter();
   const userStore = useUserStore();
   const [challengeModal, setChallengeModal] = useState(false);
   const [myCharacterInfo, setMyCharacterInfo] = useState<Character | null>(
@@ -35,6 +33,18 @@ export default function Home() {
             "characterId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         }
 
+        // 쿠키에서 characterId 값 가져오기
+        const cookies = document.cookie.split("; ");
+        let characterIdValue = cookies.find((cookie) =>
+          cookie.startsWith("characterId=")
+        );
+        console.log("캐릭터 아이디: ", characterIdValue);
+
+        // 캐릭터 ID가 created일 때 해당 characterId로 변경
+        if (characterIdValue && characterIdValue.split("=")[1] === "created") {
+          // 쿠키의 characterId 값이 'created' 일 때 새 값으로 설정
+          document.cookie = `characterId=${characterInfo.character_id}; path=/; max-age=36000; secure; SameSite=None`;
+        }
         // 내 캐릭터 정보 저장
         setMyCharacterInfo(characterInfo);
 
