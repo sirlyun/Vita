@@ -6,10 +6,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vita.backend.auth.data.response.ReissueResponse;
 import com.vita.backend.auth.provider.CookieProvider;
 import com.vita.backend.auth.provider.JwtTokenProvider;
+import com.vita.backend.character.domain.Character;
+import com.vita.backend.character.domain.enumeration.ReceiptType;
 import com.vita.backend.character.provider.ReceiptProvider;
 import com.vita.backend.character.repository.CharacterRepository;
+import com.vita.backend.character.utils.CharacterUtils;
+import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.NotFoundException;
 import com.vita.backend.global.exception.category.UnAuthorizedException;
+import com.vita.backend.global.exception.response.ErrorCode;
 import com.vita.backend.infra.google.GoogleClient;
 import com.vita.backend.infra.google.data.response.UserInfoResponse;
 import com.vita.backend.member.data.request.ChallengeInitRequest;
@@ -187,6 +192,31 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 		});
 	}
 
+	/**
+	 * 도전과제 완료 요청
+	 * @param memberId 요청자 member_id
+	 * @param challengeId 요청 도전과제 challenge_id
+	 */
+	@Transactional
+	@Override
+	public void challengeSave(long memberId, Long challengeId) {
+		MemberChallenge memberChallenge = MemberUtils.findByMemberIdAndChallengeId(memberChallengeRepository,
+			memberId, challengeId);
+		if (memberChallenge.getIsDone()) {
+			throw new BadRequestException("ChallengeSave", CHALLENGE_IS_DONE_BAD_REQUEST);
+		}
+
+		if (memberChallenge.getScore() < memberChallenge.getChallenge().getStandard()) {
+			throw new BadRequestException("ChallengeSave", CHALLENGE_SAVE_BAD_REQUEST);
+		}
+
+		memberChallenge.isDoneUpdate(true);
+		Character character = CharacterUtils.findByMemberIdAndIsDeadFalse(characterRepository, memberId);
+		character.vitaUpdate(memberChallenge.getChallenge().getVitaPoint());
+		receiptProvider.receiptSave(character.getId(), ReceiptType.CHALLENGE, true,
+			memberChallenge.getChallenge().getVitaPoint(), character.getVitaPoint());
+	}
+
 	private void saveToken(String key, String value, long expire) {
 		redisTemplate.opsForValue()
 			.set(key, value, expire, TimeUnit.MILLISECONDS);
@@ -224,8 +254,8 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 		saveTokenRedis(member, tokenMap);
 
 		claims = jwtTokenProvider.parseClaims(tokenMap.get("access").substring(7));
-		Long createdAt = (Long) claims.get("created");
-		Long expiresIn = (Long) claims.get("expiresIn");
+		Long createdAt = (Long)claims.get("created");
+		Long expiresIn = (Long)claims.get("expiresIn");
 
 		ReissueResponse response = ReissueResponse.builder()
 			.accessToken(tokenMap.get("access"))

@@ -160,7 +160,7 @@ export default function Home() {
               ></Image>
             </button>
           </Link>
-          <Link href="/multi">
+          <Link href="/game/multi">
             <button className={styles.multi}>
               <Image
                 src={getIconPath("pvp")}

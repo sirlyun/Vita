@@ -10,4 +10,5 @@ public interface MemberSaveService {
 	void memberLogout(long memberId);
 	void memberUpdate(long memberId, MemberUpdateRequest request);
 	void challengeInit();
+	void challengeSave(long memberId, Long challengeId);
 }

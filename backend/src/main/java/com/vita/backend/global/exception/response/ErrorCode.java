@@ -14,6 +14,9 @@ public enum ErrorCode {
 	MEMBER_UPDATE_BAD_REQUEST(400, "회원 정보 수정이 불가능합니다."),
 	MEMBER_NOT_FOUND(404, "존재하지 않는 회원입니다."),
 	FORBIDDEN_ACCESS_MEMBER(403, "접근 권한이 없는 사용자입니다."),
+	CHALLENGE_NOT_FOUND(404, "존재하지 않는 도전과제입니다."),
+	CHALLENGE_IS_DONE_BAD_REQUEST(400, "이미 완료한 도전과제입니다."),
+	CHALLENGE_SAVE_BAD_REQUEST(400, "기준치에 못미칩니다."),
 	// CHARACTER
 	CHARACTER_NOT_FOUND(404, "존재하지 않는 캐릭터입니다."),
 	CHARACTER_FORBIDDEN(403, "캐릭터에 접근 권한이 없습니다."),

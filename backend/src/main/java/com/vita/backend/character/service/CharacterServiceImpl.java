@@ -486,7 +486,8 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			long totalDeBuff = character.getCharacterDeBuffs().stream()
 				.mapToLong(CharacterDeBuff::getVitaPoint)
 				.sum();
-			character.vitaUpdate((totalDeBuff + 1) * -1);
+			character.vitaUpdate((totalDeBuff) * -1);
+			character.vitaUpdate(-1L);
 			receiptProvider.receiptSave(character.getId(), ReceiptType.DE_BUFF, false, totalDeBuff,
 				character.getVitaPoint());
 

@@ -5,6 +5,7 @@ import static com.vita.backend.global.exception.response.ErrorCode.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,11 @@ import com.vita.backend.health.repository.FoodRepository;
 import com.vita.backend.infra.google.GoogleClient;
 import com.vita.backend.infra.openai.OpenAIVisionClient;
 import com.vita.backend.infra.openai.data.response.OpenAIApiFoodResponse;
+import com.vita.backend.member.domain.Challenge;
 import com.vita.backend.member.domain.Member;
+import com.vita.backend.member.domain.MemberChallenge;
+import com.vita.backend.member.repository.ChallengeRepository;
+import com.vita.backend.member.repository.MemberChallengeRepository;
 import com.vita.backend.member.repository.MemberRepository;
 import com.vita.backend.member.utils.MemberUtils;
 
@@ -49,6 +54,8 @@ public class HealthServiceImpl implements HealthSaveService {
 	private final CharacterRepository characterRepository;
 	private final DeBuffRepository deBuffRepository;
 	private final CharacterDeBuffRepository characterDeBuffRepository;
+	private final ChallengeRepository challengeRepository;
+	private final MemberChallengeRepository memberChallengeRepository;
 	/* Client */
 	private final OpenAIVisionClient openAIVisionClient;
 	private final GoogleClient googleClient;
@@ -164,11 +171,8 @@ public class HealthServiceImpl implements HealthSaveService {
 					});
 			});
 
-		System.out.println("hello");
 		Object googleToken = redisTemplate.opsForValue().get("google:" + memberId);
-		System.out.println("googleToken = " + googleToken);
 		Long userFitness = googleClient.getUserFitness(googleToken);
-		System.out.println("userFitness = " + userFitness);
 
 		DailyHealth dailyHealth = DailyHealth.builder()
 			.memberId(memberId)
@@ -183,5 +187,12 @@ public class HealthServiceImpl implements HealthSaveService {
 			.fitness(userFitness)
 			.build();
 		dailyHealthRepository.save(dailyHealth);
+
+		Challenge health = challengeRepository.findByName("health").get();
+		MemberChallenge memberChallenge = memberChallengeRepository.findByMemberIdAndChallengeId(memberId,
+			health.getId()).get();
+		if (memberChallenge.getScore() < health.getStandard()) {
+			memberChallenge.plusScore(1L);
+		}
 	}
 }

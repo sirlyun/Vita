@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,5 +68,16 @@ public class MemberController {
 		ChallengeLoadResponse challengeLoadResponse = memberLoadService.challengeLoad(memberId);
 
 		return ResponseEntity.ok(challengeLoadResponse);
+	}
+
+	@PostMapping("/challenge/{challenge_id}")
+	public ResponseEntity<Void> challengeSave(
+		@PathVariable("challenge_id") Long challengeId,
+		@AuthenticationPrincipal SecurityMember securityMember
+	) {
+		long memberId = securityMember.getId();
+		memberSaveService.challengeSave(memberId, challengeId);
+
+		return ResponseEntity.ok(null);
 	}
 }
