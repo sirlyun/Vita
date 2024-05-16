@@ -11,8 +11,10 @@ import { getUserCharacterImagePath, getBackgroundUrl } from "@/util/images";
 import { getMyCharacterInfo } from "@/api/character";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const userStore = useUserStore();
   const [challengeModal, setChallengeModal] = useState(false);
   const [myCharacterInfo, setMyCharacterInfo] = useState<Character | null>(
@@ -26,6 +28,13 @@ export default function Home() {
         // 내 캐릭터 정보 가져오기
         const characterInfo = await getMyCharacterInfo();
         console.log("캐릭터 조회 성공!", characterInfo);
+
+        // 캐릭터가 죽었을 때 characterId 쿠키 삭제
+        if (characterInfo.is_dead) {
+          document.cookie =
+            "characterId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          // router.push("/death");
+        }
 
         // 내 캐릭터 정보 저장
         setMyCharacterInfo(characterInfo);

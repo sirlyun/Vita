@@ -11,8 +11,12 @@ export function middleware(request: NextRequest) {
   // 로그인 페이지나 정적 자원 요청시 리디렉트하지 않음
   if (
     (pathname.startsWith("/login") && !accessToken) ||
-    (pathname.startsWith("/member") && accessToken && !characterId) ||
+    (pathname.startsWith("/member") &&
+      accessToken &&
+      !memberId &&
+      !characterId) ||
     (pathname.startsWith("/character") && accessToken && !characterId) ||
+    (pathname.startsWith("/death") && accessToken && !characterId) ||
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next/static") ||
     pathname.startsWith("/_next/image") ||
@@ -38,9 +42,9 @@ export function middleware(request: NextRequest) {
   // 회원 정보는 있지만 캐릭터가 죽은 상태일 때
   if (accessToken && memberId && !characterId) {
     console.log(
-      "회원정보는 있지만 캐릭터가 사망한 상태이므로 캐릭터 생성 페이지로 이동합니다."
+      "회원정보는 있지만 캐릭터가 사망한 상태이므로 캐릭터 사망 페이지로 이동합니다."
     );
-    return NextResponse.redirect(new URL("/character", request.url));
+    return NextResponse.redirect(new URL("/death", request.url));
   }
 
   if (accessToken && pathname.startsWith("/login")) {
