@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import com.vita.backend.character.data.response.detail.DeadCharacterItemDetail;
 import com.vita.backend.character.data.response.detail.ShopDetail;
 import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.global.domain.BaseDocument;
@@ -49,11 +50,11 @@ public class CharacterReport extends BaseDocument {
 	private Integer achievementCount;
 
 	@Field("item")
-	private List<ShopDetail> itemDetails;
+	private List<DeadCharacterItemDetail> itemDetails;
 
 	@Builder
 	public CharacterReport(Long characterId, LocalDateTime startAt, Integer height, Integer weight, BodyShape bodyShape,
-		Double bmi, Long plusVita, Long minusVita, Integer achievementCount, List<ShopDetail> itemDetails) {
+		Double bmi, Long plusVita, Long minusVita, Integer achievementCount, List<DeadCharacterItemDetail> itemDetails) {
 		this.characterId = characterId;
 		this.startAt = startAt;
 		this.height = height;

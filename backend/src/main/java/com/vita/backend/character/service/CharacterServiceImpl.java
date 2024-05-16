@@ -18,6 +18,7 @@ import com.vita.backend.character.data.request.ItemSaveRequest;
 import com.vita.backend.character.data.response.AliveCharacterReportLoadResponse;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
+import com.vita.backend.character.data.response.DeadCharacterReportLoadResponse;
 import com.vita.backend.character.data.response.DeadCharactersLoadResponse;
 import com.vita.backend.character.data.response.ItemLoadResponse;
 import com.vita.backend.character.data.response.ShopLoadResponse;
@@ -25,6 +26,7 @@ import com.vita.backend.character.data.response.detail.CharacterGameSingleRankin
 import com.vita.backend.character.data.response.detail.CharacterItemDetail;
 import com.vita.backend.character.data.response.detail.DeBuffLoadDetail;
 import com.vita.backend.character.data.response.detail.DeadCharacterDetail;
+import com.vita.backend.character.data.response.detail.DeadCharacterItemDetail;
 import com.vita.backend.character.data.response.detail.GameSingleRankingDetail;
 import com.vita.backend.character.data.response.detail.ItemDetail;
 import com.vita.backend.character.data.response.detail.ShopDetail;
@@ -51,6 +53,7 @@ import com.vita.backend.character.utils.CharacterUtils;
 import com.vita.backend.global.domain.enumeration.Level;
 import com.vita.backend.global.exception.category.BadRequestException;
 import com.vita.backend.global.exception.category.ForbiddenException;
+import com.vita.backend.global.exception.response.ErrorCode;
 import com.vita.backend.member.domain.Member;
 import com.vita.backend.member.repository.MemberRepository;
 import com.vita.backend.member.utils.MemberUtils;
@@ -241,6 +244,32 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 		).toList();
 		return DeadCharactersLoadResponse.builder()
 			.characterDetails(deadCharacterDetails)
+			.build();
+	}
+
+	/**
+	 * 죽은 캐릭터 리포트 조회
+	 * @param memberId 요청자 member_id
+	 * @param characterId 요청 캐릭터 character_id
+	 * @return 리포트
+	 */
+	@Override
+	public DeadCharacterReportLoadResponse deadCharacterReportLoad(long memberId, Long characterId) {
+		Character character = CharacterUtils.findByCharacterIdAndMemberId(characterRepository, characterId, memberId);
+		CharacterReport characterReport = CharacterUtils.findCharacterReportByCharacterId(
+			characterReportRepository, character.getId());
+
+		return DeadCharacterReportLoadResponse.builder()
+			.createdAt(LocalDate.from(characterReport.getStartAt()))
+			.endAt(LocalDate.from(characterReport.getCreatedAt()))
+			.height(characterReport.getHeight())
+			.weight(characterReport.getWeight())
+			.bmi(CharacterUtils.bmiCalculator(characterReport.getHeight(), characterReport.getWeight()))
+			.bodyShape(characterReport.getBodyShape())
+			.plusVita(characterReport.getPlusVita())
+			.minusVita(characterReport.getMinusVita())
+			.achievementCount(characterReport.getAchievementCount())
+			.items(characterReport.getItemDetails())
 			.build();
 	}
 
@@ -464,7 +493,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 			if (character.getVitaPoint() == 0L) {
 				Long plusVita = receiptRepository.sumPositiveVitaPointsByCharacterId(character.getId());
 				Long minusVita = receiptRepository.sumNegativeVitaPointsByCharacterId(character.getId());
-				List<ShopDetail> items = shopRepository.findAllItemsWithOwnCheck(character.getId());
+				List<DeadCharacterItemDetail> items = shopRepository.findAllItemsWithOwnCheckAndDeadCharacter(character.getId());
 
 				characterReportRepository.save(CharacterReport.builder()
 					.characterId(character.getId())
