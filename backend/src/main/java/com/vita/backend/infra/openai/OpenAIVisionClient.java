@@ -89,11 +89,11 @@ public class OpenAIVisionClient {
 		OpenAIFoodDetail foodDetail = openAIHealthRequest.openAIFoodDetail();
 		if (foodDetail != null) {
 			lifestyleDescription.append("섭취한 음식:\n");
-			lifestyleDescription.append("  - 칼로리: ").append(foodDetail.getCalorie()).append("kcal\n");
-			lifestyleDescription.append("  - 소금: ").append(foodDetail.getSalt()).append("g\n");
-			lifestyleDescription.append("  - 설탕: ").append(foodDetail.getSugar()).append("g\n");
-			lifestyleDescription.append("  - 지방: ").append(foodDetail.getFat()).append("g\n");
-			lifestyleDescription.append("  - 단백질: ").append(foodDetail.getProtein()).append("g\n");
+			lifestyleDescription.append("  - 칼로리: ").append(foodDetail.calorie()).append("kcal\n");
+			lifestyleDescription.append("  - 소금: ").append(foodDetail.salt()).append("g\n");
+			lifestyleDescription.append("  - 설탕: ").append(foodDetail.sugar()).append("g\n");
+			lifestyleDescription.append("  - 지방: ").append(foodDetail.fat()).append("g\n");
+			lifestyleDescription.append("  - 단백질: ").append(foodDetail.protein()).append("g\n");
 		}
 
 		SmokeDetail smokeDetail = openAIHealthRequest.smokeDetail();
