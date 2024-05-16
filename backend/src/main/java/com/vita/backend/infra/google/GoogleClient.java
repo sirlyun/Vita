@@ -91,6 +91,7 @@ public class GoogleClient {
 		System.out.println("getUserFitnessUri = " + getUserFitnessUri);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Authorization", "Bearer " + token);
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 		System.out.println("entity = " + entity);
 		ResponseEntity<GoogleUserFitnessResponse> googleUserInfoResponse = restTemplate.exchange(getUserFitnessUri,
