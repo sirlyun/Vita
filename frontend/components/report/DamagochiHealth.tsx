@@ -19,24 +19,24 @@ const BasicInfo = ({
 }) => (
   <div className={report["damagochi-health"]}>
     <div className={report["info"]}>
-      <span className={report["info-title"]}>생성일</span>
-      <span>{characterReport.created_at}</span>
+      <div className={report["info-title"]}>생성일</div>
+      <div className={report["info-tmp"]}>{characterReport.created_at}</div>
     </div>
     <div className={report["info"]}>
-      <span className={report["info-title"]}>키</span>
-      <span> {characterReport.height} cm</span>
+      <div className={report["info-title"]}>키</div>
+      <div className={report["info-tmp"]}> {characterReport.height} cm</div>
     </div>
     <div className={report["info"]}>
-      <span className={report["info-title"]}>몸무게</span>
-      <span> {characterReport.weight} kg</span>
+      <div className={report["info-title"]}>몸무게</div>
+      <div className={report["info-tmp"]}> {characterReport.weight} kg</div>
     </div>
     <div className={report["info"]}>
-      <span className={report["info-title"]}>체형</span>
-      <span> {characterReport.body_shape}</span>
+      <div className={report["info-title"]}>체형</div>
+      <div className={report["info-tmp"]}> {characterReport.body_shape}</div>
     </div>
     <div className={report["info"]}>
-      <span className={report["info-title"]}>BMI</span>
-      <span>
+      <div className={report["info-title"]}>BMI</div>
+      <div className={report["info-tmp"]}>
         {characterReport.bmi < 18.5
           ? "마름 / "
           : characterReport.bmi < 25
@@ -45,19 +45,28 @@ const BasicInfo = ({
           ? "과체중 / "
           : "비만"}{" "}
         {characterReport.bmi.toFixed(2)}
-      </span>
+      </div>
     </div>
     <div className={report["info"]}>
-      <span className={report["info-title"]}>획득한 생명력</span>
-      <span> {characterReport.plus_vita ?? 0}년</span>
+      <div className={report["info-title"]}>획득한 생명력</div>
+      <div className={report["info-tmp"]}>
+        {" "}
+        {characterReport.plus_vita ?? 0}년
+      </div>
     </div>
     <div className={report["info"]}>
-      <span className={report["info-title"]}>잃은 생명력</span>
-      <span> {characterReport.minus_vita ?? 0}년</span>
+      <div className={report["info-title"]}>잃은 생명력</div>
+      <div className={report["info-tmp"]}>
+        {" "}
+        {characterReport.minus_vita ?? 0}년
+      </div>
     </div>
     <div className={report["info"]}>
-      <span className={report["info-title"]}>업적 수</span>
-      <span> {characterReport.achievement_count ?? 0}개</span>
+      <div className={report["info-title"]}>업적 수</div>
+      <div className={report["info-tmp"]}>
+        {" "}
+        {characterReport.achievement_count ?? 0}개
+      </div>
     </div>
   </div>
 );
@@ -140,7 +149,7 @@ const DamagochiHealth: React.FC<Props> = ({ character }) => {
           >
             기본정보
           </span>
-          <span
+          {/* <span
             className={activeTab === "inventory" ? "active" : ""}
             onClick={() => setActiveTab("inventory")}
           >
@@ -151,7 +160,7 @@ const DamagochiHealth: React.FC<Props> = ({ character }) => {
             onClick={() => setActiveTab("pvpRecord")}
           >
             PvP전적
-          </span>
+          </span> */}
         </div>
         <div>{renderTabContent()}</div>
       </div>

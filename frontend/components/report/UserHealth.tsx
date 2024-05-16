@@ -1,11 +1,15 @@
-import report from '@/public/styles/report.module.scss';
+import report from "@/public/styles/report.module.scss";
 
 // 사용자 건강 리포트 컴포넌트
 export default function UserHealth() {
   return (
-    <div className={`${report['inner-text']} ${report['inner-background']}`}>
-      <h1 className={report['sub-title']}>사용자 주간 리포트</h1>
-      <div className={report['sub-content']}>
+    <div className={`${report["inner-text"]} ${report["inner-background"]}`}>
+      <h1 className={report["sub-title"]}>사용자 주간 리포트</h1>
+      <div className={report["sub-content"]}>
+        <div className={report["info"]}>
+          <span className={report["info-title"]}>획득한 생명력</span>
+          <span> 0년</span>
+        </div>
         <div>건강 점수: 8일</div>
         <div>음주 습관: 13일</div>
         <div>흡연 습관: 1282시간</div>
