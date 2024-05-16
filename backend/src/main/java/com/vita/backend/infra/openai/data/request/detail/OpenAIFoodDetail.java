@@ -6,16 +6,16 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Builder
-@Getter
-public class OpenAIFoodDetail {
+public record OpenAIFoodDetail(
 	@JsonProperty("calorie")
-	Long calorie;
+	Long calorie,
 	@JsonProperty("salt")
-	Long salt;
+	Long salt,
 	@JsonProperty("sugar")
-	Long sugar;
+	Long sugar,
 	@JsonProperty("fat")
-	Long fat;
+	Long fat,
 	@JsonProperty("protein")
-	Long protein;
+	Long protein
+) {
 }
