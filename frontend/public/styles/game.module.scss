@@ -69,6 +69,7 @@
 
     button {
       padding: 2vh 3vh 4vh 3vh;
+
       img {
         width: 10vh;
         height: 10vh;
@@ -95,4 +96,10 @@
 
 .error {
   padding-bottom: 30vh;
+}
+
+.pd-top-40 {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }

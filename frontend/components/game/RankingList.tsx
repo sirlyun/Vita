@@ -21,7 +21,7 @@ export default function RankingListPage({
             />
           ))
         ) : (
-          <div>No data</div>
+          <div className={`${styles["pd-top-40"]}`}>No data</div>
         )
       ) : rankingList.training &&
         rankingList.training.total_ranking.length > 0 ? (
@@ -34,7 +34,7 @@ export default function RankingListPage({
           />
         ))
       ) : (
-        <div>No data</div>
+        <div className={`${styles["pd-top-40"]}`}>No data</div>
       )}
     </div>
   );
