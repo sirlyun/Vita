@@ -5,7 +5,7 @@ import withPWA from "next-pwa";
 
 // PWA 설정을 초기화합니다.
 const pwaConfig = withPWA({
-  dest: "public",
+  dest: "public/",
 });
 
 // 기존 Next.js 설정
