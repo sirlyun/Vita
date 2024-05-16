@@ -18,6 +18,7 @@ import com.vita.backend.character.data.request.ItemSaveRequest;
 import com.vita.backend.character.data.response.AliveCharacterReportLoadResponse;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
+import com.vita.backend.character.data.response.DeadCharacterReportLoadResponse;
 import com.vita.backend.character.data.response.DeadCharactersLoadResponse;
 import com.vita.backend.character.data.response.ItemLoadResponse;
 import com.vita.backend.character.data.response.ShopLoadResponse;
@@ -158,5 +159,17 @@ public class CharacterController {
 		DeadCharactersLoadResponse deadCharactersLoadResponse = characterLoadService.deadCharacterLoad(memberId);
 
 		return ResponseEntity.ok(deadCharactersLoadResponse);
+	}
+
+	@GetMapping("/{character_id}/report")
+	public ResponseEntity<DeadCharacterReportLoadResponse> deadCharacterReportLoad(
+		@PathVariable("character_id") Long characterId,
+		@AuthenticationPrincipal SecurityMember securityMember
+	) {
+		long memberId = securityMember.getId();
+		DeadCharacterReportLoadResponse deadCharacterReportLoadResponse = characterLoadService.deadCharacterReportLoad(
+			memberId, characterId);
+
+		return ResponseEntity.ok(deadCharacterReportLoadResponse);
 	}
 }

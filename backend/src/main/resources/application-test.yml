@@ -13,7 +13,7 @@ spring:
     password: ${TEST_MARIADB_ROOT_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   servlet:
     multipart:
       maxFileSize: 10MB

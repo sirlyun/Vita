@@ -3,6 +3,7 @@ package com.vita.backend.character.service;
 import com.vita.backend.character.data.response.AliveCharacterReportLoadResponse;
 import com.vita.backend.character.data.response.CharacterGameSingleRankingResponse;
 import com.vita.backend.character.data.response.CharacterLoadResponse;
+import com.vita.backend.character.data.response.DeadCharacterReportLoadResponse;
 import com.vita.backend.character.data.response.DeadCharactersLoadResponse;
 import com.vita.backend.character.data.response.ItemLoadResponse;
 import com.vita.backend.character.data.response.ShopLoadResponse;
@@ -15,4 +16,5 @@ public interface CharacterLoadService {
 	ItemLoadResponse itemLoad(long memberId, long characterId);
 	AliveCharacterReportLoadResponse aliveCharacterReportLoad(long memberId);
 	DeadCharactersLoadResponse deadCharacterLoad(long memberId);
+	DeadCharacterReportLoadResponse deadCharacterReportLoad(long memberId, Long characterId);
 }

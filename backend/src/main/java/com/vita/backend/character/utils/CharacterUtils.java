@@ -8,8 +8,10 @@ import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.CharacterShop;
 import com.vita.backend.character.domain.DeBuff;
 import com.vita.backend.character.domain.Shop;
+import com.vita.backend.character.domain.document.CharacterReport;
 import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
+import com.vita.backend.character.repository.CharacterReportRepository;
 import com.vita.backend.character.repository.CharacterRepository;
 import com.vita.backend.character.repository.CharacterShopRepository;
 import com.vita.backend.character.repository.DeBuffRepository;
@@ -69,6 +71,13 @@ public class CharacterUtils {
 		return repository.findByMemberIdAndIsDeadFalse(memberId)
 			.orElseThrow(
 				() -> new NotFoundException("FindByMemberIdAndIsDeadFalse", ALIVE_CHARACTER_NOT_FOUND)
+			);
+	}
+
+	public static CharacterReport findCharacterReportByCharacterId(CharacterReportRepository repository, long characterId) {
+		return repository.findById(characterId)
+			.orElseThrow(
+				() -> new NotFoundException("FindByCharacterId", CHARACTER_REPORT_NOT_FOUND)
 			);
 	}
 
