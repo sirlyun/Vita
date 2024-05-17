@@ -25,8 +25,8 @@ export default async function MultiGame() {
           <button className={"bg"} disabled>
             <Image
               src={getIconPath("running")}
-              width={60}
-              height={60}
+              width={180}
+              height={180}
               alt="running icon"
             ></Image>
           </button>
@@ -35,8 +35,8 @@ export default async function MultiGame() {
           <button className={"bg"} disabled>
             <Image
               src={getIconPath("gym")}
-              width={60}
-              height={60}
+              width={180}
+              height={180}
               alt="gym icon"
             ></Image>
           </button>
