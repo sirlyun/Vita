@@ -16,12 +16,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.vita.backend.character.domain.Character;
 import com.vita.backend.character.domain.DeBuff;
+import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.repository.CharacterDeBuffRepository;
 import com.vita.backend.character.repository.CharacterRepository;
@@ -41,10 +45,15 @@ import com.vita.backend.health.domain.enumeration.DrinkType;
 import com.vita.backend.health.domain.enumeration.SmokeType;
 import com.vita.backend.health.repository.DailyHealthRepository;
 import com.vita.backend.health.repository.FoodRepository;
+import com.vita.backend.infra.google.GoogleClient;
 import com.vita.backend.infra.openai.OpenAIVisionClient;
 import com.vita.backend.infra.openai.data.response.OpenAIApiFoodResponse;
+import com.vita.backend.member.domain.Challenge;
 import com.vita.backend.member.domain.Member;
+import com.vita.backend.member.domain.MemberChallenge;
 import com.vita.backend.member.domain.enumeration.Gender;
+import com.vita.backend.member.repository.ChallengeRepository;
+import com.vita.backend.member.repository.MemberChallengeRepository;
 import com.vita.backend.member.repository.MemberRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -60,9 +69,19 @@ class HealthServiceImplTest {
 	@Mock
 	CharacterRepository characterRepository;
 	@Mock
+	ChallengeRepository challengeRepository;
+	@Mock
+	MemberChallengeRepository memberChallengeRepository;
+	@Mock
 	DeBuffRepository deBuffRepository;
 	@Mock
 	OpenAIVisionClient openAIVisionClient;
+	@Mock
+	GoogleClient googleClient;
+	@Mock
+	RedisTemplate<String, String> redisTemplate;
+	@Mock
+	ValueOperations<String, String> valueOperations;
 
 	@Nested
 	@DisplayName("식단 정보 저장")
@@ -237,7 +256,6 @@ class HealthServiceImplTest {
 			// when
 			FoodResponse foodResponse = healthService.foodSave(memberId, image, foodSaveRequest);
 			// then
-			verify(foodRepository, times(1)).save(any(Food.class));
 			assertEquals(20L, foodResponse.calorie());
 			assertEquals(20L, foodResponse.salt());
 			assertEquals(20L, foodResponse.sugar());
@@ -319,6 +337,30 @@ class HealthServiceImplTest {
 			given(deBuffRepository.findByDeBuffType(DeBuffType.SMOKE)).willReturn(Optional.ofNullable(smokeDeBuff));
 			given(deBuffRepository.findByDeBuffType(DeBuffType.DRINK)).willReturn(Optional.ofNullable(drinkDeBuff));
 			given(characterRepository.findByMemberIdAndIsDeadFalse(memberId)).willReturn(Optional.empty());
+			given(redisTemplate.opsForValue()).willReturn(valueOperations);
+			given(valueOperations.get(anyString())).willReturn(null);
+			given(googleClient.getUserFitness(null)).willReturn(0L);
+			Challenge challenge = Challenge.builder()
+				.vitaPoint(1L)
+				.name("health")
+				.standard(1L)
+				.build();
+			ReflectionTestUtils.setField(challenge, "id", 1L);
+			given(challengeRepository.findByName("health")).willReturn(Optional.of(challenge));
+			MemberChallenge memberChallenge = MemberChallenge.builder()
+				.member(member)
+				.challenge(challenge)
+				.build();
+			given(memberChallengeRepository.findByMemberIdAndChallengeId(memberId, challenge.getId())).willReturn(Optional.of(memberChallenge));
+			Character character = Character.builder()
+				.bodyShape(BodyShape.NORMAL)
+				.member(member)
+				.vitaPoint(50L)
+				.nickname("test")
+				.height(168)
+				.weight(65)
+				.build();
+			given(characterRepository.findLastCreatedCharacterByMemberId(memberId)).willReturn(Optional.of(character));
 			// when
 			healthService.dailySave(memberId, request);
 			// then

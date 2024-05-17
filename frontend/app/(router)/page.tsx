@@ -11,8 +11,11 @@ import { getUserCharacterImagePath, getBackgroundUrl } from "@/util/images";
 import { getMyCharacterInfo } from "@/api/character";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { getCookie } from "@/util/axios";
 
 export default function Home() {
+  const router = useRouter();
   const userStore = useUserStore();
   const [challengeModal, setChallengeModal] = useState(false);
   const [myCharacterInfo, setMyCharacterInfo] = useState<Character | null>(
@@ -27,10 +30,11 @@ export default function Home() {
         const characterInfo = await getMyCharacterInfo();
         console.log("캐릭터 조회 성공!", characterInfo);
 
-        // 캐릭터가 죽었을 때 characterId 쿠키 삭제
+        // 캐릭터가 죽었을 때 characterId 쿠키 삭제 및 deathId 쿠키 생성
         if (characterInfo.is_dead) {
           document.cookie =
             "characterId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          document.cookie = `deathId=${"isDeath"}; path=/; max-age=36000; secure; SameSite=None`;
         }
 
         // 쿠키에서 characterId 값 가져오기
@@ -59,6 +63,10 @@ export default function Home() {
     };
 
     fetchCharacterList();
+    // 만약 첫번째 출석일 시에 출석 보상 페이지로 이동
+    if (getCookie("attendance")) {
+      router.push("/attendance");
+    }
   }, []);
 
   // 배경화면 동적 설정 ***********************************************

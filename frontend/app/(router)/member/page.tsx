@@ -7,6 +7,7 @@ import Button from "@/components/member/Button";
 import Chronic from "@/components/member/Chronic";
 import { modifyMember } from "@/api/member";
 import { useRouter } from "next/navigation";
+import { getCookie } from "@/util/axios";
 
 import { useState } from "react";
 
@@ -44,7 +45,10 @@ export default function Page() {
     );
     console.log(responseMember.status);
     document.cookie = `memberId=${"createdMember"}; path=/; max-age=3600; secure; SameSite=None`;
-    console.log("memeberId를 담는 아래 코드");
+    console.log(
+      "멤버를 만드는 페이지에서 멤버 ID가 쿠키에 담겼는지 확인",
+      getCookie("memberId")
+    );
     router.push("/character");
   };
 

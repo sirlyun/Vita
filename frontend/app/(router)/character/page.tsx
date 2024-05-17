@@ -15,6 +15,7 @@ import Button from "@/components/character/Button";
 import { createdCharacter } from "@/api/character";
 import { useRouter } from "next/navigation";
 import InputNickname from "@/components/character/InputNickname";
+import { getCookie } from "@/util/axios";
 
 export default function createCharacter() {
   const router = useRouter();
@@ -158,9 +159,18 @@ export default function createCharacter() {
       smokeValue,
       drinkValue
     );
+    // 캐릭터 생성했다는 쿠키 생성 및 deathId 쿠키 제거
     document.cookie = `characterId=${"created"}; path=/; max-age=36000; secure; SameSite=None`;
+    document.cookie =
+      "deathId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-    router.push("/");
+    console.log(
+      "캐릭터 생성 페이지에서 characterId 쿠키가 잘 담기는지 확인",
+      getCookie("characterId")
+    );
+
+    // 페이지 새로고침
+    window.location.reload();
   };
 
   return (
