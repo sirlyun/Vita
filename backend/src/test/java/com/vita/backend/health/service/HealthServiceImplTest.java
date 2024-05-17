@@ -348,10 +348,8 @@ class HealthServiceImplTest {
 			ReflectionTestUtils.setField(challenge, "id", 1L);
 			given(challengeRepository.findByName("health")).willReturn(Optional.of(challenge));
 			MemberChallenge memberChallenge = MemberChallenge.builder()
-				.score(0L)
 				.member(member)
 				.challenge(challenge)
-				.isDone(false)
 				.build();
 			given(memberChallengeRepository.findByMemberIdAndChallengeId(memberId, challenge.getId())).willReturn(Optional.of(memberChallenge));
 			Character character = Character.builder()

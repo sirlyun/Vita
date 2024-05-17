@@ -43,9 +43,9 @@ public class MemberChallenge {
 	private Challenge challenge;
 
 	@Builder
-	public MemberChallenge(Long score, Boolean isDone, Member member, Challenge challenge) {
-		this.score = score;
-		this.isDone = isDone;
+	public MemberChallenge(Member member, Challenge challenge) {
+		this.score = 0L;
+		this.isDone = false;
 		setMember(member);
 		setChallenge(challenge);
 	}
