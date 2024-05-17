@@ -193,7 +193,7 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 	}
 
 	/**
-	 * 도전과제 완료 요청
+	 * 도전 과제 완료 요청
 	 * @param memberId 요청자 member_id
 	 * @param challengeId 요청 도전과제 challenge_id
 	 */
