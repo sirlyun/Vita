@@ -18,7 +18,7 @@ export default function DebuffModal({
   });
 
   useEffect(() => {
-    const de_buff_id = searchParams.get("de_buff_id");
+    const de_buff_id = optionId;
     const type = searchParams.get("type");
     const vita_point = searchParams.get("vita_point");
 

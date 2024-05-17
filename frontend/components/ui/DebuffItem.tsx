@@ -8,7 +8,6 @@ export default function DebuffItemComponent({ debuff }: { debuff: DeBuff }) {
       href={{
         pathname: `/debuff/${debuff.de_buff_id}`,
         query: {
-          de_buff_id: debuff.de_buff_id,
           type: debuff.type,
           vita_point: debuff.vita_point,
         },
