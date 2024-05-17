@@ -139,11 +139,10 @@ class MemberServiceImplTest {
 				.vitaPoint(1L)
 				.build();
 			MemberChallenge memberChallenge = MemberChallenge.builder()
-				.isDone(true)
 				.challenge(challenge)
-				.score(2L)
 				.member(member)
 				.build();
+			ReflectionTestUtils.setField(memberChallenge, "isDone", true);
 			given(memberChallengeRepository.findByMemberIdAndChallengeId(memberId, challengeId)).willReturn(Optional.of(memberChallenge));
 			// when & then
 			assertThrows(BadRequestException.class, () -> {
@@ -152,7 +151,7 @@ class MemberServiceImplTest {
 		}
 
 		@Test
-		@DisplayName("목표치에 못미처 도전 과제 완료 실패")
+		@DisplayName("목표에 못미처 도전 과제 완료 실패")
 		void scoreLowerThanStandardFail() {
 			// given
 			Member member = Member.builder()
@@ -165,11 +164,10 @@ class MemberServiceImplTest {
 				.vitaPoint(1L)
 				.build();
 			MemberChallenge memberChallenge = MemberChallenge.builder()
-				.isDone(false)
 				.challenge(challenge)
-				.score(1L)
 				.member(member)
 				.build();
+			ReflectionTestUtils.setField(memberChallenge, "score", 1L);
 			given(memberChallengeRepository.findByMemberIdAndChallengeId(memberId, challengeId)).willReturn(Optional.of(memberChallenge));
 			// when & then
 			assertThrows(BadRequestException.class, () -> {
@@ -191,11 +189,10 @@ class MemberServiceImplTest {
 				.vitaPoint(1L)
 				.build();
 			MemberChallenge memberChallenge = MemberChallenge.builder()
-				.isDone(false)
 				.challenge(challenge)
-				.score(2L)
 				.member(member)
 				.build();
+			ReflectionTestUtils.setField(memberChallenge, "score", 2L);
 			given(memberChallengeRepository.findByMemberIdAndChallengeId(memberId, challengeId)).willReturn(Optional.of(memberChallenge));
 			given(characterRepository.findByMemberIdAndIsDeadFalse(memberId)).willReturn(Optional.empty());
 			// when & then

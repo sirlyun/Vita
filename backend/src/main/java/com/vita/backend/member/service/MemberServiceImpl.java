@@ -81,14 +81,23 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 	public ResponseEntity<LoginResponse> memberLogin(String code) {
 		UserInfoResponse googleUserInfo = googleClient.getGoogleUserInfo(code);
 		Member member = memberRepository.findByUuid(googleUserInfo.id())
-			.orElseGet(
-				() -> memberRepository.save(
+			.orElseGet(() -> {
+				Member newMember = memberRepository.save(
 					Member.builder()
 						.uuid(googleUserInfo.id())
 						.name(googleUserInfo.name())
 						.build()
-				)
-			);
+				);
+				List<Challenge> challenges = challengeRepository.findAll();
+				challenges.forEach(challenge -> {
+					MemberChallenge memberChallenge = MemberChallenge.builder()
+						.member(newMember)
+						.challenge(challenge)
+						.build();
+					memberChallengeRepository.save(memberChallenge);
+				});
+				return newMember;
+			});
 
 		Authentication authentication =
 			new UsernamePasswordAuthenticationToken(member.getId(), member.getUuid(),
@@ -179,8 +188,6 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 				List<Challenge> challenges = challengeRepository.findAll();
 				challenges.forEach(challenge -> {
 					memberChallengeRepository.save(MemberChallenge.builder()
-						.score(0L)
-						.isDone(false)
 						.member(member)
 						.challenge(challenge)
 						.build()
