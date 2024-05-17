@@ -9,6 +9,8 @@ import Image from "next/image";
 import { useState } from "react";
 import Button from "@/components/health/daily/Button";
 import Complete from "@/components/character/Complete";
+import { daily } from "@/api/health";
+import ResultDaily from "@/components/health/daily/ResultDaily";
 
 interface Props {
   onClose: () => void;
@@ -20,6 +22,8 @@ export default function Daily({ onClose }: Props) {
   const [drinkType, setDrinkType] = useState<string>("none");
   const [quantity, setQuantity] = useState<string>("none");
   const [smokeType, setSmokeType] = useState<string>("none");
+  const [score, setScore] = useState<number | null>(null); // 추가된 점수 상태
+  const [review, setReview] = useState<string>("");
 
   const handleModalContentClick = useStopPropagation();
 
@@ -49,12 +53,44 @@ export default function Daily({ onClose }: Props) {
       <br />
       완료하시겠습니까?
     </>,
+    <>
+      당신의 건강점수는 <br></br> {score !== null ? `${score}점` : "계산 중..."}
+      입니다.
+    </>,
   ];
+
+  // 완료 버튼 클릭시 일일 검진 API 호출
+  const handleCompleteClick = async () => {
+    const smoke = {
+      type: smokeType,
+      quantity: quantity,
+    };
+    const drink = {
+      type: drinkType,
+      quantity: drinkQuantity,
+    };
+
+    const smokeValue = quantity === "null" ? null : smoke;
+    const drinkValue = drinkQuantity === "null" ? null : drink;
+
+    console.log(smokeValue, drinkValue);
+    try {
+      const responseCharacter = await daily(smokeValue, drinkValue);
+      setScore(responseCharacter.score);
+      setReview(responseCharacter.review);
+
+      handleNext();
+      console.log(responseCharacter);
+    } catch (error) {
+      setReview("건강검진은 하루에 한번만 가능합니다");
+      handleNext();
+    }
+  };
 
   const handleNext = (): void => {
     if (
-      (step === 0 && quantity === null) ||
-      (step === 2 && drinkQuantity === null)
+      (step === 0 && quantity === "null") ||
+      (step === 2 && drinkQuantity === "null")
     ) {
       setStep(step + 2);
     } else if (step < stepMessages.length - 1) {
@@ -65,8 +101,8 @@ export default function Daily({ onClose }: Props) {
   const handlePrev = (): void => {
     if (step > 0) {
       if (
-        (step === 2 && quantity === null) ||
-        (step === 4 && drinkQuantity === null)
+        (step === 2 && quantity === "null") ||
+        (step === 4 && drinkQuantity === "null")
       ) {
         setStep(step - 2);
       } else {
@@ -95,25 +131,30 @@ export default function Daily({ onClose }: Props) {
       );
     } else if (step === 4) {
       return <Complete />;
+    } else if (step === 5) {
+      return <ResultDaily score={score} review={review} />;
     }
   }
   function renderButton() {
     const showPrevButton = step > 0;
-    const showNextButton =
-      (step === 0 && quantity !== "none") ||
-      (step === 1 && smokeType !== "none") ||
-      (step === 2 && drinkQuantity !== "none") ||
-      (step === 3 && drinkType !== "none");
+    const nextHandler =
+      step === stepMessages.length - 2 ? handleCompleteClick : handleNext;
 
     return (
       <Button
         step={step}
         handlePrev={handlePrev}
-        handleNext={handleNext}
+        handleNext={nextHandler}
         topStep={stepMessages.length - 1}
         onClick={() => console.log("Button clicked!")}
         showPrevButton={showPrevButton} // 이전 버튼 활성화
-        showNextButton={showNextButton} // 조건에 따라 다음 버튼 활성화
+        showNextButton={
+          (step === 0 && quantity !== "none") ||
+          (step === 1 && smokeType !== "none") ||
+          (step === 2 && drinkQuantity !== "none") ||
+          (step === 3 && drinkType !== "none") ||
+          step === stepMessages.length - 2
+        } // 조건에 따라 다음 버튼 활성화
       />
     );
   }
@@ -146,7 +187,7 @@ export default function Daily({ onClose }: Props) {
           <div className={styles["step-button"]}>
             {step > 0 && <button onClick={handlePrev}>이전</button>}
             {step === stepMessages.length - 1 ? (
-              <button onClick={handleNext}>완료</button>
+              <button onClick={onClose}>확인</button>
             ) : (
               step < stepMessages.length - 1 && (
                 <button onClick={handleNext}>다음</button>
