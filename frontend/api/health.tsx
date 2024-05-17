@@ -13,4 +13,24 @@ async function getFood(formData: FormData) {
     });
 }
 
-export { getFood };
+async function daily(
+  smoke: { type: string; quantity: string } | null,
+  drink: { type: string; quantity: string } | null
+) {
+  const requestBody = {
+    smoke,
+    drink,
+  };
+  return localAxios
+    .post("/health/daily", requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+}
+
+export { getFood, daily };
