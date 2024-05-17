@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { getCookie } from "@/util/axios";
 
 export default function Home() {
+  const router = useRouter();
   const userStore = useUserStore();
   const [challengeModal, setChallengeModal] = useState(false);
   const [myCharacterInfo, setMyCharacterInfo] = useState<Character | null>(
