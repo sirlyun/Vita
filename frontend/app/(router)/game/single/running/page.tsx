@@ -15,7 +15,7 @@ export default function RunningPage() {
   const [clickCount, setClickCount] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState<number>(0);
-  const maxClicks: number = 20;
+  const maxClicks: number = 50; // 총 클릭 수
 
   useEffect(() => {
     if (clickCount > 0 && startTime) {

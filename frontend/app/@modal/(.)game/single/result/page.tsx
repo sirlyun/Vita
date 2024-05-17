@@ -18,7 +18,7 @@ export default function SingleResult() {
         <p className={`${styles.title} ${styles.center}`}>RESULT</p>
         {userStore.gameType === "running" ? (
           <div className={styles.content}>
-            <p>더 빨리 100번 클릭하기</p>
+            <p>종목: 50번 스피드런</p>
             <p>나의 기록: {(userStore.record / 1000).toFixed(3)}초</p>
             <p>
               나의 최고 기록: {(userStore.runningBestRecord / 1000).toFixed(3)}
@@ -30,7 +30,7 @@ export default function SingleResult() {
           </div>
         ) : userStore.gameType === "training" ? (
           <div className={styles.content}>
-            <p>5초안에 아령 많이 하기</p>
+            <p>종목: 5초 타임어택</p>
             <p>나의 기록: {userStore.record}</p>
             <p>나의 최고 기록: {userStore.trainingBestRecord}</p>
             {userStore.isNewBestRecord && (

@@ -6,7 +6,7 @@ import styles from "@/public/styles/modal.module.scss";
 import { useSearchParams } from "next/navigation";
 
 export default function DebuffModal({
-  params: { id: optionId },
+  params: { id: debuffId },
 }: {
   params: { id: string };
 }) {
@@ -18,7 +18,7 @@ export default function DebuffModal({
   });
 
   useEffect(() => {
-    const de_buff_id = optionId;
+    const de_buff_id = debuffId;
     const type = searchParams.get("type");
     const vita_point = searchParams.get("vita_point");
 
@@ -31,15 +31,29 @@ export default function DebuffModal({
     }
   }, [searchParams]);
 
+  const desc: { [key: number]: string } = {
+    1: "잦은 흡연은 만성 폐쇄성 폐질환(COPD)와 폐암 같은 호흡기 질환과 관상동맥질환, 뇌졸중 등의 심혈관 질환을 유발합니다. 또한 다양한 암, 피부 노화, 발기부전 및 불임 같은 생식기 질환의 위험을 증가시킵니다.", // 담배
+    2: "과도한 음주는 간경변, 알코올성 간염 등의 간 질환과 위염, 췌장염 등의 소화기 질환을 유발할 수 있습니다. 또한 고혈압, 심근증 같은 심혈관 질환, 여러 종류의 암, 알코올 의존증 및 정신 건강 문제를 초래할 수 있습니다.", // 술
+    3: "만성질환을 가진 분들은 규칙적인 운동, 건강한 식습관, 정기적인 의사 상담, 약물 복용 지침 준수, 스트레스 관리, 충분한 수면으로 꾸준히 관리해야 합니다.", // 만성질환
+  };
+  const debuffDescription = desc[parseInt(debuff.de_buff_id)];
   return (
     <div>
       {debuff ? (
         <Modal option={0}>
-          <h1 className={`${styles.title} ${styles.center}`}>{debuff.type}</h1>
+          <h1 className={`${styles.title} ${styles.center}`}>
+            {debuff.type == "SMOKE"
+              ? "담배"
+              : debuff.type == "DRINK"
+              ? "술"
+              : "만성질환"}
+          </h1>
           <div className={`${styles.content} ${styles.center}`}>
             <div className={`${styles.item} ${styles.center}`}>
+              <p className={styles.left}>{debuffDescription}</p>
+              <br />
               {debuff ? (
-                <p>-{debuff.vita_point}년/일</p>
+                <p>수명: -{debuff.vita_point}년/일</p>
               ) : (
                 <p>No debuff found</p>
               )}

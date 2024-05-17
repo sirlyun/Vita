@@ -12,7 +12,7 @@ export default function Page() {
   const router = useRouter();
   const userStore = useUserStore();
   const [clickCount, setClickCount] = useState<number>(0);
-  const [remainingTime, setRemainingTime] = useState<number>(2000); // 시작할 때 10초
+  const [remainingTime, setRemainingTime] = useState<number>(5000); // 시작할 때 10초
   const [timerActive, setTimerActive] = useState<boolean>(false);
 
   useEffect(() => {
