@@ -148,6 +148,9 @@ button {
   background-color: transparent;
   font-family: "neodgm";
   font-size: 3.5vh;
+  background-image: url("~/public/images/button.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 
 .dark-overlay-recycle {
@@ -173,12 +176,6 @@ button {
 }
 
 .bg {
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-
-button {
-  background-image: url("~/public/images/button.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
