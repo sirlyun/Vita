@@ -1,7 +1,11 @@
 import styles from "@/public/styles/chronic.module.scss";
-import { getIconPath } from "@/util/icons";
 import ChronicOption from "./ChronicOption";
-
+import strokeIcon from "@/public/icons/stroke-icon.png";
+import diabetes from "@/public/icons/diabetes-icon.png";
+import hypertension from "@/public/icons/hypertension-icon.png";
+import heart from "@/public/icons/heart-icon.png";
+import pneumonia from "@/public/icons/pneumonia-icon.png";
+import xIcon from "@/public/icons/x-icon.png";
 interface Props {
   chronic: string | null;
   setChronic: (value: string | null) => void;
@@ -18,14 +22,14 @@ export default function Chronic({ chronic, setChronic }: Props) {
           chronic={chronic}
           setChronic={handleChronic}
           option="null"
-          icon={getIconPath("x")}
+          icon={xIcon}
           name="없음"
         />
         <ChronicOption
           chronic={chronic}
           setChronic={handleChronic}
           option="STROKE"
-          icon={getIconPath("stroke")}
+          icon={strokeIcon}
           name="뇌졸증"
         />
       </div>
@@ -34,14 +38,14 @@ export default function Chronic({ chronic, setChronic }: Props) {
           chronic={chronic}
           setChronic={handleChronic}
           option="DIABETES"
-          icon={getIconPath("diabetes")}
+          icon={diabetes}
           name="당뇨병"
         />
         <ChronicOption
           chronic={chronic}
           setChronic={handleChronic}
           option="HYPERTENSION"
-          icon={getIconPath("hypertension")}
+          icon={hypertension}
           name="고혈압"
         />
       </div>
@@ -50,14 +54,14 @@ export default function Chronic({ chronic, setChronic }: Props) {
           chronic={chronic}
           setChronic={handleChronic}
           option="HEART"
-          icon={getIconPath("heart")}
+          icon={heart}
           name="심장"
         />
         <ChronicOption
           chronic={chronic}
           setChronic={handleChronic}
-          option="PNEWMONIA"
-          icon={getIconPath("pnewmonia")}
+          option="PNEUMONIA"
+          icon={pneumonia}
           name="신경통"
         />
       </div>
