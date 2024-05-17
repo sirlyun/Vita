@@ -16,8 +16,8 @@ export default function DebuffItemComponent({ debuff }: { debuff: DeBuff }) {
     >
       <Image
         src={getIconPath(debuff.type)}
-        width={60}
-        height={60}
+        width={120}
+        height={120}
         alt={debuff.type}
       ></Image>
     </Link>

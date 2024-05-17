@@ -99,16 +99,16 @@ export default function Home() {
           <Link href={`/settings`}>
             <Image
               src={getIconPath("option")}
-              width={60}
-              height={60}
+              width={120}
+              height={120}
               alt="option"
             ></Image>
           </Link>
           <button onClick={toggleChallengeModal}>
             <Image
               src={getIconPath("daily")}
-              width={60}
-              height={60}
+              width={120}
+              height={120}
               alt="daily"
             ></Image>
           </button>
@@ -148,8 +148,8 @@ export default function Home() {
             <Link href="/shop">
               <Image
                 src={getIconPath("shop")}
-                width={60}
-                height={60}
+                width={120}
+                height={120}
                 alt="shop"
               ></Image>
               <p>SHOP</p>
@@ -159,8 +159,8 @@ export default function Home() {
             <Link href="/report">
               <Image
                 src={getIconPath("report")}
-                width={60}
-                height={60}
+                width={120}
+                height={120}
                 alt="report"
               ></Image>
             </Link>
@@ -172,8 +172,8 @@ export default function Home() {
             <Link href="/health">
               <Image
                 src={getIconPath("hospital")}
-                width={60}
-                height={60}
+                width={240}
+                height={240}
                 alt="health"
               ></Image>
             </Link>
@@ -184,8 +184,8 @@ export default function Home() {
             <button className={styles.single}>
               <Image
                 src={getIconPath("single")}
-                width={60}
-                height={60}
+                width={120}
+                height={120}
                 alt="single"
               ></Image>
             </button>
@@ -194,8 +194,8 @@ export default function Home() {
             <button className={styles.multi}>
               <Image
                 src={getIconPath("pvp")}
-                width={60}
-                height={60}
+                width={120}
+                height={120}
                 alt="multi"
               ></Image>
             </button>

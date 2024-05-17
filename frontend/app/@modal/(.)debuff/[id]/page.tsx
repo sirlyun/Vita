@@ -5,7 +5,7 @@ import { Modal } from "../../modal";
 import styles from "@/public/styles/modal.module.scss";
 import { useSearchParams } from "next/navigation";
 
-export default function OptionModal({
+export default function DebuffModal({
   params: { id: optionId },
 }: {
   params: { id: string };
