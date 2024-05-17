@@ -14,9 +14,8 @@ export default function Ranker({ type, rank, name, score }: RankerPageProps) {
           {score == 0
             ? "-"
             : type == "running"
-            ? (score / 1000).toFixed(3)
-            : score}
-          초
+            ? (score / 1000).toFixed(3) + "초"
+            : score + "회"}
         </p>
       </div>
     </div>

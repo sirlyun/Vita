@@ -23,7 +23,9 @@ export default function RankingListPage({
               />
             ))
           ) : (
-            <div className={`${styles["pd-top-40"]}`}>No data</div>
+            <div className={`${styles["pd-top-40"]}`}>
+              조회된 랭킹 정보가 없습니다.
+            </div>
           )
         ) : rankingList.training &&
           rankingList.training.total_ranking.length > 0 ? (
@@ -37,7 +39,9 @@ export default function RankingListPage({
             />
           ))
         ) : (
-          <div className={`${styles["pd-top-40"]}`}>No data</div>
+          <div className={`${styles["pd-top-40"]}`}>
+            조회된 랭킹 정보가 없습니다.
+          </div>
         )}
       </div>
       {activeMenu === "running" &&

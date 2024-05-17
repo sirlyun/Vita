@@ -62,7 +62,7 @@ export default function RankingBoardpage() {
       {rankingList != null ? (
         <RankingList rankingList={rankingList} activeMenu={activeMenu} />
       ) : (
-        <div className={styles.error}>No data</div>
+        <div className={styles.error}>조회된 랭킹 정보가 없습니다.</div>
       )}
     </div>
   );
