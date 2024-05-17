@@ -1,4 +1,4 @@
-import { localAxios } from "@/util/axios";
+import { localAxios, getCharacterId } from "@/util/axios";
 
 async function login(code: string) {
   const requestBody = { code: code };
@@ -23,4 +23,12 @@ async function reissue() {
   });
 }
 
-export { login, logout, reissue };
+async function attendance() {
+  return localAxios
+    .get(`/character/${getCharacterId()}/attendance`)
+    .catch((error) => {
+      throw error;
+    });
+}
+
+export { login, logout, reissue, attendance };

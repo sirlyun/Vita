@@ -12,8 +12,8 @@ export default function Birth({ birth, setBirth }: Props) {
   const currentYear = new Date().getFullYear();
 
   const years = Array.from(
-    { length: currentYear - 1899 },
-    (v, k) => `${1900 + k}`
+    { length: currentYear - 1959 },
+    (v, k) => `${1960 + k}`
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

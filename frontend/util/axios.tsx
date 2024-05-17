@@ -53,4 +53,4 @@ const getCharacterId = (): string | undefined => {
   return getCookie("characterId");
 };
 
-export { localAxios, getCharacterId };
+export { localAxios, getCharacterId, getCookie };
