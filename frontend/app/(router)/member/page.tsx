@@ -43,7 +43,7 @@ export default function Page() {
       Number(birth),
       chronicValue
     );
-    console.log(responseMember.status);
+    console.log(responseMember);
     document.cookie = `memberId=${"createdMember"}; path=/; max-age=3600; secure; SameSite=None`;
     console.log(
       "멤버를 만드는 페이지에서 멤버 ID가 쿠키에 담겼는지 확인",

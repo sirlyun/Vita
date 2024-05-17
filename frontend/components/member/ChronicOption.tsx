@@ -1,11 +1,11 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import styles from "@/public/styles/chronic.module.scss";
 
 interface Props {
   chronic: string | null;
   setChronic: (value: string | null) => void;
   option: string | null;
-  icon: string;
+  icon: StaticImageData;
   name: string;
 }
 
