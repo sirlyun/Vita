@@ -18,8 +18,6 @@ import InputNickname from "@/components/character/InputNickname";
 import { getCookie } from "@/util/axios";
 
 export default function createCharacter() {
-  const router = useRouter();
-
   const [step, setStep] = useState<number>(0);
   const [nickname, setNickname] = useState<string>("");
   const [height, setHeight] = useState<string>("");
