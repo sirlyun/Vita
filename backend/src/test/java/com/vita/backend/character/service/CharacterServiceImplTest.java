@@ -152,10 +152,8 @@ class CharacterServiceImplTest {
 				memberId,
 				characterId);
 			// then
-			assertNull(characterGameSingleRankingResponse.running().requesterRanking());
-			assertNull(characterGameSingleRankingResponse.running().totalRanking());
-			assertNull(characterGameSingleRankingResponse.training().requesterRanking());
-			assertNull(characterGameSingleRankingResponse.training().totalRanking());
+			assertNull(characterGameSingleRankingResponse.running());
+			assertNull(characterGameSingleRankingResponse.training());
 		}
 
 		@Test
@@ -318,7 +316,7 @@ class CharacterServiceImplTest {
 			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
 			given(characterRepository.findById(characterId)).willReturn(Optional.of(character));
 			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
-			given(zSetOperations.score(type + "_single_ranking", String.valueOf(characterId))).willReturn(9.0);
+			given(zSetOperations.score(type + "_single_ranking", String.valueOf(characterId))).willReturn(20.0);
 			// when
 			characterService.characterGameSingleSave(memberId, characterId, type, request);
 			// then
@@ -344,7 +342,7 @@ class CharacterServiceImplTest {
 			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
 			given(characterRepository.findById(characterId)).willReturn(Optional.of(character));
 			given(redisTemplate.opsForZSet()).willReturn(zSetOperations);
-			given(zSetOperations.score(type + "_single_ranking", String.valueOf(characterId))).willReturn(11.0);
+			given(zSetOperations.score(type + "_single_ranking", String.valueOf(characterId))).willReturn(3.0);
 			// when
 			characterService.characterGameSingleSave(memberId, characterId, type, request);
 			// then
@@ -367,7 +365,7 @@ class CharacterServiceImplTest {
 				.level(Level.MID)
 				.build();
 			DrinkSaveDetail drinkSaveDetail = DrinkSaveDetail.builder()
-				.drinkType(DrinkType.LIQUOR)
+				.drinkType(DrinkType.SOJU)
 				.level(Level.MID)
 				.build();
 			request = CharacterSaveRequest.builder()
@@ -426,11 +424,28 @@ class CharacterServiceImplTest {
 			DeBuff drinkDeBuff = DeBuff.builder()
 				.deBuffType(DeBuffType.DRINK)
 				.build();
+			Shop shop = Shop.builder()
+				.type(ItemType.BACKGROUND)
+				.name("main-2500ms")
+				.vitaPoint(10L)
+				.build();
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.member(member)
+				.build();
+			CharacterShop item = CharacterShop.builder()
+				.shop(shop)
+				.character(character)
+				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
 			given(characterRepository.existsByMemberIdAndIsDeadFalse(memberId)).willReturn(false);
 			given(deBuffRepository.findByDeBuffType(DeBuffType.CHRONIC)).willReturn(Optional.ofNullable(chronicDeBuff));
 			given(deBuffRepository.findByDeBuffType(DeBuffType.SMOKE)).willReturn(Optional.ofNullable(smokeDeBuff));
 			given(deBuffRepository.findByDeBuffType(DeBuffType.DRINK)).willReturn(Optional.ofNullable(drinkDeBuff));
+			given(shopRepository.findByName("main-2500ms")).willReturn(Optional.of(shop));
+			given(characterShopRepository.save(any(CharacterShop.class))).willReturn(item);
 			// when
 			characterService.characterSave(memberId, request);
 			// then
@@ -471,10 +486,10 @@ class CharacterServiceImplTest {
 			// given
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
 			given(characterRepository.findLastCreatedCharacterByMemberId(memberId)).willReturn(Optional.empty());
-			// when & then
-			assertThrows(NotFoundException.class, () -> {
-				characterService.characterLoad(memberId);
-			});
+			// when
+			CharacterLoadResponse characterLoadResponse = characterService.characterLoad(memberId);
+			// then
+			assertNull(characterLoadResponse);
 		}
 
 		@Test
@@ -487,6 +502,7 @@ class CharacterServiceImplTest {
 				.vitaPoint(10L)
 				.member(member)
 				.build();
+			ReflectionTestUtils.setField(character, "id", 1L);
 			given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(member));
 			given(characterRepository.findLastCreatedCharacterByMemberId(memberId)).willReturn(
 				Optional.ofNullable(character));
@@ -663,8 +679,8 @@ class CharacterServiceImplTest {
 		}
 
 		@Test
-		@DisplayName("아이템 구매 성공")
-		void success() {
+		@DisplayName("이미 구매한 아이템이라 실패")
+		void alreadySaveItemFail() {
 			// given
 			Member member = Member.builder()
 				.uuid("test")
@@ -682,7 +698,71 @@ class CharacterServiceImplTest {
 				.name("test")
 				.vitaPoint(10L)
 				.build();
+			ReflectionTestUtils.setField(item, "id", 1L);
 			given(shopRepository.findById(shopId)).willReturn(Optional.of(item));
+			CharacterShop characterShop = CharacterShop.builder()
+				.character(character)
+				.shop(item)
+				.build();
+			given(characterShopRepository.findByCharacterIdAndShopId(characterId, item.getId())).willReturn(Optional.of(characterShop));
+			// when & then
+			assertThrows(BadRequestException.class, () -> {
+				characterService.itemSave(memberId, characterId, request);
+			});
+		}
+
+		@Test
+		@DisplayName("아이템 구매 시 캐릭터가 사망하여 실패")
+		void characterVitaLowerThanItemFail() {
+			// given
+			Member member = Member.builder()
+				.uuid("test")
+				.name("test")
+				.build();
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.member(member)
+				.build();
+			given(characterRepository.findByIdAndMemberId(characterId, memberId)).willReturn(Optional.of(character));
+			Shop item = Shop.builder()
+				.type(ItemType.BACKGROUND)
+				.name("test")
+				.vitaPoint(10L)
+				.build();
+			ReflectionTestUtils.setField(item, "id", 1L);
+			given(shopRepository.findById(shopId)).willReturn(Optional.of(item));
+			given(characterShopRepository.findByCharacterIdAndShopId(characterId, item.getId())).willReturn(Optional.empty());
+			// when & then
+			assertThrows(BadRequestException.class, () -> {
+				characterService.itemSave(memberId, characterId, request);
+			});
+		}
+
+		@Test
+		@DisplayName("아이템 구매 성공")
+		void success() {
+			// given
+			Member member = Member.builder()
+				.uuid("test")
+				.name("test")
+				.build();
+			Character character = Character.builder()
+				.nickname("test")
+				.bodyShape(BodyShape.NORMAL)
+				.vitaPoint(10L)
+				.member(member)
+				.build();
+			given(characterRepository.findByIdAndMemberId(characterId, memberId)).willReturn(Optional.of(character));
+			Shop item = Shop.builder()
+				.type(ItemType.BACKGROUND)
+				.name("test")
+				.vitaPoint(8L)
+				.build();
+			ReflectionTestUtils.setField(item, "id", 1L);
+			given(shopRepository.findById(shopId)).willReturn(Optional.of(item));
+			given(characterShopRepository.findByCharacterIdAndShopId(characterId, item.getId())).willReturn(Optional.empty());
 			// when
 			characterService.itemSave(memberId, characterId, request);
 			// then
@@ -737,15 +817,6 @@ class CharacterServiceImplTest {
 			assertThrows(NotFoundException.class, () -> {
 				characterService.itemUpdate(memberId, characterId, request);
 			});
-			Shop item = Shop.builder()
-				.type(ItemType.BACKGROUND)
-				.name("test")
-				.vitaPoint(10L)
-				.build();
-			CharacterShop characterShop = CharacterShop.builder()
-				.shop(item)
-				.character(character)
-				.build();
 		}
 	}
 }
