@@ -524,14 +524,30 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	@Transactional
 	@Override
 	public void rankingReset() {
-		System.out.println(
-			"redisTemplate.hasKey(\"running_single_ranking\") = " + redisTemplate.hasKey("running_single_ranking"));
 		if (Boolean.TRUE.equals(redisTemplate.hasKey("running_single_ranking"))) {
+			Set<ZSetOperations.TypedTuple<String>> runningSingleRankingSet = redisTemplate.opsForZSet()
+				.rangeWithScores("running_single_ranking", 0, 9);
+			if (runningSingleRankingSet != null) {
+				runningSingleRankingSet.forEach(typedTuple -> {
+					String info = typedTuple.getValue();
+					Character rankerCharacter = CharacterUtils.findByCharacterId(characterRepository,
+						Long.valueOf(info));
+					rankerCharacter.vitaUpdate(10L);
+				});
+			}
 			redisTemplate.delete("running_single_ranking");
 		}
-		System.out.println(
-			"redisTemplate.hasKey(\"training_single_ranking\") = " + redisTemplate.hasKey("training_single_ranking"));
 		if (Boolean.TRUE.equals(redisTemplate.hasKey("training_single_ranking"))) {
+			Set<ZSetOperations.TypedTuple<String>> trainingSingleRankingSet = redisTemplate.opsForZSet()
+				.reverseRangeWithScores("training_single_ranking", 0, 9);
+			if (trainingSingleRankingSet != null) {
+				trainingSingleRankingSet.forEach(typedTuple -> {
+					String info = typedTuple.getValue();
+					Character rankerCharacter = CharacterUtils.findByCharacterId(characterRepository,
+						Long.valueOf(info));
+					rankerCharacter.vitaUpdate(10L);
+				});
+			}
 			redisTemplate.delete("training_single_ranking");
 		}
 	}
