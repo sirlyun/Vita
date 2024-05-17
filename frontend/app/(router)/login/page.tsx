@@ -44,6 +44,7 @@ export default function LoginComponent() {
 
           // 캐릭터가 죽은 상태일 때 deathId를 쿠키에 저장
           else if (checkCharacter.is_dead) {
+            document.cookie = `memberId=${checkCharacter.character_id}; path=/; max-age=36000; secure; SameSite=None`;
             document.cookie = `deathId=${"isDeath"}; path=/; max-age=36000; secure; SameSite=None`;
           }
 
