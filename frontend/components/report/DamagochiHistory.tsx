@@ -51,9 +51,8 @@ export default function DamagochiHistory() {
 
   // 캐릭터 목록 표시
   return (
-    <div className={report["damagochi-history"]}>
-      {characterList &&
-        characterList.length > 0 &&
+    <div className={`${report["damagochi-history"]}`}>
+      {characterList && characterList.length > 0 ? (
         characterList.map((character, index) => (
           <button key={index} onClick={() => handleButtonClick(character)}>
             <Image
@@ -69,7 +68,14 @@ export default function DamagochiHistory() {
             />
             <span>{character.nickname}</span>
           </button>
-        ))}
+        ))
+      ) : (
+        <div
+          className={`${report["inner-text-center"]}  ${report["inner-background"]}`}
+        >
+          <div className={``}>히스토리 없음</div>
+        </div>
+      )}
     </div>
   );
 }

@@ -46,6 +46,16 @@
     padding: 7vh 8vw;
     overflow: hidden; // 이 요소에서는 스크롤 발생 안 함
   }
+  .inner-text-center {
+    height: 62vh;
+    // padding: 0.1vh 0.8vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // height: 100%;
+    width: 100%;
+    text-align: center;
+  }
 
   .inner-image-block {
     display: flex;
@@ -107,7 +117,8 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1vh;
-  height: 60vh;
+  // height: 60vh;
+  height: 100%;
   overflow: hidden;
   overflow-y: auto;
 
