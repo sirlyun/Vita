@@ -26,7 +26,6 @@ export function ReportModal({
 
   // 현재 페이지의 경로
   const pathname = usePathname();
-  console.log(pathname);
 
   useEffect(() => {
     if (dialogRef.current) {
