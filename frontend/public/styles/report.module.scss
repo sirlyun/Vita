@@ -196,3 +196,11 @@
 
   overflow-y: auto;
 }
+
+.inventory {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1vh; /* 이미지 간의 간격 설정 */
+}

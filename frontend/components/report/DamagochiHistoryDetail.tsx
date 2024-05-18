@@ -1,7 +1,8 @@
 import report from "@/public/styles/report.module.scss";
 import Image from "next/image";
-import { getUserCharacterImagePath } from "@/util/images.js";
-import React, { useState } from "react";
+import { getUserCharacterImagePath, getBackgroundUrl } from "@/util/images.js";
+import React, { useState, useEffect } from "react";
+import { getItemList } from "@/api/report";
 
 type Character = {
   character_id: number;
@@ -19,22 +20,59 @@ type Props = {
 };
 
 // 기본 정보
-const BasicInfo = ({ character }: { character: Character }) => (
-  <div>
-    <p>이름: {character.nickname}</p>
-    <p>생명력: 0</p>
-    <p>상태: {character.is_dead ? "사망" : "생존"}</p>
-    <p>체형: {character.body_shape}</p>
-  </div>
-);
+const BasicInfo = ({ character }: { character: Character }) => {
+  // character 객체 확인
+  console.log("Character in BasicInfo:", character);
+  return (
+    <div>
+      <p>이름: {character.nickname}</p>
+      <p>생명력: 0</p>
+      <p>상태: {character.is_dead ? "생존" : "사망"}</p>
+      <p>체형: {character.body_shape}</p>
+    </div>
+  );
+};
 
 // 인벤토리
-const Inventory = ({ character }: { character: Character }) => (
-  <div>
-    <p>인벤토리 아이템 수: {character.character_item.length}</p>
-  </div>
-);
+const Inventory = ({ character }: { character: Character }) => {
+  const [items, setItems] = useState<any[]>([]); // 초기 값을 빈 배열로 설정
 
+  useEffect(() => {
+    async function fetchItems() {
+      try {
+        const data = await getItemList();
+        if (data && Array.isArray(data.items)) {
+          // 데이터가 배열인지 확인
+          setItems(data.items);
+        } else {
+          console.error("Expected an array but received:", data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch items:", error);
+      }
+    }
+
+    fetchItems();
+  }, [character.character_id]);
+
+  return (
+    <div>
+      <p>인벤토리 아이템 수: {items.length}</p>
+      <ul className={report["inventory"]}>
+        {items.map((item, index) => (
+          <li key={index}>
+            <Image
+              src={getBackgroundUrl(item.name)}
+              width={100}
+              height={100}
+              alt="Background Image"
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 // PvP전적 컴포넌트
 const PvpRecord = () => (
   <div>
@@ -84,6 +122,12 @@ const DamagochiHistoryDetail: React.FC<Props> = ({ character }) => {
             onClick={() => setActiveTab("basicInfo")}
           >
             기본정보
+          </span>
+          <span
+            className={activeTab === "inventory" ? "active" : ""}
+            onClick={() => setActiveTab("inventory")}
+          >
+            인벤토리
           </span>
         </div>
         <div>{renderTabContent()}</div>

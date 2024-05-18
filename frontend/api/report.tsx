@@ -1,4 +1,4 @@
-import { localAxios } from "@/util/axios";
+import { localAxios, getCharacterId } from "@/util/axios";
 
 // 캐릭터 리스트 조회
 async function getCharacterList() {
@@ -75,7 +75,7 @@ async function getCharacterReportDetail() {
 // 상점 보유한 목록 조회
 async function getItemList() {
   return localAxios
-    .get("/character/${getCharacterId()}/item")
+    .get(`/character/${getCharacterId()}/item`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
