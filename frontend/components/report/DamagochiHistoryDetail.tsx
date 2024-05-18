@@ -24,11 +24,25 @@ const BasicInfo = ({ character }: { character: Character }) => {
   // character 객체 확인
   console.log("Character in BasicInfo:", character);
   return (
-    <div>
-      <p>이름: {character.nickname}</p>
-      <p>생명력: 0</p>
-      <p>상태: {character.is_dead ? "생존" : "사망"}</p>
-      <p>체형: {character.body_shape}</p>
+    <div className={report["basic-info-container"]}>
+      <div className={report["basic-info"]}>
+        <div className={report["basic-info-title"]}>이름</div>
+        <div className={report["basic-info-tmp"]}>{character.nickname}</div>
+      </div>
+      <div className={report["basic-info"]}>
+        <div className={report["basic-info-title"]}>생명력</div>
+        <div className={report["basic-info-tmp"]}>0</div>
+      </div>
+      <div className={report["basic-info"]}>
+        <div className={report["basic-info-title"]}>상태</div>
+        <div className={report["basic-info-tmp"]}>
+          {character.is_dead ? "생존" : "사망"}
+        </div>
+      </div>
+      <div className={report["basic-info"]}>
+        <div className={report["basic-info-title"]}>체형</div>
+        <div className={report["basic-info-tmp"]}>{character.body_shape}</div>
+      </div>
     </div>
   );
 };
