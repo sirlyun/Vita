@@ -144,7 +144,7 @@
 .damagochi-history-detail {
   padding: 2vh 1vh;
   // margin: 1vh auto;
-  box-shadow: 1vh 1vh 1vh rgba(0, 0, 0, 0.1);
+  // box-shadow: 1vh 1vh 1vh rgba(0, 0, 0, 0.1);
 
   .tabs {
     display: flex;
@@ -203,4 +203,19 @@
   justify-content: flex-start;
   align-items: center;
   gap: 1vh; /* 이미지 간의 간격 설정 */
+  flex-wrap: wrap; /* 여러 줄로 정렬 */
+  max-height: 15vh;
+  overflow-y: auto; /* 세로 스크롤 추가 */
+  // overflow: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  // li {
+  //   list-style-type: none; /* 리스트 스타일 없애기 */
+  //   margin-bottom: 1vh; /* 각 이미지 간격 */
+  // }
 }

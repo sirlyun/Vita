@@ -63,8 +63,8 @@ const Inventory = ({ character }: { character: Character }) => {
           <li key={index}>
             <Image
               src={getBackgroundUrl(item.name)}
-              width={100}
-              height={100}
+              width={60}
+              height={60}
               alt="Background Image"
             />
           </li>
