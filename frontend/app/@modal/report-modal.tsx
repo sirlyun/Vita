@@ -74,32 +74,6 @@ export function ReportModal({
               alt="option"
             ></Image>
           </button>
-          {/* <button
-            className={`${report["button-blue"]} ${
-              activeMenu === "damagochi-history" ? "" : report.inactive
-            }`}
-            onClick={() => handleClick("damagochi-history")}
-          >
-            <Image
-              src={images.routine_icon}
-              width={60}
-              height={60}
-              alt="option"
-            ></Image>
-          </button>
-          <button
-            className={`${report["button-blue"]} ${
-              activeMenu === "user-history" ? "" : report.inactive
-            }`}
-            onClick={() => handleClick("user-history")}
-          >
-            <Image
-              src={images.stastitic_icon}
-              width={60}
-              height={60}
-              alt="option"
-            ></Image>
-          </button> */}
         </div>
         <div className={`${report["modal-inner"]} bg`}>{children}</div>
       </div>

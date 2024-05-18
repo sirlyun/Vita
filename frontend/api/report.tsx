@@ -1,11 +1,10 @@
-import { localAxios, getCharacterId } from "@/util/axios";
+import { localAxios } from "@/util/axios";
 
 // 캐릭터 리스트 조회
 async function getCharacterList() {
   return localAxios
     .get("/character")
     .then((response) => {
-      console.log("Fetched character list:", response.data); // 추가된 로그
       return response.data;
     })
     .catch((error) => {
@@ -103,24 +102,4 @@ export {
   getCharacterReportDetail,
   getItemList,
   getDeadCharacterList,
-  dummyData,
 };
-
-const dummyData = [
-  {
-    lifetime: 1,
-    time1: 13,
-    time2: 9999,
-    body_shape: "NORMAL",
-    rebirth: 9,
-    attendance: 83,
-  },
-  {
-    lifetime: 2,
-    time1: 23,
-    time2: 2282,
-    body_shape: "FAT",
-    rebirth: 19,
-    attendance: 93,
-  },
-];

@@ -9,7 +9,6 @@ import { CharacterList, Character } from "@/interfaces/report-interface";
 export default function DamagochiHistory() {
   // 캐릭터 목록을 저장할 상태 변수
   const [characterList, setCharacterList] = useState<CharacterList>([]);
-  const [character, setCharacter] = useState<Character | null>(null);
   const [showDetail, setShowDetail] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
@@ -20,8 +19,6 @@ export default function DamagochiHistory() {
     async function fetchCharacterList() {
       const deadCharacterData = await getDeadCharacterList();
       const characterDataResponse = await getCharacterList();
-      console.log("Received data:", deadCharacterData);
-      console.log("Received character data:", characterDataResponse);
 
       const gender = characterDataResponse.gender;
 
@@ -73,7 +70,7 @@ export default function DamagochiHistory() {
         <div
           className={`${report["inner-text-center"]}  ${report["inner-background"]}`}
         >
-          <div className={``}>히스토리 없음</div>
+          <div>히스토리 없음</div>
         </div>
       )}
     </div>

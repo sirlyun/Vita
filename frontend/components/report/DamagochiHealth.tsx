@@ -7,7 +7,6 @@ import { CharacterReport, Character } from "@/interfaces/report-interface";
 
 type Props = {
   character: Character;
-  // characterReport: CharacterReport;
 };
 
 // 기본 정보
@@ -95,8 +94,6 @@ const DamagochiHealth: React.FC<Props> = ({ character }) => {
     useState<CharacterReport | null>(null);
 
   useEffect(() => {
-    console.log("Character:", character); // character 데이터가 올바르게 전달되는지 확인
-
     async function fetchCharacterReport() {
       const data = await getCharacterReport();
       setCharacterReport(data);
@@ -134,7 +131,7 @@ const DamagochiHealth: React.FC<Props> = ({ character }) => {
             character.body_shape,
             "idle",
             0
-          )} // 캐릭터 이미지는 prop에 따라 동적으로 변경될 수 있습니다.
+          )}
           width={80}
           height={160}
           alt="Character Image"
@@ -149,18 +146,6 @@ const DamagochiHealth: React.FC<Props> = ({ character }) => {
           >
             기본정보
           </span>
-          {/* <span
-            className={activeTab === "inventory" ? "active" : ""}
-            onClick={() => setActiveTab("inventory")}
-          >
-            인벤토리
-          </span>
-          <span
-            className={activeTab === "pvpRecord" ? "active" : ""}
-            onClick={() => setActiveTab("pvpRecord")}
-          >
-            PvP전적
-          </span> */}
         </div>
         <div>{renderTabContent()}</div>
       </div>

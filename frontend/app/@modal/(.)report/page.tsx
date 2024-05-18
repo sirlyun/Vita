@@ -2,7 +2,7 @@
 
 import { ReportModal } from "../report-modal";
 import { useState, useEffect } from "react";
-import { Character, CharacterList } from "@/interfaces/report-interface";
+import { CharacterList } from "@/interfaces/report-interface";
 import { getCharacterList } from "@/api/report";
 import DamagochiHealth from "@/components/report/DamagochiHealth";
 import DamagochiHistory from "@/components/report/DamagochiHistory";
@@ -16,8 +16,7 @@ export default function ModalReport() {
   useEffect(() => {
     async function fetchCharacter() {
       const data = await getCharacterList();
-      console.log("Fetched character:", data[0]); // Fetch한 캐릭터 데이터 확인
-      setCharacterList([data]); // 첫 번째 캐릭터를 설정합니다.
+      setCharacterList([data]); // 첫 번째 캐릭터 설정
     }
 
     fetchCharacter();

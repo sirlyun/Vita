@@ -22,10 +22,8 @@ type Props = {
 const BasicInfo = ({ character }: { character: Character }) => (
   <div>
     <p>이름: {character.nickname}</p>
-    {/* <p>생명력: {character.vita_point}</p> */}
     <p>생명력: 0</p>
     <p>상태: {character.is_dead ? "사망" : "생존"}</p>
-    {/* <p>성별: {character.gender}</p> */}
     <p>체형: {character.body_shape}</p>
   </div>
 );
@@ -72,7 +70,7 @@ const DamagochiHistoryDetail: React.FC<Props> = ({ character }) => {
             character.body_shape,
             "idle",
             0
-          )} // 캐릭터 이미지는 prop에 따라 동적으로 변경될 수 있습니다.
+          )}
           width={100}
           height={100}
           alt="Character Image"
@@ -87,18 +85,6 @@ const DamagochiHistoryDetail: React.FC<Props> = ({ character }) => {
           >
             기본정보
           </span>
-          {/* <span
-            className={activeTab === "inventory" ? "active" : ""}
-            onClick={() => setActiveTab("inventory")}
-          >
-            인벤토리
-          </span>
-          <span
-            className={activeTab === "pvpRecord" ? "active" : ""}
-            onClick={() => setActiveTab("pvpRecord")}
-          >
-            PvP전적
-          </span> */}
         </div>
         <div>{renderTabContent()}</div>
       </div>
