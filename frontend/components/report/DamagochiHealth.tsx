@@ -47,26 +47,26 @@ const BasicInfo = ({
       </div>
     </div>
     <div className={report["info"]}>
-      <div className={report["info-title"]}>획득한 생명력</div>
+      <div className={report["info-title"]}>획득한 수명</div>
       <div className={report["info-tmp"]}>
         {" "}
         {characterReport.plus_vita ?? 0}년
       </div>
     </div>
     <div className={report["info"]}>
-      <div className={report["info-title"]}>잃은 생명력</div>
+      <div className={report["info-title"]}>잃은 수명</div>
       <div className={report["info-tmp"]}>
         {" "}
         {characterReport.minus_vita ?? 0}년
       </div>
     </div>
-    <div className={report["info"]}>
+    {/* <div className={report["info"]}>
       <div className={report["info-title"]}>업적 수</div>
       <div className={report["info-tmp"]}>
         {" "}
         {characterReport.achievement_count ?? 0}개
       </div>
-    </div>
+    </div> */}
   </div>
 );
 
