@@ -7,6 +7,6 @@ import com.vita.backend.health.domain.Food;
 import com.vita.backend.infra.openai.data.request.detail.OpenAIFoodDetail;
 
 public interface FoodRepositoryCustom {
-	Optional<Food> findByCreatedAt(LocalDate localDate);
+	Optional<Food> findByMemberIdAndCreatedAt(long memberId, LocalDate localDate);
 	OpenAIFoodDetail findNutrientSumForToday();
 }

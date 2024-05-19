@@ -81,7 +81,7 @@ public class HealthServiceImpl implements HealthSaveService {
 		}
 		OpenAIApiFoodResponse openAIApiFoodResponse = openAIVisionClient.getFoodInformation(image);
 
-		Food food = foodRepository.findByCreatedAt(LocalDate.now())
+		Food food = foodRepository.findByMemberIdAndCreatedAt(memberId, LocalDate.now())
 			.orElseGet(
 				() -> foodRepository.save(Food.builder()
 					.calorie(0L)
@@ -93,9 +93,6 @@ public class HealthServiceImpl implements HealthSaveService {
 					.build())
 			);
 
-		if (memberId != food.getMember().getId()) {
-			throw new ForbiddenException("FoodSave", FOOD_FORBIDDEN);
-		}
 		food.updateFood(Long.valueOf(openAIApiFoodResponse.getCalorie()),
 			Long.valueOf(openAIApiFoodResponse.getSalt()), Long.valueOf(openAIApiFoodResponse.getSugar()),
 			Long.valueOf(openAIApiFoodResponse.getFat()), Long.valueOf(openAIApiFoodResponse.getProtein()));
