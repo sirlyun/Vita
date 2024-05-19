@@ -1,6 +1,10 @@
 import styles from "@/public/styles/character.module.scss";
 import Image from "next/image";
-import { getIconPath } from "@/util/icons";
+
+import xIcon from "@/public/icons/x-icon.png";
+import soju from "@/public/icons/SOJU-icon.png";
+import sojuTwo from "@/public/icons/soju-two-icon.png";
+import sojuThree from "@/public/icons/soju-three-icon.png";
 
 interface Props {
   drinkQuantity: string;
@@ -29,7 +33,7 @@ export default function CheckDrink({ drinkQuantity, setDrinkQuantity }: Props) {
           }
         >
           <Image
-            src={getIconPath("x")}
+            src={xIcon}
             width={60}
             height={60}
             alt="x-icon"
@@ -51,12 +55,7 @@ export default function CheckDrink({ drinkQuantity, setDrinkQuantity }: Props) {
               : styles["unselected-div"]
           }
         >
-          <Image
-            src={getIconPath("SOJU")}
-            width={60}
-            height={60}
-            alt="soju-icon"
-          />
+          <Image src={soju} width={60} height={60} alt="soju-icon" />
         </div>
         <p>1병 미만</p>
       </div>
@@ -73,12 +72,7 @@ export default function CheckDrink({ drinkQuantity, setDrinkQuantity }: Props) {
               : styles["unselected-div"]
           }
         >
-          <Image
-            src={getIconPath("soju-two")}
-            width={60}
-            height={60}
-            alt="soju-two-icon"
-          />
+          <Image src={sojuTwo} width={60} height={60} alt="soju-two-icon" />
         </div>
         <p>1병 이상</p>
       </div>
@@ -95,12 +89,7 @@ export default function CheckDrink({ drinkQuantity, setDrinkQuantity }: Props) {
               : styles["unselected-div"]
           }
         >
-          <Image
-            src={getIconPath("soju-three")}
-            width={60}
-            height={60}
-            alt="soju-three-icon"
-          />
+          <Image src={sojuThree} width={60} height={60} alt="soju-three-icon" />
         </div>
         <p>2병 이상</p>
       </div>

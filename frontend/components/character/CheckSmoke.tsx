@@ -1,7 +1,9 @@
 import styles from "@/public/styles/character.module.scss";
 import Image from "next/image";
-import { getIconPath } from "@/util/icons";
-
+import xIcon from "@/public/icons/x-icon.png";
+import cigaretteOne from "@/public/icons/cigarette-one-icon.png";
+import cigaretteTwo from "@/public/icons/cigarette-two-icon.png";
+import cigaretteBox from "@/public/icons/cigarette-box-icon.png";
 interface Props {
   quantity: string;
   setQuantity: (value: string) => void;
@@ -29,7 +31,7 @@ export default function CheckSmoke({ quantity, setQuantity }: Props) {
           }
         >
           <Image
-            src={getIconPath("x")}
+            src={xIcon}
             width={60}
             height={60}
             alt="x-icon"
@@ -52,7 +54,7 @@ export default function CheckSmoke({ quantity, setQuantity }: Props) {
           }
         >
           <Image
-            src={getIconPath("cigarette-one")}
+            src={cigaretteOne}
             width={60}
             height={60}
             alt="cigarette-one-icon"
@@ -74,7 +76,7 @@ export default function CheckSmoke({ quantity, setQuantity }: Props) {
           }
         >
           <Image
-            src={getIconPath("cigarette-two")}
+            src={cigaretteTwo}
             width={60}
             height={60}
             alt="cigarette-two-icon"
@@ -96,7 +98,7 @@ export default function CheckSmoke({ quantity, setQuantity }: Props) {
           }
         >
           <Image
-            src={getIconPath("cigarette-box")}
+            src={cigaretteBox}
             width={60}
             height={60}
             alt="cigarette-box-icon"
