@@ -533,6 +533,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 					Character rankerCharacter = CharacterUtils.findByCharacterId(characterRepository,
 						Long.valueOf(info));
 					rankerCharacter.vitaUpdate(10L);
+					receiptProvider.receiptSave(rankerCharacter.getId(), ReceiptType.GAME, true, 10L, rankerCharacter.getVitaPoint());
 				});
 			}
 			redisTemplate.delete("running_single_ranking");
@@ -546,6 +547,7 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 					Character rankerCharacter = CharacterUtils.findByCharacterId(characterRepository,
 						Long.valueOf(info));
 					rankerCharacter.vitaUpdate(10L);
+					receiptProvider.receiptSave(rankerCharacter.getId(), ReceiptType.GAME, true, 10L, rankerCharacter.getVitaPoint());
 				});
 			}
 			redisTemplate.delete("training_single_ranking");
