@@ -40,6 +40,8 @@ const FoodNutrition = ({
   fat,
 }: FoodNutritionProps) => {
   const nickname = getCookie("nickname");
+  const gender = getCookie("gender");
+  const bodyShape = getCookie("bodyShape");
 
   const handleModalContentClick = useStopPropagation();
 
@@ -49,7 +51,7 @@ const FoodNutrition = ({
       image: getIconPath("kcal"),
       unit: "kcal",
       consumedAmount: calrorie,
-      recommendedAmount: 2000,
+      recommendedAmount: 2300,
     },
     salts: {
       name: "나트륨",
@@ -101,10 +103,10 @@ const FoodNutrition = ({
         <div className={styles.nickname}>{nickname}</div>
         <div className={styles.character}>
           <Image
-            src={getUserCharacterImagePath("woman", "avg", "idle", 0)}
+            src={getUserCharacterImagePath(gender, bodyShape, "idle", 0)}
             width={55}
             height={115}
-            alt="damagochi"
+            alt="myCharacter"
           ></Image>
         </div>
         <div className={`${styles["nutrition-frame"]}`}>

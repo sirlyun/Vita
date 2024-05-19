@@ -46,6 +46,9 @@ export default function Home() {
 
         // user nickname 쿠키에 저장
         document.cookie = `nickname=${characterInfo.nickname}; path=/; max-age=36000; secure; SameSite=None`;
+        // 성별 및 몸 타입 쿠키에 저장
+        document.cookie = `gender=${characterInfo.gender}; path=/; max-age=36000; secure; SameSite=None`;
+        document.cookie = `bodyShape=${characterInfo.body_shape}; path=/; max-age=36000; secure; SameSite=None`;
 
         // 캐릭터 ID가 created일 때 해당 characterId로 변경
         if (characterIdValue && characterIdValue.split("=")[1] === "created") {

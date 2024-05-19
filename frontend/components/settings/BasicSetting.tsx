@@ -17,6 +17,8 @@ export default function BasicSettingPage({
       document.cookie = `memberId=; ${COOKIE_EXPIRE}`;
       document.cookie = `refreshToken=; ${COOKIE_EXPIRE}`;
       document.cookie = `nickname=; ${COOKIE_EXPIRE}`;
+      document.cookie = `bodyShape=; ${COOKIE_EXPIRE}`;
+      document.cookie = `gender=; ${COOKIE_EXPIRE}`;
 
       router.push("/login");
     } catch (error) {
