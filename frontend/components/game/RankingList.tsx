@@ -6,6 +6,7 @@ export default function RankingListPage({
   activeMenu,
 }: RankingListPageProps) {
   console.log(rankingList);
+  console.log(activeMenu);
 
   return (
     <div className={styles["ranking-container"]}>
@@ -44,6 +45,7 @@ export default function RankingListPage({
           </div>
         )}
       </div>
+
       {activeMenu === "running" &&
       rankingList.running &&
       rankingList.running.requester_ranking ? (
@@ -54,7 +56,7 @@ export default function RankingListPage({
           name={rankingList.running.requester_ranking.nickname}
           score={rankingList.running.requester_ranking.score}
         />
-      ) : activeMenu === "training" &&
+      ) : activeMenu === "fitness" &&
         rankingList.training &&
         rankingList.training.requester_ranking ? (
         <Ranker
