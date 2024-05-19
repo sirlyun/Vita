@@ -36,6 +36,22 @@ export default function DebuffModal({
     2: "과도한 음주는 간경변, 알코올성 간염 등의 간 질환과 위염, 췌장염 등의 소화기 질환을 유발할 수 있습니다. 또한 고혈압, 심근증 같은 심혈관 질환, 여러 종류의 암, 알코올 의존증 및 정신 건강 문제를 초래할 수 있습니다.", // 술
     3: "만성질환을 가진 분들은 규칙적인 운동, 건강한 식습관, 정기적인 의사 상담, 약물 복용 지침 준수, 스트레스 관리, 충분한 수면으로 꾸준히 관리해야 합니다.", // 만성질환
   };
+
+  const calculationExample = (type: string) => {
+    switch (type) {
+      case "SMOKE": {
+        return "ex) 2(아이코스) x 1(1갑 미만)";
+      }
+      case "DRINK": {
+        return "ex) 3(양주) x 1(1병 미만)";
+      }
+      case "CHRONIC": {
+        return "";
+      }
+      default:
+        "WRONTG TYPE";
+    }
+  };
   const debuffDescription = desc[parseInt(debuff.de_buff_id)];
   return (
     <div>
@@ -53,7 +69,17 @@ export default function DebuffModal({
               <p className={styles.left}>{debuffDescription}</p>
               <br />
               {debuff ? (
-                <p>수명: -{debuff.vita_point}년/일</p>
+                <div>
+                  <p>수명: -{debuff.vita_point}년/일</p>
+                  <p className={styles.small}>
+                    {debuff.type !== "CHRONIC"
+                      ? "계산법: (종류) x (양)"
+                      : "계산법: 만성지병 개수 x 1"}
+                  </p>
+                  <p className={styles.small}>
+                    {calculationExample(debuff.type)}
+                  </p>
+                </div>
               ) : (
                 <p>No debuff found</p>
               )}

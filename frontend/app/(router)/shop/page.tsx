@@ -118,7 +118,7 @@ export default function ShopPage() {
           <div className={`${styles.npc} bg`}>
             {selectedItem != null ? (
               <p>
-                그건 {selectedItem.vita_point}시간 짜리야!
+                그건 {selectedItem.vita_point}년 짜리야!
                 <br />
                 {textList[textIndex]}
               </p>
