@@ -70,6 +70,9 @@
   align-items: center;
   color: white;
   position: relative; /* Required for absolute positioning of the inner div */
+  p {
+    z-index: 2;
+  }
 }
 
 .score-gauge {
