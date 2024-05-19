@@ -204,19 +204,21 @@ function HealthFood({ onClose }: FoodImageFrameProps) {
             <div className={`${styles["modal-content"]} modal-content-recycle`}>
               {renderContent()}
             </div>
-            {step === 1 ? (
+            {!isLoading && step === 1 ? (
               <div className={styles["step"]}>
                 <button onClick={handlePrev}>이전</button>
                 <button onClick={handleCompleteClick}>확인</button>
               </div>
-            ) : foodImage ? (
+            ) : !isLoading && foodImage ? (
               <div onClick={handleNext} className={styles["step"]}>
                 <button>다음</button>
               </div>
             ) : (
-              <p className={styles["food-choice-text"]}>
-                오늘 드신 음식 이미지를 선택해주세요!
-              </p>
+              !isLoading && (
+                <p className={styles["food-choice-text"]}>
+                  오늘 드신 음식 이미지를 선택해주세요!
+                </p>
+              )
             )}
           </div>
         </div>

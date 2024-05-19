@@ -6,17 +6,5 @@ interface Props {
 }
 
 export default function ResultDaily({ score, review }: Props) {
-  return (
-    <div className={styles["result-daily"]}>
-      {score !== null ? (
-        <>
-          당신의 건강 점수는 <span>{score}</span>점 입니다.
-          <br></br>
-          {review}
-        </>
-      ) : (
-        <>{review}</>
-      )}
-    </div>
-  );
+  return <div className={styles["result-daily"]}>{review}</div>;
 }

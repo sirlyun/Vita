@@ -4,6 +4,7 @@ import NutritionItem from "@/components/health/food/NutritionItem";
 import { getIconPath } from "@/util/icons";
 import Image from "next/image";
 import { getUserCharacterImagePath } from "@/util/images";
+import { getCookie } from "@/util/axios";
 
 interface FoodNutritionProps {
   onClose: () => void; // onClose 함수 타입 정의
@@ -38,6 +39,8 @@ const FoodNutrition = ({
   sugar,
   fat,
 }: FoodNutritionProps) => {
+  const nickname = getCookie("nickname");
+
   const handleModalContentClick = useStopPropagation();
 
   const foodNutrition: FoodNutritionalDetails = {
@@ -95,7 +98,7 @@ const FoodNutrition = ({
         onClick={handleModalContentClick}
         className={`${styles["board-frame"]}`}
       >
-        <div className={styles.nickname}>눈물의 여왕</div>
+        <div className={styles.nickname}>{nickname}</div>
         <div className={styles.character}>
           <Image
             src={getUserCharacterImagePath("woman", "avg", "idle", 0)}

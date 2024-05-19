@@ -44,6 +44,9 @@ export default function Home() {
         );
         console.log("캐릭터 아이디: ", characterIdValue);
 
+        // user nickname 쿠키에 저장
+        document.cookie = `nickname=${characterInfo.nickname}; path=/; max-age=36000; secure; SameSite=None`;
+
         // 캐릭터 ID가 created일 때 해당 characterId로 변경
         if (characterIdValue && characterIdValue.split("=")[1] === "created") {
           // 쿠키의 characterId 값이 'created' 일 때 새 값으로 설정
