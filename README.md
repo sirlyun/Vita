@@ -163,6 +163,12 @@
   <img src="./README/option0.png" width="200" height="400">
   <img src="./README/option1.png" width="200" height="400">
 
+- 일일 챌린지 화면
+
+  <img src="./README/challange0.png" width="200" height="400">
+  <img src="./README/challange1.png" width="200" height="400">
+  <img src="./README/challange2.png" width="200" height="400">
+
 - 사망 화면
 
   <img src="./README/dead.png" width="200" height="400">
@@ -198,6 +204,14 @@
   - 게임
   - 상점
   - 옵션
+- API 연동
+  - 메인 페이지
+  - 상점 목록 조회, 구매
+  - 메인 배경화면 변경
+  - 랭킹 조회
+  - 게임 결과 등록
+  - 디버프 조회
+  - 캐릭터 전제 정보 조회
 - Aixos 전역화
 - 이미지 및 아이콘 동적 전역화
 
