@@ -5,6 +5,7 @@ import { getIconPath } from "@/util/icons";
 import useStopPropagation from "@/components/UseStopPropagation";
 import { useEffect, useState } from "react";
 import { getDailyChallenge } from "@/api/challenge";
+import { postChallenge } from "@/api/challenge";
 
 interface ChallengeFrameProps {
   onClose: () => void;
@@ -15,6 +16,7 @@ interface Challenge {
   name: string;
   standard: number;
   score: number;
+  is_done: boolean;
 }
 const challengeOutputMap: { [key: string]: string } = {
   health: "문진",
@@ -31,6 +33,16 @@ export default function ChallengeFrame({ onClose }: ChallengeFrameProps) {
   function getChallengeOutput(challengeName: Challenge["name"]): string {
     return challengeOutputMap[challengeName];
   }
+
+  // 챌린지 보상 요청
+  const handleCompleteClick = (challengeId: number) => async () => {
+    try {
+      const complete = await postChallenge(challengeId);
+      console.log(complete);
+    } catch (error) {
+      console.error("챌린지 보상 요청에 실패했습니다", error);
+    }
+  };
 
   // 일일 챌린지 가져오기
   const fetchDailyChallenge = async () => {
@@ -72,12 +84,22 @@ export default function ChallengeFrame({ onClose }: ChallengeFrameProps) {
         <div className={`${styles["modal-content"]} modal-content-recycle`}>
           {challengeData.map((challenge) => (
             <div
+              onClick={handleCompleteClick(challenge.challenge_id)}
               key={challenge.challenge_id}
               className={styles["challenge-info-frame"]}
             >
-              <div>{getChallengeOutput(challenge.name)}</div>
+              <div className={styles["challenge-name"]}>
+                {challenge.is_done
+                  ? "이미 보상을 받은 챌린지입니다"
+                  : getChallengeOutput(challenge.name)}
+              </div>
               <div className={styles["challenge-score"]}>
-                <div>
+                <div
+                  style={{
+                    width: `${(challenge.score / challenge.standard) * 100}%`,
+                  }}
+                  className={styles["score-gauge"]}
+                >
                   {challenge.score}/{challenge.standard}회
                 </div>
               </div>

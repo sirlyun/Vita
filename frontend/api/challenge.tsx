@@ -9,4 +9,13 @@ async function getDailyChallenge() {
     });
 }
 
-export { getDailyChallenge };
+async function postChallenge(challenge_id: number) {
+  return localAxios
+    .post(`/member/challenge/${challenge_id}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+}
+
+export { getDailyChallenge, postChallenge };
