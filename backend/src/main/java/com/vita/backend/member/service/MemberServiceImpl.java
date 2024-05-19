@@ -69,7 +69,6 @@ public class MemberServiceImpl implements MemberSaveService, MemberLoadService {
 	private final ReceiptProvider receiptProvider;
 	/* Template */
 	private final RedisTemplate<String, String> redisTemplate;
-	private final ObjectMapper objectMapper;
 
 	/**
 	 * 로그인
