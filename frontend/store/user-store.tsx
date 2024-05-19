@@ -38,13 +38,12 @@ type UserStore = UserState & UserActions;
 const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
   set: StoreApi<UserStore>["setState"]
 ) => ({
-  name: "TESTDAMAGOCHI",
-  gender: "woman",
+  name: "DEFAULTDAMAGOCHI",
+  gender: "FEMALE",
   bodyShape: "FAT",
   gameType: "",
   backgroundName: "main-2500ms",
   refreshToken: "",
-  // eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiY3JlYXRlZF9hdCI6MTcxNTMyMTg3NjUyNSwiZXhwaXJlc0luIjoyNTkyMDAwMDAwLCJhdXRoIjoiQVVUSE9SSVRZIiwiZXhwIjoxNzE3OTEzODc2LCJpZCI6MX0.hFCNrkkydz5dGlfu5zdOO3ZbortTT3p9jLpGI_vr39A
   record: 0,
   runningBestRecord: 9999,
   trainingBestRecord: 0,
