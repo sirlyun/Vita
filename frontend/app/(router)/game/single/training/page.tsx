@@ -17,7 +17,8 @@ export default function Page() {
 
   useEffect(() => {
     if (userStore.name === "") {
-      router.push("/game");
+      alert("잘못된 요청으로 인해 메인 페이지로 돌아갑니다.");
+      router.push("/");
     }
 
     if (timerActive) {

@@ -12,18 +12,6 @@ export default function RankingBoardpage() {
   const [activeMenu, setActiveMenu] = useState("running");
   const [rankingList, setRankingList] = useState<RankingListProps>();
 
-  const fetchCharacterList = async () => {
-    const characterInfo = await getMyCharacterInfo();
-    // 이후를 위한 스토어 별도 저장
-    userStore.gender = characterInfo.gender;
-    userStore.bodyShape = characterInfo.body_shape;
-    userStore.name = characterInfo.nickname;
-  };
-
-  if (userStore.name == "DEFAULTDAMAGOCHI") {
-    fetchCharacterList();
-  }
-
   const fetchRankingList = async () => {
     try {
       // 데이터 받아오기
@@ -53,6 +41,15 @@ export default function RankingBoardpage() {
   };
 
   useEffect(() => {
+    const fetchCharacterList = async () => {
+      const characterInfo = await getMyCharacterInfo();
+      // 이후를 위한 스토어 별도 저장
+      userStore.gender = characterInfo.gender;
+      userStore.bodyShape = characterInfo.body_shape;
+      userStore.name = characterInfo.nickname;
+    };
+
+    fetchCharacterList();
     fetchRankingList();
   }, []);
 
