@@ -1,9 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Modal } from "../../modal";
-
-import styles from "@/public/styles/modal.module.scss";
 import { useSearchParams } from "next/navigation";
+import styles from "@/public/styles/modal.module.scss";
 
 export default function DebuffModal({
   params: { id: debuffId },
@@ -69,7 +68,7 @@ export default function DebuffModal({
               <p className={styles.left}>{debuffDescription}</p>
               <br />
               {debuff ? (
-                <div>
+                <div className={styles["color-font"]}>
                   <p>수명: -{debuff.vita_point}년/일</p>
                   <p className={styles.small}>
                     {debuff.type !== "CHRONIC"
