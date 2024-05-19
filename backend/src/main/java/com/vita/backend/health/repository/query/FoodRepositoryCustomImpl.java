@@ -18,12 +18,14 @@ public class FoodRepositoryCustomImpl implements FoodRepositoryCustom {
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public Optional<Food> findByCreatedAt(LocalDate localDate) {
+	public Optional<Food> findByMemberIdAndCreatedAt(long memberId, LocalDate localDate) {
 		LocalDateTime startOfDay = localDate.atStartOfDay();
 		LocalDateTime endOfDay = localDate.atTime(23, 59, 59);
 
 		return Optional.ofNullable(queryFactory.selectFrom(food)
-			.where(food.createdAt.between(startOfDay, endOfDay))
+			.where(food.createdAt.between(startOfDay, endOfDay)
+				.and(food.member.id.eq(memberId))
+			)
 			.fetchOne());
 	}
 
