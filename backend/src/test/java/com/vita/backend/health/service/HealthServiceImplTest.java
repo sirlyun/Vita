@@ -157,7 +157,7 @@ class HealthServiceImplTest {
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
 			given(openAIVisionClient.getFoodInformation(image)).willReturn(openAIApiFoodResponse);
-			given(foodRepository.findByCreatedAt(LocalDate.now())).willReturn(Optional.empty());
+			given(foodRepository.findByMemberIdAndCreatedAt(memberId, LocalDate.now())).willReturn(Optional.empty());
 			given(foodRepository.save(any())).willReturn(food);
 			// when
 			FoodResponse foodResponse = healthService.foodSave(memberId, image, foodSaveRequest);
@@ -210,7 +210,7 @@ class HealthServiceImplTest {
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
 			given(openAIVisionClient.getFoodInformation(image)).willReturn(openAIApiFoodResponse);
-			given(foodRepository.findByCreatedAt(LocalDate.now())).willReturn(Optional.ofNullable(food));
+			given(foodRepository.findByMemberIdAndCreatedAt(memberId, LocalDate.now())).willReturn(Optional.ofNullable(food));
 			// when & then
 			assertThrows(ForbiddenException.class, () -> {
 				healthService.foodSave(memberId, image, foodSaveRequest);
@@ -252,7 +252,7 @@ class HealthServiceImplTest {
 				.build();
 			given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
 			given(openAIVisionClient.getFoodInformation(image)).willReturn(openAIApiFoodResponse);
-			given(foodRepository.findByCreatedAt(LocalDate.now())).willReturn(Optional.ofNullable(food));
+			given(foodRepository.findByMemberIdAndCreatedAt(memberId, LocalDate.now())).willReturn(Optional.ofNullable(food));
 			// when
 			FoodResponse foodResponse = healthService.foodSave(memberId, image, foodSaveRequest);
 			// then
