@@ -37,6 +37,7 @@ import com.vita.backend.character.domain.CharacterShop;
 import com.vita.backend.character.domain.DeBuff;
 import com.vita.backend.character.domain.Shop;
 import com.vita.backend.character.domain.document.CharacterReport;
+import com.vita.backend.character.domain.document.Receipt;
 import com.vita.backend.character.domain.enumeration.BodyShape;
 import com.vita.backend.character.domain.enumeration.DeBuffType;
 import com.vita.backend.character.domain.enumeration.GameType;
@@ -213,8 +214,14 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 	@Override
 	public AliveCharacterReportLoadResponse aliveCharacterReportLoad(long memberId) {
 		Character character = CharacterUtils.findByMemberIdAndIsDeadFalse(characterRepository, memberId);
-		Long plusVita = receiptRepository.sumPositiveVitaPointsByCharacterId(character.getId());
-		Long minusVita = receiptRepository.sumNegativeVitaPointsByCharacterId(character.getId());
+		List<Receipt> plusReceipts = receiptRepository.sumPositiveVitaPointsByCharacterId(character.getId());
+		long plusVita = plusReceipts.stream()
+			.mapToLong(Receipt::getVitaPoint)
+			.sum();
+		List<Receipt> minusReceipts = receiptRepository.sumNegativeVitaPointsByCharacterId(character.getId());
+		long minusVita = minusReceipts.stream()
+			.mapToLong(Receipt::getVitaPoint)
+			.sum();
 
 		return AliveCharacterReportLoadResponse.builder()
 			.createdAt(LocalDate.from(character.getCreatedAt()))
@@ -497,8 +504,14 @@ public class CharacterServiceImpl implements CharacterLoadService, CharacterSave
 				character.getVitaPoint());
 
 			if (character.getVitaPoint() == 0L) {
-				Long plusVita = receiptRepository.sumPositiveVitaPointsByCharacterId(character.getId());
-				Long minusVita = receiptRepository.sumNegativeVitaPointsByCharacterId(character.getId());
+				List<Receipt> plusReceipts = receiptRepository.sumPositiveVitaPointsByCharacterId(character.getId());
+				long plusVita = plusReceipts.stream()
+					.mapToLong(Receipt::getVitaPoint)
+					.sum();
+				List<Receipt> minusReceipts = receiptRepository.sumNegativeVitaPointsByCharacterId(character.getId());
+				long minusVita = minusReceipts.stream()
+					.mapToLong(Receipt::getVitaPoint)
+					.sum();
 				List<DeadCharacterItemDetail> items = shopRepository.findAllItemsWithOwnCheckAndDeadCharacter(character.getId());
 
 				characterReportRepository.save(CharacterReport.builder()
