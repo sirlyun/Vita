@@ -13,6 +13,11 @@ const localAxios = axios.create({
   },
 });
 
+function getCsrfToken(): string | null | undefined {
+  const meta = document.querySelector('meta[name="csrf-token"]');
+  return meta ? meta.getAttribute("content") : undefined;
+}
+
 // accessToken 쿠키 가져오기
 function getCookie(name: string | undefined) {
   const value = `; ${document.cookie}`;
@@ -28,6 +33,11 @@ localAxios.interceptors.request.use(
 
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+
+    const csrfToken = getCsrfToken();
+    if (csrfToken) {
+      config.headers["X-CSRF-Token"] = csrfToken;
     }
     return config;
   },
