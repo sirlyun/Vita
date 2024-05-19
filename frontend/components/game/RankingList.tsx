@@ -65,13 +65,7 @@ export default function RankingListPage({
           score={rankingList.training.requester_ranking.score}
         />
       ) : (
-        <Ranker
-          key={0}
-          type={activeMenu}
-          rank={0}
-          name={rankingList.running.requester_ranking.nickname}
-          score={0}
-        />
+        <Ranker key={0} type={activeMenu} rank={0} name="기록없음" score={0} />
       )}
     </div>
   );

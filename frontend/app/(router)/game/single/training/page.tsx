@@ -16,6 +16,10 @@ export default function Page() {
   const [timerActive, setTimerActive] = useState<boolean>(false);
 
   useEffect(() => {
+    if (userStore.name === "") {
+      router.push("/game");
+    }
+
     if (timerActive) {
       const timerId = setTimeout(() => {
         const newRemainingTime = remainingTime - 10;

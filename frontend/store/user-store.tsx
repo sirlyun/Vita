@@ -38,7 +38,7 @@ type UserStore = UserState & UserActions;
 const storeConfig: StateCreator<UserStore, [], [], UserStore> = (
   set: StoreApi<UserStore>["setState"]
 ) => ({
-  name: "DEFAULTDAMAGOCHI",
+  name: "",
   gender: "FEMALE",
   bodyShape: "FAT",
   gameType: "",

@@ -18,6 +18,10 @@ export default function RunningPage() {
   const maxClicks: number = 50; // 총 클릭 수
 
   useEffect(() => {
+    if (userStore.name === "") {
+      router.push("/game");
+    }
+
     if (clickCount > 0 && startTime) {
       const interval = setInterval(() => {
         const now = Date.now();

@@ -4,12 +4,25 @@ import RankingList from "@/components/game/RankingList";
 import styles from "@/public/styles/game.module.scss";
 import useUserStore from "@/store/user-store";
 import { getRankingList } from "@/api/game";
+import { getMyCharacterInfo } from "@/api/character";
 
 export default function RankingBoardpage() {
   const userStore = useUserStore();
   // 달리기, 헬스 메뉴 활성화 변수
   const [activeMenu, setActiveMenu] = useState("running");
   const [rankingList, setRankingList] = useState<RankingListProps>();
+
+  const fetchCharacterList = async () => {
+    const characterInfo = await getMyCharacterInfo();
+    // 이후를 위한 스토어 별도 저장
+    userStore.gender = characterInfo.gender;
+    userStore.bodyShape = characterInfo.body_shape;
+    userStore.name = characterInfo.nickname;
+  };
+
+  if (userStore.name == "DEFAULTDAMAGOCHI") {
+    fetchCharacterList();
+  }
 
   const fetchRankingList = async () => {
     try {
