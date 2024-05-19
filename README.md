@@ -1,5 +1,3 @@
-# SSAFY 10기 2학기 자율 프로젝트(2024.04.08 ~ 2024.05.24, 7주) - 비타(Vita)
-
 <p align="center">
   <img src="./frontend/public/pwa/icon-256x256.png" alt="main logo">
 </p>
@@ -77,7 +75,7 @@
 - queryDSL 5.0.0
 - Junit 5.0.0
 
-  ### Frontend
+### Frontend
 
 - Axios 1.6.8
 - Next 14.2.2
@@ -91,12 +89,12 @@
 ## 데이터베이스 ERD
 
 <p align="center">
-  <img src="./README/vita_erd.png" alt="erd">
+  <img src="./README/vita_erd.png" alt="erd"  width="400" height="800">
 </p>
 
 <a name="intro"></a>
 
-## 📢 　 Site Layout
+## 📢 Site Layout
 
 - 로그인 화면
 
