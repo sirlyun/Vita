@@ -99,9 +99,10 @@ export default function ChallengeFrame({ onClose }: ChallengeFrameProps) {
                     width: `${(challenge.score / challenge.standard) * 100}%`,
                   }}
                   className={styles["score-gauge"]}
-                >
+                ></div>
+                <p>
                   {challenge.score}/{challenge.standard}회
-                </div>
+                </p>
               </div>
             </div>
           ))}
