@@ -44,15 +44,13 @@
   .inner-text {
     height: 48vh;
     padding: 7vh 8vw;
-    overflow: hidden; // 이 요소에서는 스크롤 발생 안 함
+    overflow: hidden;
   }
   .inner-text-center {
     height: 62vh;
-    // padding: 0.1vh 0.8vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    // height: 100%;
     width: 100%;
     text-align: center;
   }
@@ -76,8 +74,8 @@
   }
 
   .sub-content {
-    max-height: 45vh; // 최대 높이 설정
-    overflow-y: auto; // 세로 스크롤바 자동 설정
+    max-height: 45vh;
+    overflow-y: auto;
     div {
       margin-bottom: 0.5vh;
 
@@ -117,7 +115,6 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1vh;
-  // height: 60vh;
   height: 100%;
   overflow: hidden;
   overflow-y: auto;
@@ -142,10 +139,7 @@
 }
 
 .damagochi-history-detail {
-  // height: 100%;
   padding: 2vh 1vh;
-  // margin: 1vh auto;
-  // box-shadow: 1vh 1vh 1vh rgba(0, 0, 0, 0.1);
 
   .tabs {
     display: flex;
@@ -195,7 +189,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // height: 100%; /* 상위 컴포넌트의 전체 높이 */
+
   .basic-info {
     display: flex;
     justify-content: space-between;
@@ -217,18 +211,17 @@
     }
   }
 }
+
 .damagochi-health {
   overflow: hidden;
-  // max-height: 15vh; // 최대 높이 설정
   height: 13vh;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  overflow-y: auto;
+  -ms-overflow-style: none;
 
   &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none;
   }
-
-  overflow-y: auto;
 }
 
 .inventory {
@@ -236,20 +229,14 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  gap: 1vh; /* 이미지 간의 간격 설정 */
-  flex-wrap: wrap; /* 여러 줄로 정렬 */
+  gap: 1vh;
+  flex-wrap: wrap;
   max-height: 15vh;
-  overflow-y: auto; /* 세로 스크롤 추가 */
-  // overflow: hidden;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 
   &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none;
   }
-
-  // li {
-  //   list-style-type: none; /* 리스트 스타일 없애기 */
-  //   margin-bottom: 1vh; /* 각 이미지 간격 */
-  // }
 }

@@ -1,7 +1,7 @@
 import report from "@/public/styles/report.module.scss";
 import Image from "next/image";
-import { getUserCharacterImagePath, getBackgroundUrl } from "@/util/images.js";
 import React, { useState, useEffect } from "react";
+import { getUserCharacterImagePath, getBackgroundUrl } from "@/util/images.js";
 import { getItemList } from "@/api/report";
 
 type Character = {
@@ -22,7 +22,6 @@ type Props = {
 // 기본 정보
 const BasicInfo = ({ character }: { character: Character }) => {
   // character 객체 확인
-  console.log("Character in BasicInfo:", character);
   return (
     <div className={report["basic-info-container"]}>
       <div className={report["basic-info"]}>
