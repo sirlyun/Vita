@@ -98,23 +98,74 @@
 
 - 로그인 화면
 
+  <img src="./README/login.png" width="200" height="400">
+
 - 회원가입 화면
+
+  <img src="./README/signup0.png" width="200" height="400">
+  <img src="./README/signup1.png" width="200" height="400">
+  <img src="./README/signup2.png" width="200" height="400">
+  <img src="./README/signup3.png" width="200" height="400">
 
 - 캐릭터 생성 화면
 
+  <img src="./README/signup4.png" width="200" height="400">
+  <img src="./README/signup5.png" width="200" height="400">
+  <img src="./README/signup6.png" width="200" height="400">
+  <img src="./README/signup7.png" width="200" height="400">
+  <img src="./README/signup8.png" width="200" height="400">
+  <img src="./README/signup9.png" width="200" height="400">
+  <img src="./README/signup10.png" width="200" height="400">
+  <img src="./README/signup11.png" width="200" height="400">
+  <img src="./README/signup12.png" width="200" height="400">
+  <img src="./README/signup13.png" width="200" height="400">
+
 - 메인화면
 
-  <img src="./README/layout/main.gif" width="200" height="400">
+  <img src="./README/main.png" width="200" height="400">
 
 - 병원 화면
 
+  <img src="./README/hospital0.png" width="200" height="400">
+  <img src="./README/hospital1.png" width="200" height="400">
+  <img src="./README/hospital2.png" width="200" height="400">
+  <img src="./README/hospital3.png" width="200" height="400">
+  <img src="./README/hospital4.png" width="200" height="400">
+  <img src="./README/hospital5.png" width="200" height="400">
+  <img src="./README/hospital6.png" width="200" height="400">
+  <img src="./README/hospital7.png" width="200" height="400">
+  <img src="./README/hospital8.png" width="200" height="400">
+  <img src="./README/hospital9.png" width="200" height="400">
+
 - 리포트 화면
+
+  <img src="./README/report0.png" width="200" height="400">
+  <img src="./README/report1.png" width="200" height="400">
+  <img src="./README/report2.png" width="200" height="400">
+  <img src="./README/report3.png" width="200" height="400">
 
 - 게임 화면
 
+  <img src="./README/game0.png" width="200" height="400">
+  <img src="./README/game1.png" width="200" height="400">
+  <img src="./README/game2.png" width="200" height="400">
+  <img src="./README/game3.png" width="200" height="400">
+  <img src="./README/game4.png" width="200" height="400">
+
 - 디버프 화면
 
+  <img src="./README/debuff0.png" width="200" height="400">
+  <img src="./README/debuff1.png" width="200" height="400">
+  <img src="./README/debuff2.png" width="200" height="400">
+
 - 옵션 화면
+
+  <img src="./README/option0.png" width="200" height="400">
+  <img src="./README/option1.png" width="200" height="400">
+
+- 사망 화면
+
+  <img src="./README/dead.png" width="200" height="400">
 
 <br>
 
