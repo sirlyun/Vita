@@ -1,0 +1,78 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+
+  /* 게이지 컨테이너 스타일 */
+  .top {
+    height: 30%;
+    width: 100%; /* 게이지 컨테이너의 전체 너비 */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+
+    /* 게이지 컨테이너 스타일 */
+    .gaugeContainer {
+      height: 20%;
+      width: 60%; /* 게이지 컨테이너의 전체 너비 */
+      background-image: url("~/public/images/wide-button.png");
+      display: flex;
+      align-items: center;
+      padding: 0 1%;
+    }
+
+    /* 실제 게이지 바 스타일 */
+    .gaugeFill {
+      height: 80%; /* 게이지 바의 높이 */
+      background-color: #9c0000; /* 게이지 바 색상 */
+      width: 0%; /* 초기 너비 */
+      transition: width 0.2s ease-in-out; /* 너비 변경시 애니메이션 효과 */
+    }
+
+    h1 {
+      font-size: 8vh;
+      text-shadow: -0.4vh 0 #000, 0 0.4vh #000, 0.4vh 0 #000, 0 -0.4vh #000;
+    }
+
+    h3 {
+      font-size: 6vh;
+      text-shadow: -0.3vh 0 #000, 0 0.3vh #000, 0.3vh 0 #000, 0 -0.3vh #000;
+    }
+
+    .special-font {
+      background-color: linear-gradient(to top, #ffea81, #f37d01);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: #febb26;
+      font-weight: bolder;
+    }
+  }
+
+  .mid {
+    height: 50%;
+    img {
+      width: 22vh;
+      height: 47vh;
+    }
+  }
+
+  .bottom {
+    width: 100%;
+    height: 16%;
+    text-align: center;
+
+    button {
+      width: 80%;
+      height: 90%;
+      padding: 3vh 0 4vh 0;
+      font-size: 4vh;
+    }
+  }
+}
+
+.bg-idle {
+  background-image: url("~/public/images/backgrounds/game/workout-bg.png");
+}

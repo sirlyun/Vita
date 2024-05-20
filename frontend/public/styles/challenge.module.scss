@@ -1,0 +1,90 @@
+.dark-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-layout {
+  width: 90vw;
+  height: 65vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.challenge-title-frame {
+  width: 90vw;
+  height: 10vh;
+  background-image: url("/images/challenge-title.png");
+  background-repeat: no-repeat;
+  background-size: 90vw 10vh;
+  margin-top: 1rem;
+  display: flex;
+
+  justify-content: center;
+}
+
+.challenge-title-text {
+  padding-top: 1vh;
+  font-size: 4vh;
+}
+
+.modal-content {
+  width: 80vw;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cancel-div {
+  width: 90vw;
+  display: flex;
+  justify-content: right;
+}
+
+.challenge-info-frame {
+  width: 70vw;
+  height: 10vh;
+  background-color: #ffbb66;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 1rem;
+  font-family: "neo";
+}
+
+.challenge-name {
+  font-size: 2.1vh;
+}
+
+.challenge-score {
+  width: 60vw;
+  height: 3vh;
+  background-color: #884322;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  position: relative; /* Required for absolute positioning of the inner div */
+  p {
+    z-index: 2;
+  }
+}
+
+.score-gauge {
+  background-color: #32cd32; /* Green color for the filled gauge */
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: width 0.3s ease-in-out; /* Smooth transition for the gauge filling */
+  text-align: center;
+}
+@font-face {
+  font-family: "neo";
+  src: url("/fonts/neodgm.ttf") format(truetype);
+}

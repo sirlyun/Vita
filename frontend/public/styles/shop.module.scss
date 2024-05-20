@@ -1,0 +1,141 @@
+.main {
+  background-image: url("/images/backgrounds/shop.png");
+  background-size: 100% 100%;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  align-items: center;
+
+  .container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .menu {
+      width: 100%;
+      height: 20%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+    }
+
+    .menu-top {
+      h1 {
+        position: relative;
+        max-width: 300px;
+        text-align: center;
+        font-size: 3vh;
+        background-image: url("~/public/images/wide-button.png");
+        border-radius: 10px;
+        padding: 1.2vh;
+        filter: brightness(50%);
+        color: #a60000;
+      }
+
+      .active {
+        filter: brightness(100%);
+        color: #a60000;
+      }
+    }
+
+    .menu-bottom {
+      img {
+        width: 30vh;
+        height: 30vh;
+        top: 53vh;
+        left: 3vw;
+        position: absolute;
+      }
+
+      .npc {
+        width: 65%;
+        height: 16vh;
+        display: flex;
+        background-image: url("~/public/images/wide-button.png");
+
+        p {
+          align-self: center;
+          padding: 2vh;
+        }
+      }
+
+      button {
+        width: 30%;
+        height: 16vh;
+
+        p {
+          padding-bottom: 2vh;
+        }
+      }
+    }
+  }
+}
+
+/* shop list css */
+.item-container {
+  position: relative;
+  top: 10vh;
+  height: 43%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contents {
+  width: 80%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(17vh, 1fr)
+  ); /* 사용 가능한 공간에 따라 자동으로 열 수를 조정합니다. */
+  gap: 0.5vh;
+  text-align: center;
+  justify-items: center;
+  overflow: hidden;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  & > *:only-child {
+    grid-column: 1 / -1; /* 그리드의 전체 폭을 차지하도록 설정 */
+  }
+}
+
+.item {
+  width: 17vh;
+  height: 17vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  img {
+    width: 16vh;
+    height: 13vh;
+  }
+}
+
+.owned {
+  filter: brightness(30%);
+}
+
+.selectedItem {
+  outline: 3px solid rgb(0, 255, 0); // 초록색 안쪽 경계선
+  transition-duration: 0.1s;
+}
+
+.pd-t-40 {
+  padding-top: 50%;
+}
+
+.warning {
+  color: #a60000;
+}

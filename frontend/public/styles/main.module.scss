@@ -1,0 +1,189 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-position: center;
+}
+
+/*************************************/
+.header {
+  height: 20vh;
+  padding: 5%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 75%;
+  height: 100%;
+  background-image: url("../images/button-gray.png");
+
+  p {
+    font-size: 2.5vh;
+  }
+
+  h2 {
+    color: #39da00;
+    font-size: 6vh;
+    margin: 1vh 0 3vh 0;
+  }
+}
+
+.side-menu {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  button {
+    background: none !important;
+  }
+
+  a {
+    align-self: center;
+  }
+
+  img {
+    min-width: 50px;
+    min-height: 50px;
+    width: 8vh;
+    height: 8vh;
+  }
+}
+
+/*************************************/
+.content {
+  height: 45vh;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5%;
+
+  .damagochi {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 2vh;
+
+    p {
+      background-color: rgba($color: #000000, $alpha: 0.6);
+      color: white;
+      padding: 1vh 1.5vh;
+      border-radius: 15px;
+    }
+  }
+
+  img {
+    width: 20vh;
+    height: 40vh;
+  }
+}
+
+.debuff-menu {
+  width: 20%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    min-width: 50px;
+    min-height: 50px;
+    width: 8vh;
+    height: 8vh;
+    margin: 1vh 0;
+  }
+}
+
+/*************************************/
+.menu {
+  width: 100%;
+  height: 23vh;
+  display: flex;
+  justify-content: space-evenly;
+
+  .left {
+    min-width: 32%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+
+  .shop {
+    height: 30%;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+
+    a {
+      display: flex;
+      align-items: center;
+      padding-bottom: 0.5vh;
+    }
+    img {
+      width: 5vh;
+      height: 5vh;
+    }
+  }
+
+  .report {
+    height: 60%;
+
+    img {
+      width: 8vh;
+      height: 8vh;
+      padding-bottom: 1vh;
+    }
+  }
+
+  .center {
+    min-width: 30%;
+    display: flex;
+    align-items: center;
+
+    button {
+      height: 95%;
+    }
+
+    img {
+      width: 15vh;
+      height: 15vh;
+      padding-bottom: 3vh;
+    }
+  }
+
+  .right {
+    min-width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    a {
+      height: 45%;
+    }
+
+    .single img {
+      width: 8vh;
+      height: 8vh;
+      padding-bottom: 1vh;
+    }
+
+    .multi img {
+      width: 6vh;
+      height: 6vh;
+      padding-bottom: 1vh;
+    }
+  }
+
+  button {
+    width: 100%;
+    height: 100%;
+  }
+}

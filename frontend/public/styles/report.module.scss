@@ -1,0 +1,242 @@
+.title {
+  height: 10%;
+  width: 100%;
+  margin-bottom: 2vh;
+  padding: 2vh 2vh 3vh 2vh;
+
+  p {
+    font-size: 6vh;
+  }
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80vw;
+  height: 85vh;
+
+  .menu-container {
+    width: 80vw;
+    display: flex;
+    justify-content: left;
+
+    button {
+      margin-right: 0.3vh;
+      width: 7vh;
+      height: 7vh;
+
+      img {
+        width: 5vh;
+        height: 5vh;
+      }
+    }
+
+    .button-blue {
+      background-image: url("~/public/images/button-blue.png");
+    }
+  }
+
+  .modal-inner {
+    width: 80vw;
+    height: 65vh;
+  }
+  .inner-text {
+    height: 48vh;
+    padding: 7vh 8vw;
+    overflow: hidden;
+  }
+  .inner-text-center {
+    height: 62vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .inner-image-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+      width: 9vh;
+      height: 18vh;
+    }
+  }
+
+  .sub-title {
+    font-size: 2.5vh;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 2vh;
+  }
+
+  .sub-content {
+    max-height: 45vh;
+    overflow-y: auto;
+    div {
+      margin-bottom: 0.5vh;
+
+      span {
+        color: tomato;
+      }
+    }
+
+    button {
+      padding: 3vh;
+      margin: 1vh;
+      span {
+        font-size: 2vh;
+      }
+    }
+  }
+
+  .inactive {
+    filter: brightness(50%);
+    transform: scale(0.85);
+  }
+}
+
+.inner-background {
+  background-image: url("~/public/images/backgrounds/board-bg.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.inner-image {
+  width: 15vh;
+  height: 15vh;
+}
+
+.damagochi-history {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1vh;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+
+  button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 48%;
+    height: 30vh;
+    padding-bottom: 4vh;
+
+    img {
+      width: 8vh;
+      height: 16vh;
+    }
+    span {
+      font-size: 2.5vh;
+    }
+  }
+}
+
+.damagochi-history-detail {
+  padding: 2vh 1vh;
+
+  .tabs {
+    display: flex;
+    margin-bottom: 2vh;
+    border-bottom: 1px solid #306fb9;
+
+    span {
+      flex: 1;
+      cursor: pointer;
+      padding: 10px;
+      text-align: center;
+      color: #000000;
+      &:hover {
+        color: #306fb9;
+      }
+      &:focus {
+        color: #306fb9;
+      }
+    }
+  }
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 4vw;
+
+  .info-title {
+    color: #306fb9;
+    text-align: right;
+    width: 48%;
+  }
+
+  .info-tmp {
+    text-align: left;
+    width: 48%;
+
+    ul {
+      list-style-type: square;
+    }
+  }
+}
+
+.basic-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .basic-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 5vw;
+    .basic-info-title {
+      color: #306fb9;
+      text-align: right;
+      width: 48%;
+    }
+
+    .basic-info-tmp {
+      text-align: left;
+      width: 48%;
+
+      ul {
+        list-style-type: square;
+      }
+    }
+  }
+}
+
+.damagochi-health {
+  overflow: hidden;
+  height: 13vh;
+  scrollbar-width: none;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.inventory {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1vh;
+  flex-wrap: wrap;
+  max-height: 15vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

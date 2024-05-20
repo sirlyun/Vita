@@ -1,0 +1,30 @@
+.main {
+  width: 60vw;
+  max-width: 600px;
+  display: flex;
+  justify-content: space-between;
+  background-image: url("~/public/images/wide-button.png");
+  padding: 1.5vh 1vh 1.2vh 1vh;
+  margin-top: 0.5vh;
+
+  .rank {
+    width: 20%;
+  }
+  .name {
+    width: 45%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .score {
+    width: 35%;
+    color: #a60000;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  p {
+    text-align: center;
+  }
+}

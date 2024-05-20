@@ -1,0 +1,10 @@
+.selected-meal {
+  width: 15vw;
+  height: 7.2vh;
+}
+
+.unselected-meal {
+  filter: brightness(60%); /* 어둡게 표시 */
+  width: 14vw;
+  height: 6.5vh;
+}

@@ -1,0 +1,30 @@
+services:
+  prod_mariadb_container:
+    container_name: prod_mariadb_container
+    image: mariadb
+    ports:
+      - ${PROD_MARIADB_BINDING_PORT}:3306
+    volumes:
+      - ${PROD_MARIADB_DATA_PATH}:/var/lib/mysql
+    environment:
+      MARIADB_DATABASE: ${PROD_MARIADB_DATABASE}
+      MARIADB_ROOT_PASSWORD: ${PROD_MARIADB_ROOT_PASSWORD}
+    restart: unless-stopped
+
+  prod_redis_container:
+    container_name: prod_redis_container
+    image: redis:6.2.6-alpine
+    ports:
+      - ${PROD_REDIS_BINDING_PORT}:6379
+    restart: unless-stopped
+
+  prod_mongodb_container:
+    container_name: prod_mongodb_container
+    image: mongo
+    ports:
+      - ${PROD_MONGODB_BINDING_PORT}:27017
+    volumes:
+      - ${PROD_MONGODB_DATA_PATH}:/data/db
+    environment:
+      MONGODB_DATABASE: ${PROD_MONGODB_DATABASE}
+    restart: unless-stopped

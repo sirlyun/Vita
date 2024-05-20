@@ -1,0 +1,88 @@
+.cancel {
+  display: flex;
+  justify-content: space-between;
+}
+
+.board-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("/images/backgrounds/board-bg.png");
+  background-size: 100% 100%;
+  width: 90vw;
+  height: 70vh;
+  background-repeat: no-repeat;
+}
+
+.nickname {
+  padding-top: 8vh;
+  color: #ffd600;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000; /* 검은색 테두리 추가 */
+}
+
+.character {
+  img {
+    width: 7vh;
+    height: 14vh;
+  }
+}
+
+.nutrition-div {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0.2vh;
+}
+
+.nutrition-frame {
+  width: 80vw;
+}
+
+.nutrition-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 9vw;
+
+  p {
+    font-size: 1.3vh;
+  }
+
+  img {
+    width: 5vh;
+    height: 5vh;
+  }
+}
+
+.nutrition-bar {
+  background-image: url("/images/wide-button.png");
+  width: 50vw;
+  height: 4vh;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.nutrition-gauge {
+  background-color: #9c0000; // Color of the gauge
+  height: 80%;
+  width: 0%; // Initial width, will be dynamically adjusted
+  margin-left: 5px;
+  margin-right: 5px;
+  transition: width 0.3s ease; // Smooth transition for the gauge width
+}
+
+.amount {
+  position: absolute;
+  color: white;
+  left: 50%; /* 중앙으로 이동 */
+  transform: translateX(-50%); /* 자기 너비의 절반 만큼 왼쪽으로 이동 */
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000; /* 검은색 테두리 추가 */
+
+  font-size: 2.5vh;
+}

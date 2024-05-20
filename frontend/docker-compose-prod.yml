@@ -1,0 +1,10 @@
+services:
+  prod-react-container:
+    container_name: prod_react_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: react
+    ports:
+      - "5137:3000"
+    restart: always
