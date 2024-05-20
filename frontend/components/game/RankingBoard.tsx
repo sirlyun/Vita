@@ -19,7 +19,6 @@ export default function RankingBoardpage() {
 
       // rankingList 초기화
       setRankingList(fetchedRankingList);
-      console.log("fetchedRankingList: ", fetchedRankingList);
 
       // 최고 기록 초기화
       if (fetchedRankingList) {
@@ -30,7 +29,6 @@ export default function RankingBoardpage() {
           ? fetchedRankingList.training.requester_ranking.score
           : 0;
       }
-      console.log("userStore: ", userStore);
     } catch (error) {
       console.log("ranking data fetch failed: ", error);
     }

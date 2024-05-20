@@ -14,7 +14,6 @@ export default function BackgroundSettingPage() {
   const fetchMyItem = async () => {
     try {
       const fetchedMyItemList = await getMyItemList();
-      // console.log("fetched my item list: ", fetchedMyItemList.items);
       setMyItemList(fetchedMyItemList.items);
     } catch (error) {
       console.log("Loading my item list failed: ", error);

@@ -5,9 +5,6 @@ export default function RankingListPage({
   rankingList,
   activeMenu,
 }: RankingListPageProps) {
-  console.log(rankingList);
-  console.log(activeMenu);
-
   return (
     <div className={styles["ranking-container"]}>
       <div>

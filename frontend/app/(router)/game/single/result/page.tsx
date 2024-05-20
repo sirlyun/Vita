@@ -5,8 +5,6 @@ import styles from "@/public/styles/result.module.scss";
 
 export default function SingleResult() {
   const userStore = useUserStore();
-  // console.log(userStore.gameType);
-  // console.log(userStore.record);
   return (
     <div className={styles.main}>
       <p>result page</p>

@@ -23,7 +23,6 @@ export default function ShopPage() {
   const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null);
   const [selectCount, setSelectCount] = useState(0); // 선택 횟수를 저장하는 상태
   const textIndex = Math.floor(selectCount / 10);
-  console.log(selectedItem);
 
   // 상점 목록 가져오기
   const fetchShopList = async () => {
