@@ -28,7 +28,6 @@ export default function Home() {
       try {
         // 내 캐릭터 정보 가져오기
         const characterInfo = await getMyCharacterInfo();
-        console.log("캐릭터 조회 성공!", characterInfo);
 
         // 캐릭터가 죽었을 때 characterId 쿠키 삭제 및 deathId 쿠키 생성
         if (characterInfo.is_dead) {
@@ -42,7 +41,6 @@ export default function Home() {
         let characterIdValue = cookies.find((cookie) =>
           cookie.startsWith("characterId=")
         );
-        console.log("캐릭터 아이디: ", characterIdValue);
 
         // user nickname 쿠키에 저장
         document.cookie = `nickname=${characterInfo.nickname}; path=/; max-age=36000; secure; SameSite=None`;
@@ -62,7 +60,6 @@ export default function Home() {
         userStore.gender = characterInfo.gender;
         userStore.bodyShape = characterInfo.body_shape;
         userStore.name = characterInfo.nickname;
-        console.log("스토어 저장 후: ", userStore);
       } catch (error) {
         console.log("캐릭터 조회에 실패했습니다!.", error);
       }

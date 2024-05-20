@@ -13,7 +13,6 @@ import CheckDrinkType from "@/components/character/CheckDrinkType";
 import Complete from "@/components/character/Complete";
 import Button from "@/components/character/Button";
 import { createdCharacter } from "@/api/character";
-import { useRouter } from "next/navigation";
 import InputNickname from "@/components/character/InputNickname";
 import { getCookie } from "@/util/axios";
 
@@ -147,8 +146,6 @@ export default function createCharacter() {
 
     const smokeValue = quantity === "null" ? null : smoke;
     const drinkValue = drinkQuantity === "null" ? null : drink;
-
-    console.log(nickname, height, weight, smokeValue, drinkValue);
 
     const responseCharacter = await createdCharacter(
       nickname,

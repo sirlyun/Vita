@@ -12,7 +12,6 @@ interface Props {
 export default function CheckSmokeType({ smokeType, setSmokeType }: Props) {
   const handleQuantity = (value: string) => {
     setSmokeType(value);
-    console.log("smokeType: ", value);
   };
   return (
     <div className={styles["smoke-layout"]}>

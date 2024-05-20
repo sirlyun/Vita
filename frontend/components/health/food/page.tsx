@@ -112,14 +112,12 @@ function HealthFood({ onClose }: FoodImageFrameProps) {
       formData.append("image", foodImagePost);
     }
     const intakeData = JSON.stringify({ quantity: selectedIntake });
-    console.log(selectedIntake);
     const blob = new Blob([intakeData], {
       type: "application/json",
     });
     formData.append("json", blob);
 
     const responseNutrition = await getFood(formData);
-    console.log(responseNutrition);
     setCalrorie(responseNutrition.calorie);
     setSalt(responseNutrition.salt);
     setSugar(responseNutrition.sugar);
@@ -145,8 +143,6 @@ function HealthFood({ onClose }: FoodImageFrameProps) {
 
   const handleMealClick = useCallback((mealType: string) => {
     setSelectedMeal(mealType);
-
-    console.log(`${mealType} was clicked`);
   }, []);
 
   return (

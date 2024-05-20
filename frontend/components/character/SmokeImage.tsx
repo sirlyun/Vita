@@ -1,6 +1,4 @@
-import React, { MouseEvent, useCallback } from "react";
 import styles from "@/public/styles/character.module.scss";
-
 import Image from "next/image";
 
 interface SmokeImageProps {

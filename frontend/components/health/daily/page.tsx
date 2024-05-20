@@ -73,14 +73,12 @@ export default function Daily({ onClose }: Props) {
     const smokeValue = quantity === "null" ? null : smoke;
     const drinkValue = drinkQuantity === "null" ? null : drink;
 
-    console.log(smokeValue, drinkValue);
     try {
       const responseCharacter = await daily(smokeValue, drinkValue);
       setScore(responseCharacter.score);
       setReview(responseCharacter.review);
 
       handleNext();
-      console.log(responseCharacter);
     } catch (error) {
       setReview("건강검진은 하루에 한번만 가능합니다");
       handleNext();

@@ -11,7 +11,6 @@ interface Props {
 export default function CheckSmokeType({ drinkType, setDrinkType }: Props) {
   const handleQuantity = (value: string) => {
     setDrinkType(value);
-    console.log("drinkType: ", value);
   };
   return (
     <div className={styles["smoke-layout"]}>

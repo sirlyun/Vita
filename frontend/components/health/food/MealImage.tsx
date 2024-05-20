@@ -1,6 +1,5 @@
 import React, { MouseEvent, useCallback } from "react";
 import styles from "@/public/styles/meal.module.scss";
-
 import Image from "next/image";
 
 interface MealImageProps {
@@ -15,7 +14,6 @@ const MealImage = ({ src, mealType, onClick, selected }: MealImageProps) => {
     (e: MouseEvent<HTMLImageElement>) => {
       e.stopPropagation();
       onClick(mealType);
-      // API 연동
     },
     [mealType, onClick]
   );

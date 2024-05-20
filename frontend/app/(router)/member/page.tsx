@@ -8,7 +8,6 @@ import Chronic from "@/components/member/Chronic";
 import { modifyMember } from "@/api/member";
 import { useRouter } from "next/navigation";
 import { getCookie } from "@/util/axios";
-
 import { useState } from "react";
 
 export default function Page() {
@@ -36,19 +35,14 @@ export default function Page() {
 
   const completeModifyMember = async () => {
     const chronicValue = chronic === "null" ? null : chronic;
-    console.log(typeof chronicValue);
 
     const responseMember = await modifyMember(
       gender,
       Number(birth),
       chronicValue
     );
-    console.log(responseMember);
     document.cookie = `memberId=${"createdMember"}; path=/; max-age=3600; secure; SameSite=None`;
-    console.log(
-      "멤버를 만드는 페이지에서 멤버 ID가 쿠키에 담겼는지 확인",
-      getCookie("memberId")
-    );
+
     router.push("/character");
   };
 

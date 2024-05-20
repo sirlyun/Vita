@@ -1,6 +1,5 @@
 import styles from "@/public/styles/character.module.scss";
 import Image from "next/image";
-
 import xIcon from "@/public/icons/x-icon.png";
 import soju from "@/public/icons/SOJU-icon.png";
 import sojuTwo from "@/public/icons/soju-two-icon.png";
@@ -14,7 +13,6 @@ interface Props {
 export default function CheckDrink({ drinkQuantity, setDrinkQuantity }: Props) {
   const handleQuantity = (value: string) => {
     setDrinkQuantity(value);
-    console.log("drink", value);
   };
 
   return (

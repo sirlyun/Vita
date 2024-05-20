@@ -18,7 +18,6 @@ export default function Birth({ birth, setBirth }: Props) {
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setBirth(event.target.value);
-    console.log(birth);
   };
 
   return (

@@ -12,7 +12,6 @@ interface Props {
 export default function CheckSmoke({ quantity, setQuantity }: Props) {
   const handleQuantity = (value: string) => {
     setQuantity(value);
-    console.log("smoke", value);
   };
 
   return (
