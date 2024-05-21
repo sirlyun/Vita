@@ -8,7 +8,7 @@
 
 프로젝트명: 비타(Vita)
 
-프로젝트 기간(7주): 2024.04.08 ~ 2024.05.24
+프로젝트 기간(5주): 2024.04.15 ~ 2024.05.17
 
 팀원(4명): 윤설(Infra, Backend), 엄세현(Front), 박철준(Front), 김성수(Front)
 
@@ -182,6 +182,24 @@
 ### BACKEND
 
 #### 윤 설
+
+- 인프라 및 벡엔드 리더
+- 인프라 CI/CD 환경 구축
+  - Jenkins 파이프라인 구성
+  - docker-compose 작성
+  - Nginx 설정
+  - 블루/그린 전략
+- Spring Security
+  - 인증 인가
+  - JWT 필터 구성
+- TDD
+  - 단위 테스트 진행
+  - JUnit, Mockito 활용 서비스 테스트 코드 작성
+- 전역 예외 처리
+  - @ControllerAdvice, @ExceptionHandler 활용
+  - 에러 응답 객체와 상태 코드 및 메시지 관리
+- REST API 개발
+- Redis ZSet 활용 게임 랭킹 구현
 
 ### FRONTEND
 
